@@ -1,0 +1,28 @@
+<aside class="sidebar">
+  <div class="sidebar__logo">
+    <div class="logo-icon">V</div>
+    <h1 class="logo-text">Velo<span>POS</span></h1>
+  </div>
+
+  <nav class="sidebar__nav">
+    <ul class="nav-list">
+      <li *ngFor="let item of navItems" class="nav-item">
+        <a [routerLink]="item.route" routerLinkActive="active" class="nav-link">
+          <span class="nav-icon" [attr.data-icon]="item.icon"></span>
+          <span class="nav-label">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar__footer">
+    <div class="upgrade-card">
+      <p>Need more features?</p>
+      <button class="upgrade-btn">Upgrade Plan</button>
+    </div>
+
+    <button class="logout-btn">
+      <span class="nav-label">Logout</span>
+    </button>
+  </div>
+</aside>

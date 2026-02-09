@@ -1,0 +1,25 @@
+.layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-secondary);
+}
+
+.layout-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; // Prevent content overflow from breaking flex layout
+}
+
+.layout-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .layout-sidebar {
+    // Hide sidebar on smaller screens or transform to mobile menu
+    // display: none;
+  }
+}

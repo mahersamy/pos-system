@@ -1,0 +1,45 @@
+:root {
+  // Fonts
+  --font-1: 'Baloo Thambi 2', system-ui;
+  --font-2: 'Rubik', sans-serif;
+  --font-3: 'Inter', sans-serif;
+
+  // Colors
+  --white-30: #ffffff4d;
+  --white-90: #ffffff99;
+  --white-95: #fffffff2;
+  --white: #ffffff;
+  --black: #000000;
+
+  --gray-50: #f1f1f1;
+  --gray-100: #f3f3f4;
+  --gray-200: #d9d9d9;
+  --gray-300: #d3d3d3;
+  --gray-400: #c1c1c1;
+  --gray-700: #4a4a4a;
+  --gray-800: #2d2d2d;
+  --gray-900: #242424;
+  --gray-950: #232526;
+  --orange-500: #ff4100;
+
+  // Requested Theme Colors
+  --primary-color: #fac1d9;
+  --primary-pink: #fac1d9;
+  --bg-main: #111315;
+  --secondary-color: #292c2d;
+  --text-main: #777979;
+  --text-light: #ffffff;
+  --text-muted: var(--gray-400);
+
+  // UI Elements
+  --card-bg: #1f2223;
+  --input-bg: var(--secondary-color);
+  --border-radius: 0.5rem;
+  --error-color: #ff6a6a;
+
+  --font-family-base: var(--font-3);
+}
+
+.light-mode {
+  // Keep placeholders for future light mode if needed
+}

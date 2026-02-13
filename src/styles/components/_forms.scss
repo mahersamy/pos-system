@@ -7,11 +7,11 @@
 .input {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid $text-muted;
-  border-radius: $border-radius;
+  border: 1px solid var(--text-muted);
+  border-radius: var(--border-radius);
 
   &:focus {
     outline: none;
-    border-color: $primary-color;
+    border-color: var(--primary-color);
   }
 }

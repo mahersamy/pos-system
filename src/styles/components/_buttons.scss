@@ -3,22 +3,28 @@
 .btn {
   display: inline-block;
   padding: 0.5rem 1rem;
-  border-radius: $border-radius;
+  border-radius: var(--border-radius);
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid transparent;
 
   &--primary {
-    background-color: $primary-color;
+    background-color: var(--primary-color);
     color: white;
 
     &:hover {
-      background-color: darken($primary-color, 10%);
+      opacity: 0.85;
+      filter: brightness(0.9);
     }
   }
 
   &--secondary {
-    background-color: $secondary-color;
+    background-color: var(--secondary-color);
     color: white;
+
+    &:hover {
+      opacity: 0.85;
+      filter: brightness(1.1);
+    }
   }
 }

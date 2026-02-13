@@ -27,6 +27,7 @@
     "@angular/common": "^21.1.0",
     "@angular/compiler": "^21.1.0",
     "@angular/core": "^21.1.0",
+    "@angular/fire": "^20.0.1",
     "@angular/forms": "^21.1.0",
     "@angular/platform-browser": "^21.1.0",
     "@angular/platform-server": "^21.1.0",
@@ -34,6 +35,7 @@
     "@angular/ssr": "^21.1.2",
     "@primeuix/themes": "^2.0.3",
     "express": "^5.1.0",
+    "firebase": "^12.9.0",
     "primeng": "^21.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

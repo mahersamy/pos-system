@@ -41,7 +41,10 @@
       </div>
 
       <!-- SUBMIT BUTTON -->
-      <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">Login</button>
+      <button type="submit" class="submit-btn" [disabled]="loginForm.invalid || isLoading()">
+        <span *ngIf="isLoading()" class="spinner"></span>
+        <span *ngIf="!isLoading()">Login</span>
+      </button>
     </form>
   </div>
 </div>

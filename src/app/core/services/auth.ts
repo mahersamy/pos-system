@@ -1,81 +1,76 @@
-import { Injectable, inject, signal } from '@angular/core';
-import {
-  Auth,
-  signInWithEmailAndPassword,
-  UserCredential,
-  user,
-  signOut,
-  User as FirebaseUser,
-} from '@angular/fire/auth';
+import { Injectable, inject, signal, PLATFORM_ID } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { from, Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable, tap } from 'rxjs';
 import { PermissionsService } from './permissions.service';
 import { User, UserPermissions } from '../models/user.model';
+import { environment } from '../../../environments/environment';
+import { isPlatformBrowser } from '@angular/common';
+import { ResponseGlobal } from '../models/response-global.model';
+
+export interface AuthResponse {
+  credential: {
+    accessToken: string;
+    refreshToken: string;
+  };
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly auth = inject(Auth);
+  private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly permissionsService = inject(PermissionsService);
-
-  // Observable of the authentication state
-  user$ = user(this.auth);
+  private readonly platformId = inject(PLATFORM_ID);
 
   // Signal to hold the current user state
-  currentUser = signal<User | null>(null);
+  currentUser = signal<any>({});
 
-  constructor() {
-    // Listen to authentication state changes automatically
-    this.user$
-      .pipe(
-        switchMap(async (firebaseUser) => {
-          if (firebaseUser) {
-            return await this.updateUserState(firebaseUser);
-          } else {
-            return null;
-          }
-        }),
-      )
-      .subscribe((user) => {
-        this.currentUser.set(user);
-        if (!user) {
-          this.permissionsService.setPermissions({});
-        }
-      });
+  private readonly tokenKey = 'auth_token';
+
+
+  login(email: string, password: string): Observable<ResponseGlobal<AuthResponse>> {
+    const loginUrl = `${environment.apiUrl}/api/v1/auth/login`;
+    return this.http
+      .post<ResponseGlobal<AuthResponse>>(loginUrl, { email, password })
+      .pipe(tap((response) => this.handleAuthResponse(response)));
   }
 
-  login(email: string, password: string): Observable<UserCredential> {
-    return from(signInWithEmailAndPassword(this.auth, email, password));
+  register(email: string, password: string): Observable<ResponseGlobal<AuthResponse>> {
+    const registerUrl = `${environment.apiUrl}/api/v1/auth/register`;
+    return this.http.post<ResponseGlobal<AuthResponse>>(registerUrl, { email, password })
+    .pipe(tap((response) => this.handleAuthResponse(response)));
   }
 
-  logout(): Observable<void> {
-    return from(signOut(this.auth)).pipe(
-      tap(() => {
-        this.currentUser.set(null);
-        this.permissionsService.setPermissions({});
-        this.router.navigate(['/login']);
-      }),
-    );
+  logout(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(this.tokenKey);
+    }
+    this.currentUser.set(null);
+    this.permissionsService.setPermissions({});
+    this.router.navigate(['/login']);
   }
 
-  private async updateUserState(firebaseUser: FirebaseUser): Promise<User> {
-    const tokenResult = await firebaseUser.getIdTokenResult();
-    const claims = tokenResult.claims;
+  getToken(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem(this.tokenKey);
+    }
+    return null;
+  }
 
-    // Assuming custom claims structure: { role: string, permissions: UserPermissions }
-    const role = (claims['role'] as string) || null;
-    const permissions = (claims['permissions'] as UserPermissions) || {};
+  getLoggedUserProfile(): void {
+    const url = `${environment.apiUrl}/api/v1/users/profile`;
+    this.http.get<ResponseGlobal<User>>(url).subscribe((response) => {
+      this.currentUser.set(response.data);
+      this.permissionsService.setPermissions(response.data.permissions || {});
+    });
+  }
 
-    this.permissionsService.setPermissions(permissions);
-
-    return {
-      uid: firebaseUser.uid,
-      email: firebaseUser.email!,
-      role,
-      permissions,
-    };
+  private handleAuthResponse(response: ResponseGlobal<AuthResponse>): void {
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.tokenKey, response.data.credential.accessToken);
+    }
+    this.getLoggedUserProfile();
   }
 }

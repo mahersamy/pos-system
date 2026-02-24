@@ -6,9 +6,13 @@
   padding: 0;
 }
 
+html,
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-family-base);
 }
 
 img,

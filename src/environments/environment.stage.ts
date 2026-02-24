@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   stage: 'staging',
-  apiUrl: 'https://vercel-functions-pi.vercel.app',
+  apiUrl: 'https://pos-backend-inky-two.vercel.app',
   firebaseConfig: {
     apiKey: 'AIzaSyBRtmJnj7sqGifU9uAxrwF6EIrWVkNUdTw',
     authDomain: 'pos-system-8ba1e.firebaseapp.com',

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth';
@@ -16,11 +16,12 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
 
-  showPassword = false;
+  showPassword = signal(false);
+  isLoading = signal(false);
 
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    email: ['mahersamybalata@gmail.com', [Validators.required, Validators.email]],
+    password: ['Pass@123', [Validators.required, Validators.minLength(6)]],
   });
 
   onSubmit(): void {
@@ -29,14 +30,17 @@ export class LoginComponent {
       return;
     }
 
+    this.isLoading.set(true);
     const { email, password } = this.loginForm.value;
 
     this.authService.login(email, password).subscribe({
-      next: () => {
-        this.router.navigate(['/main']);
+      next: (loginData) => {
+        this.isLoading.set(false);
+        this.router.navigate(['main']);
       },
       error: (err) => {
         console.error('Login error:', err);
+        this.isLoading.set(false);
       },
     });
   }

@@ -20,7 +20,7 @@ export class LoginComponent {
   isLoading = signal(false);
 
   loginForm: FormGroup = this.fb.group({
-    email: ['mahersamybalata@gmail.com', [Validators.required, Validators.email]],
+    email: ['admin@live.com', [Validators.required, Validators.email]],
     password: ['Pass@123', [Validators.required, Validators.minLength(6)]],
   });
 

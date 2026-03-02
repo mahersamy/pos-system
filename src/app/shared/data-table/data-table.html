@@ -1,0 +1,35 @@
+<div class="card">
+  <p-table
+    [value]="_dataTableConfig.rows()"
+    [(selection)]="selectedItems"
+    dataKey="code"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template #header>
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox />
+        </th>
+        @for (column of _dataTableConfig.columns(); track column.field) {
+          <th>{{ column.header }}</th>
+        }
+      </tr>
+    </ng-template>
+    <ng-template #body let-product>
+      <tr>
+        <td>
+          <p-tableCheckbox [value]="product" />
+        </td>
+        @if (product.length === 0) {
+          @for (column of _dataTableConfig.columns(); track column.field) {
+            <td><p-skeleton /></td>
+          }
+        } @else {
+          @for (column of _dataTableConfig.columns(); track column.field) {
+            <td>{{ product[column.field] }}</td>
+          }
+        }
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

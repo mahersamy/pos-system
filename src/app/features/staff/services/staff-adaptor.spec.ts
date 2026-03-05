@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DataTableConfig } from './data-table-config';
+import { StaffAdaptor } from './staff-adaptor';
 
-describe('DataTableConfig', () => {
-  let service: DataTableConfig<any>;
+describe('StaffAdaptor', () => {
+  let service: StaffAdaptor;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DataTableConfig);
+    service = TestBed.inject(StaffAdaptor);
   });
 
   it('should be created', () => {

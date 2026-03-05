@@ -1,0 +1,39 @@
+<div class="empty-state-container animate-fade-in" [class.is-error]="_dataTableConfig.isError()">
+  <div class="glass-card shadow-premium">
+    <div class="icon-orb">
+      <div class="orb-inner">
+        @if (_dataTableConfig.isError()) {
+          <i class="fa-solid fa-triangle-exclamation pulse-icon"></i>
+        } @else {
+          <i class="fa-solid fa-box-open floating-icon"></i>
+        }
+      </div>
+    </div>
+
+    <div class="content-text text-center d-flex justify-content-center align-items-center flex-column">
+      @if (_dataTableConfig.isError()) {
+        <h3 class="title error-gradient">System Interruption</h3>
+        <p class="description">
+          We experienced a technical hitch while gathering your records. Please try reconnecting or
+          refresh the view.
+        </p>
+        <button class="btn-action btn-error" (click)="refetch()">
+          <i class="fa-solid fa-rotate-right mr-2"></i>
+          Retry Connection
+        </button>
+      } @else if (_dataTableConfig.rows().length === 0) {
+        <h3 class="title">No Data</h3>
+        <p class="description">
+          It looks like there’s nothing on the list right now. Try adjusting your filters or add a
+          new entry to get started.
+        </p>
+      } @else {
+        <h3 class="title">Clear Skies</h3>
+        <p class="description">
+          It looks like there’s nothing on the list right now. Try adjusting your filters or add a
+          new entry to get started.
+        </p>
+      }
+    </div>
+  </div>
+</div>

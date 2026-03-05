@@ -1,6 +1,6 @@
 :root {
   // Fonts
-  --font-1: 'Baloo Thambi 2', system-ui;
+  --font-1: 'Poppins', sans-serif;
   --font-2: 'Rubik', sans-serif;
   --font-3: 'Inter', sans-serif;
 
@@ -27,6 +27,7 @@
   --primary-pink: #fac1d9;
   --bg-main: #111315;
   --secondary-color: #292c2d;
+  --secondary-color-2: #3D4142;
   --text-main: #777979;
   --text-light: #ffffff;
   --text-muted: var(--gray-400);
@@ -38,6 +39,15 @@
   --error-color: #ff6a6a;
 
   --font-family-base: var(--font-3);
+
+
+  // Checkbox
+  --p-checkbox-checked-background: var(--primary-color) !important;
+  --p-checkbox-checked-border-color: var(--primary-color) !important;
+  --p-form-field-hover-border-color: var(--primary-color) !important;
+  --p-form-field-focus-border-color: var(--primary-color) !important;
+  --p-checkbox-checked-hover-background: var(--primary-color) !important;
+  --p-checkbox-checked-hover-border-color: var(--primary-color) !important;
 }
 
 .light-mode {

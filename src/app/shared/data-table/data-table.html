@@ -1,34 +1,93 @@
-<div class="card">
+<div>
   <p-table
-    [value]="_dataTableConfig.rows()"
+    [value]="_dataTableConfig.loading() ? skeletonRows : _dataTableConfig.rows()"
     [(selection)]="selectedItems"
-    dataKey="code"
+    [dataKey]="_dataTableConfig.dataKey()"
+    [pt]="pt"
     [tableStyle]="{ 'min-width': '50rem' }"
   >
     <ng-template #header>
       <tr>
-        <th style="width: 4rem">
-          <p-tableHeaderCheckbox />
-        </th>
+        @if (_dataTableConfig.isSelectable()) {
+          <th style="width: 4rem">
+            <p-tableHeaderCheckbox />
+          </th>
+        }
+
         @for (column of _dataTableConfig.columns(); track column.field) {
-          <th>{{ column.header }}</th>
+          <th class="text-center" style="white-space: nowrap">{{ column.header }}</th>
         }
       </tr>
     </ng-template>
-    <ng-template #body let-product>
-      <tr>
-        <td>
-          <p-tableCheckbox [value]="product" />
-        </td>
-        @if (product.length === 0) {
+    <ng-template #body let-data let-rowIndex="rowIndex">
+      @if (_dataTableConfig.loading()) {
+        <tr>
+          @if (_dataTableConfig.isSelectable()) {
+            <td><p-skeleton /></td>
+          }
           @for (column of _dataTableConfig.columns(); track column.field) {
             <td><p-skeleton /></td>
           }
-        } @else {
-          @for (column of _dataTableConfig.columns(); track column.field) {
-            <td>{{ product[column.field] }}</td>
+        </tr>
+      } @else {
+        <tr [class]="rowIndex % 2 === 0 ? 'row-even' : 'row-odd'">
+          @if (_dataTableConfig.isSelectable()) {
+            <td>
+              <p-tableCheckbox [value]="data" />
+            </td>
           }
-        }
+
+          @for (column of _dataTableConfig.columns(); track column.field) {
+            <td>
+              @switch (column.type) {
+                @case (_tableColumnType.ID) {
+                  <app-id-cell [field]="resolveFieldData(data, column.field)" />
+                }
+                @case (_tableColumnType.TEXT) {
+                  <app-text-cell
+                    [field]="resolveFieldData(data, column.field)"
+                    [classes]="column.classes || ''"
+                  />
+                }
+                @case (_tableColumnType.DATE) {
+                  <app-text-cell
+                    [field]="
+                      (resolveFieldData(data, column.field)
+                        | date: column.dateFormat || 'MMM d y') || ''
+                    "
+                    [classes]="column.classes || ''"
+                  />
+                }
+                @case (_tableColumnType.USER) {
+                  <app-user-cell
+                    [name]="resolveFieldData(data, column.field) ?? ''"
+                    [subtitle]="
+                      column.subtitleField
+                        ? (resolveFieldData(data, column.subtitleField) ?? '')
+                        : ''
+                    "
+                    [image]="
+                      column.imageField ? (resolveFieldData(data, column.imageField) ?? '') : ''
+                    "
+                    [subtitleColor]="column.subtitleColor || ''"
+                  />
+                }
+              }
+            </td>
+          }
+        </tr>
+      }
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td
+          [attr.colspan]="
+            _dataTableConfig.columns().length + (_dataTableConfig.isSelectable() ? 1 : 0)
+          "
+          class="text-center p-8"
+        >
+          <app-empty-state />
+        </td>
       </tr>
     </ng-template>
   </p-table>

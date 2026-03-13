@@ -5,6 +5,7 @@
     [dataKey]="_dataTableConfig.dataKey()"
     [pt]="pt"
     [tableStyle]="{ 'min-width': '50rem' }"
+    [scrollable]="true"
   >
     <ng-template #header>
       <tr>
@@ -17,6 +18,9 @@
         @for (column of _dataTableConfig.columns(); track column.field) {
           <th class="text-center" style="white-space: nowrap">{{ column.header }}</th>
         }
+        @if (_dataTableConfig.actions().length > 0) {
+          <th class="text-center" pFrozenColumn alignFrozen="right"></th>
+        }
       </tr>
     </ng-template>
     <ng-template #body let-data let-rowIndex="rowIndex">
@@ -27,6 +31,9 @@
           }
           @for (column of _dataTableConfig.columns(); track column.field) {
             <td><p-skeleton /></td>
+          }
+          @if (_dataTableConfig.actions().length > 0) {
+            <td pFrozenColumn alignFrozen="right"><p-skeleton /></td>
           }
         </tr>
       } @else {
@@ -47,6 +54,7 @@
                   <app-text-cell
                     [field]="resolveFieldData(data, column.field)"
                     [classes]="column.classes || ''"
+                    [suffix]="column.suffix || ''"
                   />
                 }
                 @case (_tableColumnType.DATE) {
@@ -60,19 +68,38 @@
                 }
                 @case (_tableColumnType.USER) {
                   <app-user-cell
-                    [name]="resolveFieldData(data, column.field) ?? ''"
+                    [name]="resolveFieldData(data, column.field)"
                     [subtitle]="
-                      column.subtitleField
-                        ? (resolveFieldData(data, column.subtitleField) ?? '')
-                        : ''
+                      column.subtitleField ? resolveFieldData(data, column.subtitleField) : ''
                     "
-                    [image]="
-                      column.imageField ? (resolveFieldData(data, column.imageField) ?? '') : ''
-                    "
+                    [image]="column.imageField ? resolveFieldData(data, column.imageField) : ''"
                     [subtitleColor]="column.subtitleColor || ''"
                   />
                 }
+                @case (_tableColumnType.CURRENCY) {
+                  <app-text-cell
+                    [field]="
+                      (resolveFieldData(data, column.field)
+                        | currency
+                          : column.currencyCode
+                          : column.currencyDisplay
+                          : column.digitsInfo) || ''
+                    "
+                    [classes]="column.classes || ''"
+                  />
+                }
               }
+            </td>
+          }
+          @if (_dataTableConfig.actions().length > 0) {
+            <td class="text-center" pFrozenColumn alignFrozen="right">
+              <div class="d-flex justify-content-center gap-2">
+                @for (action of _dataTableConfig.actions(); track action.icon) {
+                  <button type="button" [class]="'action-btn ' + (action.classes || '')" (click)="onActionClick($event, action, data)">
+                    <i [class]="action.icon"></i>
+                  </button>
+                }
+              </div>
             </td>
           }
         </tr>
@@ -82,7 +109,9 @@
       <tr>
         <td
           [attr.colspan]="
-            _dataTableConfig.columns().length + (_dataTableConfig.isSelectable() ? 1 : 0)
+            _dataTableConfig.columns().length +
+            (_dataTableConfig.isSelectable() ? 1 : 0) +
+            (_dataTableConfig.actions().length > 0 ? 1 : 0)
           "
           class="text-center p-8"
         >

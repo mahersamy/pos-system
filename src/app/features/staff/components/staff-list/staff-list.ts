@@ -1,11 +1,13 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { DataTable } from '../../../../shared/data-table/data-table';
 import { StaffService } from '../../services/staff.service';
 import { DataTableConfig } from '../../../../shared/data-table/services/data-table-config';
 import { TableColumnType } from '../../../../shared/data-table/enums/colmun-type.enum';
 import { ColumnConfig } from '../../../../shared/data-table/models/colmun-config.model';
-import { Subscription } from 'rxjs';
 import { StaffAdaptModel } from '../../models/staff-adapt.model';
+import { ActionConfig } from '../../../../shared/data-table/models/actions.mode';
 
 @Component({
   selector: 'app-staff-list',
@@ -35,16 +37,12 @@ export class StaffList implements OnInit, OnDestroy {
       field: 'age',
       header: 'Age',
       type: TableColumnType.TEXT,
+      suffix: ' yr',
     },
 
     {
       field: 'email',
       header: 'Email',
-      type: TableColumnType.TEXT,
-    },
-    {
-      field: 'staffProfile.position',
-      header: 'Position',
       type: TableColumnType.TEXT,
     },
     {
@@ -55,7 +53,9 @@ export class StaffList implements OnInit, OnDestroy {
     {
       field: 'salary',
       header: 'Salary',
-      type: TableColumnType.TEXT,
+      type: TableColumnType.CURRENCY,
+      currencyCode: 'USD',
+      currencyDisplay: 'symbol',
     },
     {
       field: 'DateOfBirth',
@@ -67,6 +67,31 @@ export class StaffList implements OnInit, OnDestroy {
       field: 'timing',
       header: 'Timing',
       type: TableColumnType.TEXT,
+    },
+  ];
+
+  readonly actions: ActionConfig[] = [
+    {
+      icon: 'fa-regular fa-eye',
+      classes: 'preview-button',
+      func: (data: StaffAdaptModel) => {
+        console.log(data);
+      },
+    },
+    {
+      icon: 'fa-regular fa-pen-to-square',
+      classes: 'edit-button',
+      func: (data: StaffAdaptModel) => {
+        console.log(data);
+      },
+
+    },
+    {
+      icon: 'fa-solid fa-trash',
+      classes: 'delete-button',
+      func: (data: StaffAdaptModel) => {
+        console.log(data);
+      },
     },
   ];
 
@@ -85,12 +110,14 @@ export class StaffList implements OnInit, OnDestroy {
 
   tabeleConfigInit() {
     this._dataTableConfig.columns.set(this.columns);
+    this._dataTableConfig.actions.set(this.actions);
     this._dataTableConfig.isSelectable.set(true);
   }
 
   getData() {
     this._dataTableConfig.loading.set(true);
     this._dataTableConfig.columns.set(this.columns);
+    this._dataTableConfig.actions.set(this.actions);
 
     this._staffService
       .getStaffs({

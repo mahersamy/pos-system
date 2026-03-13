@@ -33,3 +33,11 @@
 .row-odd > td {
   background-color: var(--secondary-color-2) !important;
 }
+
+// action button
+.action-btn {
+  background-color: transparent;
+  border: none;
+  position: relative;
+  z-index: 10;
+}

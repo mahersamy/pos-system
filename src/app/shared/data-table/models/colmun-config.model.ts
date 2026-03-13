@@ -14,6 +14,7 @@ export interface IdColumnConfig extends BaseColumnConfig {
 export interface TextColumnConfig extends BaseColumnConfig {
   type: TableColumnType.TEXT;
   classes?: string;
+  suffix?: string;
 }
 
 export interface DateColumnConfig extends BaseColumnConfig {
@@ -29,5 +30,18 @@ export interface UserColumnConfig extends BaseColumnConfig {
   subtitleColor?: string;
 }
 
+export interface CurrencyColumnConfig extends BaseColumnConfig {
+  type: TableColumnType.CURRENCY;
+  currencyCode?: string;
+  currencyDisplay?: string;
+  digitsInfo?: string;
+  classes?: string;
+}
+
 // ─── Union — use this everywhere ─────────────────────────────────────────────
-export type ColumnConfig = IdColumnConfig | TextColumnConfig | DateColumnConfig | UserColumnConfig;
+export type ColumnConfig =
+  | IdColumnConfig
+  | TextColumnConfig
+  | DateColumnConfig
+  | UserColumnConfig
+  | CurrencyColumnConfig;

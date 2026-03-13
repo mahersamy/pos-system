@@ -8,4 +8,5 @@ export enum TableColumnType {
   SELECT = 'select',
   ID = 'id',
   USER = 'user',
+  CURRENCY = 'currency',
 }

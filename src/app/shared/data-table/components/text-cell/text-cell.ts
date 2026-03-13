@@ -9,4 +9,5 @@ import { Component, input } from '@angular/core';
 export class TextCell {
   field = input<string>('');
   classes = input<string>('');
+  suffix = input<string>('');
 }

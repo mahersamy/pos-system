@@ -5,9 +5,13 @@ export interface Staff {
   position: string;
   phoneNumber: string;
   salary: number;
-  dateOfBirth: string;
+  age: number;
+  DateOfBirth: string;
   startShiftTiming: string;
   endShiftTiming: string;
+  profilePicture:{
+    secure_url: string;
+  }
   createdBy: {
     _id: string;
     firstName: string;

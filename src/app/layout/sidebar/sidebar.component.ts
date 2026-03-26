@@ -11,11 +11,11 @@ import { RouterModule } from '@angular/router';
 })
 export class SidebarComponent {
   navItems = [
-    { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
-    { label: 'Inventory', icon: 'inventory', route: '/inventory' },
-    { label: 'Orders', icon: 'orders', route: '/orders' },
-    { label: 'Customers', icon: 'people', route: '/customers' },
-    { label: 'Reports', icon: 'analytics', route: '/reports' },
-    { label: 'Settings', icon: 'settings', route: '/settings' },
+    { label: 'Dashboard', icon: 'dashboard', route: '/main/dashboard' },
+    { label: 'Inventory', icon: 'inventory', route: '/main/inventory' },
+    { label: 'Orders', icon: 'orders', route: '/main/orders' },
+    { label: 'Customers', icon: 'people', route: '/main/customers' },
+    { label: 'Staff', icon: 'analytics', route: '/main/staff' },
+    { label: 'Settings', icon: 'settings', route: '/main/settings' },
   ];
 }

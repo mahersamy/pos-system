@@ -1,0 +1,117 @@
+<div class="filter-panel-wrapper">
+
+  <!-- Trigger button -->
+  <button class="filter-trigger" (click)="toggle()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="2">
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+    </svg>
+    Filter
+    <span class="badge" *ngIf="activeCount > 0">{{ activeCount }}</span>
+    <svg class="chevron" [class.open]="isOpen" xmlns="http://www.w3.org/2000/svg"
+      width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="m6 9 6 6 6-6"/>
+    </svg>
+  </button>
+
+  <!-- Panel -->
+  <div class="panel" *ngIf="isOpen">
+
+    <div class="panel-header">
+      <span>Filters</span>
+      <button class="reset-btn" (click)="reset()">Reset all</button>
+    </div>
+
+    <!-- Dynamic fields -->
+    <div class="fields">
+
+      <ng-container *ngFor="let config of configs">
+
+        <!-- SELECT -->
+        <div class="field-group" *ngIf="config.type === FilterFieldType.SELECT">
+          <label>{{ config.label }}</label>
+          <select [(ngModel)]="fieldValues[config.controlName]">
+            <option [ngValue]="null">{{ config.placeholder ?? 'Select...' }}</option>
+            <option *ngFor="let opt of config.select_list" [ngValue]="opt.value">
+              {{ opt.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- TEXT -->
+        <div class="field-group" *ngIf="config.type === FilterFieldType.TEXT">
+          <label>{{ config.label }}</label>
+          <input
+            type="text"
+            [(ngModel)]="fieldValues[config.controlName]"
+            [placeholder]="config.placeholder ?? ''"
+          />
+        </div>
+
+        <!-- RANGE -->
+        <div class="field-group" *ngIf="config.type === FilterFieldType.RANGE">
+          <label>{{ config.label }}</label>
+          <div class="range-row">
+            <input
+              type="number"
+              placeholder="Min"
+              [(ngModel)]="fieldValues[config.controlName].min"
+            />
+            <span class="sep">—</span>
+            <input
+              type="number"
+              placeholder="Max"
+              [(ngModel)]="fieldValues[config.controlName].max"
+            />
+          </div>
+        </div>
+
+        <!-- DATE -->
+        <div class="field-group" *ngIf="config.type === FilterFieldType.DATE">
+          <label>{{ config.label }}</label>
+          <input
+            type="date"
+            [(ngModel)]="fieldValues[config.controlName]"
+          />
+        </div>
+
+      </ng-container>
+
+      <!-- Sort -->
+      <div class="field-group">
+        <label>Sort</label>
+        <div class="sort-row">
+          <button
+            class="sort-btn"
+            [class.active]="sortDirection === 'asc'"
+            (click)="sortDirection = sortDirection === 'asc' ? null : 'asc'"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>
+            </svg>
+            ASC
+          </button>
+          <button
+            class="sort-btn"
+            [class.active]="sortDirection === 'desc'"
+            (click)="sortDirection = sortDirection === 'desc' ? null : 'desc'"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="m19 12-7 7-7-7"/><path d="M12 5v14"/>
+            </svg>
+            DESC
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="panel-footer">
+      <button class="apply-btn" (click)="apply()">Apply Filter</button>
+    </div>
+
+  </div>
+</div>

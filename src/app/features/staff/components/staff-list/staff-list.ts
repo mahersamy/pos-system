@@ -9,9 +9,17 @@ import { ColumnConfig } from '../../../../shared/data-table/models/colmun-config
 import { StaffAdaptModel } from '../../models/staff-adapt.model';
 import { ActionConfig } from '../../../../shared/data-table/models/actions.mode';
 
+import { SearchBar } from '../../../../shared/ui/search-bar/search-bar/search-bar';
+import {
+  FilterPanel,
+  FilterFieldConfig,
+  FilterFieldType,
+  FilterOutput
+} from '../../../../shared/ui/filter-panel/filter-panel/filter-panel';
+
 @Component({
   selector: 'app-staff-list',
-  imports: [DataTable],
+  imports: [DataTable, SearchBar, FilterPanel],  
   templateUrl: './staff-list.html',
   styleUrl: './staff-list.scss',
 })
@@ -20,12 +28,22 @@ export class StaffList implements OnInit, OnDestroy {
   private readonly _dataTableConfig = inject(DataTableConfig<StaffAdaptModel[]>);
   private _refetchSub!: Subscription;
 
+  // ─── additions ───────────────────────────────────────
+  searchQuery = '';
+
+  filterConfigs: FilterFieldConfig[] = [
+  {
+    type: FilterFieldType.TEXT,
+    controlName: 'position',
+    label: 'Position',
+    placeholder: 'e.g. Manager, Chef...',
+  },
+  
+];
+
+  // ─── OG ───────────────────────────────
   readonly columns: ColumnConfig[] = [
-    {
-      field: '_id',
-      header: 'ID',
-      type: TableColumnType.ID,
-    },
+    { field: '_id', header: 'ID', type: TableColumnType.ID },
     {
       field: 'staffProfile.fullname',
       header: 'Name',
@@ -33,23 +51,9 @@ export class StaffList implements OnInit, OnDestroy {
       subtitleField: 'staffProfile.position',
       imageField: 'staffProfile.image',
     },
-    {
-      field: 'age',
-      header: 'Age',
-      type: TableColumnType.TEXT,
-      suffix: ' yr',
-    },
-
-    {
-      field: 'email',
-      header: 'Email',
-      type: TableColumnType.TEXT,
-    },
-    {
-      field: 'phoneNumber',
-      header: 'Phone',
-      type: TableColumnType.TEXT,
-    },
+    { field: 'age', header: 'Age', type: TableColumnType.TEXT, suffix: ' yr' },
+    { field: 'email', header: 'Email', type: TableColumnType.TEXT },
+    { field: 'phoneNumber', header: 'Phone', type: TableColumnType.TEXT },
     {
       field: 'salary',
       header: 'Salary',
@@ -57,41 +61,25 @@ export class StaffList implements OnInit, OnDestroy {
       currencyCode: 'USD',
       currencyDisplay: 'symbol',
     },
-    {
-      field: 'DateOfBirth',
-      header: 'Date of Birth',
-      type: TableColumnType.DATE,
-      dateFormat: 'd-MMM-y',
-    },
-    {
-      field: 'timing',
-      header: 'Timing',
-      type: TableColumnType.TEXT,
-    },
+    { field: 'DateOfBirth', header: 'Date of Birth', type: TableColumnType.DATE, dateFormat: 'd-MMM-y' },
+    { field: 'timing', header: 'Timing', type: TableColumnType.TEXT },
   ];
 
   readonly actions: ActionConfig[] = [
     {
       icon: 'fa-regular fa-eye',
       classes: 'preview-button',
-      func: (data: StaffAdaptModel) => {
-        console.log(data);
-      },
+      func: (data: StaffAdaptModel) => { console.log(data); },
     },
     {
       icon: 'fa-regular fa-pen-to-square',
       classes: 'edit-button',
-      func: (data: StaffAdaptModel) => {
-        console.log(data);
-      },
-
+      func: (data: StaffAdaptModel) => { console.log(data); },
     },
     {
       icon: 'fa-solid fa-trash',
       classes: 'delete-button',
-      func: (data: StaffAdaptModel) => {
-        console.log(data);
-      },
+      func: (data: StaffAdaptModel) => { console.log(data); },
     },
   ];
 
@@ -114,21 +102,41 @@ export class StaffList implements OnInit, OnDestroy {
     this._dataTableConfig.isSelectable.set(true);
   }
 
-  getData() {
+  // ─── additions ───────────────────────────────────────
+  onSearchChange(query: string) {
+    this.searchQuery = query;
+  }
+
+  onApplyFilter(output: FilterOutput) {
+    console.log('Filter output:', output);
+    this.getData(output);
+  }
+
+  // ─── OG getData — only added optional filter param ─────
+  getData(filters?: FilterOutput) {
     this._dataTableConfig.loading.set(true);
     this._dataTableConfig.columns.set(this.columns);
     this._dataTableConfig.actions.set(this.actions);
 
-    this._staffService
-      .getStaffs({
-        page: 1,
-        limit: 10,
-        search: '',
-        sort: 'asc',
-      })
+    const { search, sort, ...rest } = filters ?? { search: '', sort: 'asc' };
+
+    // this._staffService
+    //   .getStaffs({
+    //     page: 1,
+    //     limit: 10,
+    //     search: search ?? '',
+    //     sort: sort ?? 'asc',
+    //     ...rest
+    //   })
+  this._staffService
+  .getStaffs({
+    page: 1,
+    limit: 10,
+    ...(filters ?? { search: '', sort: 'asc' }),
+    sort: filters?.sort ?? 'asc',
+  })
       .subscribe({
         next: (response) => {
-          console.log(response);
           this._dataTableConfig.rows.set(response);
           this._dataTableConfig.loading.set(false);
         },

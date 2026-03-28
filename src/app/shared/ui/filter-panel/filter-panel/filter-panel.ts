@@ -13,16 +13,16 @@ export enum FilterFieldType {
   DATE   = 'DATE',
 }
 
-// ─── Field Config (you define this per use case) ─────────
+// ─── Field Config  ─────────
 export interface FilterFieldConfig {
   type: FilterFieldType;
-  controlName: string;       // key in the output object
-  label: string;             // shown above the input
+  controlName: string;       
+  label: string;             
   placeholder?: string;
-  // SELECT specific
+  // SELECT 
   typeSelect?: 'single' | 'multi';
   select_list?: { label: string; value: any }[];
-  // RANGE specific
+  // RANGE
   rangeMin?: number;
   rangeMax?: number;
 }

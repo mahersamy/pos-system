@@ -116,9 +116,6 @@ export class StaffList implements OnInit, OnDestroy {
 
   getData() {
     this._dataTableConfig.loading.set(true);
-    this._dataTableConfig.columns.set(this.columns);
-    this._dataTableConfig.actions.set(this.actions);
-
     this._staffService
       .getStaffs({
         page: 1,

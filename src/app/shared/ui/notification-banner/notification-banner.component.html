@@ -1,0 +1,12 @@
+@if (showBanner()) {
+  <div class="notification-banner">
+    <div class="notification-content">
+      <h3>Enable Notifications</h3>
+      <p>Stay updated with the latest alerts and messages in the app.</p>
+    </div>
+    <div class="notification-actions">
+      <button (click)="onDismiss()" class="btn-cancel">Not Now</button>
+      <button (click)="onAllow()" class="btn-allow">Allow</button>
+    </div>
+  </div>
+}

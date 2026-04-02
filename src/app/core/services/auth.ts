@@ -43,14 +43,14 @@ export class AuthService {
     .pipe(tap((response) => this.handleAuthResponse(response)));
   }
 
-  logout(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem(this.tokenKey);
-    }
-    this.currentUser.set(null);
-    this.permissionsService.setPermissions({});
-    this.router.navigate(['/login']);
-  }
+  // logout(): void {
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     localStorage.removeItem(this.tokenKey);
+  //   }
+  //   this.currentUser.set(null);
+  //   this.permissionsService.setPermissions({});
+  //   this.router.navigate(['/login']);
+  // }
 
   getToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
@@ -59,12 +59,12 @@ export class AuthService {
     return null;
   }
 
-  getLoggedUserProfile(): void {
+  getLoggedUserProfile(): Observable<ResponseGlobal<User>> {
     const url = `${environment.apiUrl}/api/v1/users/profile`;
-    this.http.get<ResponseGlobal<User>>(url).subscribe((response) => {
+    return this.http.get<ResponseGlobal<User>>(url).pipe(tap((response) => {
       this.currentUser.set(response.data);
       this.permissionsService.setPermissions(response.data.permissions || {});
-    });
+    }));
   }
 
   private handleAuthResponse(response: ResponseGlobal<AuthResponse>): void {

@@ -23,11 +23,10 @@
   --orange-500: #ff4100;
 
   // Requested Theme Colors
-  --primary-color: #fac1d9;
   --primary-pink: #fac1d9;
   --bg-main: #111315;
   --secondary-color: #292c2d;
-  --secondary-color-2: #3D4142;
+  --secondary-color-2: #3d4142;
   --text-main: #777979;
   --text-light: #ffffff;
   --text-muted: var(--gray-400);
@@ -36,10 +35,18 @@
   --card-bg: #1f2223;
   --input-bg: var(--secondary-color);
   --border-radius: 0.5rem;
-  --error-color: #E70000;
+  --error-color: #e70000;
 
   --font-family-base: var(--font-3);
 
+  /* Sidebar */
+  --side-bg: var(--secondary-color);
+  --side-title: var(--primary-pink);
+  --side-nav-icon-bg: var(--white);
+  --side-nav-item-active-bg: var(--primary-pink);
+  --side-nav-item-active-text: #333333;
+  --side-nav-item-color: var(--white);
+  --side-nav-item-border: #3d4142;
 
   // Checkbox
   --p-checkbox-checked-background: var(--primary-color) !important;

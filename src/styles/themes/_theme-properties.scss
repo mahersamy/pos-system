@@ -23,7 +23,6 @@
   --orange-500: #ff4100;
 
   // Requested Theme Colors
-  --primary-color: #fac1d9;
   --primary-pink: #fac1d9;
   --bg-main: #111315;
   --secondary-color: #292c2d;
@@ -38,6 +37,15 @@
   --error-color: #ff6a6a;
 
   --font-family-base: var(--font-3);
+
+  /* Sidebar */
+  --side-bg: var(--secondary-color);
+  --side-title: var(--primary-pink);
+  --side-nav-icon-bg: var(--white);
+  --side-nav-item-active-bg: var(--primary-pink);
+  --side-nav-item-active-text: #333333;
+  --side-nav-item-color: var(--white);
+  --side-nav-item-border: #3d4142;
 }
 
 .light-mode {

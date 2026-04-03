@@ -6,7 +6,7 @@ import { PermissionsService } from './permissions.service';
 import { User, UserPermissions } from '../models/user.model';
 import { environment } from '../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
-import { ResponseGlobal } from '../models/response-global.model';
+import { GlobalResponse } from '../models/response-global.model';
 
 export interface AuthResponse {
   credential: {
@@ -30,17 +30,17 @@ export class AuthService {
   private readonly tokenKey = 'auth_token';
 
 
-  login(email: string, password: string): Observable<ResponseGlobal<AuthResponse>> {
+  login(email: string, password: string): Observable<GlobalResponse<AuthResponse>> {
     const loginUrl = `${environment.apiUrl}/api/v1/auth/login`;
     return this.http
-      .post<ResponseGlobal<AuthResponse>>(loginUrl, { email, password })
+      .post<GlobalResponse<AuthResponse>>(loginUrl, { email, password })
       .pipe(tap((response) => this.handleAuthResponse(response)));
   }
 
-  register(email: string, password: string): Observable<ResponseGlobal<AuthResponse>> {
+  register(email: string, password: string): Observable<GlobalResponse<AuthResponse>> {
     const registerUrl = `${environment.apiUrl}/api/v1/auth/register`;
-    return this.http.post<ResponseGlobal<AuthResponse>>(registerUrl, { email, password })
-    .pipe(tap((response) => this.handleAuthResponse(response)));
+    return this.http.post<GlobalResponse<AuthResponse>>(registerUrl, { email, password })
+      .pipe(tap((response) => this.handleAuthResponse(response)));
   }
 
   // logout(): void {
@@ -59,15 +59,15 @@ export class AuthService {
     return null;
   }
 
-  getLoggedUserProfile(): Observable<ResponseGlobal<User>> {
+  getLoggedUserProfile(): Observable<GlobalResponse<User>> {
     const url = `${environment.apiUrl}/api/v1/users/profile`;
-    return this.http.get<ResponseGlobal<User>>(url).pipe(tap((response) => {
+    return this.http.get<GlobalResponse<User>>(url).pipe(tap((response) => {
       this.currentUser.set(response.data);
       this.permissionsService.setPermissions(response.data.permissions || {});
     }));
   }
 
-  private handleAuthResponse(response: ResponseGlobal<AuthResponse>): void {
+  private handleAuthResponse(response: GlobalResponse<AuthResponse>): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.tokenKey, response.data.credential.accessToken);
     }

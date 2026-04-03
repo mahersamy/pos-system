@@ -1,96 +1,112 @@
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BACKEND_ROUTE } from '../constants/backend.route';
+import { MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
+import { GlobalResponse } from '../models/response-global.model';
+import { ApiNotification } from '../../features/notification/models/notification.model';
+import { NotificationStatus } from '../../features/notification/enums/notification-status.enum';
+import { NotificationType } from '../../features/notification/enums/notification.type.enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationService {
-  private _platformId = inject(PLATFORM_ID);
-  private _httpService = inject(HttpClient);
+  private readonly _platformId = inject(PLATFORM_ID);
+  private readonly _http = inject(HttpClient);
+  private readonly _messageService = inject(MessageService);
 
-  setFcmToken(token: string) {
-    this._httpService.post(environment.apiUrl+BACKEND_ROUTE.addFcmToken, { token }).subscribe({
-      next: () => {
-        console.log('FCM Token set successfully');
-      },
-      error: (error) => {
-        console.error('Error setting FCM Token', error);
-      }
-    });
+  /** Signals the latest foreground push notification to any listening component. */
+  readonly liveNotification = signal<ApiNotification | null>(null);
+
+  // ─── API Methods ────────────────────────────────────────────────────────────
+
+  /** Fetch the paginated inbox for the current user. */
+  getInbox(limit = 5, cursor = ''): Observable<GlobalResponse<ApiNotification[]>> {
+    const url = `${environment.apiUrl}${BACKEND_ROUTE.getInbox}?limit=${limit}&cursor=${cursor}`;
+    return this._http.get<GlobalResponse<ApiNotification[]>>(url);
   }
 
-  listenToNotifications() {
-    if (!isPlatformBrowser(this._platformId)) {
-      return;
-    }
-
-    isSupported().then(supported => {
-      if (!supported) {
-        console.warn('Firebase Messaging is not supported in this browser.');
-        return;
-      }
-
-      const app = initializeApp(environment.firebaseConfig);
-      const messaging = getMessaging(app);
-
-      onMessage(messaging, (payload) => {
-        console.log('Message received. ', payload);
-        // TODO: Handle the foreground notification here (e.g., show a toast or alert)
-      });
-    }).catch(error => {
-      console.error('Error listening to notifications', error);
-    });
+  /** Delete a single notification by id. */
+  deleteNotification(id: string): Observable<GlobalResponse<void>> {
+    const url = `${environment.apiUrl}${BACKEND_ROUTE.deleteNotification}/${id}`;
+    return this._http.delete<GlobalResponse<void>>(url);
   }
 
+  // ─── FCM Methods ────────────────────────────────────────────────────────────
+
+  setFcmToken(token: string): void {
+    this._http
+      .post(environment.apiUrl + BACKEND_ROUTE.addFcmToken, { token })
+      .subscribe();
+  }
+
+  listenToNotifications(): void {
+    if (!isPlatformBrowser(this._platformId)) return;
+
+    isSupported()
+      .then(supported => {
+        if (!supported) return;
+
+        const messaging = getMessaging(initializeApp(environment.firebaseConfig));
+
+        onMessage(messaging, (payload) => {
+          const incoming: ApiNotification = {
+            _id: Date.now().toString(),
+            title: payload.notification?.title ?? payload.data?.['title'] ?? 'New Notification',
+            message: payload.notification?.body  ?? payload.data?.['message'] ?? '',
+            type: (payload.data?.['type'] as NotificationType) ?? NotificationType.ANNOUNCEMENT,
+            status: (payload.data?.['status'] as NotificationStatus) ?? NotificationStatus.SENT,
+            createdAt: new Date().toISOString(),
+            metadata: payload.data as Record<string, string>,
+          };
+
+          this.liveNotification.set(incoming);
+
+          this._messageService.add({
+            severity: 'contrast',
+            summary: incoming.title,
+            detail: incoming.message,
+            life: 5000,
+          });
+        });
+      })
+      .catch(error => console.error('Error listening to notifications:', error));
+  }
+
+  /** Request FCM permission, retrieve the device token and start listening. */
   async getFcmToken(): Promise<string | void> {
-    // 1. Prevent execution on the SSR server
-    if (!isPlatformBrowser(this._platformId)) {
-      return;
-    }
+    if (!isPlatformBrowser(this._platformId)) return;
 
     try {
-      // 2. Ensure the browser supports Firebase Messaging
       const supported = await isSupported();
       if (!supported) {
         console.warn('Firebase Messaging is not supported in this browser.');
         return;
       }
-      
 
-      // 3. Initialize lazily so we don't crash the server during class instantiation
-      const app = initializeApp(environment.firebaseConfig);
-      const messaging = getMessaging(app);
-
-      // 4. Request Permission
+      const messaging = getMessaging(initializeApp(environment.firebaseConfig));
       const permission = await Notification.requestPermission();
 
-      if (permission !== 'granted') {
-        console.log('Permission denied');
-        return;
-      }
+      if (permission !== 'granted') return;
 
-      // 5. Register SW to bypass auto-registration SSR bug
-      const swRegistration = await navigator.serviceWorker.register(
-        '/firebase-messaging-sw.js'
-      );
-
+      const swRegistration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
       const token = await getToken(messaging, {
         vapidKey: environment.firebaseConfig.vapidKey,
-        serviceWorkerRegistration: swRegistration
+        serviceWorkerRegistration: swRegistration,
       });
 
       this.setFcmToken(token);
+      this.listenToNotifications();
 
-      console.log('FCM Token:', token);
       return token;
 
     } catch (error) {
-      console.error('Error getting token', error);
+      console.error('Error getting FCM token:', error);
     }
   }
 }

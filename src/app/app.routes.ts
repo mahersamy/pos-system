@@ -19,6 +19,10 @@ export const routes: Routes = [
         path: 'staff',
         loadComponent: () => import('./features/staff/components/staff-list/staff-list').then((m) => m.StaffList),
       },
+      {
+        path: 'notification',
+        loadComponent: () => import('./features/notification/pages/notification-list/notification-list').then((m) => m.NotificationList),
+      },
     ],
   },
   {

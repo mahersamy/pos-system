@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { ResponseGlobal } from '../../../core/models/response-global.model';
+import { GlobalResponse } from '../../../core/models/response-global.model';
 import { Staff } from '../models/staff';
 import { GetAllModel } from '../../../core/models/get-all.model';
 import { map, Observable } from 'rxjs';
@@ -18,10 +18,10 @@ export class StaffService {
   getStaffs(getAllModel: GetAllModel): Observable<StaffAdaptModel[]> {
     return this.http
       .get<
-        ResponseGlobal<Staff[]>
+        GlobalResponse<Staff[]>
       >(`${environment.apiUrl}/api/v1/staff?page=${getAllModel.page}&limit=${getAllModel.limit}&search=${getAllModel.search}&sort=${getAllModel.sort}`)
       .pipe(
-        map((response: ResponseGlobal<Staff[]>) => {
+        map((response: GlobalResponse<Staff[]>) => {
           const data = response.data.map((item: Staff) => {
             return this._staffAdaptor.adapt(item);
           });

@@ -1,17 +1,17 @@
 @use '../abstracts' as *;
 
 .form-group {
-  margin-bottom: 1rem;
+    margin-bottom: 1rem;
 }
 
 .input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--text-muted);
-  border-radius: var(--border-radius);
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--text-muted);
+    border-radius: var(--border-radius);
 
-  &:focus {
-    outline: none;
-    border-color: var(--primary-color);
-  }
+    &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
 }

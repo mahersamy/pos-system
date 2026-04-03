@@ -1,0 +1,30 @@
+<header class="main-header">
+    <div class="header-left">
+        <button
+            class="back-btn"
+            (click)="$event.stopPropagation()"
+        >
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <h1 class="header-title">{{ title() }}</h1>
+    </div>
+
+    <div class="header-right">
+        <div class="notification-box">
+            <button class="icon-btn">
+                <i class="fa-solid fa-bell"></i>
+                <span class="notification-badge"></span>
+            </button>
+        </div>
+
+        <span class="divider"></span>
+
+        <div class="user-profile-summary">
+            <img
+                src="https://ui-avatars.com/api/?name=John+Doe&background=fac1d9&color=111"
+                alt="Avatar"
+                class="avatar-mini"
+            />
+        </div>
+    </div>
+</header>

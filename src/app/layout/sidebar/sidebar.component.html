@@ -1,42 +1,52 @@
 <aside class="sidebar">
-  <div class="sidebar_header">
-    <div>
-      <h1 class="sidebar__title">PosSystem</h1>
+    <div class="sidebar_header">
+        <div>
+            <h1 class="sidebar__title">PosSystem</h1>
+        </div>
+
+        <nav class="sidebar__nav">
+            <ul class="nav_list">
+                @for (item of navItems; track $index) {
+                    <li
+                        [routerLink]="item.route"
+                        routerLinkActive="nav_item--active"
+                        [routerLinkActiveOptions]="{exact: true}"
+                        class="nav_item"
+                        [class]="$last ? '' : 'bottom-border'"
+                        (click)="updateTitle(item.label)"
+                    >
+                        <div
+                            class="nav_icon"
+                            [attr.data-icon]="item.alt"
+                        >
+                            <img
+                                [ngSrc]="item.src"
+                                [width]="item.width"
+                                [height]="item.height"
+                                [alt]="item.alt + ' icon'"
+                            />
+                        </div>
+                        <span class="nav_label">{{ item.label }}</span>
+                    </li>
+                }
+            </ul>
+        </nav>
     </div>
 
-    <nav class="sidebar__nav">
-      <ul class="nav_list">
-        @for (item of navItems; track $index) {
-          <li
-            [routerLink]="item.route"
-            routerLinkActive="nav_item--active"
-            class="nav_item"
-            [class]="$last ? '' : 'bottom-border'"
-          >
-            <div class="nav_icon" [attr.data-icon]="item.alt">
-              <img
-                [ngSrc]="item.src"
-                [width]="item.width"
-                [height]="item.height"
-                [alt]="item.alt + ' icon'"
-              />
-            </div>
-            <span class="nav_label">{{ item.label }}</span>
-          </li>
-        }
-      </ul>
-    </nav>
-  </div>
-
-  <div class="sidebar__footer">
-    <!-- <div class="upgrade-card">
+    <div class="sidebar__footer">
+        <!-- <div class="upgrade-card">
       <p>Need more features?</p>
       <button class="upgrade-btn">Upgrade Plan</button>
     </div> -->
 
-    <button class="logout-btn">
-      <img width="21" height="21" ngSrc="./images/sidebar/logout.avif" alt="logout icon" />
-      <span class="nav_label">Logout</span>
-    </button>
-  </div>
+        <button class="logout-btn">
+            <img
+                width="21"
+                height="21"
+                ngSrc="./images/sidebar/logout.avif"
+                alt="logout icon"
+            />
+            <span class="nav_label">Logout</span>
+        </button>
+    </div>
 </aside>

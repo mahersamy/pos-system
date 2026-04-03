@@ -1,0 +1,16 @@
+/**
+ * Field Validation Component Styles
+ * Styles for displaying validation error messages
+ */
+
+/**
+ * Validation error text
+ * Displays below form fields when validation fails
+ */
+.custom-text-danger {
+    color: var(--error-500);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.25rem;
+    margin-top: 0.375rem;
+}

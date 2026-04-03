@@ -1,0 +1,33 @@
+{
+  "bracketSpacing": false,
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 4,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "htmlWhitespaceSensitivity": "css",
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": "*.html",
+      "options": {
+        "singleAttributePerLine": true,
+        "printWidth": 80
+      }
+    },
+    {
+      "files": "*.component.html",
+      "options": {
+        "singleAttributePerLine": true,
+        "printWidth": 80
+      }
+    },
+    {
+      "files": "*.scss",
+      "options": {
+        "singleQuote": true,
+        "printWidth": 120
+      }
+    }
+  ]
+}

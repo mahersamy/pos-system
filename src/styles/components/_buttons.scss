@@ -1,30 +1,30 @@
 @use '../abstracts' as *;
 
 .btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
 
-  &--primary {
-    background-color: var(--primary-color);
-    color: white;
+    &--primary {
+        background-color: var(--primary-color);
+        color: white;
 
-    &:hover {
-      opacity: 0.85;
-      filter: brightness(0.9);
+        &:hover {
+            opacity: 0.85;
+            filter: brightness(0.9);
+        }
     }
-  }
 
-  &--secondary {
-    background-color: var(--secondary-color);
-    color: white;
+    &--secondary {
+        background-color: var(--secondary-color);
+        color: white;
 
-    &:hover {
-      opacity: 0.85;
-      filter: brightness(1.1);
+        &:hover {
+            opacity: 0.85;
+            filter: brightness(1.1);
+        }
     }
-  }
 }

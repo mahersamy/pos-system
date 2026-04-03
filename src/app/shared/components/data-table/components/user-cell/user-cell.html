@@ -1,0 +1,24 @@
+<div class="user-cell">
+    <div class="user-cell__avatar">
+        @if (image()) {
+        <img
+            [src]="image()"
+            [alt]="name()"
+            class="user-cell__img"
+        />
+        } @else {
+        <span class="user-cell__initials">{{ initials() }}</span>
+        }
+    </div>
+    <div class="user-cell__info">
+        <span class="user-cell__name">{{ name() }}</span>
+        @if (subtitle()) {
+        <span
+            class="user-cell__subtitle"
+            [style.color]="subtitleColor() || 'var(--primary-color)'"
+        >
+            {{ subtitle() }}
+        </span>
+        }
+    </div>
+</div>

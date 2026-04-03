@@ -1,6 +1,6 @@
-import { Routes } from '@angular/router';
-import { LoginComponent } from './features/auth/login/login.component';
-import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
+import {Routes} from "@angular/router";
+import {LoginComponent} from "./features/auth/login/login.component";
+import {ForgotPasswordComponent} from "./features/auth/forgot-password/forgot-password.component";
 
 export const routes: Routes = [
   {
@@ -34,4 +34,40 @@ export const routes: Routes = [
     path: '**',
     redirectTo: 'login',
   },
+    {
+        path: "login",
+        component: LoginComponent,
+    },
+    {
+        path: "forgot-password",
+        component: ForgotPasswordComponent,
+    },
+    {
+        path: "main",
+        loadComponent: () =>
+            import("./layout/main-layout/main-layout.component").then((m) => m.MainLayoutComponent),
+        children: [
+            {
+                path: "staff",
+                loadComponent: () =>
+                    import("./features/staff/components/staff-list/staff-list").then(
+                        (m) => m.StaffList
+                    ),
+            },
+            {
+                path: "profile",
+                loadComponent: () =>
+                    import("./features/user-profile/user-profile").then((m) => m.UserProfile),
+            },
+        ],
+    },
+    {
+        path: "",
+        redirectTo: "login",
+        pathMatch: "full",
+    },
+    {
+        path: "**",
+        redirectTo: "login",
+    },
 ];

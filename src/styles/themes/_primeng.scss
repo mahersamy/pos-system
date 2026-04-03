@@ -1,0 +1,66 @@
+::ng-deep {
+    .p-inputtext {
+        background: #2b2e30 !important;
+        border: 1px solid rgba(255, 255, 255, 0.04) !important;
+        color: #fff !important;
+        border-radius: 0.75rem !important;
+        padding: 1rem 1.25rem !important;
+        width: 100%;
+        font-family: var(--font-family-base) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        font-size: 0.95rem !important;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        &:enabled:focus {
+            border-color: var(--primary-pink) !important;
+            background: #333638 !important;
+            box-shadow: 0 0 0 4px rgba(250, 193, 217, 0.06) !important;
+        }
+
+        &:enabled:hover:not(:focus) {
+            background: #303336 !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+    }
+
+    .p-password {
+        width: 100%;
+        display: inline-flex;
+        position: relative;
+
+        .p-inputtext {
+            width: 100% !important;
+            padding-right: 3rem !important; // Add space for the icon
+        }
+    }
+
+    .p-icon-field {
+        width: 100%;
+    }
+
+    .p-password-input {
+        width: 100% !important;
+    }
+
+    /* Password Toggle Icon */
+    .p-password-toggle-mask-icon {
+        color: rgba(255, 255, 255, 0.3) !important;
+        position: absolute !important;
+
+        right: 1.25rem !important;
+        transform: translateY(-50%) !important;
+        cursor: pointer;
+        z-index: 10;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        &:hover {
+            color: var(--primary-pink) !important;
+        }
+    }
+}

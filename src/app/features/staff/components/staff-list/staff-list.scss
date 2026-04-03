@@ -1,31 +1,33 @@
 ::ng-deep {
-  .preview-button, .edit-button, .delete-button {
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    .preview-button,
+    .edit-button,
+    .delete-button {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
 
-    &:hover {
-      opacity: 0.8;
-      transform: scale(1.05);
+        &:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
     }
-  }
 
-  .preview-button {
-    background-color: var(--primary-color) !important;
-    color: #333333 !important;
-  }
+    .preview-button {
+        background-color: var(--primary-color) !important;
+        color: #333333 !important;
+    }
 
-  .edit-button {
-    color: #FFFFFF !important; // green edit icon
-  }
+    .edit-button {
+        color: #ffffff !important; // green edit icon
+    }
 
-  .delete-button {
-    color: var(--error-color)!important; // red delete icon
-  }
+    .delete-button {
+        color: var(--error-color) !important; // red delete icon
+    }
 }

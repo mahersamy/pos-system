@@ -12,7 +12,7 @@ import {TranslateModule} from "@ngx-translate/core";
 export class FieldValidation {
     /** Configuration mapping structure matching form control errors to messages */
     @Input() config: any;
-    
+
     /** Base FormGroup to parse relative states against */
     @Input() parentFormGroup!: FormGroup;
 }

@@ -22,12 +22,10 @@ export class StaffService {
      */
     getStaffs(getAllModel: GetAllModel): Observable<StaffAdaptModel[]> {
         return this._http
-            .get<ResponseGlobal<Staff[]>>(
-                `${environment.apiUrl}/api/v1/staff?page=${getAllModel.page}&limit=${getAllModel.limit}&search=${getAllModel.search}&sort=${getAllModel.sort}`
-            )
-            .pipe(
-                map((response) => response.data.map((item) => this._staffAdaptor.adapt(item)))
-            );
+            .get<
+                ResponseGlobal<Staff[]>
+            >(`${environment.apiUrl}/api/v1/staff?page=${getAllModel.page}&limit=${getAllModel.limit}&search=${getAllModel.search}&sort=${getAllModel.sort}`)
+            .pipe(map((response) => response.data.map((item) => this._staffAdaptor.adapt(item))));
     }
 
     /**

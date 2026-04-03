@@ -25,11 +25,7 @@ export class UploadFileService {
             return {files: [], previews: []};
         }
 
-        const {
-            allowedTypes = ["image/*"],
-            maxFiles = 1,
-            maxSizeMB = 5,
-        } = config;
+        const {allowedTypes = ["image/*"], maxFiles = 1, maxSizeMB = 5} = config;
 
         const filesArray = Array.from(input.files).slice(0, maxFiles);
         const validFiles: File[] = [];
@@ -47,9 +43,7 @@ export class UploadFileService {
 
             if (!isTypeAllowed) {
                 alert(
-                    `File type ${file.type} not allowed. Please choose: ${allowedTypes.join(
-                        ", "
-                    )}`
+                    `File type ${file.type} not allowed. Please choose: ${allowedTypes.join(", ")}`
                 );
                 continue;
             }

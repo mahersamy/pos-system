@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 
-import { StaffDetails } from './staff-details';
+import {StaffDetails} from "./staff-details";
 
-describe('StaffDetails', () => {
-  let component: StaffDetails;
-  let fixture: ComponentFixture<StaffDetails>;
+describe("StaffDetails", () => {
+    let component: StaffDetails;
+    let fixture: ComponentFixture<StaffDetails>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [StaffDetails]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [StaffDetails],
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(StaffDetails);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
+        fixture = TestBed.createComponent(StaffDetails);
+        component = fixture.componentInstance;
+        await fixture.whenStable();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 });

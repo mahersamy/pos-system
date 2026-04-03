@@ -29,7 +29,7 @@ export class UserInfo implements OnInit {
     private readonly _uploadFileService = inject(UploadFileService);
     private readonly _userProfileService = inject(UserProfileService);
     private readonly _destroyRef = inject(DestroyRef);
- 
+
     /** Current user data structure */
     user = signal<User | null>(null);
 
@@ -78,7 +78,8 @@ export class UserInfo implements OnInit {
         controlName: "newPassword",
         errorMessages: {
             minlength: "Password must be at least 8 characters",
-            passwordStrength: "Password must include uppercase, lowercase, number and special character",
+            passwordStrength:
+                "Password must include uppercase, lowercase, number and special character",
         },
     };
 

@@ -1,7 +1,6 @@
 import {Injectable, signal} from "@angular/core";
 import {UserPermissions} from "../../models/user.model";
 
-
 @Injectable({
     providedIn: "root",
 })

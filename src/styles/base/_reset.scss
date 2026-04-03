@@ -1,20 +1,18 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
-
-
 
 html,
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  font-family: var(--font-1);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-1);
 }
 
 img,
@@ -22,15 +20,15 @@ picture,
 video,
 canvas,
 svg {
-  display: block;
-  max-width: 100%;
+    display: block;
+    max-width: 100%;
 }
 
 input,
 button,
 textarea,
 select {
-  font: inherit;
+    font: inherit;
 }
 
 p,
@@ -40,10 +38,9 @@ h3,
 h4,
 h5,
 h6 {
-  overflow-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-
 p {
-  margin: 0;
+    margin: 0;
 }

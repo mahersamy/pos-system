@@ -10,8 +10,9 @@ import {TranslateModule} from "@ngx-translate/core";
     styleUrl: "./field-validation.scss",
 })
 export class FieldValidation {
+    /** Configuration mapping structure matching form control errors to messages */
     @Input() config: any;
-    @Input() parentFormGroup!: FormGroup;
 
-    constructor() {}
+    /** Base FormGroup to parse relative states against */
+    @Input() parentFormGroup!: FormGroup;
 }

@@ -1,4 +1,8 @@
-import {ApplicationConfig, provideBrowserGlobalErrorListeners} from "@angular/core";
+import {
+    ApplicationConfig,
+    provideBrowserGlobalErrorListeners,
+    importProvidersFrom,
+} from "@angular/core";
 import {provideRouter} from "@angular/router";
 import {providePrimeNG} from "primeng/config";
 import Aura from "@primeuix/themes/aura";
@@ -10,6 +14,8 @@ import {provideFirestore, getFirestore} from "@angular/fire/firestore";
 import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {authInterceptor} from "./core/interceptors/auth-interceptor";
 import {environment} from "../environments/environment";
+import {TranslateModule} from "@ngx-translate/core";
+import {DialogService} from "primeng/dynamicdialog";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -25,5 +31,7 @@ export const appConfig: ApplicationConfig = {
                 preset: Aura,
             },
         }),
+        importProvidersFrom(TranslateModule.forRoot()),
+        DialogService,
     ],
 };

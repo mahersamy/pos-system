@@ -12,15 +12,15 @@
     .header-left {
         display: flex;
         align-items: center;
-        gap: 1.5rem;
+        gap: 1rem;
 
         .back-btn {
-            width: 40px;
-            height: 40px;
+            width: 2.1875rem;
+            height: 2.1875rem;
             border-radius: 50%;
-            background: #25282b;
+            background: var(--gray-800);
             border: none;
-            color: #fff;
+            color: var(--white);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -28,35 +28,36 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
             &:hover {
-                background: #3a3f42;
+                background: var(--gray-700);
                 transform: scale(1.05);
             }
 
             i {
-                font-size: 0.9rem;
+                font-size: 0.75rem;
             }
         }
 
         .header-title {
-            font-size: 1.75rem;
-            font-weight: 600;
-            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--white);
+            line-height: 100%;
             margin: 0;
-            letter-spacing: -0.01em;
+            letter-spacing: 0%;
         }
     }
 
     .header-right {
         display: flex;
         align-items: center;
-        gap: 1.75rem;
+        gap: 1.25rem;
 
         .notification-box {
             .icon-btn {
                 background: transparent;
                 border: none;
-                color: #fff;
-                font-size: 1.4rem;
+                color: var(--white);
+                font-size: 1.25rem;
                 padding: 0.5rem;
                 cursor: pointer;
                 position: relative;
@@ -87,14 +88,13 @@
         .divider {
             height: 24px;
             width: 1.5px;
-            background: rgba(255, 255, 255, 0.1);
-            margin: 0 0.25rem;
+            background: var(--white);
         }
 
         .user-profile-summary {
             .avatar-mini {
-                height: 44px;
-                width: 44px;
+                height: 2.5rem;
+                width: 2.5rem;
                 border-radius: 50%;
                 border: 2.5px solid var(--primary-pink);
                 padding: 2px;

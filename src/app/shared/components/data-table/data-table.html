@@ -3,7 +3,7 @@
         [value]="_dataTableConfig.loading() ? skeletonRows : _dataTableConfig.rows()"
         [(selection)]="selectedItems"
         [dataKey]="_dataTableConfig.dataKey()"
-        [pt]="pt"
+        [pt]="_primeTableConfig"
         [tableStyle]="{ 'min-width': '50rem' }"
         [scrollable]="true"
     >

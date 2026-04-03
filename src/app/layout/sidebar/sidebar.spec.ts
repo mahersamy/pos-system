@@ -1,18 +1,18 @@
 import {ComponentFixture, TestBed} from "@angular/core/testing";
-import {MainLayoutComponent} from "./main-layout.component";
+import {Sidebar} from "./sidebar";
 import {provideRouter} from "@angular/router";
 
-describe("MainLayoutComponent", () => {
-    let component: MainLayoutComponent;
-    let fixture: ComponentFixture<MainLayoutComponent>;
+describe("SidebarComponent", () => {
+    let component: Sidebar;
+    let fixture: ComponentFixture<Sidebar>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [MainLayoutComponent],
+            imports: [Sidebar],
             providers: [provideRouter([])],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(MainLayoutComponent);
+        fixture = TestBed.createComponent(Sidebar);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

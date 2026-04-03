@@ -1,0 +1,62 @@
+<div class="auth-container">
+    <div class="brand-title">COSYPOS</div>
+
+    <div class="auth-card">
+        <h2 class="card-title">Login!</h2>
+        <p class="card-subtitle">
+            Please enter your credentials below to continue
+        </p>
+
+        <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+        >
+            <!-- EMAIL -->
+            <div class="form-group">
+                <label>Email</label>
+                <div class="input-wrapper">
+                    <input
+                        type="email"
+                        pInputText
+                        placeholder="Email"
+                        formControlName="email"
+                    />
+                </div>
+                <app-field-validation
+                    [config]="emailConfig"
+                    [parentFormGroup]="loginForm"
+                />
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <p-password
+                        formControlName="password"
+                        placeholder="Password"
+                        [feedback]="false"
+                        [toggleMask]="true"
+                    />
+                </div>
+                <app-field-validation
+                    [config]="passwordConfig"
+                    [parentFormGroup]="loginForm"
+                />
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button
+                type="submit"
+                class="btn btn-primary w-100"
+                [disabled]="loginForm.invalid || isLoading()"
+            >
+                @if (isLoading()) {
+                <span class="spinner"></span>
+                } @else {
+                <span>Login</span>
+                }
+            </button>
+        </form>
+    </div>
+</div>

@@ -24,6 +24,16 @@
             background: #303336 !important;
             border-color: rgba(255, 255, 255, 0.08) !important;
         }
+
+        &.ng-invalid.ng-touched,
+        &.ng-invalid.ng-dirty {
+            border-color: var(--error-color) !important;
+
+            &:focus {
+                border-color: var(--error-color) !important;
+                box-shadow: 0 0 0 4px rgba(231, 0, 0, 0.1) !important;
+            }
+        }
     }
 
     .p-password {
@@ -33,7 +43,19 @@
 
         .p-inputtext {
             width: 100% !important;
-            padding-right: 3rem !important; // Add space for the icon
+            padding-right: 3rem !important;
+        }
+
+        &.ng-invalid.ng-touched,
+        &.ng-invalid.ng-dirty {
+            .p-inputtext {
+                border-color: var(--error-color) !important;
+
+                &:focus {
+                    border-color: var(--error-color) !important;
+                    box-shadow: 0 0 0 4px rgba(231, 0, 0, 0.1) !important;
+                }
+            }
         }
     }
 
@@ -47,18 +69,8 @@
 
     /* Password Toggle Icon */
     .p-password-toggle-mask-icon {
-        color: rgba(255, 255, 255, 0.3) !important;
-        position: absolute !important;
-
-        right: 1.25rem !important;
-        transform: translateY(-50%) !important;
+        color: #777979 !important;
         cursor: pointer;
-        z-index: 10;
-        line-height: 1 !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-
         &:hover {
             color: var(--primary-pink) !important;
         }

@@ -15,6 +15,7 @@ import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {authInterceptor} from "./core/interceptors/auth-interceptor";
 import {environment} from "../environments/environment";
 import {TranslateModule} from "@ngx-translate/core";
+import {DialogService} from "primeng/dynamicdialog";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -31,5 +32,6 @@ export const appConfig: ApplicationConfig = {
             },
         }),
         importProvidersFrom(TranslateModule.forRoot()),
+        DialogService,
     ],
 };

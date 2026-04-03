@@ -3,18 +3,20 @@ import {NgOptimizedImage} from "@angular/common";
 import {RouterModule, Router} from "@angular/router";
 import {NavItems} from "./models/nav-items";
 import {LayoutService} from "../../core/services/layout/layout";
+import {AuthService} from "../../core/services/auth/auth";
 
 @Component({
     selector: "app-sidebar",
-    standalone: true,
     imports: [RouterModule, NgOptimizedImage],
-    templateUrl: "./sidebar.component.html",
-    styleUrl: "./sidebar.component.scss",
+    templateUrl: "./sidebar.html",
+    styleUrl: "./sidebar.scss",
 })
-export class SidebarComponent implements OnInit {
-    layoutService = inject(LayoutService);
-    router = inject(Router);
+export class Sidebar implements OnInit {
+    private readonly _layoutService = inject(LayoutService);
+    private readonly _router = inject(Router);
+    private readonly _authService = inject(AuthService);
 
+    /** Main navigation configuration for the sidebar menu */
     navItems: NavItems[] = [
         {
             label: "Dashboard",
@@ -86,15 +88,29 @@ export class SidebarComponent implements OnInit {
         this.initTitle();
     }
 
+    /**
+     * Bootstraps the default title based on the active route matching the navigation list
+     */
     initTitle() {
-        const currentRoute = this.router.url;
+        const currentRoute = this._router.url;
         const activeItem = this.navItems.find((item) => currentRoute.includes(item.route));
         if (activeItem) {
-            this.layoutService.setTitle(activeItem.label);
+            this._layoutService.setTitle(activeItem.label);
         }
     }
 
+    /**
+     * Broadcasts a layout title update dynamically directly triggered from the sidebar
+     * @param {string} newTitle - The newly selected target view string identifier
+     */
     updateTitle(newTitle: string) {
-        this.layoutService.setTitle(newTitle);
+        this._layoutService.setTitle(newTitle);
+    }
+
+    /**
+     * Executes the secure logout protocol via the authentication service
+     */
+    logout() {
+        this._authService.logout();
     }
 }

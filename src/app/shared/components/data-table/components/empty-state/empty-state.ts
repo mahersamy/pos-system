@@ -10,6 +10,7 @@ import {DataTableConfig} from "../../services/data-table-config";
 export class EmptyState {
     protected readonly _dataTableConfig = inject(DataTableConfig);
 
+    /** Resets the error flag and triggers a reactive refetch stream signal */
     refetch() {
         this._dataTableConfig.refetchEvent.next();
         this._dataTableConfig.isError.set(false);

@@ -9,6 +9,7 @@ export interface Staff {
     DateOfBirth: string;
     startShiftTiming: string;
     endShiftTiming: string;
+    address?: string;
     profilePicture: {
         secure_url: string;
     };

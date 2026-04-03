@@ -39,6 +39,24 @@
     }
 }
 
+.btn-secondary {
+    @extend .btn;
+    background: transparent;
+    color: var(--btn-secondary-text);
+    border: 1px solid var(--btn-secondary-border);
+
+    &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        background: transparent;
+        border: 1px solid var(--btn-secondary-border);
+        color: var(--btn-secondary-hover);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+    }
+}
+
 .btn-link {
     background: transparent;
     border: none;
@@ -60,5 +78,42 @@
     &:disabled {
         cursor: not-allowed;
         opacity: 0.3;
+    }
+}
+
+.preview-button {
+    color: #333333 !important;
+    background-color: var(--primary-pink) !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+
+    &:hover {
+        transform: scale(1.2) !important;
+    }
+}
+
+.edit-button {
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+
+    &:hover {
+        transform: scale(1.2) !important;
+    }
+}
+
+.delete-button {
+    color: #ff4d4f !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+
+    &:hover {
+        transform: scale(1.2) !important;
     }
 }

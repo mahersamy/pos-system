@@ -7,6 +7,11 @@ import {StaffAdaptModel} from "../models/staff-adapt.model";
     providedIn: "root",
 })
 export class StaffAdaptor implements Adaptor {
+    /**
+     * Morphs raw backend staff data into a unified frontend structure
+     * @param {Staff} data - The raw API response
+     * @returns {StaffAdaptModel} The securely typed UI target definition
+     */
     adapt(data: Staff): StaffAdaptModel {
         return {
             staffProfile: {
@@ -20,6 +25,7 @@ export class StaffAdaptor implements Adaptor {
             phoneNumber: data.phoneNumber,
             salary: data.salary,
             DateOfBirth: data.DateOfBirth,
+            address: data.address,
             timing: `${data.startShiftTiming} to ${data.endShiftTiming}`,
         };
     }

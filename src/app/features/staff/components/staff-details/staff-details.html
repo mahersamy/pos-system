@@ -1,0 +1,228 @@
+<div class="staff-details-container">
+    <div
+        class="details-content"
+        [class.centered-error]="isError()"
+    >
+        @if (loading()) {
+        <!-- Sidebar Skeleton -->
+        <div class="profile-sidebar">
+            <p-skeleton
+                width="140px"
+                height="1.5rem"
+                styleClass="mb-4"
+            />
+            <div class="profile-image-container skeleton">
+                <p-skeleton
+                    width="100%"
+                    height="100%"
+                />
+            </div>
+            <div class="sidebar-actions">
+                <p-skeleton
+                    width="150px"
+                    height="0.9rem"
+                    styleClass="mb-3"
+                />
+                <p-skeleton
+                    width="100%"
+                    height="48px"
+                    styleClass="mb-3"
+                    borderRadius="12px"
+                />
+                <p-skeleton
+                    width="100%"
+                    height="48px"
+                    borderRadius="12px"
+                />
+            </div>
+        </div>
+
+        <!-- Main Info Skeleton -->
+        <div class="info-section">
+            <!-- Personal Details Skeleton -->
+            <div class="info-group">
+                <p-skeleton
+                    width="280px"
+                    height="1.5rem"
+                    styleClass="mb-4"
+                />
+                <div class="info-card">
+                    <div class="card-grid">
+                        @for (i of [1, 2, 3, 4]; track i) {
+                        <div class="info-item">
+                            <p-skeleton
+                                width="80px"
+                                height="0.8rem"
+                                styleClass="mb-2"
+                            />
+                            <p-skeleton
+                                width="60%"
+                                height="1.1rem"
+                            />
+                        </div>
+                        }
+                        <div class="info-item full-width">
+                            <p-skeleton
+                                width="100px"
+                                height="0.8rem"
+                                styleClass="mb-2"
+                            />
+                            <p-skeleton
+                                width="85%"
+                                height="1.1rem"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Details Skeleton -->
+            <div class="info-group">
+                <p-skeleton
+                    width="220px"
+                    height="1.5rem"
+                    styleClass="mb-4"
+                />
+                <div class="info-card">
+                    <div class="card-grid">
+                        @for (i of [1, 2, 3, 4]; track i) {
+                        <div class="info-item">
+                            <p-skeleton
+                                width="80px"
+                                height="0.8rem"
+                                styleClass="mb-2"
+                            />
+                            <p-skeleton
+                                width="60%"
+                                height="1.1rem"
+                            />
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        } @else if (isError()) {
+        <app-error-state
+            title="Failed to load staff details"
+            message="Please check your internet connection and try again."
+            btnText="Retry"
+            (retry)="retryConnection()"
+        />
+        } @else {
+        <aside class="profile-sidebar">
+            <h3 class="section-title">Profile Image</h3>
+            <div class="profile-image-container">
+                @if (staff()?.staffProfile?.image) {
+                <img
+                    [src]="staff()?.staffProfile?.image"
+                    alt="Profile"
+                    class="profile-img"
+                />
+                } @else {
+                <div class="profile-placeholder">
+                    {{ staff()?.staffProfile?.fullname | slice: 0 : 2 |
+                    uppercase }}
+                </div>
+                }
+            </div>
+            <div class="sidebar-actions">
+                <input
+                    #fileInput
+                    type="file"
+                    (change)="onFileSelected($event)"
+                    style="display: none"
+                    accept="image/*"
+                />
+                <a
+                    href="javascript:void(0)"
+                    class="change-pic-link"
+                    (click)="fileInput.click()"
+                    >Change Profile Picture</a
+                >
+                <button class="btn btn-primary">Edit profile</button>
+                <button
+                    class="btn btn-secondary"
+                    (click)="deleteProfile()"
+                >
+                    Delete profile
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Info Section -->
+        <div class="info-section">
+            <!-- Personal Details -->
+            <div class="info-group">
+                <h3 class="section-title">Employee Personal Details</h3>
+                <div class="info-card">
+                    <div class="card-grid">
+                        <div class="info-item">
+                            <span class="label">Full Name</span>
+                            <span class="value"
+                                >{{ staff()?.staffProfile?.fullname }}</span
+                            >
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Email</span>
+                            <span class="value">{{ staff()?.email }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Phone Number</span>
+                            <span class="value"
+                                >{{ staff()?.phoneNumber }}</span
+                            >
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Date Of Birth</span>
+                            <span class="value"
+                                >{{ staff()?.DateOfBirth | date: 'dd-MMM-y'
+                                }}</span
+                            >
+                        </div>
+                        <div class="info-item full-width">
+                            <span class="label">Address</span>
+                            <span class="value">
+                                {{ staff()?.address || '-' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Details -->
+            <div class="info-group">
+                <h3 class="section-title">Employee Job Details</h3>
+                <div class="info-card">
+                    <div class="card-grid">
+                        <div class="info-item">
+                            <span class="label">Role</span>
+                            <span class="value">
+                                {{ staff()?.staffProfile?.position }}
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Salary</span>
+                            <span class="value">
+                                {{ staff()?.salary | currency }}
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Shift Start Timing</span>
+                            <span class="value">
+                                {{ staff()?.timing?.split(' to ')?.[0] || '-' }}
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <span class="label">Shift End Timing</span>
+                            <span class="value">
+                                {{ staff()?.timing?.split(' to ')?.[1] || '-' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>

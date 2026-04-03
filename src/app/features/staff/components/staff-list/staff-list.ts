@@ -1,12 +1,13 @@
-import {Component, inject, OnDestroy, OnInit} from "@angular/core";
-import {Subscription} from "rxjs";
+import {Component, inject, OnInit, DestroyRef} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {DataTable} from "../../../../shared/components/data-table/data-table";
-import {StaffService} from "../../services/staff.service";
+import {StaffService} from "../../services/staff";
 import {DataTableConfig} from "../../../../shared/components/data-table/services/data-table-config";
 import {StaffAdaptModel} from "../../models/staff-adapt.model";
 import {ColumnConfig} from "../../../../shared/components/data-table/models/colmun-config.model";
 import {TableColumnType} from "../../../../shared/components/data-table/enums/colmun-type.enum";
 import {ActionConfig} from "../../../../shared/components/data-table/models/actions.mode";
+import {Router} from "@angular/router";
 
 @Component({
     selector: "app-staff-list",
@@ -14,10 +15,11 @@ import {ActionConfig} from "../../../../shared/components/data-table/models/acti
     templateUrl: "./staff-list.html",
     styleUrl: "./staff-list.scss",
 })
-export class StaffList implements OnInit, OnDestroy {
+export class StaffList implements OnInit {
     private readonly _staffService = inject(StaffService);
     private readonly _dataTableConfig = inject(DataTableConfig<StaffAdaptModel[]>);
-    private _refetchSub!: Subscription;
+    private readonly _router = inject(Router);
+    private readonly _destroyRef = inject(DestroyRef);
 
     readonly columns: ColumnConfig[] = [
         {
@@ -38,7 +40,6 @@ export class StaffList implements OnInit, OnDestroy {
             type: TableColumnType.TEXT,
             suffix: " yr",
         },
-
         {
             field: "email",
             header: "Email",
@@ -71,51 +72,54 @@ export class StaffList implements OnInit, OnDestroy {
 
     readonly actions: ActionConfig[] = [
         {
-            icon: "fa-regular fa-eye",
+            icon: "fa-solid fa-eye",
             classes: "preview-button",
             func: (data: StaffAdaptModel) => {
-                console.log(data);
+                this._router.navigate(["/main/staff/staff-details", data._id]);
             },
         },
         {
-            icon: "fa-regular fa-pen-to-square",
+            icon: "fa-solid fa-pencil",
             classes: "edit-button",
             func: (data: StaffAdaptModel) => {
-                console.log(data);
+                console.log("Edit Staff Profile", data);
             },
         },
         {
             icon: "fa-solid fa-trash",
             classes: "delete-button",
             func: (data: StaffAdaptModel) => {
-                console.log(data);
+                console.log("Delete Staff Profile", data);
             },
         },
     ];
 
     ngOnInit() {
-        this.getData();
         this.tabeleConfigInit();
+        this.getData();
 
-        this._refetchSub = this._dataTableConfig.refetchEvent.subscribe(() => {
-            this.getData();
-        });
+        this._dataTableConfig.refetchEvent
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe(() => {
+                this.getData();
+            });
     }
 
-    ngOnDestroy() {
-        this._refetchSub?.unsubscribe();
-    }
-
+    /**
+     * Initializes the standard configuration structure (columns, actions, selectors) for the DataTable
+     */
     tabeleConfigInit() {
         this._dataTableConfig.columns.set(this.columns);
         this._dataTableConfig.actions.set(this.actions);
         this._dataTableConfig.isSelectable.set(true);
     }
 
+    /**
+     * Triggers the primary API connection to fetch the staff list
+     * Automatically handles data table signals for loading and error states
+     */
     getData() {
         this._dataTableConfig.loading.set(true);
-        this._dataTableConfig.columns.set(this.columns);
-        this._dataTableConfig.actions.set(this.actions);
 
         this._staffService
             .getStaffs({
@@ -124,13 +128,14 @@ export class StaffList implements OnInit, OnDestroy {
                 search: "",
                 sort: "asc",
             })
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 next: (response) => {
-                    console.log(response);
-                    this._dataTableConfig.rows.set(response);
+                    this._dataTableConfig.rows.set(response as StaffAdaptModel[]);
                     this._dataTableConfig.loading.set(false);
                 },
-                error: () => {
+                error: (error) => {
+                    console.error("Failed to load staff list:", error);
                     this._dataTableConfig.loading.set(false);
                     this._dataTableConfig.isError.set(true);
                 },

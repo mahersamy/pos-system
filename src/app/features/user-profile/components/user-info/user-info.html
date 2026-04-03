@@ -33,50 +33,72 @@
     </div>
 
     <!-- Form Section -->
-    <form class="user-form">
-        <div class="form-field full-width">
-            <label>First Name</label>
+    <form
+        class="user-form"
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit()"
+    >
+        <div class="form-group full-width">
+            <label class="form-label">First Name</label>
             <input
                 type="text"
                 pInputText
+                formControlName="firstName"
                 placeholder="John Doe"
-                value="John Doe"
+            />
+            <app-field-validation
+                [config]="firstNameConfig"
+                [parentFormGroup]="profileForm"
             />
         </div>
 
-        <div class="form-field full-width">
-            <label>Email</label>
+        <div class="form-group full-width">
+            <label class="form-label">Email</label>
             <input
                 type="email"
                 pInputText
+                formControlName="email"
                 placeholder="johndoe123@gmail.com"
-                value="johndoe123@gmail.com"
+            />
+            <app-field-validation
+                [config]="emailConfig"
+                [parentFormGroup]="profileForm"
             />
         </div>
 
-        <div class="form-field full-width">
-            <label>Address</label>
+        <div class="form-group full-width">
+            <label class="form-label">Address</label>
             <input
                 type="text"
                 pInputText
+                formControlName="address"
                 placeholder="123 Street USA, Chicago"
-                value="123 Street USA, Chicago"
+            />
+            <app-field-validation
+                [config]="addressConfig"
+                [parentFormGroup]="profileForm"
             />
         </div>
 
         <div class="form-grid">
-            <div class="form-field">
-                <label>New Password</label>
+            <div class="form-group">
+                <label class="form-label">New Password</label>
                 <p-password
+                    formControlName="newPassword"
                     placeholder="********"
                     [feedback]="false"
                     [toggleMask]="true"
                 />
+                <app-field-validation
+                    [config]="passwordConfig"
+                    [parentFormGroup]="profileForm"
+                />
             </div>
 
-            <div class="form-field">
-                <label>Confirm Password</label>
+            <div class="form-group">
+                <label class="form-label">Confirm Password</label>
                 <p-password
+                    formControlName="confirmPassword"
                     placeholder="********"
                     [feedback]="false"
                     [toggleMask]="true"
@@ -93,7 +115,8 @@
             </button>
             <button
                 type="submit"
-                class="btn-primary"
+                class="btn btn-primary"
+                [disabled]="profileForm.invalid"
             >
                 Save Changes
             </button>

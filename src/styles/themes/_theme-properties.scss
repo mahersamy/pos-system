@@ -24,6 +24,7 @@
 
     // Requested Theme Colors
     --primary-pink: #fac1d9;
+    --primary-pink-hover: #e9b0c6;
     --bg-main: #111315;
     --secondary-color: #292c2d;
     --secondary-color-2: #3d4142;
@@ -33,8 +34,11 @@
 
     // UI Elements
     --card-bg: #1f2223;
-    --input-bg: var(--secondary-color);
-    --border-radius: 0.5rem;
+    --input-bg: #2b2e30;
+    --input-border: rgba(255, 255, 255, 0.04);
+    --input-focus-border: var(--primary-pink);
+    --input-placeholder: rgba(255, 255, 255, 0.2);
+    --border-radius: 0.75rem;
     --error-color: #e70000;
 
     --font-family-base: var(--font-3);
@@ -48,13 +52,12 @@
     --side-nav-item-color: var(--white);
     --side-nav-item-border: #3d4142;
 
-    // Checkbox
-    --p-checkbox-checked-background: var(--primary-color) !important;
-    --p-checkbox-checked-border-color: var(--primary-color) !important;
-    --p-form-field-hover-border-color: var(--primary-color) !important;
-    --p-form-field-focus-border-color: var(--primary-color) !important;
-    --p-checkbox-checked-hover-background: var(--primary-color) !important;
-    --p-checkbox-checked-hover-border-color: var(--primary-color) !important;
+    // Buttons
+    --btn-primary-bg: var(--primary-pink);
+    --btn-primary-text: #1a1a1a;
+    --btn-primary-hover: #fac1d9;
+    --btn-disabled-bg: rgba(250, 193, 217, 0.05);
+    --btn-disabled-text: rgba(255, 255, 255, 0.3);
 }
 
 .light-mode {

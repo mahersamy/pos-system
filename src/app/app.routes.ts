@@ -40,7 +40,7 @@ export const routes: Routes = [
                 path: "profile",
                 data: {title: "User Profile"},
                 loadComponent: () =>
-                    import("./features/user-profile/user-profile").then((m) => m.UserProfile),
+                    import("./features/user-profile/pages/user-profile").then((m) => m.UserProfile),
             },
             {
                 path: "notifications",

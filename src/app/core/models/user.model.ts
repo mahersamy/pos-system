@@ -12,6 +12,7 @@ export interface User {
     uid?: string;
     firstName: string;
     lastName: string;
+    address: string;
     email: string;
     phoneNumber: string;
     role: string | null;

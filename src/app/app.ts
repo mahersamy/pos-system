@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NotificationBannerComponent } from './shared/ui/notification-banner/notification-banner.component';
 import { ToastModule } from 'primeng/toast';
+import { AuthService } from './core/services/auth/auth';
 
 @Component({
   selector: 'app-root',

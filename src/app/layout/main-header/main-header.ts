@@ -5,6 +5,7 @@ import {Router, NavigationEnd} from "@angular/router";
 import {filter} from "rxjs/operators";
 import {Location} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import { AuthService } from "../../core/services/auth/auth";
 
 @Component({
     selector: "app-main-header",
@@ -15,6 +16,7 @@ import {RouterLink} from "@angular/router";
 export class MainHeader implements OnInit {
     private readonly _layoutService = inject(LayoutService);
     private readonly _router = inject(Router);
+    readonly _authService = inject(AuthService);
 
     private readonly _location = inject(Location);
     private readonly _destroyRef = inject(DestroyRef);

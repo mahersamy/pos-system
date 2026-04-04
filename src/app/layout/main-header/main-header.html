@@ -19,9 +19,9 @@
 
         <span class="divider"></span>
 
-        <div class="user-profile-summary">
+        <div class="user-profile-summary" routerLink="/main/profile">
             <img
-                src="https://ui-avatars.com/api/?name=John+Doe&background=fac1d9&color=111"
+                [src]="_authService.currentUser()?.profilePicture || 'https://ui-avatars.com/api/?name=' + _authService.currentUser()?.firstName + '+' + _authService.currentUser()?.lastName + '&background=fac1d9&color=111'"
                 alt="Avatar"
                 class="avatar-mini"
             />

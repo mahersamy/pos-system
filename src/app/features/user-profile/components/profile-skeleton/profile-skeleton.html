@@ -1,0 +1,89 @@
+<div class="skeleton-profile" *ngIf="loading">
+    <p-skeleton
+        width="200px"
+        height="2rem"
+        styleClass="mb-5"
+    />
+    <div class="user-profile-header skeleton">
+        <p-skeleton
+            shape="circle"
+            size="120px"
+        />
+        <div class="user-details ml-4">
+            <p-skeleton
+                width="150px"
+                height="1.5rem"
+                styleClass="mb-2"
+            />
+            <p-skeleton
+                width="100px"
+                height="1rem"
+            />
+        </div>
+    </div>
+    <div class="user-form">
+        <div class="form-grid mb-4">
+            <div class="form-group">
+                <p-skeleton
+                    width="100px"
+                    height="1rem"
+                    styleClass="mb-2"
+                />
+                <p-skeleton
+                    width="100%"
+                    height="45px"
+                    borderRadius="12px"
+                />
+            </div>
+            <div class="form-group">
+                <p-skeleton
+                    width="100px"
+                    height="1rem"
+                    styleClass="mb-2"
+                />
+                <p-skeleton
+                    width="100%"
+                    height="45px"
+                    borderRadius="12px"
+                />
+            </div>
+        </div>
+        <div class="form-group mb-4">
+            <p-skeleton
+                width="100px"
+                height="1rem"
+                styleClass="mb-2"
+            />
+            <p-skeleton
+                width="100%"
+                height="45px"
+                borderRadius="12px"
+            />
+        </div>
+        <div class="form-grid mb-5">
+            <div class="form-group" *ngFor="let i of [1, 2, 3, 4]">
+                <p-skeleton
+                    width="100px"
+                    height="1rem"
+                    styleClass="mb-2"
+                />
+                <p-skeleton
+                    width="100%"
+                    height="45px"
+                    borderRadius="12px"
+                />
+            </div>
+        </div>
+        <div class="form-footer">
+            <p-skeleton
+                width="120px"
+                height="1.5rem"
+            />
+            <p-skeleton
+                width="160px"
+                height="45px"
+                borderRadius="12px"
+            />
+        </div>
+    </div>
+</div>

@@ -32,4 +32,9 @@ export class UserProfileService {
         formData.append("image", file);
         return this._http.patch<GlobalResponse<User>>(url, formData);
     }
+
+    updateProfile(userId: string, data: User): Observable<GlobalResponse<User>> {
+        const url = `${environment.apiUrl}/api/v1/users/${userId}`;
+        return this._http.patch<GlobalResponse<User>>(url, data);
+    }
 }

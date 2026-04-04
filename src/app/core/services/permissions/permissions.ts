@@ -1,17 +1,14 @@
 import {Injectable, signal} from "@angular/core";
 import {UserPermissions} from "../../models/user.model";
 
-
 @Injectable({
     providedIn: "root",
 })
 export class PermissionsService {
-    private userPermissions = signal<UserPermissions>({});
+    private readonly userPermissions = signal<UserPermissions>({});
 
-    // Signal for accessing current permissions
+    /** Signal for accessing current permissions */
     permissions = this.userPermissions.asReadonly();
-
-    constructor() {}
 
     /**
      * Sets the user's permissions.

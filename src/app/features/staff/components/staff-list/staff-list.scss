@@ -17,17 +17,4 @@
             transform: scale(1.05);
         }
     }
-
-    .preview-button {
-        background-color: var(--primary-color) !important;
-        color: #333333 !important;
-    }
-
-    .edit-button {
-        color: #ffffff !important; // green edit icon
-    }
-
-    .delete-button {
-        color: var(--error-color) !important; // red delete icon
-    }
 }

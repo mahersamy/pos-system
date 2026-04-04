@@ -8,8 +8,13 @@ export interface UserPermissions {
 }
 
 export interface User {
-    uid: string;
+    _id?: string;
+    uid?: string;
+    firstName: string;
+    lastName: string;
     email: string;
+    phoneNumber: string;
     role: string | null;
+    profilePicture?: string;
     permissions?: UserPermissions;
 }

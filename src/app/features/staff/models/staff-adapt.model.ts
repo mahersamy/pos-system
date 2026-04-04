@@ -7,5 +7,7 @@ export interface StaffAdaptModel extends Partial<Staff> {
         image?: string;
     };
 
+    DateOfBirth: string;
     timing: string;
+    address?: string;
 }

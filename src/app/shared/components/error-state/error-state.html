@@ -1,0 +1,16 @@
+<div class="error-state-overlay">
+    <div class="error-content-card">
+        <div class="error-icon-circle">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h1 class="error-heading">{{ title() }}</h1>
+        <p class="error-text">{{ message() }}</p>
+        <button
+            class="btn-error-retry"
+            (click)="onRetry()"
+        >
+            <i class="fa-solid fa-rotate-right"></i>
+            {{ btnText() }}
+        </button>
+    </div>
+</div>

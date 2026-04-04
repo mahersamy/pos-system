@@ -28,36 +28,52 @@ import {ActionConfig} from "./models/actions.mode";
 export class DataTable {
     protected readonly _dataTableConfig = inject(DataTableConfig);
     protected readonly _tableColumnType = TableColumnType;
+
+    /** Dummy array used for skeleton loader rendering */
     skeletonRows = Array(10).fill({});
 
+    /** Active selected row states */
     selectedItems!: any;
 
-    pt = {
+    /** Custom configuration settings for the PrimeVue table component */
+    _primeTableConfig = {
         root: {
             class: "custom-table",
         },
     };
 
+    /**
+     * Dynamically resolves nested string attributes mapping (e.g., "staffProfile.fullname")
+     * @param {any} data - The row object to traverse
+     * @param {string} field - The string pointer for the target key
+     * @returns {string} The resolved data mapped to the field
+     */
     protected resolveFieldData(data: any, field: string): string {
-        if (data && field) {
-            if (field.indexOf(".") === -1) {
-                return data[field];
-            } else {
-                const fields: string[] = field.split(".");
-                let value = data;
-                for (let i = 0, len = fields.length; i < len; ++i) {
-                    if (value == null) {
-                        return "";
-                    }
-                    value = value[fields[i]];
-                }
-                return value;
-            }
-        } else {
-            return "";
+        if (!data || !field) return "";
+
+        if (field.indexOf(".") === -1) {
+            return data[field];
         }
+
+        const fields: string[] = field.split(".");
+        let value = data;
+
+        for (let index = 0, length = fields.length; index < length; ++index) {
+            if (value == null) {
+                return "";
+            }
+            value = value[fields[index]];
+        }
+
+        return value;
     }
 
+    /**
+     * Executes custom row actions and breaks event bubbling loop
+     * @param {Event} event - The DOM click event
+     * @param {ActionConfig} action - The action details bound to the click
+     * @param {any} data - The row structural data assigned to the button mapping
+     */
     onActionClick(event: Event, action: ActionConfig, data: any) {
         event.preventDefault();
         event.stopPropagation();

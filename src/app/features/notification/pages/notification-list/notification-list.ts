@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NotificationService } from '../../../../core/services/notification.service';
+import { NotificationService } from '../../services/notification.service';
 import { ApiNotification } from '../../models/notification.model';
 import { NotificationCard } from '../../components/notification-card/notification-card';
 
@@ -43,7 +43,7 @@ export class NotificationList implements OnInit {
   }
 
   loadNotifications(): void {
-    this._notificationService.getInbox().subscribe({
+    this._notificationService.getInbox(20).subscribe({
       next: (response) => this.notifications.set(response.data),
     });
   }

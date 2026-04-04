@@ -1,5 +1,5 @@
 .notification-card {
-  background-color: var(--card-bg);
+  background-color: var(--secondary-color);
   border: 1px solid var(--gray-800);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
@@ -11,7 +11,7 @@
 .icon-container {
   width: 50px;
   height: 50px;
-  background-color: var(--primary-color);
+  background-color: var(--primary-pink);
   color: var(--black);
   border-radius: var(--border-radius, 8px);
   font-size: 1.25rem;
@@ -24,8 +24,18 @@
 }
 
 .status-badge {
-  background-color: var(--gray-800);
-  color: var(--text-muted);
+  background-color: var(--primary-pink);
+  color: var(--black);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.35em 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.more-badge {
+  background-color: var(--gray-700);
+  color: var(--text-light);
   font-size: 0.75rem;
   font-weight: 500;
   padding: 0.35em 0.7em;
@@ -46,7 +56,7 @@
 }
 
 .meta-pill {
-  background-color: var(--bg-main);
+  background-color: var(--gray-900);
   border: 1px solid var(--gray-800);
   color: var(--text-muted);
   font-size: 0.75rem;

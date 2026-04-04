@@ -1,5 +1,5 @@
 .notification-screen {
-  background-color: var(--bg-main);
+  background-color: var(--gray-900);
   min-height: 100vh;
   color: var(--text-light);
   font-family: var(--font-family-base, sans-serif);
@@ -32,7 +32,7 @@
 }
 
 .push-badge {
-  background-color: var(--card-bg);
+  background-color: var(--secondary-color);
   color: var(--text-muted);
   padding: 0.35em 0.75em;
   font-weight: normal;
@@ -41,7 +41,7 @@
   .dot {
     width: 6px;
     height: 6px;
-    background-color: var(--orange-500, #ff4100);
+    background-color: var(--red-500);
     border-radius: 50%;
     display: inline-block;
   }
@@ -83,13 +83,13 @@
   }
 
   &.active {
-    background-color: var(--primary-color);
+    background-color: var(--primary-pink);
     color: var(--black);
   }
 }
 
 .mark-read-btn {
-  background-color: var(--primary-color);
+  background-color: var(--primary-pink);
   color: var(--black);
   border-radius: var(--border-radius, 6px);
   font-size: 0.9rem;
@@ -107,7 +107,7 @@
 
 .empty-state {
   color: var(--text-muted);
-  background-color: var(--card-bg);
+  background-color: var(--secondary-color);
   border: 1px solid var(--gray-800);
 }
 

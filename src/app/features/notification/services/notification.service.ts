@@ -2,15 +2,15 @@ import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, isSupported, onMessage } from 'firebase/messaging';
-import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { BACKEND_ROUTE } from '../constants/backend.route';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
-import { GlobalResponse } from '../models/response-global.model';
-import { ApiNotification } from '../../features/notification/models/notification.model';
-import { NotificationStatus } from '../../features/notification/enums/notification-status.enum';
-import { NotificationType } from '../../features/notification/enums/notification.type.enum';
+import { ApiNotification } from '../models/notification.model';
+import { GlobalResponse } from '../../../core/models/response-global.model';
+import { BACKEND_ROUTE } from '../../../core/constants/backend.route';
+import { environment } from '../../../../environments/environment';
+import { NotificationType } from '../enums/notification.type.enum';
+import { NotificationStatus } from '../enums/notification-status.enum';
 
 @Injectable({
   providedIn: 'root'

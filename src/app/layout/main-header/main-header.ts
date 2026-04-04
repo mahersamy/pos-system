@@ -4,10 +4,11 @@ import {LayoutService} from "../../core/services/layout/layout";
 import {Router, NavigationEnd} from "@angular/router";
 import {filter} from "rxjs/operators";
 import {Location} from "@angular/common";
+import {RouterLink} from "@angular/router";
 
 @Component({
     selector: "app-main-header",
-    imports: [],
+    imports: [RouterLink],
     templateUrl: "./main-header.html",
     styleUrl: "./main-header.scss",
 })

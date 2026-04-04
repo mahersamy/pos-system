@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { NotificationService } from '../../../core/services/notification.service';
+import { NotificationService } from '../../../features/notification/services/notification.service';
 
 @Component({
   selector: 'app-notification-banner',

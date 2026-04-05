@@ -74,14 +74,6 @@ export class Sidebar implements OnInit {
             src: "/images/sidebar/reservation.avif",
             route: "/reservation",
         },
-        {
-            label: "Profile",
-            width: 16,
-            height: 12,
-            alt: "profile",
-            src: "/images/sidebar/staff.avif",
-            route: "/main/profile",
-        },
     ];
 
     ngOnInit() {

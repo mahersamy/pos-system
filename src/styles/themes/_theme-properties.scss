@@ -75,8 +75,16 @@
     --btn-secondary-hover: var(--pink-200);
     --btn-secondary-disabled-bg: rgba(250, 193, 217, 0.05);
     --btn-secondary-disabled-text: rgba(255, 255, 255, 0.3);
+    // Checkbox
+    --p-checkbox-checked-background: var(--primary-pink) !important;
+    --p-checkbox-checked-border-color: var(--primary-pink) !important;
+    --p-form-field-hover-border-color: var(--primary-pink) !important;
+    --p-form-field-focus-border-color: var(--primary-pink) !important;
+    --p-checkbox-checked-hover-background: var(--primary-pink) !important;
+    --p-checkbox-checked-hover-border-color: var(--primary-pink) !important;
+
 }
 
-.dark-mode {
+.light-mode {
     // Keep placeholders for future light mode if needed
 }

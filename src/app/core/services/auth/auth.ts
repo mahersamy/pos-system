@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable, tap} from "rxjs";
 import {Router} from "@angular/router";
 import {PermissionsService} from "../permissions/permissions";
-import {ResponseGlobal} from "../../models/response-global.model";
+import {GlobalResponse} from "../../models/response-global.model";
 import {environment} from "../../../../environments/environment";
 import {isPlatformBrowser} from "@angular/common";
 import {User} from "../../models/user.model";
@@ -44,12 +44,12 @@ export class AuthService {
      * Executes the API login request and caches securely
      * @param {string} email - The user identity string
      * @param {string} password - The unhashed credential password
-     * @returns {Observable<ResponseGlobal<AuthResponse>>}
+     * @returns {Observable<GlobalResponse<AuthResponse>>}
      */
-    login(email: string, password: string): Observable<ResponseGlobal<AuthResponse>> {
+    login(email: string, password: string): Observable<GlobalResponse<AuthResponse>> {
         const loginUrl = `${environment.apiUrl}/api/v1/auth/login`;
         return this._http
-            .post<ResponseGlobal<AuthResponse>>(loginUrl, {email, password})
+            .post<GlobalResponse<AuthResponse>>(loginUrl, {email, password})
             .pipe(tap((response) => this.handleAuthResponse(response)));
     }
 
@@ -57,12 +57,12 @@ export class AuthService {
      * Executes an API registration creation request natively
      * @param {string} email - The target identity format map
      * @param {string} password - The secure code registration
-     * @returns {Observable<ResponseGlobal<AuthResponse>>}
+     * @returns {Observable<GlobalResponse<AuthResponse>>}
      */
-    register(email: string, password: string): Observable<ResponseGlobal<AuthResponse>> {
+    register(email: string, password: string): Observable<GlobalResponse<AuthResponse>> {
         const registerUrl = `${environment.apiUrl}/api/v1/auth/register`;
         return this._http
-            .post<ResponseGlobal<AuthResponse>>(registerUrl, {email, password})
+            .post<GlobalResponse<AuthResponse>>(registerUrl, {email, password})
             .pipe(tap((response) => this.handleAuthResponse(response)));
     }
 
@@ -87,11 +87,11 @@ export class AuthService {
 
     /**
      * Retrieves the structural permission profile from the global endpoint
-     * @returns {Observable<ResponseGlobal<User>>} The raw server user bindings
+     * @returns {Observable<GlobalResponse<User>>} The raw server user bindings
      */
-    getLoggedUserProfile(): Observable<ResponseGlobal<User>> {
+    getLoggedUserProfile(): Observable<GlobalResponse<User>> {
         const url = `${environment.apiUrl}/api/v1/users/profile`;
-        return this._http.get<ResponseGlobal<User>>(url).pipe(
+        return this._http.get<GlobalResponse<User>>(url).pipe(
             tap((response) => {
                 this.currentUser.set(response.data);
                 this._permissionsService.setPermissions(response.data.permissions || {});
@@ -99,7 +99,7 @@ export class AuthService {
         );
     }
 
-    private handleAuthResponse(response: ResponseGlobal<AuthResponse>): void {
+    private handleAuthResponse(response: GlobalResponse<AuthResponse>): void {
         if (isPlatformBrowser(this._platformId)) {
             localStorage.setItem(StorageKeys.TOKEN, response.data.credential.accessToken);
         }

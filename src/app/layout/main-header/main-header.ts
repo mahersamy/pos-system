@@ -4,16 +4,19 @@ import {LayoutService} from "../../core/services/layout/layout";
 import {Router, NavigationEnd} from "@angular/router";
 import {filter} from "rxjs/operators";
 import {Location} from "@angular/common";
+import {RouterLink} from "@angular/router";
+import { AuthService } from "../../core/services/auth/auth";
 
 @Component({
     selector: "app-main-header",
-    imports: [],
+    imports: [RouterLink],
     templateUrl: "./main-header.html",
     styleUrl: "./main-header.scss",
 })
 export class MainHeader implements OnInit {
     private readonly _layoutService = inject(LayoutService);
     private readonly _router = inject(Router);
+    readonly _authService = inject(AuthService);
 
     private readonly _location = inject(Location);
     private readonly _destroyRef = inject(DestroyRef);

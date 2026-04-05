@@ -1,6 +1,6 @@
 import {Component, signal, inject} from "@angular/core";
-import {UserInfo} from "./components/user-info/user-info";
-import {AuthService} from "../../core/services/auth/auth";
+import {UserInfo} from "../components/user-info/user-info";
+import {AuthService} from "../../../core/services/auth/auth";
 
 @Component({
     selector: "app-user-profile",

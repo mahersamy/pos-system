@@ -1,6 +1,7 @@
 import {inject} from "@angular/core";
 import {CanActivateFn, Router} from "@angular/router";
 import {AuthService} from "../../services/auth/auth";
+import {catchError, map, of} from "rxjs";
 
 /**
  * Ensures access is granted only to authenticated users.
@@ -11,6 +12,15 @@ export const authGuard: CanActivateFn = (route, state) => {
     const router = inject(Router);
 
     if (authService.isLoggedIn()) {
+        if (!authService.currentUser()) {
+            return authService.getLoggedUserProfile().pipe(
+                map(() => true),
+                catchError(() => {
+                    authService.logout();
+                    return of(false);
+                })
+            );
+        }
         return true;
     }
 

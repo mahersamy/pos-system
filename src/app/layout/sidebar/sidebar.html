@@ -1,4 +1,4 @@
-<aside class="sidebar">
+<ng-template #sidebarContent>
     <div class="sidebar_header">
         <div>
             <h1 class="sidebar__title">PosSystem</h1>
@@ -13,18 +13,10 @@
                     [routerLinkActiveOptions]="{exact: true}"
                     class="nav_item"
                     [class]="$last ? '' : 'bottom-border'"
-                    (click)="updateTitle(item.label)"
+                    (click)="drawerVisible.set(false)"
                 >
-                    <div
-                        class="nav_icon"
-                        [attr.data-icon]="item.alt"
-                    >
-                        <img
-                            [ngSrc]="item.src"
-                            [width]="item.width"
-                            [height]="item.height"
-                            [alt]="item.alt + ' icon'"
-                        />
+                    <div class="nav_icon" [attr.data-icon]="item.alt">
+                        <img [ngSrc]="item.src" [width]="item.width" [height]="item.height" [alt]="item.alt + ' icon'" />
                     </div>
                     <span class="nav_label">{{ item.label }}</span>
                 </li>
@@ -34,22 +26,45 @@
     </div>
 
     <div class="sidebar__footer">
-        <!-- <div class="upgrade-card">
-      <p>Need more features?</p>
-      <button class="upgrade-btn">Upgrade Plan</button>
-    </div> -->
-
-        <button
-            class="logout-btn"
-            (click)="logout()"
-        >
-            <img
-                width="21"
-                height="21"
-                ngSrc="./images/sidebar/logout.avif"
-                alt="logout icon"
-            />
+        <button class="logout-btn" (click)="logout(); drawerVisible.set(false)">
+            <img width="21" height="21" ngSrc="./images/sidebar/logout.avif" alt="logout icon" />
             <span class="nav_label">Logout</span>
         </button>
     </div>
+</ng-template>
+
+<!-- ─── Desktop sidebar (hidden on mobile) ───────────────────────────── -->
+<aside class="sidebar desktop-sidebar">
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
 </aside>
+
+<!-- ─── Mobile drawer (visible on mobile via header toggle) ──────────────── -->
+<p-drawer
+    [(visible)]="drawerVisible"
+    [style]="{'width': '16.875rem'}"
+    styleClass="mobile-sidebar-drawer"
+>
+    <ng-template #headless>
+        <div class="sidebar mobile-sidebar font-sans" style="height: 100vh; position: static;">
+            <!-- Mobile drawer needs an explicit close button at the top -->
+            <div class="drawer-close header-left" style="display: flex; justify-content: flex-end; padding: 1rem 1.6875rem 0; width: 100%;">
+                 <p-button
+                     icon="pi pi-times"
+                     [rounded]="true"
+                     [text]="true"
+                     severity="secondary"
+                     (click)="drawerVisible.set(false)"
+                 />
+            </div>
+            <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+        </div>
+    </ng-template>
+</p-drawer>
+
+<!-- ─── Mobile FAB to open the drawer (visible only on mobile) ───────────── -->
+<button 
+    class="mobile-menu-fab" 
+    (click)="drawerVisible.set(true)"
+    aria-label="Open Navigation">
+    <i class="fa-solid fa-bars"></i>
+</button>

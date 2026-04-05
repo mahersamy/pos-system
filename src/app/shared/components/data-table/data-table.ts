@@ -27,6 +27,7 @@ import {ActionConfig} from "./models/actions.mode";
 })
 export class DataTable {
     protected readonly _dataTableConfig = inject(DataTableConfig);
+    protected readonly _tableConfig = this._dataTableConfig.tableConfig;
     protected readonly _tableColumnType = TableColumnType;
 
     /** Dummy array used for skeleton loader rendering */

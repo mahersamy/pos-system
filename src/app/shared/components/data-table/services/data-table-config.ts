@@ -3,18 +3,42 @@ import {ColumnConfig} from "../models/colmun-config.model";
 import {Subject} from "rxjs";
 import {ActionConfig} from "../models/actions.mode";
 
-@Injectable({
-    providedIn: "root",
-})
+// ─── Table Config ─────────────────────────────────────────────────────────────
+export interface TableConfig<T = any> {
+    columns: WritableSignal<ColumnConfig[]>;
+    actions: WritableSignal<ActionConfig[]>;
+    rows: WritableSignal<T[]>;
+    dataKey: WritableSignal<string>;
+    loading: WritableSignal<boolean>;
+    isError: WritableSignal<boolean>;
+    isSelectable: WritableSignal<boolean>;
+    refetchEvent: Subject<void>;
+}
+
+// ─── Filter Config (future) ────────────────────────────────────────────────────
+// export interface FilterConfig { ... }
+
+// ─── Bulk Action Config (future) ───────────────────────────────────────────────
+// export interface BulkActionConfig { ... }
+
+/**
+ * Per-feature data-table config. NOT a global singleton.
+ * Provide it locally in each feature page: `providers: [DataTableConfig]`
+ */
+@Injectable()
 export class DataTableConfig<T = any> {
-    columns: WritableSignal<ColumnConfig[]> = signal([]);
-    actions: WritableSignal<ActionConfig[]> = signal([]);
-    rows: WritableSignal<T[]> = signal([]);
-    dataKey: WritableSignal<string> = signal("_id");
-    loading: WritableSignal<boolean> = signal(true);
-    isError: WritableSignal<boolean> = signal(false);
+    // ── Table ──────────────────────────────────────────────────────────────────
+    readonly tableConfig: TableConfig<T> = {
+        columns:      signal([]),
+        actions:      signal([]),
+        rows:         signal([]),
+        dataKey:      signal("_id"),
+        loading:      signal(true),
+        isError:      signal(false),
+        isSelectable: signal(false),
+        refetchEvent: new Subject<void>(),
+    };
 
-    isSelectable: WritableSignal<boolean> = signal(false);
-
-    refetchEvent: Subject<void> = new Subject<void>();
+    // ── Bulk Actions (future) ──────────────────────────────────────────────────
+    // readonly bulkActionConfig: BulkActionConfig = { ... };
 }

@@ -6,6 +6,7 @@ import {DataTableConfig} from "../../../../shared/components/data-table/services
 import {StaffService} from "../../services/staff";
 import {StaffAdaptModel} from "../../models/staff-adapt.model";
 import {STAFF_TABLE_COLUMNS, STAFF_TABLE_ACTION_META} from "./staff-list.config";
+import { ModuleBase } from "../../../../core/base/module.base";
 
 @Component({
     selector: "app-staff-list",
@@ -14,7 +15,7 @@ import {STAFF_TABLE_COLUMNS, STAFF_TABLE_ACTION_META} from "./staff-list.config"
     styleUrl: "./staff-list.scss",
     providers: [DataTableConfig],
 })
-export class StaffList implements OnInit {
+export class StaffList implements OnInit , ModuleBase {
     private readonly _staffService = inject(StaffService);
     private readonly _dataTableConfig = inject(DataTableConfig<StaffAdaptModel[]>);
     private readonly _router = inject(Router);
@@ -23,7 +24,7 @@ export class StaffList implements OnInit {
     ngOnInit() {
         this._initTableConfig();
         this._subscribeToRefetch();
-        this.getData();
+        this.fetchData();
 
     }
 
@@ -58,7 +59,7 @@ export class StaffList implements OnInit {
 
     // ─── Data ─────────────────────────────────────────────────────────────────
 
-    getData() {
+    fetchData() {
         this._dataTableConfig.tableConfig.loading.set(true);
 
         this._staffService
@@ -81,6 +82,6 @@ export class StaffList implements OnInit {
     private _subscribeToRefetch() {
         this._dataTableConfig.tableConfig.refetchEvent
             .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe(() => this.getData());
+            .subscribe(() => this.fetchData());
     }
 }

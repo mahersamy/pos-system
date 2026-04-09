@@ -75,6 +75,9 @@
     --btn-secondary-hover: var(--pink-200);
     --btn-secondary-disabled-bg: rgba(250, 193, 217, 0.05);
     --btn-secondary-disabled-text: rgba(255, 255, 255, 0.3);
+
+    --surface-gradient-bg: linear-gradient(180deg, rgba(26, 28, 30, 0.88) 0%, #121315 100%);
+    --surface-gradient-border: rgba(255, 255, 255, 0.176);
     // Checkbox
     --p-checkbox-checked-background: var(--primary-pink) !important;
     --p-checkbox-checked-border-color: var(--primary-pink) !important;

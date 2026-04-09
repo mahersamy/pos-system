@@ -61,7 +61,7 @@ export class NotificationService {
             message: payload.notification?.body  ?? payload.data?.['message'] ?? '',
             type: (payload.data?.['type'] as NotificationType) ?? NotificationType.ANNOUNCEMENT,
             status: (payload.data?.['status'] as NotificationStatus) ?? NotificationStatus.SENT,
-            createdAt: new Date().toISOString(),
+            sentAt: new Date().toISOString(),
             metadata: payload.data as Record<string, string>,
           };
 

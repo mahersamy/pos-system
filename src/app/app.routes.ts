@@ -33,6 +33,12 @@ export const routes: Routes = [
                 data: {title: "Notifications"},
                 loadComponent: () =>
                     import("./features/notification/pages/notification-list/notification-list").then((m) => m.NotificationList),
+            },
+            {
+                path: "notifications/:id",
+                data: {title: "Notification Details"},
+                loadComponent: () =>
+                    import("./features/notification/pages/notification-detail/notification-detail").then((m) => m.NotificationDetail),
             }
         ],
     },

@@ -10,7 +10,7 @@ import { routes } from "./app.routes";
 import { provideClientHydration, withEventReplay } from "@angular/platform-browser";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { authInterceptor } from "./core/interceptors/auth-interceptor";
-import { environment } from "../environments/environment";
+import { errorHandlingInterceptor } from "./core/interceptors/error-handling.interceptor";
 import { TranslateModule } from "@ngx-translate/core";
 import { DialogService } from "primeng/dynamicdialog";
 import { MessageService } from "primeng/api";
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     providers: [
         provideBrowserGlobalErrorListeners(),
         provideRouter(routes),
-        provideHttpClient(withInterceptors([authInterceptor])),
+        provideHttpClient(withInterceptors([authInterceptor, errorHandlingInterceptor])),
         provideClientHydration(withEventReplay()),
         providePrimeNG({
             theme: {

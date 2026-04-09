@@ -57,7 +57,9 @@
                 // Scrolls when items exceed available height
                 overflow-y: auto;
                 scrollbar-width: none; // Firefox
-                &::-webkit-scrollbar { display: none; } // Chrome/Safari
+                &::-webkit-scrollbar {
+                    display: none;
+                } // Chrome/Safari
 
                 .nav_item {
                     cursor: pointer;
@@ -108,7 +110,7 @@
             font-weight: 400;
             font-size: 1rem;
             cursor: pointer;
-            width: 100%;     // Expand to center the content
+            width: 100%; // Expand to center the content
             text-align: center;
             img {
                 margin: 0 auto;
@@ -151,8 +153,10 @@
         justify-content: center;
         font-size: 1.25rem;
         cursor: pointer;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+
         &:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 16px rgba(250, 193, 217, 0.6);

@@ -11,7 +11,7 @@ export interface ApiNotification {
   message: string;
   type: NotificationType;
   status: NotificationStatus;
-  createdAt: string;
+  sentAt: string;
   metadata?: Record<string, string>;
 }
 

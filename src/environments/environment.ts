@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   stage: 'development',
-  apiUrl: 'http://localhost:3000',
+  apiUrl: 'https://pos-backend-inky-two.vercel.app',
   firebaseConfig: {
     vapidKey: 'BI_nRWFJ8J6uQA4TKv9tzIDa4o1WiOq9pWSr2YnoclQrCzB2aNUtRdhXAiOKuWYb59koCfTj-lNNPw_Lbu_kYQk',
     apiKey: 'AIzaSyBRtmJnj7sqGifU9uAxrwF6EIrWVkNUdTw',

@@ -1,4 +1,5 @@
-import { Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, OnInit, output, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiNotification } from '../../models/notification.model';
 import { CommonModule, DatePipe, KeyValuePipe } from '@angular/common';
 @Component({
@@ -8,10 +9,18 @@ import { CommonModule, DatePipe, KeyValuePipe } from '@angular/common';
   styleUrl: './notification-card.scss',
 })
 export class NotificationCard {
+  private router = inject(Router);
+
   notification = input.required<ApiNotification>();
 
   /** Emits the notification to delete — parent decides what to do with it */
   delete = output<ApiNotification>();
+
+  goToDetail() {
+    this.router.navigate(['/main/notifications', this.notification()._id], {
+      state: { data: this.notification() }
+    });
+  }
 
   getIconClass(): string {
     const type = this.notification().type?.toLowerCase();

@@ -1,19 +1,19 @@
 <div>
     <p-table
-        [value]="_dataTableConfig.loading() ? skeletonRows : _dataTableConfig.rows()"
+        [value]="_dataTableConfig.tableConfig.loading() ? skeletonRows : _dataTableConfig.tableConfig.rows()"
         [(selection)]="selectedItems"
-        [dataKey]="_dataTableConfig.dataKey()"
+        [dataKey]="_dataTableConfig.tableConfig.dataKey()"
         [pt]="_primeTableConfig"
         [tableStyle]="{ 'min-width': '50rem' }"
         [scrollable]="true"
     >
         <ng-template #header>
             <tr>
-                @if (_dataTableConfig.isSelectable()) {
+                @if (_dataTableConfig.tableConfig.isSelectable()) {
                 <th style="width: 4rem">
                     <p-tableHeaderCheckbox />
                 </th>
-                } @for (column of _dataTableConfig.columns(); track
+                } @for (column of _dataTableConfig.tableConfig.columns(); track
                 column.field) {
                 <th
                     class="text-center"
@@ -21,7 +21,7 @@
                 >
                     {{ column.header }}
                 </th>
-                } @if (_dataTableConfig.actions().length > 0) {
+                } @if (_dataTableConfig.tableConfig.actions().length > 0) {
                 <th
                     class="text-center"
                     pFrozenColumn
@@ -35,14 +35,14 @@
             let-data
             let-rowIndex="rowIndex"
         >
-            @if (_dataTableConfig.loading()) {
+            @if (_dataTableConfig.tableConfig.loading()) {
             <tr>
-                @if (_dataTableConfig.isSelectable()) {
+                @if (_dataTableConfig.tableConfig.isSelectable()) {
                 <td><p-skeleton /></td>
-                } @for (column of _dataTableConfig.columns(); track
+                } @for (column of _dataTableConfig.tableConfig.columns(); track
                 column.field) {
                 <td><p-skeleton /></td>
-                } @if (_dataTableConfig.actions().length > 0) {
+                } @if (_dataTableConfig.tableConfig.actions().length > 0) {
                 <td
                     pFrozenColumn
                     alignFrozen="right"
@@ -53,11 +53,11 @@
             </tr>
             } @else {
             <tr [class]="rowIndex % 2 === 0 ? 'row-even' : 'row-odd'">
-                @if (_dataTableConfig.isSelectable()) {
+                @if (_dataTableConfig.tableConfig.isSelectable()) {
                 <td>
                     <p-tableCheckbox [value]="data" />
                 </td>
-                } @for (column of _dataTableConfig.columns(); track
+                } @for (column of _dataTableConfig.tableConfig.columns(); track
                 column.field) {
                 <td>
                     @switch (column.type) { @case (_tableColumnType.ID) {
@@ -100,14 +100,14 @@
                     />
                     } }
                 </td>
-                } @if (_dataTableConfig.actions().length > 0) {
+                } @if (_dataTableConfig.tableConfig.actions().length > 0) {
                 <td
                     class="text-center"
                     pFrozenColumn
                     alignFrozen="right"
                 >
                     <div class="d-flex justify-content-center gap-2">
-                        @for (action of _dataTableConfig.actions(); track
+                        @for (action of _dataTableConfig.tableConfig.actions(); track
                         action.icon) {
                         <button
                             type="button"
@@ -127,9 +127,9 @@
             <tr>
                 <td
                     [attr.colspan]="
-            _dataTableConfig.columns().length +
-            (_dataTableConfig.isSelectable() ? 1 : 0) +
-            (_dataTableConfig.actions().length > 0 ? 1 : 0)
+            _dataTableConfig.tableConfig.columns().length +
+            (_dataTableConfig.tableConfig.isSelectable() ? 1 : 0) +
+            (_dataTableConfig.tableConfig.actions().length > 0 ? 1 : 0)
           "
                     class="text-center p-8"
                 >

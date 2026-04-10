@@ -1,3 +1,5 @@
+/* Because ViewEncapsulation is None, .sidebar styles must be cleanly scoped */
+
 .sidebar {
     height: 100vh;
     padding: 1.875rem 1.6875rem;
@@ -5,161 +7,163 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
+    align-items: stretch;
     box-sizing: border-box;
 
-    border-top-right-radius: 1.875rem;
-    border-bottom-right-radius: 1.875rem;
-}
+    &.desktop-sidebar {
+        position: sticky;
+        top: 0;
+        border-top-right-radius: 1.875rem;
+        border-bottom-right-radius: 1.875rem;
+    }
 
-.sidebar_header {
-    .sidebar__title {
-        margin-bottom: 1.5813rem;
-        color: var(--side-title);
-        font-family: var(--font-1);
-        font-weight: 600;
-        font-size: 1.2537rem;
-        line-height: 100%;
-        letter-spacing: 0%;
-        text-align: center;
+    &.mobile-sidebar {
+        padding: 0; // drawer handles surrounding if needed, but we'll pad the layout
+        padding-bottom: 2rem;
     }
-    .nav_list {
-        list-style: none;
-        text-align: center;
-        padding: 0;
-        .nav_item {
-            cursor: pointer;
-            padding-block: 0.8125rem;
-            .nav_icon {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 1.8438rem;
-                height: 1.8438rem;
-                border-radius: 50%;
-                background-color: var(--side-nav-icon-bg);
-                margin: 0 auto 0.5rem;
-            }
-            .nav_label {
-                font-family: var(--font-1);
-                font-weight: 400;
-                font-size: 1rem;
-                color: var(--side-nav-item-color);
-            }
-        }
-        .bottom-border {
-            border-bottom: 0.74px solid var(--side-nav-item-border) !important;
-        }
-        .nav_item--active {
-            padding-inline: 20px;
-            border-radius: 7.43px;
-            background: var(--side-nav-item-active-bg);
-            .nav_label {
-                color: var(--side-nav-item-active-text);
-            }
-        }
-    }
-}
-.sidebar__footer {
-    .logout-btn {
-        background-color: transparent;
-        border: none;
-        color: var(--side-nav-item-color);
-        font-family: var(--font-1);
-        font-weight: 400;
-        font-size: 1rem;
-        img {
-            margin: auto;
-        }
-    }
-}
-@media (max-width: 1024px) {
-    .sidebar {
-        height: auto !important;
-        width: 100% !important;
-        flex-direction: row !important;
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        top: auto !important;
-        padding: 0.5rem 0.25rem !important;
-        z-index: 1000;
-        border-radius: 1.75rem 1.75rem 0 0 !important;
-        border-right: none !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        justify-content: center !important;
-        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
 
-        .sidebar_header {
+    .sidebar_header {
+        flex: 1 1 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        width: 100%;
+
+        .sidebar__title {
+            margin-bottom: 1.5813rem;
+            color: var(--side-title);
+            font-family: var(--font-1);
+            font-weight: 600;
+            font-size: 1.2537rem;
+            line-height: 100%;
+            letter-spacing: 0%;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar__nav {
+            flex: 1 1 0;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
             width: 100%;
-            margin: 0;
-
-            .sidebar__title {
-                display: none !important;
-            }
 
             .nav_list {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                align-items: center;
-                width: 100%;
+                list-style: none;
+                text-align: center;
+                padding: 0;
                 margin: 0;
-                gap: 0;
+                // Scrolls when items exceed available height
+                overflow-y: auto;
+                scrollbar-width: none; // Firefox
+                &::-webkit-scrollbar {
+                    display: none;
+                } // Chrome/Safari
 
                 .nav_item {
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    padding: 0.4rem 0 !important;
-                    transition: transform 0.2s;
+                    cursor: pointer;
+                    padding-block: 0.8125rem;
+                    display: block; // Fix list items misbehaving
 
                     .nav_icon {
-                        width: 1.6rem !important;
-                        height: 1.6rem !important;
-                        margin: 0 auto 0.2rem !important;
-                        background-color: transparent !important;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 1.8438rem;
+                        height: 1.8438rem;
+                        border-radius: 50%;
+                        background-color: var(--side-nav-icon-bg);
+                        margin: 0 auto 0.5rem;
                     }
-
                     .nav_label {
-                        font-size: 0.725rem;
-                        color: var(--text-light);
-                        opacity: 0.6;
-                        font-weight: 500;
-                    }
-
-                    &.nav_item--active {
-                        padding-inline: 0 !important;
-                        background: transparent !important;
-
-                        .nav_icon {
-                            background-color: rgba(250, 193, 217, 0.15) !important;
-                            transform: translateY(-2px);
-                        }
-
-                        .nav_label {
-                            color: var(--primary-pink) !important;
-                            opacity: 1;
-                        }
-                    }
-
-                    &:active {
-                        transform: scale(0.92);
+                        font-family: var(--font-1);
+                        font-weight: 400;
+                        font-size: 1rem;
+                        color: var(--side-nav-item-color);
                     }
                 }
-
                 .bottom-border {
-                    border-bottom: none !important;
-                    border-right: none !important;
+                    border-bottom: 0.74px solid var(--side-nav-item-border) !important;
+                }
+                .nav_item--active {
+                    padding-inline: 20px;
+                    border-radius: 7.43px;
+                    background: var(--side-nav-item-active-bg);
+                    .nav_label {
+                        color: var(--side-nav-item-active-text);
+                    }
                 }
             }
         }
+    }
 
-        .sidebar__footer {
-            display: none !important;
+    .sidebar__footer {
+        flex-shrink: 0;
+        padding-top: 0.75rem;
+
+        .logout-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--side-nav-item-color);
+            font-family: var(--font-1);
+            font-weight: 400;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%; // Expand to center the content
+            text-align: center;
+            img {
+                margin: 0 auto;
+            }
+            .nav_label {
+                display: block; // Keep label below icon
+            }
+        }
+    }
+}
+
+// FAB hidden by default on desktop
+.mobile-menu-fab {
+    display: none;
+}
+
+// ─── Mobile Media Query ──────────────────────────────────────────────────
+
+@media (max-width: 1024px) {
+    // Hide the desktop sidebar completely on mobile screens
+    .desktop-sidebar {
+        display: none !important;
+    }
+
+    // Show the floating action button for the menu on mobile
+    .mobile-menu-fab {
+        display: flex;
+        position: fixed;
+        bottom: 2rem;
+        right: 1.5rem;
+        z-index: 1000;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background-color: var(--primary-pink);
+        color: var(--bg-main);
+        border: none;
+        box-shadow: 0 4px 12px rgba(250, 193, 217, 0.4);
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        cursor: pointer;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+
+        &:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(250, 193, 217, 0.6);
+        }
+
+        &:active {
+            transform: scale(0.95);
         }
     }
 }

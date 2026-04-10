@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, DestroyRef} from "@angular/core";
+import {Component, inject, OnInit, DestroyRef, output} from "@angular/core";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {LayoutService} from "../../core/services/layout/layout";
 import {Router, NavigationEnd} from "@angular/router";

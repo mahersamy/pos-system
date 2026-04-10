@@ -12,8 +12,8 @@ export class EmptyState {
 
     /** Resets the error flag and triggers a reactive refetch stream signal */
     refetch() {
-        this._dataTableConfig.refetchEvent.next();
-        this._dataTableConfig.isError.set(false);
-        this._dataTableConfig.loading.set(true);
+        this._dataTableConfig.tableConfig.refetchEvent.next();
+        this._dataTableConfig.tableConfig.isError.set(false);
+        this._dataTableConfig.tableConfig.loading.set(true);
     }
 }

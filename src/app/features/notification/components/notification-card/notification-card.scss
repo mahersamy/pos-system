@@ -1,6 +1,6 @@
 .notification-card {
-  background-color: var(--secondary-color);
-  border: 1px solid var(--gray-800);
+  background: var(--surface-gradient-bg);
+  border: 1px solid var(--surface-gradient-border);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
@@ -66,21 +66,28 @@
 
 .notification-date {
   white-space: nowrap;
-  opacity: 0.7;
-  color: var(--text-muted);
+  color: #9ca3af; 
+  font-weight: 500;
 }
 
 .btn-outline-delete {
-  border: 1px solid var(--gray-800);
-  background-color: transparent;
+  border: 1px solid var(--surface-gradient-border);
+  background: var(--surface-gradient-bg);
   color: var(--text-light);
   font-size: 0.85rem;
+  padding: 0.5rem 1rem;
   transition: all 0.2s ease;
+  line-height: 1;
+
+  i {
+    color: #ff4747;
+    font-size: 1.1rem;
+  }
 
   &:hover {
-    background-color: rgba(231, 0, 0, 0.1);
-    border-color: var(--error-color);
-    color: var(--error-color);
+    background-color: rgba(255, 71, 71, 0.1);
+    border-color: #ff4747;
+    color: #fff;
   }
 }
 

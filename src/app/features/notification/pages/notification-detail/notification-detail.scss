@@ -1,0 +1,98 @@
+.notification-detail-page {
+  
+  // Force bootstrap classes to map identically to your var files in case they were dark elsewhere
+  .text-light { color: var(--text-light) !important; }
+  .text-muted { color: var(--text-main) !important; }
+
+  .page-title {
+    font-family: var(--font-1);
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+    font-weight: 600;
+    color: var(--text-light);
+  }
+
+  .page-subtitle {
+    font-size: 0.95rem;
+    color: var(--text-main) !important;
+  }
+
+  .detail-card {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--gray-800);
+  }
+
+  .card-header {
+    border-bottom: 1px solid var(--gray-800);
+    padding-bottom: 1.25rem;
+
+    i {
+      color: var(--text-main) !important; // explicitly light up header icons
+    }
+
+    h5 {
+      font-size: 1.1rem;
+      letter-spacing: -0.3px;
+      color: var(--text-light);
+    }
+  }
+
+  .info-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-main) !important;
+  }
+  
+  .info-value {
+    color: var(--text-light) !important;
+  }
+
+  .code-box {
+    background-color: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    color: var(--text-light);
+    font-size: 0.95rem;
+    
+    .btn-icon, i {
+        cursor: pointer;
+        transition: color 0.2s ease;
+        color: var(--text-main) !important;
+        &:hover {
+            color: var(--text-light) !important;
+        }
+    }
+  }
+
+  .badge-sent {
+    background-color: var(--green-500);
+    color: var(--gray-900) !important;
+    font-size: 0.85rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    i {
+        font-size: 1rem;
+        color: var(--gray-900) !important;
+    }
+  }
+
+  .badge-channel, .badge-type {
+    background-color: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    font-size: 0.85rem;
+    color: var(--text-main) !important;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    
+    i {
+      color: var(--text-main) !important;
+    }
+  }
+
+  .meta-key {
+    color: var(--text-main) !important;
+  }
+  
+  .meta-value {
+    color: var(--text-light) !important;
+  }
+}

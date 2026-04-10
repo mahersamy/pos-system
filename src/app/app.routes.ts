@@ -3,6 +3,7 @@ import {Login} from "./features/auth/login/login";
 import {ForgotPassword} from "./features/auth/forgot-password/forgot-password";
 import {authGuard, publicGuard} from "./core/guards/auth-guard/auth-guard";
 import {NotFound} from "./layout/not-found/not-found";
+import { staffRoutes } from "./features/staff/routes/staff.routes";
 
 export const routes: Routes = [
     {
@@ -20,22 +21,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () => import("./layout/main-layout/main-layout").then((m) => m.MainLayout),
         children: [
-            {
-                path: "staff",
-                data: {title: "Staff List"},
-                loadComponent: () =>
-                    import("./features/staff/components/staff-list/staff-list").then(
-                        (m) => m.StaffList
-                    ),
-            },
-            {
-                path: "staff/staff-details/:id",
-                data: {title: "Staff Details"},
-                loadComponent: () =>
-                    import("./features/staff/components/staff-details/staff-details").then(
-                        (m) => m.StaffDetails
-                    ),
-            },
+           ...staffRoutes,
             {
                 path: "profile",
                 data: {title: "User Profile"},
@@ -47,6 +33,12 @@ export const routes: Routes = [
                 data: {title: "Notifications"},
                 loadComponent: () =>
                     import("./features/notification/pages/notification-list/notification-list").then((m) => m.NotificationList),
+            },
+            {
+                path: "notifications/:id",
+                data: {title: "Notification Details"},
+                loadComponent: () =>
+                    import("./features/notification/pages/notification-detail/notification-detail").then((m) => m.NotificationDetail),
             }
         ],
     },

@@ -1,11 +1,11 @@
 <div
     class="empty-state-container animate-fade-in"
-    [class.is-error]="_dataTableConfig.isError()"
+    [class.is-error]="_dataTableConfig.tableConfig.isError()"
 >
     <div class="glass-card">
         <div class="icon-orb">
             <div class="orb-inner">
-                @if (_dataTableConfig.isError()) {
+                @if (_dataTableConfig.tableConfig.isError()) {
                 <i class="fa-solid fa-triangle-exclamation pulse-icon"></i>
                 } @else {
                 <i class="fa-solid fa-box-open floating-icon"></i>
@@ -16,7 +16,7 @@
         <div
             class="content-text text-center d-flex justify-content-center align-items-center flex-column"
         >
-            @if (_dataTableConfig.isError()) {
+            @if (_dataTableConfig.tableConfig.isError()) {
             <h3 class="title error-gradient">System Interruption</h3>
             <p class="description">
                 We experienced a technical hitch while gathering your records.
@@ -29,7 +29,7 @@
                 <i class="fa-solid fa-rotate-right mr-2"></i>
                 Retry Connection
             </button>
-            } @else if (_dataTableConfig.rows().length === 0) {
+            } @else if (_dataTableConfig.tableConfig.rows().length === 0) {
             <h3 class="title">No Data</h3>
             <p class="description">
                 It looks like there’s nothing on the list right now. Try

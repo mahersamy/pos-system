@@ -16,7 +16,7 @@ import {passwordValidator} from "../../../shared/validators/password.validator";
     templateUrl: "./login.html",
     styleUrl: "./login.scss",
 })
-export class Login implements OnInit {
+export class Login {
     private readonly _authService = inject(AuthService);
     private readonly _formBuilder = inject(FormBuilder);
     private readonly _router = inject(Router);
@@ -50,22 +50,7 @@ export class Login implements OnInit {
         },
     };
 
-    ngOnInit(): void {
-        this._authService
-            .getLoggedUserProfile()
-            .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe({
-                next: (response) => {
-                    if (response) {
-                        this._router.navigate(["/main"]);
-                    }
-                },
-                error: () => {
-                    // Fail silently, proceed with login flow
-                },
-            });
-    }
-
+    
     /**
      * Submits the login form logic. If invalid, touches all fields to show errors.
      * Starts loaders and authenticates the user otherwise.

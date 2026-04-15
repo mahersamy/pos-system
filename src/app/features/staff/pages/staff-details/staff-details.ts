@@ -1,6 +1,6 @@
 import {Component, inject, OnInit, signal, DestroyRef} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {StaffService} from "../../services/staff";
+import {StaffService} from "../../services/staff.service";
 import {StaffAdaptModel} from "../../models/staff-adapt.model";
 import {CommonModule} from "@angular/common";
 import {SkeletonModule} from "primeng/skeleton";

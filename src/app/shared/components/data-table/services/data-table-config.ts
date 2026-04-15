@@ -1,12 +1,13 @@
 import {Injectable, signal, WritableSignal} from "@angular/core";
 import {ColumnConfig} from "../models/colmun-config.model";
 import {Subject} from "rxjs";
-import {ActionConfig} from "../models/actions.mode";
+import {ActionConfig, BulkActionConfig} from "../models/actions.mode";
 
 // ─── Table Config ─────────────────────────────────────────────────────────────
 export interface TableConfig<T = any> {
     columns: WritableSignal<ColumnConfig[]>;
     actions: WritableSignal<ActionConfig[]>;
+    bulkActions: WritableSignal<BulkActionConfig[]>;
     rows: WritableSignal<T[]>;
     dataKey: WritableSignal<string>;
     loading: WritableSignal<boolean>;
@@ -31,6 +32,7 @@ export class DataTableConfig<T = any> {
     readonly tableConfig: TableConfig<T> = {
         columns:      signal([]),
         actions:      signal([]),
+        bulkActions:  signal([]),
         rows:         signal([]),
         dataKey:      signal("_id"),
         loading:      signal(true),

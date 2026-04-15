@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../../../../environments/environment";
 import {GlobalResponse} from "../../../../core/models/response-global.model";
 import {User} from "../../../../core/models/user.model";
+import {BACKEND_ROUTE} from "../../../../core/constants/backend.route";
 
 @Injectable({
     providedIn: "root",
@@ -16,7 +17,7 @@ export class UserProfileService {
      * @returns {Observable<GlobalResponse<User>>} The raw server user bindings
      */
     getProfile(): Observable<GlobalResponse<User>> {
-        const url = `${environment.apiUrl}/api/v1/users/profile`;
+        const url = `${environment.apiUrl}${BACKEND_ROUTE.users.profile}`;
         return this._http.get<GlobalResponse<User>>(url);
     }
 
@@ -27,14 +28,14 @@ export class UserProfileService {
      * @returns {Observable<GlobalResponse<User>>} Response status mapping
      */
     uploadProfileImage(userId: string, file: File): Observable<GlobalResponse<User>> {
-        const url = `${environment.apiUrl}/api/v1/users/${userId}/image`;
+        const url = `${environment.apiUrl}${BACKEND_ROUTE.users.base}/${userId}/image`;
         const formData = new FormData();
         formData.append("image", file);
         return this._http.patch<GlobalResponse<User>>(url, formData);
     }
 
     updateProfile(userId: string, data: User): Observable<GlobalResponse<User>> {
-        const url = `${environment.apiUrl}/api/v1/users/${userId}`;
+        const url = `${environment.apiUrl}${BACKEND_ROUTE.users.base}/${userId}`;
         return this._http.patch<GlobalResponse<User>>(url, data);
     }
 }

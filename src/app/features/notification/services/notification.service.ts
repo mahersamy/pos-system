@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { ApiNotification } from '../models/notification.model';
-import { GlobalResponse } from '../../../core/models/response-global.model';
+import { GlobalResponse, GlobalResponseWithCursor } from '../../../core/models/response-global.model';
 import { BACKEND_ROUTE } from '../../../core/constants/backend.route';
 import { environment } from '../../../../environments/environment';
 import { NotificationType } from '../enums/notification.type.enum';
@@ -26,14 +26,14 @@ export class NotificationService {
   // ─── API Methods ────────────────────────────────────────────────────────────
 
   /** Fetch the paginated inbox for the current user. */
-  getInbox(limit = 5, cursor = ''): Observable<GlobalResponse<ApiNotification[]>> {
-    const url = `${environment.apiUrl}${BACKEND_ROUTE.getInbox}?limit=${limit}&cursor=${cursor}`;
-    return this._http.get<GlobalResponse<ApiNotification[]>>(url);
+  getInbox(limit = 5, cursor = ''): Observable<GlobalResponseWithCursor<ApiNotification[]>> {
+    const url = `${environment.apiUrl}${BACKEND_ROUTE.notification.inbox}?limit=${limit}&cursor=${cursor}`;
+    return this._http.get<GlobalResponseWithCursor<ApiNotification[]>>(url);
   }
 
   /** Delete a single notification by id. */
   deleteNotification(id: string): Observable<GlobalResponse<void>> {
-    const url = `${environment.apiUrl}${BACKEND_ROUTE.deleteNotification}/${id}`;
+    const url = `${environment.apiUrl}${BACKEND_ROUTE.notification.base}/${id}`;
     return this._http.delete<GlobalResponse<void>>(url);
   }
 
@@ -41,7 +41,7 @@ export class NotificationService {
 
   setFcmToken(token: string): void {
     this._http
-      .post(environment.apiUrl + BACKEND_ROUTE.addFcmToken, { token })
+      .post(environment.apiUrl + BACKEND_ROUTE.notification.addFcmToken, { token })
       .subscribe();
   }
 

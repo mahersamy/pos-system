@@ -1,96 +1,99 @@
 .notification-card {
-  background: var(--surface-gradient-bg);
-  border: 1px solid var(--surface-gradient-border);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--surface-gradient-bg);
+    border: 1px solid var(--surface-gradient-border);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    height: 10rem;
 
-  &:hover {
-    border-color: var(--gray-700);
-  }
+    &:hover {
+        border-color: var(--gray-700);
+    }
 }
 
 .icon-container {
-  width: 50px;
-  height: 50px;
-  background-color: var(--primary-pink);
-  color: var(--black);
-  border-radius: var(--border-radius, 8px);
-  font-size: 1.25rem;
+    width: 3.125rem;
+    height: 3.125rem;
+    background-color: var(--primary-pink);
+    color: var(--black);
+    border-radius: var(--border-radius, 8px);
+    font-size: 1.25rem;
 }
 
 .notification-title {
-  font-size: 1.05rem;
-  letter-spacing: -0.3px;
-  color: var(--text-light);
+    font-size: 1.05rem;
+    letter-spacing: -0.3px;
+    color: var(--text-light);
 }
 
 .status-badge {
-  background-color: var(--primary-pink);
-  color: var(--black);
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.35em 0.7em;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+    background-color: var(--primary-pink);
+    color: var(--black);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.35em 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .more-badge {
-  background-color: var(--gray-700);
-  color: var(--text-light);
-  font-size: 0.75rem;
-  font-weight: 500;
-  padding: 0.35em 0.7em;
+    background-color: var(--gray-700);
+    color: var(--text-light);
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35em 0.7em;
 }
 
 .notification-message {
-  margin-bottom: 0.75rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: var(--text-light);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-light);
 }
 
 .metadata-pills {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-height: 6.25rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-height: 6.25rem;
 }
 
 .meta-pill {
-  background-color: var(--gray-900);
-  border: 1px solid var(--gray-800);
-  color: var(--text-muted);
-  font-size: 0.75rem;
-  display: inline-flex;
-  align-items: center;
+    background-color: var(--gray-900);
+    border: 1px solid var(--gray-800);
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
 }
 
 .notification-date {
-  white-space: nowrap;
-  color: #9ca3af; 
-  font-weight: 500;
+    white-space: nowrap;
+    color: #9ca3af;
+    font-weight: 500;
 }
 
 .btn-outline-delete {
-  border: 1px solid var(--surface-gradient-border);
-  background: var(--surface-gradient-bg);
-  color: var(--text-light);
-  font-size: 0.85rem;
-  padding: 0.5rem 1rem;
-  transition: all 0.2s ease;
-  line-height: 1;
+    border: 1px solid var(--surface-gradient-border);
+    background: var(--surface-gradient-bg);
+    color: var(--text-light);
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+    line-height: 1;
 
-  i {
-    color: #ff4747;
-    font-size: 1.1rem;
-  }
+    i {
+        color: #ff4747;
+        font-size: 1.1rem;
+    }
 
-  &:hover {
-    background-color: rgba(255, 71, 71, 0.1);
-    border-color: #ff4747;
-    color: #fff;
-  }
+    &:hover {
+        background-color: rgba(255, 71, 71, 0.1);
+        border-color: #ff4747;
+        color: #fff;
+    }
 }
 
 .fs-7 {
-  font-size: 0.8rem;
+    font-size: 0.8rem;
 }

@@ -1,4 +1,5 @@
-import {Component, inject} from "@angular/core";
+import {Component, inject, DestroyRef, OnInit} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {TableModule} from "primeng/table";
 import {DataTableConfig} from "./services/data-table-config";
 import {SkeletonModule} from "primeng/skeleton";
@@ -8,7 +9,7 @@ import {EmptyState} from "./components/empty-state/empty-state";
 import {TableColumnType} from "./enums/colmun-type.enum";
 import {DatePipe, CurrencyPipe} from "@angular/common";
 import {UserCell} from "./components/user-cell/user-cell";
-import {ActionConfig} from "./models/actions.mode";
+import {ActionConfig, BulkActionConfig} from "./models/actions.mode";
 
 @Component({
     selector: "app-data-table",
@@ -25,10 +26,11 @@ import {ActionConfig} from "./models/actions.mode";
     templateUrl: "./data-table.html",
     styleUrl: "./data-table.scss",
 })
-export class DataTable {
+export class DataTable implements OnInit {
     protected readonly _dataTableConfig = inject(DataTableConfig);
     protected readonly _tableConfig = this._dataTableConfig.tableConfig;
     protected readonly _tableColumnType = TableColumnType;
+    private readonly _destroyRef = inject(DestroyRef);
 
     /** Dummy array used for skeleton loader rendering */
     skeletonRows = Array(10).fill({});
@@ -42,6 +44,14 @@ export class DataTable {
             class: "custom-table",
         },
     };
+
+    ngOnInit() {
+        this._dataTableConfig.tableConfig.refetchEvent
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe(() => {
+                this.selectedItems = null; // Clear selection on refetch
+            });
+    }
 
     /**
      * Dynamically resolves nested string attributes mapping (e.g., "staffProfile.fullname")
@@ -79,5 +89,18 @@ export class DataTable {
         event.preventDefault();
         event.stopPropagation();
         action.func(data);
+    }
+
+    /**
+     * Executes custom bulk actions on selected items
+     * @param {Event} event - The DOM click event
+     * @param {BulkActionConfig} action - The bulk action details bound to the click
+     */
+    onBulkActionClick(event: Event, action: BulkActionConfig) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (this.selectedItems && this.selectedItems.length > 0) {
+            action.func(this.selectedItems);
+        }
     }
 }

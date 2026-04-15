@@ -2,6 +2,7 @@ import { Component, computed, input, OnInit, output, inject } from '@angular/cor
 import { Router } from '@angular/router';
 import { ApiNotification } from '../../models/notification.model';
 import { CommonModule, DatePipe, KeyValuePipe } from '@angular/common';
+import { NotificationService } from '../../services/notification.service';
 @Component({
   selector: 'app-notification-card',
   imports: [CommonModule, DatePipe, KeyValuePipe],
@@ -9,7 +10,8 @@ import { CommonModule, DatePipe, KeyValuePipe } from '@angular/common';
   styleUrl: './notification-card.scss',
 })
 export class NotificationCard {
-  private router = inject(Router);
+  private readonly router = inject(Router);
+  private readonly _notificationService = inject(NotificationService);
 
   notification = input.required<ApiNotification>();
 

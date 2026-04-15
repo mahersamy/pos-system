@@ -2,6 +2,8 @@ import { Component, computed, effect, inject, OnInit, signal } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../services/notification.service';
 import { ApiNotification } from '../../models/notification.model';
+import { NotificationType } from '../../enums/notification.type.enum';
+import { NotificationStatus } from '../../enums/notification-status.enum';
 import { NotificationCard } from '../../components/notification-card/notification-card';
 
 @Component({
@@ -16,6 +18,9 @@ export class NotificationList implements OnInit {
 
   readonly notifications = signal<ApiNotification[]>([]);
   readonly activeTab = signal<'all' | 'unread'>('all');
+
+  cursor = signal<string>('');
+  hasMore = signal<boolean>(true);
 
   readonly filteredNotifications = computed(() => {
     const list = this.notifications();
@@ -43,8 +48,12 @@ export class NotificationList implements OnInit {
   }
 
   loadNotifications(): void {
-    this._notificationService.getInbox(20).subscribe({
-      next: (response) => this.notifications.set(response.data),
+    this._notificationService.getInbox(20, this.cursor()).subscribe({
+      next: (response) => {
+        this.notifications.set([...this.notifications(), ...response.data]);
+        this.cursor.set(response.nextCursor);
+        this.hasMore.set(response.hasMore);
+      },
     });
   }
 
@@ -52,6 +61,10 @@ export class NotificationList implements OnInit {
     this.notifications.update(current =>
       current.map(n => ({ ...n, status: 'read' as ApiNotification['status'] }))
     );
+  }
+
+  trackById(index: number, item: ApiNotification): string {
+    return item._id;
   }
 
   /**

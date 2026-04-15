@@ -1,28 +1,53 @@
-<section class="notification-screen px-4 py-4">
+<section class="notification-screen px-4 py-4 d-flex flex-column">
+    <div
+        class="notification-controls d-flex justify-content-between align-items-center mb-4 flex-shrink-0"
+    >
+        <div class="tabs d-flex">
+            <button
+                class="tab-btn rounded-start px-4 py-2 border-0 fw-semibold"
+                [class.active]="activeTab() === 'all'"
+                (click)="activeTab.set('all')"
+            >
+                All
+            </button>
+            <button
+                class="tab-btn rounded-end px-4 py-2 border-0 fw-semibold"
+                [class.active]="activeTab() === 'unread'"
+                (click)="activeTab.set('unread')"
+            >
+                Unread
+            </button>
+        </div>
 
-  <div class="notification-controls d-flex justify-content-between align-items-center mb-4">
-    <div class="tabs d-flex">
-      <button class="tab-btn rounded-start px-4 py-2 border-0 fw-semibold" 
-              [class.active]="activeTab() === 'all'" 
-              (click)="activeTab.set('all')">All</button>
-      <button class="tab-btn rounded-end px-4 py-2 border-0 fw-semibold" 
-              [class.active]="activeTab() === 'unread'" 
-              (click)="activeTab.set('unread')">Unread</button>
+        <div class="d-flex align-items-center">
+            <span class="notifications-count me-3 fs-6"
+                >{{ notifications().length }} notifications</span
+            >
+            <button
+                class="btn mark-read-btn fw-semibold px-4"
+                (click)="markAllAsRead()"
+            >
+                Mark all as read
+            </button>
+        </div>
     </div>
-    
-    <div class="d-flex align-items-center">
-      <span class="notifications-count me-3 fs-6">{{ notifications().length }} notifications</span>
-      <button class="btn mark-read-btn fw-semibold px-4" (click)="markAllAsRead()">Mark all as read</button>
-    </div>
-  </div>
 
-  <div class="notifications-list d-flex flex-column gap-3">
-    @for (notification of filteredNotifications(); track notification._id || $index) {
-      <app-notification-card [notification]="notification" (delete)="deleteNotification($event)" />
-    } @empty {
-      <div class="empty-state text-center p-5 rounded-3">
-        No notifications found.
-      </div>
-    }
-  </div>
+    <div class="notifications-list flex-grow-1 overflow-auto gap-3">
+        @for (notification of filteredNotifications(); track trackById($index,
+        notification)) {
+        <app-notification-card
+            [notification]="notification"
+            (delete)="deleteNotification($event)"
+        >
+        </app-notification-card>
+        }
+    </div>
+
+    <button
+        [disabled]="!hasMore()"
+        class="btn btn-primary mt-3"
+        (click)="loadNotifications()"
+    >
+        Load More
+    </button>
 </section>

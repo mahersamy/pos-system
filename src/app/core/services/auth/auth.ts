@@ -8,6 +8,7 @@ import {environment} from "../../../../environments/environment";
 import {isPlatformBrowser} from "@angular/common";
 import {User} from "../../models/user.model";
 import {StorageKeys} from "../../constants/storage.config";
+import {BACKEND_ROUTE} from "../../constants/backend.route";
 
 export interface AuthResponse {
     credential: {
@@ -47,7 +48,7 @@ export class AuthService {
      * @returns {Observable<GlobalResponse<AuthResponse>>}
      */
     login(email: string, password: string): Observable<GlobalResponse<AuthResponse>> {
-        const loginUrl = `${environment.apiUrl}/api/v1/auth/login`;
+        const loginUrl = `${environment.apiUrl}${BACKEND_ROUTE.auth.login}`;
         return this._http
             .post<GlobalResponse<AuthResponse>>(loginUrl, {email, password})
             .pipe(tap((response) => this.handleAuthResponse(response)));
@@ -60,7 +61,7 @@ export class AuthService {
      * @returns {Observable<GlobalResponse<AuthResponse>>}
      */
     register(email: string, password: string): Observable<GlobalResponse<AuthResponse>> {
-        const registerUrl = `${environment.apiUrl}/api/v1/auth/register`;
+        const registerUrl = `${environment.apiUrl}${BACKEND_ROUTE.auth.register}`;
         return this._http
             .post<GlobalResponse<AuthResponse>>(registerUrl, {email, password})
             .pipe(tap((response) => this.handleAuthResponse(response)));
@@ -90,7 +91,7 @@ export class AuthService {
      * @returns {Observable<GlobalResponse<User>>} The raw server user bindings
      */
     getLoggedUserProfile(): Observable<GlobalResponse<User>> {
-        const url = `${environment.apiUrl}/api/v1/users/profile`;
+        const url = `${environment.apiUrl}${BACKEND_ROUTE.users.profile}`;
         return this._http.get<GlobalResponse<User>>(url).pipe(
             tap((response) => {
                 this.currentUser.set(response.data);

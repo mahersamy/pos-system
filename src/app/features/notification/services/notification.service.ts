@@ -37,6 +37,11 @@ export class NotificationService {
     return this._http.delete<GlobalResponse<void>>(url);
   }
 
+  markAsRead(notificationIds: string[]): Observable<GlobalResponse<void>> {
+    const url = `${environment.apiUrl}${BACKEND_ROUTE.notification.read}`;
+    return this._http.patch<GlobalResponse<void>>(url, { notificationIds });
+  }
+
   // ─── FCM Methods ────────────────────────────────────────────────────────────
 
   setFcmToken(token: string): void {
@@ -109,4 +114,7 @@ export class NotificationService {
       console.error('Error getting FCM token:', error);
     }
   }
+
+
+  
 }

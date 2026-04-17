@@ -32,9 +32,9 @@
         </div>
     </div>
 
-    <div class="notifications-list flex-grow-1 overflow-auto gap-3">
-        @for (notification of filteredNotifications(); track trackById($index,
-        notification)) {
+    @if(notifications().length > 0){
+            <div class="notifications-list flex-grow-1 overflow-auto gap-3">
+        @for (notification of filteredNotifications(); track notification._id) {
         <app-notification-card
             [notification]="notification"
             (delete)="deleteNotification($event)"
@@ -42,9 +42,10 @@
         </app-notification-card>
         }
     </div>
+    }
 
     <button
-        [disabled]="!hasMore()"
+        [disabled]="!hasMore() || notifications().length === 0 || loading()"
         class="btn btn-primary mt-3"
         (click)="loadNotifications()"
     >

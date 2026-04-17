@@ -15,5 +15,6 @@ export const BACKEND_ROUTE = {
         addFcmToken: "/api/v1/notification/add-fcm-token",
         inbox: "/api/v1/notification/inbox",
         base: "/api/v1/notification",
+        read: "/api/v1/notification/mark-as-read",
     },
 };

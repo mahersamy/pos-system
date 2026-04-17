@@ -21,6 +21,7 @@ export class NotificationList implements OnInit {
 
   cursor = signal<string>('');
   hasMore = signal<boolean>(true);
+  loading = signal<boolean>(false);
 
   readonly filteredNotifications = computed(() => {
     const list = this.notifications();
@@ -48,8 +49,10 @@ export class NotificationList implements OnInit {
   }
 
   loadNotifications(): void {
+    this.loading.set(true);
     this._notificationService.getInbox(20, this.cursor()).subscribe({
       next: (response) => {
+        this.loading.set(false);
         this.notifications.set([...this.notifications(), ...response.data]);
         this.cursor.set(response.nextCursor);
         this.hasMore.set(response.hasMore);
@@ -58,13 +61,13 @@ export class NotificationList implements OnInit {
   }
 
   markAllAsRead(): void {
-    this.notifications.update(current =>
-      current.map(n => ({ ...n, status: 'read' as ApiNotification['status'] }))
-    );
-  }
-
-  trackById(index: number, item: ApiNotification): string {
-    return item._id;
+    this.loading.set(true);
+    this._notificationService.markAsRead(this.notifications().map(n => n._id)).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.notifications.set(this.notifications().map(n => ({ ...n, status: 'read' as ApiNotification['status'] })));
+      }
+    });
   }
 
   /**

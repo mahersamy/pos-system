@@ -19,8 +19,12 @@ export class NotificationCard {
   delete = output<ApiNotification>();
 
   goToDetail() {
-    this.router.navigate(['/main/notifications', this.notification()._id], {
-      state: { data: this.notification() }
+    this._notificationService.markAsRead([this.notification()._id]).subscribe({
+      next: () => {
+        this.router.navigate(['/main/notifications', this.notification()._id], {
+          state: { data: this.notification() }
+        });
+      }
     });
   }
 

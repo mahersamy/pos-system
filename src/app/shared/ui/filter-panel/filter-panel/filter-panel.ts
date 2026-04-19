@@ -1,38 +1,14 @@
-import {
-  Component, Input, Output, EventEmitter,
-  OnInit, HostListener
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {
+  FilterFieldType,
+  FilterFieldConfig,
+  FilterOutput,
+} from './../interface/filter-panel.models';
 
-// ─── Field Types ─────────────────────────────────────────
-export enum FilterFieldType {
-  SELECT = 'SELECT',
-  TEXT   = 'TEXT',
-  RANGE  = 'RANGE',
-  DATE   = 'DATE',
-}
-
-// ─── Field Config  ─────────
-export interface FilterFieldConfig {
-  type: FilterFieldType;
-  controlName: string;       
-  label: string;             
-  placeholder?: string;
-  // SELECT 
-  typeSelect?: 'single' | 'multi';
-  select_list?: { label: string; value: any }[];
-  // RANGE
-  rangeMin?: number;
-  rangeMax?: number;
-}
-
-// ─── Output object ───────────────────────────────────────
-export interface FilterOutput {
-  search: string;
-  sort: 'asc' | 'desc' | null;
-  [key: string]: any;        // dynamic filter keys
-}
+export { FilterFieldType };
+export type { FilterFieldConfig, FilterOutput };
 
 @Component({
   selector: 'app-filter-panel',
@@ -43,7 +19,7 @@ export interface FilterOutput {
 })
 export class FilterPanel implements OnInit {
   @Input() configs: FilterFieldConfig[] = [];
-  @Input() searchQuery: string = '';   // passed in from parent (search bar)
+  @Input() searchQuery: string = '';
 
   @Output() applyFilter = new EventEmitter<FilterOutput>();
 
@@ -60,7 +36,7 @@ export class FilterPanel implements OnInit {
 
   initValues() {
     this.fieldValues = {};
-    this.configs.forEach(c => {
+    this.configs.forEach((c) => {
       if (c.type === FilterFieldType.RANGE) {
         this.fieldValues[c.controlName] = { min: null, max: null };
       } else {
@@ -76,19 +52,28 @@ export class FilterPanel implements OnInit {
   apply() {
     const result: FilterOutput = {
       search: this.searchQuery,
-      sort: this.sortDirection,
+      sort: this.sortDirection ?? 'asc',
     };
 
-    this.configs.forEach(c => {
-      const val = this.fieldValues[c.controlName];
-      if (val !== null && val !== '' && val !== undefined) {
-        result[c.controlName] = val;
-      }
-    });
+    
+    this.configs.forEach((c) => {
+  const val = this.fieldValues[c.controlName];
+  if (c.type === FilterFieldType.RANGE) {
+    if (val.min !== null || val.max !== null) {
+      result[c.controlName] = {
+        min: val.min ?? 0,
+        max: val.max ?? 999999999,
+      };
+    }
+  } else {
+    if (val !== null && val !== '' && val !== undefined) {
+      result[c.controlName] = val;
+    }
+  }
+});
 
-    // count active filters (excluding search & sort)
     this.activeCount = Object.keys(result).filter(
-      k => k !== 'search' && k !== 'sort' && result[k] !== null
+      (k) => k !== 'search' && k !== 'sort' && result[k] !== null,
     ).length;
 
     console.log('Filter output:', result);

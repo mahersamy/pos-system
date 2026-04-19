@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from "@angular/core/testing";
 
-import { StaffAdaptor } from './staff-adaptor';
+import {StaffAdaptor} from "./staff-adaptor";
 
-describe('StaffAdaptor', () => {
-  let service: StaffAdaptor;
+describe("StaffAdaptor", () => {
+    let service: StaffAdaptor;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(StaffAdaptor);
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(StaffAdaptor);
+    });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
 });

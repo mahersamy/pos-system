@@ -1,15 +1,21 @@
 export interface Permission {
-  read: boolean;
-  write: boolean;
+    read: boolean;
+    write: boolean;
 }
 
 export interface UserPermissions {
-  [module: string]: Permission;
+    [module: string]: Permission;
 }
 
 export interface User {
-  uid: string;
-  email: string;
-  role: string | null;
-  permissions?: UserPermissions;
+    _id?: string;
+    uid?: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    email: string;
+    phoneNumber: string;
+    role: string | null;
+    profilePicture?: string;
+    permissions?: UserPermissions;
 }

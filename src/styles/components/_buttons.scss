@@ -1,30 +1,119 @@
 @use '../abstracts' as *;
 
 .btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    outline: none;
 
-  &--primary {
-    background-color: var(--primary-color);
-    color: white;
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+        background: var(--btn-disabled-bg) !important;
+        color: var(--btn-disabled-text) !important;
+        transform: none !important;
+        filter: grayscale(1) !important;
+    }
+}
+
+.btn-primary {
+    @extend .btn;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+
+    &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        background: var(--primary-pink);
+        color: #1a1a1a;
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+    }
+}
+
+.btn-secondary {
+    @extend .btn;
+    background: transparent;
+    color: var(--btn-secondary-text);
+    border: 1px solid var(--btn-secondary-border);
+
+    &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        background: transparent;
+        border: 1px solid var(--btn-secondary-border);
+        color: var(--btn-secondary-hover);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+    }
+}
+
+.btn-link {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    opacity: 0.8;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: all 0.2s;
+
+    &:hover:not(:disabled) {
+        color: var(--primary-pink);
+        opacity: 1;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.3;
+    }
+}
+
+.preview-button {
+    color: #333333 !important;
+    background-color: var(--primary-pink) !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 
     &:hover {
-      opacity: 0.85;
-      filter: brightness(0.9);
+        transform: scale(1.2) !important;
     }
-  }
+}
 
-  &--secondary {
-    background-color: var(--secondary-color);
-    color: white;
+.edit-button {
+    color: #ffffff !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 
     &:hover {
-      opacity: 0.85;
-      filter: brightness(1.1);
+        transform: scale(1.2) !important;
     }
-  }
+}
+
+.delete-button {
+    color: #ff4d4f !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+
+    &:hover {
+        transform: scale(1.2) !important;
+    }
 }

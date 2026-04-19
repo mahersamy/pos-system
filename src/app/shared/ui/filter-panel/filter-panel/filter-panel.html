@@ -1,0 +1,107 @@
+<div class="filter-panel-wrapper">
+
+  <!-- Trigger button -->
+  <button class="filter-trigger" (click)="toggle()">
+    <i class="fa-solid fa-filter"></i>
+    Filter
+    @if (activeCount > 0) {
+      <span class="badge">{{ activeCount }}</span>
+    }
+    <i class="fa-solid fa-chevron-down chevron" [class.open]="isOpen"></i>
+  </button>
+
+  <!-- Panel -->
+  @if (isOpen) {
+    <div class="panel">
+
+      <div class="panel-header">
+        <span>Filters</span>
+        <button class="reset-btn" (click)="reset()">Reset all</button>
+      </div>
+
+      <!-- Dynamic fields -->
+      <div class="fields">
+
+        @for (config of configs; track config.controlName) {
+
+          <!-- SELECT -->
+          @if (config.type === FilterFieldType.SELECT) {
+            <div class="field-group">
+              <label>{{ config.label }}</label>
+              <select [(ngModel)]="fieldValues[config.controlName]">
+                <option [ngValue]="null">{{ config.placeholder ?? 'Select...' }}</option>
+                @for (opt of config.select_list; track opt.value) {
+                  <option [ngValue]="opt.value">{{ opt.label }}</option>
+                }
+              </select>
+            </div>
+          }
+
+          <!-- TEXT -->
+          @if (config.type === FilterFieldType.TEXT) {
+            <div class="field-group">
+              <label>{{ config.label }}</label>
+              <input
+                type="text"
+                [(ngModel)]="fieldValues[config.controlName]"
+                [placeholder]="config.placeholder ?? ''"
+              />
+            </div>
+          }
+
+          <!-- RANGE -->
+          @if (config.type === FilterFieldType.RANGE) {
+            <div class="field-group">
+              <label>{{ config.label }}</label>
+              <div class="range-row">
+                <input type="number" placeholder="Min" [(ngModel)]="fieldValues[config.controlName].min" />
+                <span class="sep">—</span>
+                <input type="number" placeholder="Max" [(ngModel)]="fieldValues[config.controlName].max" />
+              </div>
+            </div>
+          }
+
+          <!-- DATE -->
+          @if (config.type === FilterFieldType.DATE) {
+            <div class="field-group">
+              <label>{{ config.label }}</label>
+              <input type="date" [(ngModel)]="fieldValues[config.controlName]" />
+            </div>
+          }
+
+        }
+
+        <!-- Sort -->
+        <div class="field-group">
+          <label>Sort</label>
+          <div class="sort-row">
+            <button
+              class="sort-btn"
+              [class.active]="sortDirection === 'asc'"
+              (click)="sortDirection = sortDirection === 'asc' ? null : 'asc'"
+            >
+              <i class="fa-solid fa-arrow-up"></i>
+              ASC
+            </button>
+            <button
+              class="sort-btn"
+              [class.active]="sortDirection === 'desc'"
+              (click)="sortDirection = sortDirection === 'desc' ? null : 'desc'"
+            >
+              <i class="fa-solid fa-arrow-down"></i>
+              DESC
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="panel-footer">
+        <button class="apply-btn" (click)="apply()">Apply Filter</button>
+      </div>
+
+    </div>
+  }
+
+</div>

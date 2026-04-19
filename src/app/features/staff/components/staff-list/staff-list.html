@@ -1,9 +1,0 @@
-<div class="staff-toolbar">
-  <app-search-bar (searchChange)="onSearchChange($event)" />
-  <app-filter-panel
-    [configs]="filterConfigs"
-    [searchQuery]="searchQuery"
-    (applyFilter)="onApplyFilter($event)"
-  />
-</div>
-<app-data-table></app-data-table>

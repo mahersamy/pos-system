@@ -3,6 +3,7 @@ export const environment = {
   stage: 'development',
   apiUrl: 'https://pos-backend-inky-two.vercel.app',
   firebaseConfig: {
+    vapidKey: 'BI_nRWFJ8J6uQA4TKv9tzIDa4o1WiOq9pWSr2YnoclQrCzB2aNUtRdhXAiOKuWYb59koCfTj-lNNPw_Lbu_kYQk',
     apiKey: 'AIzaSyBRtmJnj7sqGifU9uAxrwF6EIrWVkNUdTw',
     authDomain: 'pos-system-8ba1e.firebaseapp.com',
     projectId: 'pos-system-8ba1e',

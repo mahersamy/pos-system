@@ -1,0 +1,28 @@
+.skeleton-profile {
+    .user-profile-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .form-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+}

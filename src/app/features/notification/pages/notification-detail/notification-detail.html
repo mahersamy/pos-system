@@ -1,0 +1,130 @@
+@if(notification) {
+<div class="notification-detail-page p-4">
+  <div class="page-header mb-4">
+    <h2 class="page-title text-light m-0 mb-2">Notification Details</h2>
+    <p class="page-subtitle text-muted m-0">View full information for notification ID {{ notification._id }}</p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column -->
+    <div class="col-12 col-xl-7 d-flex flex-column gap-4">
+      
+      <!-- Content Info Card -->
+      <div class="detail-card rounded-3 p-4">
+        <div class="card-header d-flex align-items-center mb-4">
+          <i class="fa-regular fa-message me-3 fs-5 text-muted"></i>
+          <h5 class="m-0 text-light fw-medium">Content Info</h5>
+        </div>
+
+        <div class="content-block mb-4">
+          <label class="info-label d-block text-muted mb-2">Title</label>
+          <div class="info-value text-light fs-6 fw-medium">{{ notification.title }}</div>
+        </div>
+
+        <div class="content-block">
+          <label class="info-label d-block text-muted mb-2">Message</label>
+          <div class="code-box p-3 rounded-2 text-light font-monospace">
+            {{ notification.message }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Metadata Card -->
+      <div class="detail-card rounded-3 p-4">
+        <div class="card-header d-flex align-items-center mb-4">
+          <i class="fa-solid fa-database me-3 fs-5 text-muted"></i>
+          <h5 class="m-0 text-light fw-medium">Metadata</h5>
+        </div>
+
+        <div class="metadata-list d-flex flex-column gap-3">
+          @if (notification.metadata) {
+            @for (item of notification.metadata | keyvalue; track item.key) {
+              <div class="metadata-row d-flex justify-content-between align-items-center p-3 rounded-2 code-box border-0">
+                <span class="meta-key text-muted">{{ item.key }}</span>
+                <span class="meta-value text-white fw-bold font-monospace">"{{ item.value }}"</span>
+              </div>
+            }
+          } @else {
+            <div class="text-muted text-center p-3">No metadata available</div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-12 col-xl-5 d-flex flex-column gap-4">
+
+      <!-- Delivery Status Card -->
+      <div class="detail-card rounded-3 p-4">
+        <div class="card-header d-flex align-items-center mb-4">
+          <i class="fa-regular fa-paper-plane me-3 fs-5 text-muted"></i>
+          <h5 class="m-0 text-light fw-medium">Delivery Status</h5>
+        </div>
+
+        <div class="status-grid">
+          <div class="status-item mb-4">
+            <label class="info-label d-block text-muted mb-2">Status</label>
+            <span class="status-badge badge-sent rounded-pill px-3 py-1 fw-bold text-dark d-inline-flex align-items-center gap-2" style="text-transform: capitalize;">
+              <i class="fa-regular fa-circle-check"></i> {{ notification.status }}
+            </span>
+          </div>
+
+          <div class="status-item mb-4">
+            <label class="info-label d-block text-muted mb-2">Sent At</label>
+            <div class="text-light d-flex align-items-center gap-2 fw-medium">
+              <i class="fa-regular fa-calendar text-muted"></i>
+              <span>{{ notification.sentAt | date:'yyyy-MM-dd HH:mm:ss \'UTC\'' }}</span>
+            </div>
+          </div>
+
+          <div class="status-item mb-4">
+            <label class="info-label d-block text-muted mb-2">Channel</label>
+            <span class="badge badge-channel rounded-pill px-3 py-1 fw-medium text-light d-inline-flex align-items-center gap-2">
+              <i class="fa-solid fa-mobile-screen"></i> Push
+            </span>
+          </div>
+
+          <div class="status-item">
+            <label class="info-label d-block text-muted mb-2">Type</label>
+            <span class="badge badge-type rounded-pill px-3 py-1 fw-medium text-light" style="text-transform: capitalize;">
+              {{ notification.type }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Identifiers Card -->
+      <div class="detail-card rounded-3 p-4">
+        <div class="card-header d-flex align-items-center mb-4">
+          <i class="fa-regular fa-user me-3 fs-5 text-muted"></i>
+          <h5 class="m-0 text-light fw-medium">Identifiers</h5>
+        </div>
+
+        <!-- @if(notification.metadata?.['userId']) {
+          <div class="content-block mb-4">
+            <label class="info-label d-block text-muted mb-2">Target User ID</label>
+            <div class="code-box p-3 rounded-2 d-flex justify-content-between align-items-center border-0">
+              <span class="meta-key font-monospace">{{ notification.metadata?.['userId'] }}</span>
+              <button class="btn btn-icon text-muted p-0 border-0 bg-transparent fs-5" (click)="copyToClipboard(notification.metadata?.['userId'])">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        } -->
+
+        <div class="content-block">
+          <label class="info-label d-block text-muted mb-2">Notification ID</label>
+          <div class="code-box p-3 rounded-2 d-flex justify-content-between align-items-center border-0">
+            <span class="meta-key font-monospace">{{ notification._id }}</span>
+            <button class="btn btn-icon text-muted p-0 border-0 bg-transparent fs-5" (click)="copyToClipboard(notification._id)">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+}

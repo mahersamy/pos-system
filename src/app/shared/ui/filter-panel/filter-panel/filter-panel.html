@@ -2,116 +2,106 @@
 
   <!-- Trigger button -->
   <button class="filter-trigger" (click)="toggle()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor" stroke-width="2">
-      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
-    </svg>
+    <i class="fa-solid fa-filter"></i>
     Filter
-    <span class="badge" *ngIf="activeCount > 0">{{ activeCount }}</span>
-    <svg class="chevron" [class.open]="isOpen" xmlns="http://www.w3.org/2000/svg"
-      width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="m6 9 6 6 6-6"/>
-    </svg>
+    @if (activeCount > 0) {
+      <span class="badge">{{ activeCount }}</span>
+    }
+    <i class="fa-solid fa-chevron-down chevron" [class.open]="isOpen"></i>
   </button>
 
   <!-- Panel -->
-  <div class="panel" *ngIf="isOpen">
+  @if (isOpen) {
+    <div class="panel">
 
-    <div class="panel-header">
-      <span>Filters</span>
-      <button class="reset-btn" (click)="reset()">Reset all</button>
-    </div>
+      <div class="panel-header">
+        <span>Filters</span>
+        <button class="reset-btn" (click)="reset()">Reset all</button>
+      </div>
 
-    <!-- Dynamic fields -->
-    <div class="fields">
+      <!-- Dynamic fields -->
+      <div class="fields">
 
-      <ng-container *ngFor="let config of configs">
+        @for (config of configs; track config.controlName) {
 
-        <!-- SELECT -->
-        <div class="field-group" *ngIf="config.type === FilterFieldType.SELECT">
-          <label>{{ config.label }}</label>
-          <select [(ngModel)]="fieldValues[config.controlName]">
-            <option [ngValue]="null">{{ config.placeholder ?? 'Select...' }}</option>
-            <option *ngFor="let opt of config.select_list" [ngValue]="opt.value">
-              {{ opt.label }}
-            </option>
-          </select>
-        </div>
+          <!-- SELECT -->
+          @if (config.type === FilterFieldType.SELECT) {
+            <div class="field-group">
+              <label>{{ config.label }}</label>
+              <select [(ngModel)]="fieldValues[config.controlName]">
+                <option [ngValue]="null">{{ config.placeholder ?? 'Select...' }}</option>
+                @for (opt of config.select_list; track opt.value) {
+                  <option [ngValue]="opt.value">{{ opt.label }}</option>
+                }
+              </select>
+            </div>
+          }
 
-        <!-- TEXT -->
-        <div class="field-group" *ngIf="config.type === FilterFieldType.TEXT">
-          <label>{{ config.label }}</label>
-          <input
-            type="text"
-            [(ngModel)]="fieldValues[config.controlName]"
-            [placeholder]="config.placeholder ?? ''"
-          />
-        </div>
+          <!-- TEXT -->
+          @if (config.type === FilterFieldType.TEXT) {
+            <div class="field-group">
+              <label>{{ config.label }}</label>
+              <input
+                type="text"
+                [(ngModel)]="fieldValues[config.controlName]"
+                [placeholder]="config.placeholder ?? ''"
+              />
+            </div>
+          }
 
-        <!-- RANGE -->
-        <div class="field-group" *ngIf="config.type === FilterFieldType.RANGE">
-          <label>{{ config.label }}</label>
-          <div class="range-row">
-            <input
-              type="number"
-              placeholder="Min"
-              [(ngModel)]="fieldValues[config.controlName].min"
-            />
-            <span class="sep">—</span>
-            <input
-              type="number"
-              placeholder="Max"
-              [(ngModel)]="fieldValues[config.controlName].max"
-            />
+          <!-- RANGE -->
+          @if (config.type === FilterFieldType.RANGE) {
+            <div class="field-group">
+              <label>{{ config.label }}</label>
+              <div class="range-row">
+                <input type="number" placeholder="Min" [(ngModel)]="fieldValues[config.controlName].min" />
+                <span class="sep">—</span>
+                <input type="number" placeholder="Max" [(ngModel)]="fieldValues[config.controlName].max" />
+              </div>
+            </div>
+          }
+
+          <!-- DATE -->
+          @if (config.type === FilterFieldType.DATE) {
+            <div class="field-group">
+              <label>{{ config.label }}</label>
+              <input type="date" [(ngModel)]="fieldValues[config.controlName]" />
+            </div>
+          }
+
+        }
+
+        <!-- Sort -->
+        <div class="field-group">
+          <label>Sort</label>
+          <div class="sort-row">
+            <button
+              class="sort-btn"
+              [class.active]="sortDirection === 'asc'"
+              (click)="sortDirection = sortDirection === 'asc' ? null : 'asc'"
+            >
+              <i class="fa-solid fa-arrow-up"></i>
+              ASC
+            </button>
+            <button
+              class="sort-btn"
+              [class.active]="sortDirection === 'desc'"
+              (click)="sortDirection = sortDirection === 'desc' ? null : 'desc'"
+            >
+              <i class="fa-solid fa-arrow-down"></i>
+              DESC
+            </button>
           </div>
         </div>
 
-        <!-- DATE -->
-        <div class="field-group" *ngIf="config.type === FilterFieldType.DATE">
-          <label>{{ config.label }}</label>
-          <input
-            type="date"
-            [(ngModel)]="fieldValues[config.controlName]"
-          />
-        </div>
+      </div>
 
-      </ng-container>
-
-      <!-- Sort -->
-      <div class="field-group">
-        <label>Sort</label>
-        <div class="sort-row">
-          <button
-            class="sort-btn"
-            [class.active]="sortDirection === 'asc'"
-            (click)="sortDirection = sortDirection === 'asc' ? null : 'asc'"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>
-            </svg>
-            ASC
-          </button>
-          <button
-            class="sort-btn"
-            [class.active]="sortDirection === 'desc'"
-            (click)="sortDirection = sortDirection === 'desc' ? null : 'desc'"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2.5">
-              <path d="m19 12-7 7-7-7"/><path d="M12 5v14"/>
-            </svg>
-            DESC
-          </button>
-        </div>
+      <!-- Footer -->
+      <div class="panel-footer">
+        <button class="apply-btn" (click)="apply()">Apply Filter</button>
       </div>
 
     </div>
+  }
 
-    <!-- Footer -->
-    <div class="panel-footer">
-      <button class="apply-btn" (click)="apply()">Apply Filter</button>
-    </div>
-
-  </div>
 </div>

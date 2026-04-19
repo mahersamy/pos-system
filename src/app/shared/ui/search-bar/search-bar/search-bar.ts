@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subject } from 'rxjs';
@@ -12,6 +12,9 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
   styleUrl: './search-bar.scss',
 })
 export class SearchBar implements OnInit, OnDestroy {
+  // ─── Configurable placeholder ────────────────────────────
+  @Input() placeholder: string = 'Search...';
+
   @Output() searchChange = new EventEmitter<string>();
 
   searchControl = new FormControl('');

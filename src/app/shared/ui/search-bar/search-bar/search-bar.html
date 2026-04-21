@@ -3,7 +3,8 @@
   <input
     [formControl]="searchControl"
     type="text"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder()"
+    (keyup.enter)="emitEnter()"
     class="search-input"
   />
   @if (searchControl.value) {

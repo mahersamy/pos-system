@@ -1,1 +1,15 @@
+<div class="d-flex gap-2 my-2">
+    <app-search-bar
+        placeholder="Search By Name, Email, Phone"
+        class="w-100"
+        (searchEnter)="onSearch($event)"
+    ></app-search-bar>
+
+    <app-filter-panel
+        [configs]="filterConfig"
+        [searchQuery]="searchQuery"
+        (applyFilter)="applayFilter($event)"
+    />
+</div>
+
 <app-data-table />

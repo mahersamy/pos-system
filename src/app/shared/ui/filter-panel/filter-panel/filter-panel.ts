@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, HostListener } from '@angular/core';
+import { Component, EventEmitter, OnInit, HostListener, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -18,15 +18,15 @@ export type { FilterFieldConfig, FilterOutput };
   styleUrl: './filter-panel.scss',
 })
 export class FilterPanel implements OnInit {
-  @Input() configs: FilterFieldConfig[] = [];
-  @Input() searchQuery: string = '';
+  configs=input.required<FilterFieldConfig[]>();
+  searchQuery=input.required<string>();
 
-  @Output() applyFilter = new EventEmitter<FilterOutput>();
+  applyFilter = output<FilterOutput>();
 
   readonly FilterFieldType = FilterFieldType;
 
   isOpen = false;
-  sortDirection: 'asc' | 'desc' | null = null;
+  sortDirection: 'asc' | 'desc' = 'asc';
   fieldValues: Record<string, any> = {};
   activeCount = 0;
 
@@ -36,7 +36,7 @@ export class FilterPanel implements OnInit {
 
   initValues() {
     this.fieldValues = {};
-    this.configs.forEach((c) => {
+    this.configs().forEach((c) => {
       if (c.type === FilterFieldType.RANGE) {
         this.fieldValues[c.controlName] = { min: null, max: null };
       } else {
@@ -51,12 +51,12 @@ export class FilterPanel implements OnInit {
 
   apply() {
     const result: FilterOutput = {
-      search: this.searchQuery,
+      search: this.searchQuery(),
       sort: this.sortDirection ?? 'asc',
     };
 
     
-    this.configs.forEach((c) => {
+    this.configs().forEach((c) => {
   const val = this.fieldValues[c.controlName];
   if (c.type === FilterFieldType.RANGE) {
     if (val.min !== null || val.max !== null) {
@@ -83,9 +83,9 @@ export class FilterPanel implements OnInit {
 
   reset() {
     this.initValues();
-    this.sortDirection = null;
+    this.sortDirection = 'asc';
     this.activeCount = 0;
-    this.applyFilter.emit({ search: this.searchQuery, sort: null });
+    this.applyFilter.emit({ search: this.searchQuery(), sort: 'asc' });
   }
 
   @HostListener('document:click', ['$event'])

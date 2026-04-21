@@ -1,6 +1,7 @@
 import { ColumnConfig } from "../../../../shared/components/data-table/models/colmun-config.model";
 import { TableColumnType } from "../../../../shared/components/data-table/enums/colmun-type.enum";
 import { ActionConfig, BulkActionConfig } from "../../../../shared/components/data-table/models/actions.mode";
+import { FilterFieldType, RangeFilterConfig } from "../../../../shared/ui/filter-panel/interface/filter-panel.models";
 
 // ─── Columns ──────────────────────────────────────────────────────────────────
 
@@ -41,7 +42,7 @@ export const STAFF_TABLE_COLUMNS: ColumnConfig[] = [
         currencyDisplay: "symbol",
     },
     {
-        field: "DateOfBirth",
+        field: "dateOfBirth",
         header: "Date of Birth",
         type: TableColumnType.DATE,
         dateFormat: "d-MMM-y",
@@ -71,3 +72,16 @@ export const STAFF_TABLE_BULK_ACTIONS: Omit<BulkActionConfig, "func">[] = [
     
 
 ]
+
+
+// ─── Filter Config ──────────────────────────────────────────────────────────
+
+export const STAFF_FILTER_CONFIG: RangeFilterConfig[] = [
+    {
+        type: FilterFieldType.RANGE,
+        controlName: "salary",
+        label: "Salary",
+        rangeMin: 0,
+        rangeMax: 100000,
+    },
+];

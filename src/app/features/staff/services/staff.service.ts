@@ -1,4 +1,4 @@
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {inject, Injectable} from "@angular/core";
 import {environment} from "../../../../environments/environment";
 import {Staff} from "../models/staff";
@@ -22,10 +22,19 @@ export class StaffService {
      * @returns {Observable<StaffAdaptModel[]>} Adapted stream of staff models
      */
     getStaffs(getAllModel: GetAllModel): Observable<StaffAdaptModel[]> {
+        let params = new HttpParams();
+        
+        Object.keys(getAllModel).forEach(key => {
+            const value = getAllModel[key];
+            if (value !== undefined && value !== null && value !== '') {
+                params = params.set(key, value);
+            }
+        });
+
         return this._http
             .get<
                 GlobalResponse<Staff[]>
-            >(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}?page=${getAllModel.page}&limit=${getAllModel.limit}&search=${getAllModel.search}&sort=${getAllModel.sort}`)
+            >(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}`, { params })
             .pipe(map((response) => response.data.map((item) => this._staffAdaptor.adapt(item))));
     }
 

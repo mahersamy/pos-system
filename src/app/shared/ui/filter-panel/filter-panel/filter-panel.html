@@ -22,7 +22,7 @@
       <!-- Dynamic fields -->
       <div class="fields">
 
-        @for (config of configs; track config.controlName) {
+        @for (config of configs(); track config.controlName) {
 
           <!-- SELECT -->
           @if (config.type === FilterFieldType.SELECT) {
@@ -78,7 +78,7 @@
             <button
               class="sort-btn"
               [class.active]="sortDirection === 'asc'"
-              (click)="sortDirection = sortDirection === 'asc' ? null : 'asc'"
+              (click)="sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"
             >
               <i class="fa-solid fa-arrow-up"></i>
               ASC
@@ -86,7 +86,7 @@
             <button
               class="sort-btn"
               [class.active]="sortDirection === 'desc'"
-              (click)="sortDirection = sortDirection === 'desc' ? null : 'desc'"
+              (click)="sortDirection = sortDirection === 'desc' ? 'asc' : 'desc'"
             >
               <i class="fa-solid fa-arrow-down"></i>
               DESC

@@ -24,7 +24,7 @@ export class StaffAdaptor implements Adaptor {
             email: data.email,
             phoneNumber: data.phoneNumber,
             salary: data.salary,
-            DateOfBirth: data.DateOfBirth,
+            dateOfBirth: data.dateOfBirth,
             address: data.address,
             timing: `${data.startShiftTiming} to ${data.endShiftTiming}`,
         };

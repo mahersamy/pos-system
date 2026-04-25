@@ -6,7 +6,7 @@ export interface Staff {
     phoneNumber: string;
     salary: number;
     age: number;
-    DateOfBirth: string;
+    dateOfBirth: string;
     startShiftTiming: string;
     endShiftTiming: string;
     address?: string;

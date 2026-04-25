@@ -1,16 +1,16 @@
-import {Injectable, PLATFORM_ID, inject, signal} from "@angular/core";
-import {isPlatformBrowser} from "@angular/common";
-import {initializeApp} from "firebase/app";
-import {getMessaging, getToken, isSupported, onMessage} from "firebase/messaging";
-import {HttpClient} from "@angular/common/http";
-import {MessageService} from "primeng/api";
-import {Observable} from "rxjs";
-import {ApiNotification} from "../models/notification.model";
-import {GlobalResponse, GlobalResponseWithCursor} from "../../../core/models/response-global.model";
-import {BACKEND_ROUTE} from "../../../core/constants/backend.route";
-import {environment} from "../../../../environments/environment";
-import {NotificationType} from "../enums/notification.type.enum";
-import {NotificationStatus} from "../enums/notification-status.enum";
+import { Injectable, PLATFORM_ID, inject, signal } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
+import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, isSupported, onMessage } from "firebase/messaging";
+import { HttpClient } from "@angular/common/http";
+import { MessageService } from "primeng/api";
+import { Observable } from "rxjs";
+import { ApiNotification } from "../models/notification.model";
+import { GlobalResponse, GlobalResponseWithCursor } from "../../../core/models/response-global.model";
+import { BACKEND_ROUTE } from "../../../core/constants/backend.route";
+import { environment } from "../../../../environments/environment";
+import { NotificationType } from "../enums/notification.type.enum";
+import { NotificationStatus } from "../enums/notification-status.enum";
 
 @Injectable({
     providedIn: "root",
@@ -41,7 +41,7 @@ export class NotificationService {
 
     setFcmToken(token: string): void {
         this._http
-            .post(environment.apiUrl + BACKEND_ROUTE.notification.addFcmToken, {token})
+            .post(environment.apiUrl + BACKEND_ROUTE.notification.addFcmToken, { token })
             .subscribe();
     }
 
@@ -73,6 +73,8 @@ export class NotificationService {
                     };
 
                     this.liveNotification.set(incoming);
+
+                    console.log(incoming);
 
                     this._messageService.add({
                         severity: "contrast",

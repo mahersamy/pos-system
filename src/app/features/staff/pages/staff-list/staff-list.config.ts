@@ -1,5 +1,5 @@
-import {ColumnConfig} from "../../../../shared/components/data-table/models/colmun-config.model";
-import {TableColumnType} from "../../../../shared/components/data-table/enums/colmun-type.enum";
+import { ColumnConfig } from "../../../../shared/components/data-table/models/colmun-config.model";
+import { TableColumnType } from "../../../../shared/components/data-table/enums/colmun-type.enum";
 import {
     ActionConfig,
     BulkActionConfig,
@@ -7,7 +7,7 @@ import {
 import {
     FilterFieldType,
     RangeFilterConfig,
-} from "../../../../shared/ui/filter-panel/interface/filter-panel.models";
+} from "../../../../shared/components/filter-panel/interface/filter-panel.models";
 
 // ─── Columns ──────────────────────────────────────────────────────────────────
 
@@ -65,15 +65,15 @@ export const STAFF_TABLE_COLUMNS: ColumnConfig[] = [
 // component — this file has zero logic and zero service dependencies.
 
 export const STAFF_TABLE_ACTION_META: Omit<ActionConfig, "func">[] = [
-    {icon: "fa-solid fa-eye", classes: "preview-button"},
-    {icon: "fa-solid fa-pencil", classes: "edit-button"},
-    {icon: "fa-solid fa-trash", classes: "delete-button"},
+    { icon: "fa-solid fa-eye", classes: "preview-button" },
+    { icon: "fa-solid fa-pencil", classes: "edit-button" },
+    { icon: "fa-solid fa-trash", classes: "delete-button" },
 ];
 
 // ─── Bulk Actions ──────────────────────────────────────────────────────────
 
 export const STAFF_TABLE_BULK_ACTIONS: Omit<BulkActionConfig, "func">[] = [
-    {label: "STAFF.ACTIONS.DELETE_SELECTED", icon: "fa-solid fa-trash", classes: "btn-danger"},
+    { label: "STAFF.ACTIONS.DELETE_SELECTED", icon: "fa-solid fa-trash", classes: "btn-danger" },
 ];
 
 // ─── Filter Config ──────────────────────────────────────────────────────────

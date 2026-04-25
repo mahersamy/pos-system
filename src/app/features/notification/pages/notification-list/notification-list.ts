@@ -1,11 +1,11 @@
-import {Component, computed, effect, inject, OnInit, signal} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {NotificationService} from "../../services/notification.service";
-import {ApiNotification} from "../../models/notification.model";
-import {NotificationCard} from "../../components/notification-card/notification-card";
-import {TranslateModule} from "@ngx-translate/core";
-import {Loading} from "../../../../shared/directives/loading/loading";
-import {SkeletonModule} from "primeng/skeleton";
+import { Component, computed, effect, inject, OnInit, signal } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { NotificationService } from "../../services/notification.service";
+import { ApiNotification } from "../../models/notification.model";
+import { NotificationCard } from "../../components/notification-card/notification-card";
+import { TranslateModule } from "@ngx-translate/core";
+import { Loading } from "../../../../shared/directives/loading/loading";
+import { SkeletonModule } from "primeng/skeleton";
 
 @Component({
     selector: "app-notification-list",
@@ -70,7 +70,7 @@ export class NotificationList implements OnInit {
      */
     markAllAsRead(): void {
         this.notifications.update((current) =>
-            current.map((n) => ({...n, status: "read" as ApiNotification["status"]}))
+            current.map((n) => ({ ...n, status: "read" as ApiNotification["status"] }))
         );
     }
 

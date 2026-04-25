@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output, input} from "@angular/core";
+import {Component, output, input} from "@angular/core";
 
 @Component({
     selector: "app-error-state",
@@ -19,7 +19,7 @@ export class ErrorState {
     btnText = input<string>("Retry Connection");
 
     /** Event broadcasting the user interaction intent to re-trigger the data fetch */
-    @Output() retry = new EventEmitter<void>();
+    retry = output<void>();
 
     /**
      * Emits the actionable intent back to the parent consumer

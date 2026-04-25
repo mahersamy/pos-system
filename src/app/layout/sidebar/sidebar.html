@@ -1,7 +1,7 @@
 <ng-template #sidebarContent>
     <div class="sidebar_header">
         <div>
-            <h1 class="sidebar__title">PosSystem</h1>
+            <h1 class="sidebar__title">{{ 'SIDEBAR.TITLE' | translate }}</h1>
         </div>
 
         <nav class="sidebar__nav">
@@ -26,7 +26,10 @@
                             [alt]="item.alt + ' icon'"
                         />
                     </div>
-                    <span class="nav_label">{{ item.label }}</span>
+                    <span class="nav_label"
+                        >{{ 'SIDEBAR.' + item.label.toUpperCase() | translate
+                        }}</span
+                    >
                 </li>
                 }
             </ul>
@@ -44,7 +47,7 @@
                 ngSrc="./images/sidebar/logout.avif"
                 alt="logout icon"
             />
-            <span class="nav_label">Logout</span>
+            <span class="nav_label">{{ 'SIDEBAR.LOGOUT' | translate }}</span>
         </button>
     </div>
 </ng-template>

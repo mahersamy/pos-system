@@ -5,18 +5,15 @@
         </div>
 
         <h1 class="title">404</h1>
-        <h2 class="subtitle">Page Not Found</h2>
-        <p class="description">
-            Oops! The page you're looking for doesn't exist. It might have been
-            moved or deleted.
-        </p>
+        <h2 class="subtitle">{{ 'NOT_FOUND.TITLE' | translate }}</h2>
+        <p class="description">{{ 'NOT_FOUND.SUBTITLE' | translate }}</p>
 
         <button
-            class="btn btn-primary"
+            class="btn btn-primary d-flex align-items-center justify-content-center gap-2"
             (click)="goHome()"
         >
-            <i class="fa-solid fa-house me-2"></i>
-            Back to Dashboard
+            <i class="fa-solid fa-house"></i>
+            {{ 'NOT_FOUND.BACK_HOME' | translate }}
         </button>
     </div>
 </div>

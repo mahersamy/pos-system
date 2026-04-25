@@ -1,9 +1,10 @@
 import {Component, inject} from "@angular/core";
 import {Router} from "@angular/router";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-not-found",
-    imports: [],
+    imports: [TranslateModule],
     templateUrl: "./not-found.html",
     styleUrl: "./not-found.scss",
 })

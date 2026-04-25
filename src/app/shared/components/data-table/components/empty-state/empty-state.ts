@@ -1,9 +1,10 @@
 import {Component, inject} from "@angular/core";
 import {DataTableConfig} from "../../services/data-table-config";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-empty-state",
-    imports: [],
+    imports: [TranslateModule],
     templateUrl: "./empty-state.html",
     styleUrl: "./empty-state.scss",
 })

@@ -1,3 +1,3 @@
 export enum NotificationType {
-  ANNOUNCEMENT = 'announcement',
+    ANNOUNCEMENT = "announcement",
 }

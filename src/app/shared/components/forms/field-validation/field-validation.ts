@@ -1,5 +1,5 @@
 import {CommonModule} from "@angular/common";
-import {Component, Input} from "@angular/core";
+import {Component, input} from "@angular/core";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -11,8 +11,8 @@ import {TranslateModule} from "@ngx-translate/core";
 })
 export class FieldValidation {
     /** Configuration mapping structure matching form control errors to messages */
-    @Input() config: any;
+    config = input<any>();
 
     /** Base FormGroup to parse relative states against */
-    @Input() parentFormGroup!: FormGroup;
+    parentFormGroup = input.required<FormGroup>();
 }

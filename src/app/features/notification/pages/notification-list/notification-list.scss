@@ -85,6 +85,16 @@
         background-color: var(--primary-pink);
         color: var(--black);
     }
+
+    &:first-child {
+        border-start-start-radius: 6px;
+        border-end-start-radius: 6px;
+    }
+
+    &:last-child {
+        border-start-end-radius: 6px;
+        border-end-end-radius: 6px;
+    }
 }
 
 .mark-read-btn {

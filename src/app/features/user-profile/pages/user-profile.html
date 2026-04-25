@@ -9,7 +9,7 @@
                     (click)="switchView('user-info')"
                 >
                     <i class="fa-solid fa-user"></i>
-                    <span>My Profile</span>
+                    <span>{{ 'USER_PROFILE.TITLE' | translate }}</span>
                 </button>
 
                 <button
@@ -17,7 +17,7 @@
                     (click)="logout()"
                 >
                     <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Logout</span>
+                    <span>{{ 'USER_PROFILE.LOGOUT' | translate }}</span>
                 </button>
             </nav>
         </aside>

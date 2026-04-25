@@ -23,10 +23,10 @@ export class StaffService {
      */
     getStaffs(getAllModel: GetAllModel): Observable<StaffAdaptModel[]> {
         let params = new HttpParams();
-        
-        Object.keys(getAllModel).forEach(key => {
+
+        Object.keys(getAllModel).forEach((key) => {
             const value = getAllModel[key];
-            if (value !== undefined && value !== null && value !== '') {
+            if (value !== undefined && value !== null && value !== "") {
                 params = params.set(key, value);
             }
         });
@@ -34,7 +34,7 @@ export class StaffService {
         return this._http
             .get<
                 GlobalResponse<Staff[]>
-            >(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}`, { params })
+            >(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}`, {params})
             .pipe(map((response) => response.data.map((item) => this._staffAdaptor.adapt(item))));
     }
 
@@ -55,7 +55,9 @@ export class StaffService {
      * @returns {Observable<GlobalResponse<null>>} The API confirmation state
      */
     deleteStaff(id: string): Observable<GlobalResponse<null>> {
-        return this._http.delete<GlobalResponse<null>>(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}/${id}`);
+        return this._http.delete<GlobalResponse<null>>(
+            `${environment.apiUrl}${BACKEND_ROUTE.staff.base}/${id}`
+        );
     }
 
     /**
@@ -63,9 +65,14 @@ export class StaffService {
      * @param {string[]} ids - The unique identifiers to be deleted
      * @returns {Observable<GlobalResponse<{deletedCount: number, message: string}>>} The API confirmation state
      */
-    deleteManyStaff(ids: string[]): Observable<GlobalResponse<{deletedCount: number, message: string}>> {
-        return this._http.delete<GlobalResponse<{deletedCount: number, message: string}>>(`${environment.apiUrl}${BACKEND_ROUTE.staff.deleteMany}`, {
-            body: { ids }
-        });
+    deleteManyStaff(
+        ids: string[]
+    ): Observable<GlobalResponse<{deletedCount: number; message: string}>> {
+        return this._http.delete<GlobalResponse<{deletedCount: number; message: string}>>(
+            `${environment.apiUrl}${BACKEND_ROUTE.staff.deleteMany}`,
+            {
+                body: {ids},
+            }
+        );
     }
 }

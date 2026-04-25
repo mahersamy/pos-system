@@ -6,7 +6,7 @@
                     <i [class]="getIcon()"></i>
                 </div>
                 <div class="header-text">
-                    <h2>{{ data.header }}</h2>
+                    <h2>{{ data.header | translate }}</h2>
                     <p [innerHTML]="getSafeMessage()"></p>
                 </div>
             </div>
@@ -20,8 +20,8 @@
                 </label>
                 <p-select
                     [options]="data.rejectionReasons || []"
-                    [(ngModel)]="selectedReason"
-                    (ngModelChange)="onReasonChange($event)"
+                    [ngModel]="selectedReason()"
+                    (ngModelChange)="selectedReason.set($event); onReasonChange($event)"
                     optionLabel="label"
                     optionValue="value"
                     [placeholder]="'shared.selectReason' | translate"
@@ -34,8 +34,8 @@
                 </label>
                 <textarea
                     class="confirmation__rejection-textarea"
-                    [(ngModel)]="rejectionDescription"
-                    (ngModelChange)="onDescriptionChange($event)"
+                    [ngModel]="rejectionDescription()"
+                    (ngModelChange)="rejectionDescription.set($event); onDescriptionChange($event)"
                     [placeholder]="'shared.enterDescription' | translate"
                     rows="4"
                 ></textarea>
@@ -52,7 +52,7 @@
                     [loading]="isBtn2Loading()"
                     (click)="onBtn2Click()"
                 >
-                    {{ data.btn2Text }}
+                    {{ data.btn2Text | translate }}
                 </button>
                 }
                 <button
@@ -62,7 +62,7 @@
                     (click)="onBtn1Click()"
                     [disabled]="!isBtn1Enabled()"
                 >
-                    {{ data.btn1Text || 'Confirm' }}
+                    {{ (data.btn1Text || 'Confirm') | translate }}
                 </button>
             </div>
         </div>

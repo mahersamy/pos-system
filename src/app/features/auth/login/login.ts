@@ -10,6 +10,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {PasswordModule} from "primeng/password";
 import {FieldValidation} from "../../../shared/components/forms/field-validation/field-validation";
 import {passwordValidator} from "../../../shared/validators/password.validator";
+import {Loading} from "../../../shared/directives/loading/loading";
 
 @Component({
     selector: "app-login",
@@ -20,6 +21,7 @@ import {passwordValidator} from "../../../shared/validators/password.validator";
         PasswordModule,
         FieldValidation,
         TranslateModule,
+        Loading,
     ],
     templateUrl: "./login.html",
     styleUrl: "./login.scss",

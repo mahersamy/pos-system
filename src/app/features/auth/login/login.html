@@ -47,13 +47,10 @@
             <button
                 type="submit"
                 class="btn btn-primary w-100"
-                [disabled]="loginForm.invalid || isLoading()"
+                [disabled]="loginForm.invalid"
+                [loading]="isLoading()"
             >
-                @if (isLoading()) {
-                <span class="spinner"></span>
-                } @else {
-                <span>{{ 'COMMON.LOGIN' | translate }}</span>
-                }
+                {{ 'COMMON.LOGIN' | translate }}
             </button>
         </form>
     </div>

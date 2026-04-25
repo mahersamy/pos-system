@@ -41,13 +41,77 @@
             (delete)="deleteNotification($event)"
         >
         </app-notification-card>
-        }
+        } @if (isLoading() && notifications().length === 0) { @for (i of [1, 2,
+        3, 4]; track i) {
+        <div
+            class="notification-card d-flex p-3 rounded-3 gap-4"
+            style="
+                background: var(--surface-card);
+                border: 1px solid var(--surface-border);
+            "
+        >
+            <div
+                class="icon-container d-flex align-items-center justify-content-center flex-shrink-0"
+            >
+                <p-skeleton
+                    shape="circle"
+                    size="3rem"
+                ></p-skeleton>
+            </div>
+
+            <div
+                class="notification-content flex-grow-1 d-flex flex-column justify-content-center gap-2"
+            >
+                <div class="d-flex align-items-center gap-2">
+                    <p-skeleton
+                        width="150px"
+                        height="1.5rem"
+                    ></p-skeleton>
+                    <p-skeleton
+                        width="50px"
+                        height="1rem"
+                        borderRadius="16px"
+                    ></p-skeleton>
+                </div>
+                <p-skeleton
+                    width="80%"
+                    height="1rem"
+                ></p-skeleton>
+
+                <div class="metadata-pills d-flex flex-wrap gap-2 mt-1">
+                    <p-skeleton
+                        width="100px"
+                        height="1.5rem"
+                        borderRadius="8px"
+                    ></p-skeleton>
+                    <p-skeleton
+                        width="120px"
+                        height="1.5rem"
+                        borderRadius="8px"
+                    ></p-skeleton>
+                </div>
+            </div>
+
+            <div class="notification-actions d-flex align-items-center gap-4">
+                <p-skeleton
+                    width="60px"
+                    height="1rem"
+                ></p-skeleton>
+                <p-skeleton
+                    width="100px"
+                    height="2.5rem"
+                    borderRadius="8px"
+                ></p-skeleton>
+            </div>
+        </div>
+        } }
     </div>
 
     <button
         [disabled]="!hasMore()"
         class="btn btn-primary"
         (click)="loadNotifications()"
+        [loading]="isLoading()"
     >
         {{ 'COMMON.ACTIONS.LOAD_MORE' | translate }}
     </button>

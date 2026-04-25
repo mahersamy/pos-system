@@ -15,10 +15,11 @@ import {ModuleBase} from "../../../../core/base/module.base";
 import {FilterOutput} from "../../../../shared/ui/filter-panel/interface/filter-panel.models";
 import {FilterPanel} from "../../../../shared/ui/filter-panel/filter-panel/filter-panel";
 import {SearchBar} from "../../../../shared/ui/search-bar/search-bar/search-bar";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-staff-list",
-    imports: [DataTable, FilterPanel, SearchBar],
+    imports: [DataTable, FilterPanel, SearchBar, TranslateModule],
     templateUrl: "./staff-list.html",
     styleUrl: "./staff-list.scss",
     providers: [DataTableConfig],

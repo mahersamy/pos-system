@@ -165,6 +165,8 @@
         "rejectionReason": "سبب الرفض",
         "selectReason": "اختر السبب",
         "rejectionDescription": "وصف الرفض",
-        "enterDescription": "أدخل الوصف"
+        "enterDescription": "أدخل الوصف",
+        "SELECTED": "محدد",
+        "SEARCH_PLACEHOLDER": "البحث بالاسم، البريد الإلكتروني، الهاتف"
     }
 }

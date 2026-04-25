@@ -2,14 +2,14 @@ import {Component, computed, effect, inject, OnInit, signal} from "@angular/core
 import {CommonModule} from "@angular/common";
 import {NotificationService} from "../../services/notification.service";
 import {ApiNotification} from "../../models/notification.model";
-import {NotificationType} from "../../enums/notification.type.enum";
-import {NotificationStatus} from "../../enums/notification-status.enum";
 import {NotificationCard} from "../../components/notification-card/notification-card";
 import {TranslateModule} from "@ngx-translate/core";
+import {Loading} from "../../../../shared/directives/loading/loading";
+import {SkeletonModule} from "primeng/skeleton";
 
 @Component({
     selector: "app-notification-list",
-    imports: [CommonModule, NotificationCard, TranslateModule],
+    imports: [CommonModule, NotificationCard, TranslateModule, Loading, SkeletonModule],
     templateUrl: "./notification-list.html",
     styleUrl: "./notification-list.scss",
 })
@@ -21,6 +21,7 @@ export class NotificationList implements OnInit {
 
     cursor = signal<string>("");
     hasMore = signal<boolean>(true);
+    isLoading = signal<boolean>(false);
 
     readonly filteredNotifications = computed(() => {
         const list = this.notifications();
@@ -50,11 +51,16 @@ export class NotificationList implements OnInit {
      * Updates the notifications list, next cursor, and 'hasMore' flag.
      */
     loadNotifications(): void {
+        this.isLoading.set(true);
         this._notificationService.getInbox(20, this.cursor()).subscribe({
             next: (response) => {
                 this.notifications.set([...this.notifications(), ...response.data]);
                 this.cursor.set(response.nextCursor);
                 this.hasMore.set(response.hasMore);
+                this.isLoading.set(false);
+            },
+            error: () => {
+                this.isLoading.set(false);
             },
         });
     }

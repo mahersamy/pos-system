@@ -1,5 +1,5 @@
-@if ( parentFormGroup() && parentFormGroup().get(config().controlName)?.invalid &&
-(config()?.showErrorsImmediately ? true :
+@if ( parentFormGroup() && parentFormGroup().get(config().controlName)?.invalid
+&& (config()?.showErrorsImmediately ? true :
 parentFormGroup().get(config().controlName)?.dirty ||
 parentFormGroup().get(config().controlName)?.touched) ) {
 <div
@@ -12,7 +12,8 @@ parentFormGroup().get(config().controlName)?.touched) ) {
         keyvalue; track error) { @if (!(config()?.errorMessages &&
         config()?.errorMessages[error.key] === '')) {
         <small>
-            @if (config()?.errorMessages && config()?.errorMessages[error.key]) {
+            @if (config()?.errorMessages && config()?.errorMessages[error.key])
+            {
             <span>{{ config()?.errorMessages[error.key] | translate }}</span>
             } @else {
             <span>{{ error.key | translate }}</span>

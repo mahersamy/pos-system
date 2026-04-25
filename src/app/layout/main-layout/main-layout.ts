@@ -1,8 +1,8 @@
-import { Component, ViewChild } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterOutlet } from "@angular/router";
-import { Sidebar } from "../sidebar/sidebar";
-import { MainHeader } from "../main-header/main-header";
+import {Component, ViewChild} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {RouterOutlet} from "@angular/router";
+import {Sidebar} from "../sidebar/sidebar";
+import {MainHeader} from "../main-header/main-header";
 
 @Component({
     selector: "app-main-layout",
@@ -10,5 +10,4 @@ import { MainHeader } from "../main-header/main-header";
     templateUrl: "./main-layout.html",
     styleUrl: "./main-layout.scss",
 })
-export class MainLayout {
-}
+export class MainLayout {}

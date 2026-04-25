@@ -2,7 +2,9 @@
 
 @if (!loading()) {
 <section class="personal-info">
-    <h2 class="section-title">{{ 'USER_PROFILE.PERSONAL_INFO' | translate }}</h2>
+    <h2 class="section-title">
+        {{ 'USER_PROFILE.PERSONAL_INFO' | translate }}
+    </h2>
 
     <!-- Avatar Section -->
     <div class="user-profile-header">
@@ -50,7 +52,9 @@
     >
         <div class="form-grid">
             <div class="form-group">
-                <label class="form-label">{{ 'USER_PROFILE.FIRST_NAME' | translate }}</label>
+                <label class="form-label"
+                    >{{ 'USER_PROFILE.FIRST_NAME' | translate }}</label
+                >
                 <input
                     type="text"
                     pInputText
@@ -63,7 +67,9 @@
                 />
             </div>
             <div class="form-group">
-                <label class="form-label">{{ 'USER_PROFILE.LAST_NAME' | translate }}</label>
+                <label class="form-label"
+                    >{{ 'USER_PROFILE.LAST_NAME' | translate }}</label
+                >
                 <input
                     type="text"
                     pInputText
@@ -92,7 +98,9 @@
         </div>
 
         <div class="form-group full-width">
-            <label class="form-label">{{ 'USER_PROFILE.ADDRESS' | translate }}</label>
+            <label class="form-label"
+                >{{ 'USER_PROFILE.ADDRESS' | translate }}</label
+            >
             <input
                 type="text"
                 pInputText
@@ -107,7 +115,9 @@
 
         <div class="form-grid">
             <div class="form-group">
-                <label class="form-label">{{ 'USER_PROFILE.NEW_PASSWORD' | translate }}</label>
+                <label class="form-label"
+                    >{{ 'USER_PROFILE.NEW_PASSWORD' | translate }}</label
+                >
                 <p-password
                     formControlName="newPassword"
                     placeholder="********"
@@ -121,7 +131,9 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">{{ 'USER_PROFILE.CONFIRM_PASSWORD' | translate }}</label>
+                <label class="form-label"
+                    >{{ 'USER_PROFILE.CONFIRM_PASSWORD' | translate }}</label
+                >
                 <p-password
                     formControlName="confirmPassword"
                     placeholder="********"

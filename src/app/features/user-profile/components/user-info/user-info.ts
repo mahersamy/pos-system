@@ -1,17 +1,17 @@
-import { Component, signal, inject, OnInit, DestroyRef } from "@angular/core";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { InputTextModule } from "primeng/inputtext";
-import { PasswordModule } from "primeng/password";
-import { CommonModule } from "@angular/common";
-import { FieldValidation } from "../../../../shared/components/forms/field-validation/field-validation";
-import { UploadFileService } from "../../../../core/services/file-upload/upload-file";
-import { UserProfileService } from "../../services/user-profile/user-profile";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { User } from "../../../../core/models/user.model";
-import { passwordValidator } from "../../../../shared/validators/password.validator";
-import { ProfileSkeleton } from "../profile-skeleton/profile-skeleton";
-import { AuthService } from "../../../../core/services/auth/auth";
-import { TranslateModule } from "@ngx-translate/core";
+import {Component, signal, inject, OnInit, DestroyRef} from "@angular/core";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {InputTextModule} from "primeng/inputtext";
+import {PasswordModule} from "primeng/password";
+import {CommonModule} from "@angular/common";
+import {FieldValidation} from "../../../../shared/components/forms/field-validation/field-validation";
+import {UploadFileService} from "../../../../core/services/file-upload/upload-file";
+import {UserProfileService} from "../../services/user-profile/user-profile";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {User} from "../../../../core/models/user.model";
+import {passwordValidator} from "../../../../shared/validators/password.validator";
+import {ProfileSkeleton} from "../profile-skeleton/profile-skeleton";
+import {AuthService} from "../../../../core/services/auth/auth";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-user-info",
@@ -126,7 +126,7 @@ export class UserInfo implements OnInit {
      * @param {Event} event - The HTML file input change event
      */
     async onFileSelected(event: Event) {
-        const { files } = await this._uploadFileService.onFileSelected(event, {
+        const {files} = await this._uploadFileService.onFileSelected(event, {
             allowedTypes: ["image/jpeg", "image/png", "image/webp"],
             maxFiles: 1,
             maxSizeMB: 2,
@@ -158,7 +158,6 @@ export class UserInfo implements OnInit {
             this.profileForm.markAllAsTouched();
         }
     }
-
 
     /**
      * Updates the user's profile information by sending the form data to the backend.

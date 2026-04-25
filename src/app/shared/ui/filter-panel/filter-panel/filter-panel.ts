@@ -1,7 +1,12 @@
 import {Component, OnInit, signal, input, output} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {FilterFieldType, FilterConfig, FilterFieldConfig, FilterOutput} from "./../interface/filter-panel.models";
+import {
+    FilterFieldType,
+    FilterConfig,
+    FilterFieldConfig,
+    FilterOutput,
+} from "./../interface/filter-panel.models";
 import {TranslateModule} from "@ngx-translate/core";
 
 export {FilterFieldType};

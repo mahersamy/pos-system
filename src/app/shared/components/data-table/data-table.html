@@ -8,11 +8,18 @@
         [scrollable]="true"
     >
         <ng-template #caption>
-            @if (selectedItems && selectedItems.length > 0 && _dataTableConfig.tableConfig.bulkActions().length > 0) {
-            <div class="d-flex justify-content-between align-items-center bg-surface-100 p-3 border-round mb-3">
-                <span class="fw-bold">{{ selectedItems.length }} {{ 'NOTIFICATION.COUNT_LABEL' | translate }} selected</span>
+            @if (selectedItems && selectedItems.length > 0 &&
+            _dataTableConfig.tableConfig.bulkActions().length > 0) {
+            <div
+                class="d-flex justify-content-between align-items-center bg-surface-100 p-3 border-round mb-3"
+            >
+                <span class="fw-bold"
+                    >{{ selectedItems.length }} {{ 'NOTIFICATION.COUNT_LABEL' |
+                    translate }} selected</span
+                >
                 <div class="d-flex gap-2">
-                    @for (action of _dataTableConfig.tableConfig.bulkActions(); track action.label) {
+                    @for (action of _dataTableConfig.tableConfig.bulkActions();
+                    track action.label) {
                     <button
                         type="button"
                         [class]="'btn btn-primary d-flex align-items-center gap-2 ' + (action.classes || '')"

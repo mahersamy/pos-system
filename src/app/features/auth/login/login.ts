@@ -13,7 +13,14 @@ import {passwordValidator} from "../../../shared/validators/password.validator";
 
 @Component({
     selector: "app-login",
-    imports: [ReactiveFormsModule, CommonModule, InputTextModule, PasswordModule, FieldValidation, TranslateModule],
+    imports: [
+        ReactiveFormsModule,
+        CommonModule,
+        InputTextModule,
+        PasswordModule,
+        FieldValidation,
+        TranslateModule,
+    ],
     templateUrl: "./login.html",
     styleUrl: "./login.scss",
 })
@@ -50,7 +57,6 @@ export class Login {
         },
     };
 
-    
     /**
      * Submits the login form logic. If invalid, touches all fields to show errors.
      * Starts loaders and authenticates the user otherwise.

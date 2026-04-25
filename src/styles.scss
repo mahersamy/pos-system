@@ -2,7 +2,9 @@
 @use 'styles/main';
 
 body {
-    transition: opacity 0.3s ease-in-out, filter 0.3s ease-in-out;
+    transition:
+        opacity 0.3s ease-in-out,
+        filter 0.3s ease-in-out;
 }
 
 body.lang-changing {

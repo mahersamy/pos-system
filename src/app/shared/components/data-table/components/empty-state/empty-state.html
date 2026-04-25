@@ -17,10 +17,10 @@
             class="content-text text-center d-flex justify-content-center align-items-center flex-column"
         >
             @if (_dataTableConfig.tableConfig.isError()) {
-            <h3 class="title error-gradient">{{ 'ERROR.SYSTEM_INTERRUPTION' | translate }}</h3>
-            <p class="description">
-                {{ 'ERROR.TECHNICAL_HITCH' | translate }}
-            </p>
+            <h3 class="title error-gradient">
+                {{ 'ERROR.SYSTEM_INTERRUPTION' | translate }}
+            </h3>
+            <p class="description">{{ 'ERROR.TECHNICAL_HITCH' | translate }}</p>
             <button
                 class="btn-action btn-error"
                 (click)="refetch()"

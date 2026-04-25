@@ -5,9 +5,9 @@ import {Router, NavigationEnd} from "@angular/router";
 import {filter} from "rxjs/operators";
 import {Location} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import { AuthService } from "../../core/services/auth/auth";
-import { TranslationService } from "../../core/services/translation/translation";
-import { TranslateModule } from "@ngx-translate/core";
+import {AuthService} from "../../core/services/auth/auth";
+import {TranslationService} from "../../core/services/translation/translation";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-main-header",

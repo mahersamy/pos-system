@@ -1,98 +1,102 @@
-import { Component, EventEmitter, OnInit, HostListener, input, output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import {
-  FilterFieldType,
-  FilterFieldConfig,
-  FilterOutput,
-} from './../interface/filter-panel.models';
+import {Component, OnInit, signal, input, output} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {FilterFieldType, FilterConfig, FilterFieldConfig, FilterOutput} from "./../interface/filter-panel.models";
+import {TranslateModule} from "@ngx-translate/core";
 
-export { FilterFieldType };
-export type { FilterFieldConfig, FilterOutput };
+export {FilterFieldType};
+export type {FilterConfig, FilterFieldConfig, FilterOutput};
 
 @Component({
-  selector: 'app-filter-panel',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './filter-panel.html',
-  styleUrl: './filter-panel.scss',
+    selector: "app-filter-panel",
+    imports: [CommonModule, FormsModule, TranslateModule],
+    templateUrl: "./filter-panel.html",
+    styleUrl: "./filter-panel.scss",
 })
 export class FilterPanel implements OnInit {
-  configs=input.required<FilterFieldConfig[]>();
-  searchQuery=input.required<string>();
+    configs = input.required<FilterConfig[]>();
+    searchQuery = input.required<string>();
 
-  applyFilter = output<FilterOutput>();
+    applyFilter = output<FilterOutput>();
 
-  readonly FilterFieldType = FilterFieldType;
+    readonly FilterFieldType = FilterFieldType;
 
-  isOpen = false;
-  sortDirection: 'asc' | 'desc' = 'asc';
-  fieldValues: Record<string, any> = {};
-  activeCount = 0;
+    isOpen = signal(false);
+    sortDirection = signal<"asc" | "desc" | null>("asc");
+    fieldValues = signal<Record<string, any>>({});
+    activeCount = signal(0);
 
-  ngOnInit() {
-    this.initValues();
-  }
-
-  initValues() {
-    this.fieldValues = {};
-    this.configs().forEach((c) => {
-      if (c.type === FilterFieldType.RANGE) {
-        this.fieldValues[c.controlName] = { min: null, max: null };
-      } else {
-        this.fieldValues[c.controlName] = null;
-      }
-    });
-  }
-
-  toggle() {
-    this.isOpen = !this.isOpen;
-  }
-
-  apply() {
-    const result: FilterOutput = {
-      search: this.searchQuery(),
-      sort: this.sortDirection ?? 'asc',
-    };
-
-    
-    this.configs().forEach((c) => {
-  const val = this.fieldValues[c.controlName];
-  if (c.type === FilterFieldType.RANGE) {
-    if (val.min !== null || val.max !== null) {
-      result[c.controlName] = {
-        min: val.min ?? 0,
-        max: val.max ?? 999999999,
-      };
+    ngOnInit() {
+        this.initValues();
     }
-  } else {
-    if (val !== null && val !== '' && val !== undefined) {
-      result[c.controlName] = val;
+
+    initValues() {
+        const initial: Record<string, any> = {};
+        this.configs().forEach((c) => {
+            if (c.type === FilterFieldType.RANGE) {
+                initial[c.controlName] = {min: null, max: null};
+            } else {
+                initial[c.controlName] = null;
+            }
+        });
+        this.fieldValues.set(initial);
     }
-  }
-});
 
-    this.activeCount = Object.keys(result).filter(
-      (k) => k !== 'search' && k !== 'sort' && result[k] !== null,
-    ).length;
-
-    console.log('Filter output:', result);
-    this.applyFilter.emit(result);
-    this.isOpen = false;
-  }
-
-  reset() {
-    this.initValues();
-    this.sortDirection = 'asc';
-    this.activeCount = 0;
-    this.applyFilter.emit({ search: this.searchQuery(), sort: 'asc' });
-  }
-
-  @HostListener('document:click', ['$event'])
-  onOutsideClick(event: MouseEvent) {
-    const el = event.target as HTMLElement;
-    if (!el.closest('app-filter-panel')) {
-      this.isOpen = false;
+    updateFieldValue(key: string, value: any) {
+        this.fieldValues.update((prev) => ({...prev, [key]: value}));
     }
-  }
+
+    updateRangeField(key: string, subKey: "min" | "max", value: any) {
+        this.fieldValues.update((prev) => ({
+            ...prev,
+            [key]: {
+                ...prev[key],
+                [subKey]: value,
+            },
+        }));
+    }
+
+    toggle() {
+        this.isOpen.update((v) => !v);
+    }
+
+    apply() {
+        const result: FilterOutput = {
+            search: this.searchQuery(),
+            sort: this.sortDirection() ?? "asc",
+        };
+
+        const currentValues = this.fieldValues();
+        this.configs().forEach((c) => {
+            const val = currentValues[c.controlName];
+            if (c.type === FilterFieldType.RANGE) {
+                if (val && (val.min !== null || val.max !== null)) {
+                    result[c.controlName] = {
+                        min: val.min ?? 0,
+                        max: val.max ?? 999999999,
+                    };
+                }
+            } else {
+                if (val !== null && val !== "" && val !== undefined) {
+                    result[c.controlName] = val;
+                }
+            }
+        });
+
+        this.activeCount.set(
+            Object.keys(result).filter((k) => k !== "search" && k !== "sort" && result[k] !== null)
+                .length
+        );
+
+        console.log("Filter output:", result);
+        this.applyFilter.emit(result);
+        this.isOpen.set(false);
+    }
+
+    reset() {
+        this.initValues();
+        this.sortDirection.set("asc");
+        this.activeCount.set(0);
+        this.applyFilter.emit({search: this.searchQuery(), sort: "asc"});
+    }
 }

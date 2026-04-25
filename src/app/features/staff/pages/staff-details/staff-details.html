@@ -104,14 +104,16 @@
         </div>
         } @else if (isError()) {
         <app-error-state
-            title="Failed to load staff details"
-            message="Please check your internet connection and try again."
-            btnText="Retry"
+            [title]="'ERROR.LOAD_STAFF_FAILED' | translate"
+            [message]="'ERROR.INTERNET_CHECK' | translate"
+            [btnText]="'COMMON.ACTIONS.RETRY' | translate"
             (retry)="retryConnection()"
         />
         } @else {
         <aside class="profile-sidebar">
-            <h3 class="section-title">Profile Image</h3>
+            <h3 class="section-title">
+                {{ 'STAFF.PROFILE_IMAGE' | translate }}
+            </h3>
             <div class="profile-image-container">
                 @if (staff()?.staffProfile?.image) {
                 <img
@@ -138,14 +140,16 @@
                     href="javascript:void(0)"
                     class="change-pic-link"
                     (click)="fileInput.click()"
-                    >Change Profile Picture</a
+                    >{{ 'STAFF.CHANGE_PIC' | translate }}</a
                 >
-                <button class="btn btn-primary">Edit profile</button>
+                <button class="btn btn-primary">
+                    {{ 'STAFF.EDIT_PROFILE' | translate }}
+                </button>
                 <button
                     class="btn btn-secondary"
                     (click)="deleteProfile()"
                 >
-                    Delete profile
+                    {{ 'STAFF.DELETE_PROFILE' | translate }}
                 </button>
             </div>
         </aside>
@@ -154,34 +158,48 @@
         <div class="info-section">
             <!-- Personal Details -->
             <div class="info-group">
-                <h3 class="section-title">Employee Personal Details</h3>
+                <h3 class="section-title">
+                    {{ 'STAFF.PERSONAL_DETAILS' | translate }}
+                </h3>
                 <div class="info-card">
                     <div class="card-grid">
                         <div class="info-item">
-                            <span class="label">Full Name</span>
+                            <span class="label"
+                                >{{ 'STAFF.FIELDS.FULL_NAME' | translate
+                                }}</span
+                            >
                             <span class="value"
                                 >{{ staff()?.staffProfile?.fullname }}</span
                             >
                         </div>
                         <div class="info-item">
-                            <span class="label">Email</span>
+                            <span class="label"
+                                >{{ 'COMMON.EMAIL' | translate }}</span
+                            >
                             <span class="value">{{ staff()?.email }}</span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Phone Number</span>
+                            <span class="label"
+                                >{{ 'STAFF.FIELDS.PHONE_NUMBER' | translate
+                                }}</span
+                            >
                             <span class="value"
                                 >{{ staff()?.phoneNumber }}</span
                             >
                         </div>
                         <div class="info-item">
-                            <span class="label">Date Of Birth</span>
+                            <span class="label"
+                                >{{ 'STAFF.FIELDS.DOB' | translate }}</span
+                            >
                             <span class="value"
                                 >{{ staff()?.dateOfBirth | date: 'dd-MMM-y'
                                 }}</span
                             >
                         </div>
                         <div class="info-item full-width">
-                            <span class="label">Address</span>
+                            <span class="label"
+                                >{{ 'STAFF.FIELDS.ADDRESS' | translate }}</span
+                            >
                             <span class="value">
                                 {{ staff()?.address || '-' }}
                             </span>
@@ -192,29 +210,41 @@
 
             <!-- Job Details -->
             <div class="info-group">
-                <h3 class="section-title">Employee Job Details</h3>
+                <h3 class="section-title">
+                    {{ 'STAFF.JOB_DETAILS' | translate }}
+                </h3>
                 <div class="info-card">
                     <div class="card-grid">
                         <div class="info-item">
-                            <span class="label">Role</span>
+                            <span class="label"
+                                >{{ 'STAFF.FIELDS.ROLE' | translate }}</span
+                            >
                             <span class="value">
                                 {{ staff()?.staffProfile?.position }}
                             </span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Salary</span>
+                            <span class="label"
+                                >{{ 'STAFF.FIELDS.SALARY' | translate }}</span
+                            >
                             <span class="value">
                                 {{ staff()?.salary | currency }}
                             </span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Shift Start Timing</span>
+                            <span class="label"
+                                >{{ 'STAFF.FIELDS.SHIFT_START' | translate
+                                }}</span
+                            >
                             <span class="value">
                                 {{ staff()?.timing?.split(' to ')?.[0] || '-' }}
                             </span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Shift End Timing</span>
+                            <span class="label"
+                                >{{ 'STAFF.FIELDS.SHIFT_END' | translate
+                                }}</span
+                            >
                             <span class="value">
                                 {{ staff()?.timing?.split(' to ')?.[1] || '-' }}
                             </span>

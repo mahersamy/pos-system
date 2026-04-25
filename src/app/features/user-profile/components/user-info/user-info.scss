@@ -34,7 +34,7 @@
             .edit-overlay {
                 position: absolute;
                 bottom: 0;
-                right: 0;
+                inset-inline-end: 0;
                 width: 32px;
                 height: 32px;
                 background: var(--primary-pink);

@@ -1,107 +1,139 @@
 <div class="filter-panel-wrapper">
-
-  <!-- Trigger button -->
-  <button class="filter-trigger" (click)="toggle()">
-    <i class="fa-solid fa-filter"></i>
-    Filter
-    @if (activeCount > 0) {
-      <span class="badge">{{ activeCount }}</span>
-    }
-    <i class="fa-solid fa-chevron-down chevron" [class.open]="isOpen"></i>
-  </button>
-
-  <!-- Panel -->
-  @if (isOpen) {
-    <div class="panel">
-
-      <div class="panel-header">
-        <span>Filters</span>
-        <button class="reset-btn" (click)="reset()">Reset all</button>
-      </div>
-
-      <!-- Dynamic fields -->
-      <div class="fields">
-
-        @for (config of configs(); track config.controlName) {
-
-          <!-- SELECT -->
-          @if (config.type === FilterFieldType.SELECT) {
-            <div class="field-group">
-              <label>{{ config.label }}</label>
-              <select [(ngModel)]="fieldValues[config.controlName]">
-                <option [ngValue]="null">{{ config.placeholder ?? 'Select...' }}</option>
-                @for (opt of config.select_list; track opt.value) {
-                  <option [ngValue]="opt.value">{{ opt.label }}</option>
-                }
-              </select>
-            </div>
-          }
-
-          <!-- TEXT -->
-          @if (config.type === FilterFieldType.TEXT) {
-            <div class="field-group">
-              <label>{{ config.label }}</label>
-              <input
-                type="text"
-                [(ngModel)]="fieldValues[config.controlName]"
-                [placeholder]="config.placeholder ?? ''"
-              />
-            </div>
-          }
-
-          <!-- RANGE -->
-          @if (config.type === FilterFieldType.RANGE) {
-            <div class="field-group">
-              <label>{{ config.label }}</label>
-              <div class="range-row">
-                <input type="number" placeholder="Min" [(ngModel)]="fieldValues[config.controlName].min" />
-                <span class="sep">—</span>
-                <input type="number" placeholder="Max" [(ngModel)]="fieldValues[config.controlName].max" />
-              </div>
-            </div>
-          }
-
-          <!-- DATE -->
-          @if (config.type === FilterFieldType.DATE) {
-            <div class="field-group">
-              <label>{{ config.label }}</label>
-              <input type="date" [(ngModel)]="fieldValues[config.controlName]" />
-            </div>
-          }
-
+    <!-- Trigger button -->
+    <button
+        class="filter-trigger"
+        (click)="toggle()"
+    >
+        <i class="fa-solid fa-filter"></i>
+        {{ 'FILTER.TITLE' | translate }} @if (activeCount() > 0) {
+        <span class="badge">{{ activeCount() }}</span>
         }
+        <i
+            class="fa-solid fa-chevron-down chevron"
+            [class.open]="isOpen()"
+        ></i>
+    </button>
 
-        <!-- Sort -->
-        <div class="field-group">
-          <label>Sort</label>
-          <div class="sort-row">
+    <!-- Panel -->
+    @if (isOpen()) {
+    <div
+        class="filter-backdrop"
+        (click)="isOpen.set(false)"
+    ></div>
+    <div class="panel">
+        <div class="panel-header">
+            <span>{{ 'FILTER.TITLES' | translate }}</span>
             <button
-              class="sort-btn"
-              [class.active]="sortDirection === 'asc'"
-              (click)="sortDirection = sortDirection === 'asc' ? 'desc' : 'asc'"
+                class="reset-btn"
+                (click)="reset()"
             >
-              <i class="fa-solid fa-arrow-up"></i>
-              ASC
+                {{ 'COMMON.ACTIONS.RESET_ALL' | translate }}
             </button>
-            <button
-              class="sort-btn"
-              [class.active]="sortDirection === 'desc'"
-              (click)="sortDirection = sortDirection === 'desc' ? 'asc' : 'desc'"
-            >
-              <i class="fa-solid fa-arrow-down"></i>
-              DESC
-            </button>
-          </div>
         </div>
 
-      </div>
+        <!-- Dynamic fields -->
+        <div class="fields">
+            @for (config of configs(); track config.controlName) {
 
-      <!-- Footer -->
-      <div class="panel-footer">
-        <button class="apply-btn" (click)="apply()">Apply Filter</button>
-      </div>
+            <!-- SELECT -->
+            @if (config.type === FilterFieldType.SELECT) {
+            <div class="field-group">
+                <label>{{ config.label }}</label>
+                <select
+                    [ngModel]="fieldValues()[config.controlName]"
+                    (ngModelChange)="updateFieldValue(config.controlName, $event)"
+                >
+                    <option [ngValue]="null">
+                        {{ config.placeholder ? (config.placeholder | translate)
+                        : ('FILTER.SELECT_PLACEHOLDER' | translate) }}
+                    </option>
+                    @for (opt of config.select_list ?? []; track opt.value) {
+                    <option [ngValue]="opt.value">{{ opt.label }}</option>
+                    }
+                </select>
+            </div>
+            }
 
+            <!-- TEXT -->
+            @if (config.type === FilterFieldType.TEXT) {
+            <div class="field-group">
+                <label>{{ config.label }}</label>
+                <input
+                    type="text"
+                    [ngModel]="fieldValues()[config.controlName]"
+                    (ngModelChange)="updateFieldValue(config.controlName, $event)"
+                    [placeholder]="config.placeholder ? (config.placeholder | translate) : ''"
+                />
+            </div>
+            }
+
+            <!-- RANGE -->
+            @if (config.type === FilterFieldType.RANGE) {
+            <div class="field-group">
+                <label>{{ config.label }}</label>
+                <div class="range-row">
+                    <input
+                        type="number"
+                        [placeholder]="'FILTER.MIN' | translate"
+                        [ngModel]="fieldValues()[config.controlName].min"
+                        (ngModelChange)="updateRangeField(config.controlName, 'min', $event)"
+                    />
+                    <span class="sep">—</span>
+                    <input
+                        type="number"
+                        [placeholder]="'FILTER.MAX' | translate"
+                        [ngModel]="fieldValues()[config.controlName].max"
+                        (ngModelChange)="updateRangeField(config.controlName, 'max', $event)"
+                    />
+                </div>
+            </div>
+            }
+
+            <!-- DATE -->
+            @if (config.type === FilterFieldType.DATE) {
+            <div class="field-group">
+                <label>{{ config.label }}</label>
+                <input
+                    type="date"
+                    [ngModel]="fieldValues()[config.controlName]"
+                    (ngModelChange)="updateFieldValue(config.controlName, $event)"
+                />
+            </div>
+            } }
+
+            <!-- Sort -->
+            <div class="field-group">
+                <label>{{ 'FILTER.SORT' | translate }}</label>
+                <div class="sort-row">
+                    <button
+                        class="sort-btn"
+                        [class.active]="sortDirection() === 'asc'"
+                        (click)="sortDirection.set(sortDirection() === 'asc' ? null : 'asc')"
+                    >
+                        <i class="fa-solid fa-arrow-up"></i>
+                        {{ 'FILTER.ASC' | translate }}
+                    </button>
+                    <button
+                        class="sort-btn"
+                        [class.active]="sortDirection() === 'desc'"
+                        (click)="sortDirection.set(sortDirection() === 'desc' ? null : 'desc')"
+                    >
+                        <i class="fa-solid fa-arrow-down"></i>
+                        {{ 'FILTER.DESC' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="panel-footer">
+            <button
+                class="apply-btn"
+                (click)="apply()"
+            >
+                {{ 'COMMON.ACTIONS.APPLY_FILTER' | translate }}
+            </button>
+        </div>
     </div>
-  }
-
+    }
 </div>

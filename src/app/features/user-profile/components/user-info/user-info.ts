@@ -11,6 +11,7 @@ import { User } from "../../../../core/models/user.model";
 import { passwordValidator } from "../../../../shared/validators/password.validator";
 import { ProfileSkeleton } from "../profile-skeleton/profile-skeleton";
 import { AuthService } from "../../../../core/services/auth/auth";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
     selector: "app-user-info",
@@ -21,6 +22,7 @@ import { AuthService } from "../../../../core/services/auth/auth";
         CommonModule,
         FieldValidation,
         ProfileSkeleton,
+        TranslateModule,
     ],
     templateUrl: "./user-info.html",
     styleUrl: "./user-info.scss",
@@ -55,7 +57,7 @@ export class UserInfo implements OnInit {
     firstNameConfig = {
         controlName: "firstName",
         errorMessages: {
-            required: "First name is required",
+            required: "AUTH.VALIDATION.FIRST_NAME_REQUIRED",
         },
     };
 
@@ -63,7 +65,7 @@ export class UserInfo implements OnInit {
     lastNameConfig = {
         controlName: "lastName",
         errorMessages: {
-            required: "Last name is required",
+            required: "AUTH.VALIDATION.LAST_NAME_REQUIRED",
         },
     };
 
@@ -71,8 +73,8 @@ export class UserInfo implements OnInit {
     emailConfig = {
         controlName: "email",
         errorMessages: {
-            required: "Email is required",
-            email: "Invalid email format",
+            required: "AUTH.VALIDATION.EMAIL_REQUIRED",
+            email: "AUTH.VALIDATION.EMAIL_INVALID",
         },
     };
 
@@ -80,7 +82,7 @@ export class UserInfo implements OnInit {
     addressConfig = {
         controlName: "address",
         errorMessages: {
-            required: "Address is required",
+            required: "AUTH.VALIDATION.ADDRESS_REQUIRED",
         },
     };
 
@@ -88,9 +90,8 @@ export class UserInfo implements OnInit {
     passwordConfig = {
         controlName: "newPassword",
         errorMessages: {
-            minlength: "Password must be at least 8 characters",
-            passwordStrength:
-                "Password must include uppercase, lowercase, number and special character",
+            minlength: "AUTH.VALIDATION.PASSWORD_MIN_LENGTH",
+            passwordStrength: "AUTH.VALIDATION.PASSWORD_STRENGTH",
         },
     };
 
@@ -159,6 +160,9 @@ export class UserInfo implements OnInit {
     }
 
 
+    /**
+     * Updates the user's profile information by sending the form data to the backend.
+     */
     changeProfileInfo() {
         this.loading.set(true);
         this._userProfileService

@@ -1,6 +1,6 @@
 import {Injectable, inject, signal, PLATFORM_ID} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable, tap} from "rxjs";
+import {Observable, tap, switchMap, map} from "rxjs";
 import {Router} from "@angular/router";
 import {PermissionsService} from "../permissions/permissions";
 import {GlobalResponse} from "../../models/response-global.model";
@@ -47,11 +47,17 @@ export class AuthService {
      * @param {string} password - The unhashed credential password
      * @returns {Observable<GlobalResponse<AuthResponse>>}
      */
-    login(email: string, password: string): Observable<GlobalResponse<AuthResponse>> {
+    login(email: string, password: string): Observable<User> {
         const loginUrl = `${environment.apiUrl}${BACKEND_ROUTE.auth.login}`;
-        return this._http
-            .post<GlobalResponse<AuthResponse>>(loginUrl, {email, password})
-            .pipe(tap((response) => this.handleAuthResponse(response)));
+        return this._http.post<GlobalResponse<AuthResponse>>(loginUrl, {email, password}).pipe(
+            tap((response) => {
+                if (isPlatformBrowser(this._platformId)) {
+                    localStorage.setItem(StorageKeys.TOKEN, response.data.credential.accessToken);
+                }
+            }),
+            switchMap(() => this.getLoggedUserProfile()),
+            map((response) => response.data)
+        );
     }
 
     /**
@@ -104,6 +110,5 @@ export class AuthService {
         if (isPlatformBrowser(this._platformId)) {
             localStorage.setItem(StorageKeys.TOKEN, response.data.credential.accessToken);
         }
-        this.getLoggedUserProfile().subscribe();
     }
 }

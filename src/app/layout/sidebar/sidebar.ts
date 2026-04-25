@@ -8,10 +8,11 @@ import { LayoutService } from "../../core/services/layout/layout";
 import { AuthService } from "../../core/services/auth/auth";
 import { DrawerModule } from "primeng/drawer";
 import { ButtonModule } from "primeng/button";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
     selector: "app-sidebar",
-    imports: [CommonModule, RouterModule, NgOptimizedImage, DrawerModule, ButtonModule],
+    imports: [CommonModule, RouterModule, NgOptimizedImage, DrawerModule, ButtonModule, TranslateModule],
     templateUrl: "./sidebar.html",
     styleUrl: "./sidebar.scss",
     encapsulation: ViewEncapsulation.None

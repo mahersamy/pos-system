@@ -10,6 +10,7 @@ export interface FilterFieldConfig {
   type: FilterFieldType;
   controlName: string;
   label: string;
+  placeholder?: string;
 }
 
 export interface RangeFilterConfig extends FilterFieldConfig {
@@ -31,6 +32,12 @@ export interface TextFilterConfig extends FilterFieldConfig {
 export interface DateFilterConfig extends FilterFieldConfig {
   type: FilterFieldType.DATE;
 }
+
+export type FilterConfig =
+  | RangeFilterConfig
+  | SelectFilterConfig
+  | TextFilterConfig
+  | DateFilterConfig;
 
 export interface FilterOutput {
   search: string;

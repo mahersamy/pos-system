@@ -1,10 +1,10 @@
 <div
-    class="notification-card d-flex p-3 rounded-3"
+    class="notification-card d-flex p-3 rounded-3 gap-4"
     (click)="goToDetail()"
     style="cursor: pointer"
 >
     <div
-        class="icon-container me-4 d-flex align-items-center justify-content-center flex-shrink-0"
+        class="icon-container d-flex align-items-center justify-content-center flex-shrink-0"
     >
         <i
             class="fa-solid"
@@ -13,25 +13,29 @@
     </div>
 
     <div
-        class="notification-content flex-grow-1 d-flex flex-column justify-content-center"
+        class="notification-content flex-grow-1 d-flex flex-column justify-content-center gap-2"
     >
-        <div class="d-flex align-items-center mb-2">
-            <h5 class="notification-title m-0 me-2 fw-bold">
+        <div class="d-flex align-items-center gap-2">
+            <h5 class="notification-title m-0 fw-bold">
                 {{ notification().title }}
             </h5>
             @if(notification().status !== 'read') {
             <span class="badge rounded-pill status-badge">
-                {{ notification().status === 'pending' ? 'Unread' : 'New' }}
+                {{ (notification().status === 'pending' ?
+                'NOTIFICATION.STATUS_PENDING' : 'NOTIFICATION.STATUS_NEW') |
+                translate }}
             </span>
             }
         </div>
-        <p class="notification-message mb-3">{{ notification().message }}</p>
+        <p class="notification-message m-0">{{ notification().message }}</p>
 
         <div class="metadata-pills d-flex flex-wrap gap-2">
             @for (item of notification().metadata | keyvalue; track item.key) {
             @if($index < 3) {
-            <span class="meta-pill px-2 py-1 rounded-2">
-                <i class="fa-solid fa-circle-info me-1"></i>
+            <span
+                class="meta-pill px-2 py-1 rounded-2 d-inline-flex align-items-center gap-1"
+            >
+                <i class="fa-solid fa-circle-info"></i>
                 {{ item.key }}: {{ item.value }}
             </span>
             } } @if(metadataLength() > 3) {
@@ -43,15 +47,16 @@
         </div>
     </div>
 
-    <div class="notification-actions d-flex align-items-center gap-4 ms-4">
+    <div class="notification-actions d-flex align-items-center gap-4">
         <span class="notification-date fs-7"
             >{{ notification().sentAt | date:'MM/dd/yy' }}</span
         >
         <button
-            class="btn btn-outline-delete d-flex align-items-center rounded-2 px-3 py-2"
+            class="btn btn-outline-delete d-flex align-items-center rounded-2 px-3 py-2 gap-2"
             (click)="delete.emit(notification()); $event.stopPropagation()"
         >
-            <i class="fa-solid fa-trash-can me-2"></i> Delete
+            <i class="fa-solid fa-trash-can"></i> {{ 'COMMON.ACTIONS.DELETE' |
+            translate }}
         </button>
     </div>
 </div>

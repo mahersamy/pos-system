@@ -3,7 +3,7 @@ import {Routes} from "@angular/router";
 export const staffRoutes: Routes = [
     {
         path: "staff",
-        data: {title: "Staff List"},
+        data: {title: "STAFF.LIST"},
         loadComponent: () =>
             import("../pages/staff-list/staff-list").then(
                 (m) => m.StaffList
@@ -11,7 +11,7 @@ export const staffRoutes: Routes = [
     },
     {
         path: "staff/staff-details/:id",
-        data: {title: "Staff Details"},
+        data: {title: "STAFF.DETAILS"},
         loadComponent: () =>
             import("../pages/staff-details/staff-details").then(
                 (m) => m.StaffDetails

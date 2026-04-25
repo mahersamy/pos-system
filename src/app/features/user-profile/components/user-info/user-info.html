@@ -2,7 +2,7 @@
 
 @if (!loading()) {
 <section class="personal-info">
-    <h2 class="section-title">Personal Information</h2>
+    <h2 class="section-title">{{ 'USER_PROFILE.PERSONAL_INFO' | translate }}</h2>
 
     <!-- Avatar Section -->
     <div class="user-profile-header">
@@ -50,12 +50,12 @@
     >
         <div class="form-grid">
             <div class="form-group">
-                <label class="form-label">First Name</label>
+                <label class="form-label">{{ 'USER_PROFILE.FIRST_NAME' | translate }}</label>
                 <input
                     type="text"
                     pInputText
                     formControlName="firstName"
-                    placeholder="Enter first name"
+                    [placeholder]="'USER_PROFILE.FIRST_NAME' | translate"
                 />
                 <app-field-validation
                     [config]="firstNameConfig"
@@ -63,12 +63,12 @@
                 />
             </div>
             <div class="form-group">
-                <label class="form-label">Last Name</label>
+                <label class="form-label">{{ 'USER_PROFILE.LAST_NAME' | translate }}</label>
                 <input
                     type="text"
                     pInputText
                     formControlName="lastName"
-                    placeholder="Enter last name"
+                    [placeholder]="'USER_PROFILE.LAST_NAME' | translate"
                 />
                 <app-field-validation
                     [config]="lastNameConfig"
@@ -78,7 +78,7 @@
         </div>
 
         <div class="form-group full-width">
-            <label class="form-label">Email</label>
+            <label class="form-label">{{ 'COMMON.EMAIL' | translate }}</label>
             <input
                 type="email"
                 pInputText
@@ -92,12 +92,12 @@
         </div>
 
         <div class="form-group full-width">
-            <label class="form-label">Address</label>
+            <label class="form-label">{{ 'USER_PROFILE.ADDRESS' | translate }}</label>
             <input
                 type="text"
                 pInputText
                 formControlName="address"
-                placeholder="Enter address"
+                [placeholder]="'USER_PROFILE.ADDRESS' | translate"
             />
             <app-field-validation
                 [config]="addressConfig"
@@ -107,7 +107,7 @@
 
         <div class="form-grid">
             <div class="form-group">
-                <label class="form-label">New Password</label>
+                <label class="form-label">{{ 'USER_PROFILE.NEW_PASSWORD' | translate }}</label>
                 <p-password
                     formControlName="newPassword"
                     placeholder="********"
@@ -121,7 +121,7 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label">Confirm Password</label>
+                <label class="form-label">{{ 'USER_PROFILE.CONFIRM_PASSWORD' | translate }}</label>
                 <p-password
                     formControlName="confirmPassword"
                     placeholder="********"
@@ -137,14 +137,14 @@
                 class="btn-link"
                 (click)="getProfile()"
             >
-                Discard Changes
+                {{ 'COMMON.ACTIONS.DISCARD_CHANGES' | translate }}
             </button>
             <button
                 type="submit"
                 class="btn btn-primary"
                 (click)="changeProfileInfo()"
             >
-                Save Changes
+                {{ 'COMMON.ACTIONS.SAVE_CHANGES' | translate }}
             </button>
         </div>
     </form>

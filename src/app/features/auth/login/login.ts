@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {AuthService} from "../../../core/services/auth/auth";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {TranslateModule} from "@ngx-translate/core";
 
 import {InputTextModule} from "primeng/inputtext";
 import {PasswordModule} from "primeng/password";
@@ -12,7 +13,7 @@ import {passwordValidator} from "../../../shared/validators/password.validator";
 
 @Component({
     selector: "app-login",
-    imports: [ReactiveFormsModule, CommonModule, InputTextModule, PasswordModule, FieldValidation],
+    imports: [ReactiveFormsModule, CommonModule, InputTextModule, PasswordModule, FieldValidation, TranslateModule],
     templateUrl: "./login.html",
     styleUrl: "./login.scss",
 })
@@ -34,8 +35,8 @@ export class Login {
     emailConfig = {
         controlName: "email",
         errorMessages: {
-            required: "Email is required",
-            email: "Invalid email format",
+            required: "AUTH.VALIDATION.EMAIL_REQUIRED",
+            email: "AUTH.VALIDATION.EMAIL_INVALID",
         },
     };
 
@@ -43,10 +44,9 @@ export class Login {
     passwordConfig = {
         controlName: "password",
         errorMessages: {
-            required: "Password is required",
-            minlength: "Password must be at least 8 characters",
-            passwordStrength:
-                "Password must include uppercase, lowercase, number and special character",
+            required: "AUTH.VALIDATION.PASSWORD_REQUIRED",
+            minlength: "AUTH.VALIDATION.PASSWORD_MIN_LENGTH",
+            passwordStrength: "AUTH.VALIDATION.PASSWORD_STRENGTH",
         },
     };
 
@@ -68,8 +68,7 @@ export class Login {
             .login(email, password)
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
-                next: (loginData) => {
-                    this.isLoading.set(false);
+                next: (user) => {
                     this._router.navigate(["main"]);
                 },
                 error: (error) => {

@@ -1,7 +1,9 @@
-import {Injectable, signal, WritableSignal} from "@angular/core";
+import {DestroyRef, Injectable, signal, WritableSignal} from "@angular/core";
 import {ColumnConfig} from "../models/colmun-config.model";
-import {Subject} from "rxjs";
+import {Observable, Subject} from "rxjs";
 import {ActionConfig, BulkActionConfig} from "../models/actions.mode";
+import { PaginatedResponse } from "../../../../core/models/paginated-response.model";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 // ─── Table Config ─────────────────────────────────────────────────────────────
 export interface TableConfig<T = any> {
@@ -14,6 +16,11 @@ export interface TableConfig<T = any> {
     isError: WritableSignal<boolean>;
     isSelectable: WritableSignal<boolean>;
     refetchEvent: Subject<void>;
+    // ─── pagination ─────────────────────────────────────────
+    currentPage: WritableSignal<number>;
+    limit: WritableSignal<number>;
+    total: WritableSignal<number>;
+    totalPages: WritableSignal<number>;
 }
 
 // ─── Filter Config (future) ────────────────────────────────────────────────────
@@ -39,8 +46,53 @@ export class DataTableConfig<T = any> {
         isError:      signal(false),
         isSelectable: signal(false),
         refetchEvent: new Subject<void>(),
+         // ─── pagination ─────────────────────────────────────────
+        currentPage:  signal(1),
+        limit:        signal(10),
+        total:        signal(0),
+        totalPages:   signal(0),
     };
 
     // ── Bulk Actions (future) ──────────────────────────────────────────────────
     // readonly bulkActionConfig: BulkActionConfig = { ... };
+
+
+    
+    
+    /**
+     * ─── Added during pagination ─────────────────────────────────────────────
+     * Universal data loader — pass in ANY service observable that returns
+     * PaginatedResponse<T> and this handles loading, error, pagination state.
+     *
+     * Usage in any feature:
+     *   this._dataTableConfig.loadData(
+     *     this._staffService.getStaffs({ page: 1, limit: 10 }),
+     *     this._destroyRef
+     *   );
+     *
+     * @param source$ - The service observable returning PaginatedResponse<T>
+     * @param destroyRef - The component's DestroyRef for auto-unsubscribe
+     */
+    loadData(source$: Observable<PaginatedResponse<T>>, destroyRef: DestroyRef): void {
+        this.tableConfig.loading.set(true);
+        this.tableConfig.isError.set(false);
+ 
+        source$
+            .pipe(takeUntilDestroyed(destroyRef))
+            .subscribe({
+                next: (response) => {
+                    this.tableConfig.rows.set(response.data as T[]);
+                    this.tableConfig.total.set(response.total);
+                    this.tableConfig.totalPages.set(response.totalPages);
+                    this.tableConfig.currentPage.set(response.page);
+                    this.tableConfig.limit.set(response.limit);
+                    this.tableConfig.loading.set(false);
+                },
+                error: (error) => {
+                    console.error("DataTableConfig: Failed to load data", error);
+                    this.tableConfig.loading.set(false);
+                    this.tableConfig.isError.set(true);
+                },
+            });
+    }
 }

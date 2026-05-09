@@ -12,4 +12,10 @@ export const staffRoutes: Routes = [
         loadComponent: () =>
             import("../pages/staff-details/staff-details").then((m) => m.StaffDetails),
     },
+    {
+        path: "staff/create",
+        data: {title: "STAFF.CREATE"},
+        loadComponent: () =>
+            import("../pages/staff-create/staff-create").then((m) => m.StaffCreate),
+    },
 ];

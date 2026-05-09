@@ -1,1 +1,12 @@
-<p>staff-create works!</p>
+<div class="flex flex-column gap-3 mt-5 position-relative">
+    <section class="mb-8">
+
+        <app-dynamic-form [configArr]="staffFormConfig" (form)="onFormReady($event)">
+        </app-dynamic-form>
+    </section>
+
+    <div class="mt-4 d-flex justify-content-end align-items-center gap-2 footer">
+        <button class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+        <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+    </div>
+</div>

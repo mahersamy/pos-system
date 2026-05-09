@@ -16,6 +16,8 @@ import { FilterOutput } from "../../../../shared/components/filter-panel/interfa
 import { FilterPanel } from "../../../../shared/components/filter-panel/filter-panel/filter-panel";
 import { SearchBar } from "../../../../shared/components/search-bar/search-bar";
 import { TranslateModule } from "@ngx-translate/core";
+import { DialogService } from "primeng/dynamicdialog";
+import { StaffCreate } from "../staff-create/staff-create";
 
 @Component({
     selector: "app-staff-list",
@@ -29,6 +31,7 @@ export class StaffList implements OnInit, ModuleBase {
     private readonly _dataTableConfig = inject(DataTableConfig<StaffAdaptModel>);
     private readonly _router = inject(Router);
     private readonly _destroyRef = inject(DestroyRef);
+    private readonly _dialogService = inject(DialogService);
 
     filterConfig = STAFF_FILTER_CONFIG;
     filterObj: FilterOutput = {
@@ -95,7 +98,7 @@ export class StaffList implements OnInit, ModuleBase {
     }
 
     private _onEdit(data: StaffAdaptModel) {
-        console.log("Edit Staff Profile", data);
+        this._openDialog(data);
     }
 
     private _onDelete(data: StaffAdaptModel) {
@@ -160,5 +163,37 @@ export class StaffList implements OnInit, ModuleBase {
         this._dataTableConfig.tableConfig.refetchEvent
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(() => this.fetchData());
+    }
+
+
+    // ─── Dialog ─────────────────────────────────────────────────────────────────
+    
+    private _openDialog(data: StaffAdaptModel) {
+        const dialogRef = this._dialogService.open(StaffCreate, {
+            header: data ? "Edit Staff" : "Create New Staff",
+            data: data,
+            width: '450px',
+            position: 'right',
+            pt: {
+                mask: {
+                    class: 'premium-dialog-mask'
+                },
+                root: {
+                    class: 'premium-dialog-root'
+                },
+                header: {
+                    class: 'premium-dialog-header'
+                },
+                title: {
+                    class: 'premium-dialog-title'
+                },
+                content: {
+                    class: 'premium-dialog-content'
+                },
+                pcCloseButton: {
+                    root: { class: 'premium-dialog-close-btn' }
+                }
+            }
+        });
     }
 }

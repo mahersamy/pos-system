@@ -1,0 +1,100 @@
+@use '../themes/theme-properties' as *;
+
+.premium-dialog-mask {
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.premium-dialog-root {
+    background: var(--surface-gradient-bg);
+    border-left: 1px solid var(--surface-gradient-border);
+    border-radius: 1.5rem 0 0 1.5rem;
+    box-shadow: -10px 0 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    animation: slideLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.premium-dialog-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.premium-dialog-title {
+    font-family: var(--font-1);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.premium-dialog-close-btn {
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background: var(--primary-pink);
+        color: var(--gray-900);
+        transform: rotate(90deg);
+    }
+}
+
+.premium-dialog-content {
+    background: transparent;
+    padding: 2rem;
+    color: var(--text-main);
+    flex: 1;
+    overflow-y: auto;
+    
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        
+        &:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideLeft {
+    from { 
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

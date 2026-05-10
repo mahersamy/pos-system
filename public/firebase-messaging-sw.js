@@ -1,5 +1,5 @@
-importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/11.9.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/11.9.0/firebase-messaging-compat.js');
 
 firebase.initializeApp({
   apiKey: 'AIzaSyBRtmJnj7sqGifU9uAxrwF6EIrWVkNUdTw',
@@ -27,20 +27,24 @@ messaging.onBackgroundMessage((payload) => {
   self.registration.showNotification(notificationTitle, notificationOptions);
 });
 
-// Opens/focuses the app when user clicks the notification toast
+// Opens/focuses the app when user clicks the notification toast.
+// Supports a 'url' field in the FCM data payload for deep-linking.
 self.addEventListener('notificationclick', (event) => {
   console.log('[firebase-messaging-sw.js] Notification clicked:', event.notification);
+  const targetUrl = (event.notification.data && event.notification.data['url']) || '/';
   event.notification.close();
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      // Focus an already-open tab that matches the target URL
       for (const client of clientList) {
-        if ('focus' in client) {
+        if (client.url.includes(targetUrl) && 'focus' in client) {
           return client.focus();
         }
       }
+      // Otherwise open a new tab at the target URL
       if (clients.openWindow) {
-        return clients.openWindow('/');
+        return clients.openWindow(targetUrl);
       }
     }),
   );

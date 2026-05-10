@@ -1,7 +1,7 @@
 import { Injectable, PLATFORM_ID, inject, signal } from "@angular/core";
 import { isPlatformBrowser } from "@angular/common";
-import { initializeApp } from "firebase/app";
-import { getMessaging, getToken, isSupported, onMessage } from "firebase/messaging";
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getMessaging, Messaging, getToken, isSupported, onMessage } from "firebase/messaging";
 import { HttpClient } from "@angular/common/http";
 import { MessageService } from "primeng/api";
 import { Observable } from "rxjs";
@@ -20,8 +20,20 @@ export class NotificationService {
     private readonly _http = inject(HttpClient);
     private readonly _messageService = inject(MessageService);
 
+    /** Singleton Firebase Messaging instance (initialized once). */
+    private _messaging: Messaging | null = null;
+
     /** Signals the latest foreground push notification to any listening component. */
     readonly liveNotification = signal<ApiNotification | null>(null);
+
+    /** Returns (or lazily creates) the single Firebase Messaging instance. */
+    private getMessagingInstance(): Messaging {
+        if (!this._messaging) {
+            const app = getApps().length ? getApp() : initializeApp(environment.firebaseConfig);
+            this._messaging = getMessaging(app);
+        }
+        return this._messaging;
+    }
 
     // ─── API Methods ────────────────────────────────────────────────────────────
 
@@ -52,7 +64,7 @@ export class NotificationService {
             .then((supported) => {
                 if (!supported) return;
 
-                const messaging = getMessaging(initializeApp(environment.firebaseConfig));
+                const messaging = this.getMessagingInstance();
 
                 onMessage(messaging, (payload) => {
                     const incoming: ApiNotification = {
@@ -98,7 +110,7 @@ export class NotificationService {
                 return;
             }
 
-            const messaging = getMessaging(initializeApp(environment.firebaseConfig));
+            const messaging = this.getMessagingInstance();
             const permission = await Notification.requestPermission();
 
             if (permission !== "granted") return;

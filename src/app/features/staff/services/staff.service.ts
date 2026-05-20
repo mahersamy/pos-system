@@ -1,4 +1,4 @@
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {inject, Injectable} from "@angular/core";
 import {environment} from "../../../../environments/environment";
 import {Staff} from "../models/staff";
@@ -22,23 +22,21 @@ export class StaffService {
      * @param {GetAllModel} getAllModel - The query configurations for pagination and sorting
      * @returns {Observable<PaginatedResponse<StaffAdaptModel>>} Adapted stream of staff models with pagination
      */
-    // ─── Updated during pagination: now returns PaginatedResponse ─────────────
-    getStaffs(getAllModel: GetAllModel): Observable<PaginatedResponse<StaffAdaptModel>> {
+    getStaffs(getAllModel: GetAllModel): Observable<StaffAdaptModel[]> {
+        let params = new HttpParams();
+
+        Object.keys(getAllModel).forEach((key) => {
+            const value = getAllModel[key];
+            if (value !== undefined && value !== null && value !== "") {
+                params = params.set(key, value);
+            }
+        });
+
         return this._http
-            .get<GlobalPaginatedResponse<Staff[]>>(
-                `${environment.apiUrl}${BACKEND_ROUTE.staff.base}?page=${getAllModel.page}&limit=${getAllModel.limit}&search=${getAllModel.search}&sort=${getAllModel.sort}`
-            )
-            .pipe(
-                map((response) => ({
-                    data:        response.data.map((item) => this._staffAdaptor.adapt(item)),
-                    total:       response.total,
-                    page:        response.page,
-                    limit:       response.limit,
-                    totalPages:  response.totalPages,
-                    hasNextPage: response.hasNextPage,
-                    hasPrevPage: response.hasPrevPage,
-                }))
-            );
+            .get<
+                GlobalResponse<Staff[]>
+            >(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}`, {params})
+            .pipe(map((response) => response.data.map((item) => this._staffAdaptor.adapt(item))));
     }
 
     /**
@@ -54,16 +52,22 @@ export class StaffService {
      * Deletes a given staff member profile
      */
     deleteStaff(id: string): Observable<GlobalResponse<null>> {
-        return this._http.delete<GlobalResponse<null>>(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}/${id}`);
+        return this._http.delete<GlobalResponse<null>>(
+            `${environment.apiUrl}${BACKEND_ROUTE.staff.base}/${id}`
+        );
     }
 
     /**
      * Deletes multiple staff member profiles
      */
-    deleteManyStaff(ids: string[]): Observable<GlobalResponse<{deletedCount: number, message: string}>> {
-        return this._http.delete<GlobalResponse<{deletedCount: number, message: string}>>(
+    deleteManyStaff(
+        ids: string[]
+    ): Observable<GlobalResponse<{deletedCount: number; message: string}>> {
+        return this._http.delete<GlobalResponse<{deletedCount: number; message: string}>>(
             `${environment.apiUrl}${BACKEND_ROUTE.staff.deleteMany}`,
-            { body: { ids } }
+            {
+                body: {ids},
+            }
         );
     }
 }

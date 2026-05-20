@@ -1,32 +1,67 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { NotificationService } from '../../../features/notification/services/notification.service';
+import {Component, inject, signal, effect} from "@angular/core";
+import {TranslateModule} from "@ngx-translate/core";
+import {NotificationService} from "../../../features/notification/services/notification.service";
+import {AuthService} from "../../../core/services/auth/auth";
 
 @Component({
-  selector: 'app-notification-banner',
-  standalone: true,
-  templateUrl: './notification-banner.component.html',
-  styleUrl: './notification-banner.component.scss'
+    selector: "app-notification-banner",
+    imports: [TranslateModule],
+    templateUrl: "./notification-banner.component.html",
+    styleUrl: "./notification-banner.component.scss",
 })
-export class NotificationBannerComponent implements OnInit {
-  private readonly _notificationService = inject(NotificationService);
-  public showBanner = signal(false);
+export class NotificationBannerComponent {
+    private readonly _notificationService = inject(NotificationService);
+    private readonly _authService = inject(AuthService);
+    public showBanner = signal(false);
+    private _hasPrompted = false;
+    private _showTimeout: any;
+    private _hideTimeout: any;
 
-  ngOnInit() {
-    // Only show the banner if we haven't asked yet (permission is 'default')
-    if (Notification && Notification.permission === 'default') {
-      this.showBanner.set(true);
-    } else if (Notification && Notification.permission === 'granted') {
-      // If already granted, safely get the token silently.
-      this._notificationService.getFcmToken();
+    constructor() {
+        effect(() => {
+            const user = this._authService.currentUser();
+            if (user && !this._hasPrompted) {
+                this._hasPrompted = true;
+                if (typeof Notification !== "undefined" && Notification.permission === "default") {
+                    // Show banner 5 seconds after login/dashboard load
+                    this._showTimeout = setTimeout(() => {
+                        this.showBanner.set(true);
+
+                        // Auto-hide after 30 seconds
+                        this._hideTimeout = setTimeout(() => {
+                            this.showBanner.set(false);
+                        }, 30000);
+                    }, 5000);
+                } else if (
+                    typeof Notification !== "undefined" &&
+                    Notification.permission === "granted"
+                ) {
+                    // If already granted, safely get the token silently.
+                    this._notificationService.getFcmToken();
+                }
+            } else if (!user) {
+                clearTimeout(this._showTimeout);
+                clearTimeout(this._hideTimeout);
+                this.showBanner.set(false);
+                this._hasPrompted = false;
+            }
+        });
     }
-  }
 
-  async onAllow() {
-    this.showBanner.set(false); // Hide banner immediately
-    await this._notificationService.getFcmToken();
-  }
+    /**
+     * Handles the 'Allow' action by hiding the banner and requesting the FCM push token.
+     */
+    async onAllow() {
+        clearTimeout(this._hideTimeout);
+        this.showBanner.set(false); // Hide banner immediately
+        await this._notificationService.getFcmToken();
+    }
 
-  onDismiss() {
-    this.showBanner.set(false);
-  }
+    /**
+     * Handles the 'Dismiss' action by hiding the banner without requesting permissions.
+     */
+    onDismiss() {
+        clearTimeout(this._hideTimeout);
+        this.showBanner.set(false);
+    }
 }

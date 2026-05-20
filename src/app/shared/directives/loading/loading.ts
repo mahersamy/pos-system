@@ -54,6 +54,7 @@ import {Directive, ElementRef, inject, Input, Renderer2, effect, signal} from "@
 
 @Directive({
     selector: "button[loading]",
+    standalone: true,
 })
 export class Loading {
     private readonly _el = inject(ElementRef<HTMLButtonElement>);
@@ -92,11 +93,12 @@ export class Loading {
                 this._originalNodes = Array.from(button.childNodes);
                 this._originalNodes.forEach((node) => this._renderer.removeChild(button, node));
 
-                // Create and add spinner
-                this._spinner = this._renderer.createElement("span");
-                this._spinner?.classList.add("spinner");
-                if (this._spinner) {
-                    this._spinner.innerHTML = `<span class="fas fa-spinner fa-spin"></span>`;
+                // Create and add spinner only if it doesn't exist
+                if (!this._spinner) {
+                    this._spinner = this._renderer.createElement("span");
+                    this._spinner?.classList.add("app-loading-spinner");
+                    this._spinner!.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i>
+`;
                     this._renderer.appendChild(button, this._spinner);
                 }
             } else {
@@ -112,8 +114,11 @@ export class Loading {
                     this._originalNodes = [];
                 }
 
-                // Re-enable
+                // Re-enable ONLY if it wasn't disabled before we started
                 if (this._wasDisabledByDirective) {
+                    // Check if there's a [disabled] binding that should still be active
+                    // We can't easily check that, so we just set it to false if WE disabled it.
+                    // But wait, if the user has [disabled]="!hasMore()", Angular will re-evaluate it anyway.
                     this._renderer.setProperty(button, "disabled", false);
                     this._wasDisabledByDirective = false;
                 }

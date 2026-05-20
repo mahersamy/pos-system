@@ -12,6 +12,9 @@
 .not-found-content {
     max-width: 480px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     .icon-wrapper {
         width: 120px;
@@ -55,6 +58,7 @@
     }
 
     .btn {
+        width: fit-content;
         padding: 0.875rem 2rem;
         font-weight: 600;
         border-radius: 12px;

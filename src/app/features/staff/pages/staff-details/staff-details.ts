@@ -8,10 +8,11 @@ import {UploadFileService} from "../../../../core/services/file-upload/upload-fi
 import {ConfirmationService} from "../../../../core/services/confirmation/confirmation";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {ErrorState} from "../../../../shared/components/error-state/error-state";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-staff-details",
-    imports: [CommonModule, SkeletonModule, ErrorState],
+    imports: [CommonModule, SkeletonModule, ErrorState, TranslateModule],
     templateUrl: "./staff-details.html",
     styleUrl: "./staff-details.scss",
 })
@@ -107,11 +108,11 @@ export class StaffDetails implements OnInit {
         if (!currentStaff) return;
 
         this._confirmationService.confirm({
-            header: "Delete Profile",
-            message: "Are you sure you want to delete this staff profile?",
+            header: "STAFF.CONFIRMATION.DELETE_TITLE",
+            message: "STAFF.CONFIRMATION.DELETE_MESSAGE",
             type: "delete",
-            btn1Text: "Delete",
-            btn2Text: "Cancel",
+            btn1Text: "COMMON.ACTIONS.DELETE",
+            btn2Text: "COMMON.ACTIONS.CANCEL",
             btn1Action: () => {
                 this._confirmationService.isBtn1Loading.set(true);
                 this._staffService

@@ -1,13 +1,14 @@
 import {Staff} from "./staff";
 
 export interface StaffAdaptModel extends Partial<Staff> {
+    _id: string;
     staffProfile: {
         fullname: string;
         position: string;
         image?: string;
     };
 
-    DateOfBirth: string;
+    dateOfBirth: string;
     timing: string;
     address?: string;
 }

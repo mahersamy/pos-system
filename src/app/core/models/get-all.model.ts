@@ -3,4 +3,5 @@ export interface GetAllModel {
     limit: number;
     search?: string;
     sort?: string;
+    [key: string]: any;
 }

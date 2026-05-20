@@ -34,6 +34,12 @@
 
             i {
                 font-size: 0.75rem;
+                display: inline-block;
+                transition: transform 0.3s ease;
+
+                :host-context([dir='rtl']) & {
+                    transform: rotate(180deg);
+                }
             }
         }
 
@@ -51,6 +57,28 @@
         display: flex;
         align-items: center;
         gap: 1.25rem;
+
+        .language-box {
+            .lang-btn {
+                background: var(--gray-800);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: var(--white);
+                padding: 0.4rem 0.8rem;
+                border-radius: 8px;
+                font-size: 0.875rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                min-width: 45px;
+
+                &:hover {
+                    background: var(--primary-pink);
+                    color: var(--black);
+                    border-color: var(--primary-pink);
+                    transform: translateY(-2px);
+                }
+            }
+        }
 
         .notification-box {
             .icon-btn {
@@ -74,7 +102,8 @@
                 .notification-badge {
                     position: absolute;
                     top: 6px;
-                    right: 6px;
+                    inset-inline-end: 6px;
+
                     height: 10px;
                     width: 10px;
                     background: var(--primary-pink);

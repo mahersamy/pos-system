@@ -2,10 +2,8 @@
     <div class="brand-title">COSYPOS</div>
 
     <div class="auth-card">
-        <h2 class="card-title">Login!</h2>
-        <p class="card-subtitle">
-            Please enter your credentials below to continue
-        </p>
+        <h2 class="card-title">{{ 'AUTH.TITLE' | translate }}</h2>
+        <p class="card-subtitle">{{ 'AUTH.SUBTITLE' | translate }}</p>
 
         <form
             [formGroup]="loginForm"
@@ -13,12 +11,12 @@
         >
             <!-- EMAIL -->
             <div class="form-group">
-                <label>Email</label>
+                <label>{{ 'COMMON.EMAIL' | translate }}</label>
                 <div class="input-wrapper">
                     <input
                         type="email"
                         pInputText
-                        placeholder="Email"
+                        [placeholder]="'COMMON.EMAIL' | translate"
                         formControlName="email"
                     />
                 </div>
@@ -30,11 +28,11 @@
 
             <!-- PASSWORD -->
             <div class="form-group">
-                <label>Password</label>
+                <label>{{ 'COMMON.PASSWORD' | translate }}</label>
                 <div class="input-wrapper">
                     <p-password
                         formControlName="password"
-                        placeholder="Password"
+                        [placeholder]="'COMMON.PASSWORD' | translate"
                         [feedback]="false"
                         [toggleMask]="true"
                     />
@@ -49,13 +47,10 @@
             <button
                 type="submit"
                 class="btn btn-primary w-100"
-                [disabled]="loginForm.invalid || isLoading()"
+                [disabled]="loginForm.invalid"
+                [loading]="isLoading()"
             >
-                @if (isLoading()) {
-                <span class="spinner"></span>
-                } @else {
-                <span>Login</span>
-                }
+                {{ 'COMMON.LOGIN' | translate }}
             </button>
         </form>
     </div>

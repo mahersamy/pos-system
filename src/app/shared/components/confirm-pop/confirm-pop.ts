@@ -1,8 +1,8 @@
-import {Component, inject} from "@angular/core";
+import {Component, inject, signal} from "@angular/core";
 import {DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {Select} from "primeng/select";
 import {ConfirmationService} from "../../../core/services/confirmation/confirmation";
 import {Loading} from "../../directives/loading/loading";
@@ -19,10 +19,11 @@ export class ConfirmPop {
     private readonly _confirmationService = inject(ConfirmationService);
     private readonly _sanitizer = inject(DomSanitizer);
     private readonly _ref = inject(DynamicDialogRef);
+    private readonly _translateService = inject(TranslateService);
 
     data: ConfirmationOptions = this._config.data || {};
-    selectedReason = "";
-    rejectionDescription = "";
+    selectedReason = signal("");
+    rejectionDescription = signal("");
 
     isBtn1Loading = this._confirmationService.isBtn1Loading;
     isBtn2Loading = this._confirmationService.isBtn2Loading;
@@ -70,7 +71,7 @@ export class ConfirmPop {
      */
     isBtn1Enabled(): boolean {
         if (!this.data.showRejectionDropdown) return true;
-        return !!this.selectedReason && this.rejectionDescription.trim().length > 0;
+        return !!this.selectedReason() && this.rejectionDescription().trim().length > 0;
     }
 
     /**
@@ -131,6 +132,7 @@ export class ConfirmPop {
      * @returns {SafeHtml} The trusted HTML string.
      */
     getSafeMessage(): SafeHtml {
-        return this._sanitizer.bypassSecurityTrustHtml(this.data.message || "");
+        const translatedMessage = this._translateService.instant(this.data.message || "");
+        return this._sanitizer.bypassSecurityTrustHtml(translatedMessage);
     }
 }

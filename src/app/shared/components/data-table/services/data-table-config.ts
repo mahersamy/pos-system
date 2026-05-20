@@ -37,13 +37,13 @@ export interface TableConfig<T = any> {
 export class DataTableConfig<T = any> {
     // ── Table ──────────────────────────────────────────────────────────────────
     readonly tableConfig: TableConfig<T> = {
-        columns:      signal([]),
-        actions:      signal([]),
-        bulkActions:  signal([]),
-        rows:         signal([]),
-        dataKey:      signal("_id"),
-        loading:      signal(true),
-        isError:      signal(false),
+        columns: signal([]),
+        actions: signal([]),
+        bulkActions: signal([]),
+        rows: signal([]),
+        dataKey: signal("_id"),
+        loading: signal(true),
+        isError: signal(false),
         isSelectable: signal(false),
         refetchEvent: new Subject<void>(),
          // ─── pagination ─────────────────────────────────────────

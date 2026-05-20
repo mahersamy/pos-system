@@ -5,21 +5,21 @@ import {DataTable} from "../../../../shared/components/data-table/data-table";
 import {DataTableConfig} from "../../../../shared/components/data-table/services/data-table-config";
 import {StaffService} from "../../services/staff.service";
 import {StaffAdaptModel} from "../../models/staff-adapt.model";
-import {STAFF_TABLE_COLUMNS, STAFF_TABLE_ACTION_META, STAFF_TABLE_BULK_ACTIONS} from "./staff-list.config";
+import {
+    STAFF_TABLE_COLUMNS,
+    STAFF_TABLE_ACTION_META,
+    STAFF_TABLE_BULK_ACTIONS,
+    STAFF_FILTER_CONFIG,
+} from "./staff-list.config";
 import {ModuleBase} from "../../../../core/base/module.base";
-// ─── Added during pagination ───────────────────────────────────────────────────
-import {Pagination, PageChangeEvent} from "../../../../shared/components/pagination/pagination";
+import {FilterOutput} from "../../../../shared/ui/filter-panel/interface/filter-panel.models";
+import {FilterPanel} from "../../../../shared/ui/filter-panel/filter-panel/filter-panel";
 import {SearchBar} from "../../../../shared/ui/search-bar/search-bar/search-bar";
-import {FilterPanel, FilterFieldConfig, FilterFieldType, FilterOutput} from "../../../../shared/ui/filter-panel/filter-panel/filter-panel";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-staff-list",
-    imports: [
-        DataTable,
-        Pagination,  // ─── Added during pagination
-        SearchBar,   // ─── Added during pagination
-        FilterPanel, // ─── Added during pagination
-    ],
+    imports: [DataTable, FilterPanel, SearchBar, TranslateModule],
     templateUrl: "./staff-list.html",
     styleUrl: "./staff-list.scss",
     providers: [DataTableConfig],
@@ -30,46 +30,62 @@ export class StaffList implements OnInit, ModuleBase {
     private readonly _router = inject(Router);
     private readonly _destroyRef = inject(DestroyRef);
 
-    // ─── Added during pagination ───────────────────────────────────────────────
-    searchQuery = '';
-    private _activeFilters: FilterOutput | null = null;
+    filterConfig = STAFF_FILTER_CONFIG;
+    filterObj: FilterOutput = {
+        search: "",
+        sort: "asc",
+    };
 
-    filterConfigs: FilterFieldConfig[] = [
-        {
-            type: FilterFieldType.TEXT,
-            controlName: 'position',
-            label: 'Position',
-            placeholder: 'e.g. Manager, Chef...',
-        },
-    ];
-
-    // ─── Expose pagination signals to template ─────────────────────────────────
-    readonly currentPage = this._dataTableConfig.tableConfig.currentPage;
-    readonly totalPages  = this._dataTableConfig.tableConfig.totalPages;
-    readonly total       = this._dataTableConfig.tableConfig.total;
-    readonly limit       = this._dataTableConfig.tableConfig.limit;
+    searchQuery = "";
 
     ngOnInit() {
-        this._initTableConfig();
+        this._initConfig();
         this._subscribeToRefetch();
         this.fetchData();
     }
 
-    // ─── Table setup (untouched) ──────────────────────────────────────────────
-    private _initTableConfig() {
+    private _initConfig() {
+        // ─── Table setup ──────────────────────────────────────────────────────────
         const [viewMeta, editMeta, deleteMeta] = STAFF_TABLE_ACTION_META;
-        const [deleteBulkMeta, addBulkMeta] = STAFF_TABLE_BULK_ACTIONS;
+        const [deleteBulkMeta] = STAFF_TABLE_BULK_ACTIONS;
 
         this._dataTableConfig.tableConfig.columns.set(STAFF_TABLE_COLUMNS);
         this._dataTableConfig.tableConfig.actions.set([
-            {...viewMeta,   func: (d) => this._onView(d)},
-            {...editMeta,   func: (d) => this._onEdit(d)},
+            {...viewMeta, func: (d) => this._onView(d)},
+            {...editMeta, func: (d) => this._onEdit(d)},
             {...deleteMeta, func: (d) => this._onDelete(d)},
         ]);
         this._dataTableConfig.tableConfig.bulkActions.set([
             {...deleteBulkMeta, func: (selectedItems) => this._onDeleteBulk(selectedItems)},
         ]);
         this._dataTableConfig.tableConfig.isSelectable.set(true);
+    }
+
+    // ─── Filter panel setup ───────────────────────────────────────────────────
+
+    onSearch(query: string) {
+        this.searchQuery = query;
+        this.filterObj.search = query;
+        this.fetchData();
+    }
+
+    applayFilter(filter: FilterOutput) {
+        if (filter["salary"]) {
+            if (filter["salary"].min !== null && filter["salary"].min !== undefined) {
+                filter["startSalary"] = filter["salary"].min;
+            }
+            if (filter["salary"].max !== null && filter["salary"].max !== undefined) {
+                filter["endSalary"] = filter["salary"].max;
+            }
+            delete filter["salary"];
+        }
+
+        if (filter["filter"] && Object.keys(filter["filter"]).length === 0) {
+            delete filter["filter"];
+        }
+
+        this.filterObj = filter;
+        this.fetchData();
     }
 
     // ─── Action handlers (untouched) ──────────────────────────────────────────
@@ -81,49 +97,62 @@ export class StaffList implements OnInit, ModuleBase {
         console.log("Edit Staff Profile", data);
     }
 
-    private _onDelete(data: StaffAdaptModel) {}
-
-    private _onDeleteBulk(selectedItems: StaffAdaptModel[]) {
-        if (!selectedItems?.length) return;
-        const ids = selectedItems.filter(item => item._id).map(item => item._id as string);
-        this._staffService.deleteManyStaff(ids)
+    private _onDelete(data: StaffAdaptModel) {
+        this._dataTableConfig.tableConfig.loading.set(true);
+        this._staffService
+            .deleteStaff(data._id)
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
-                next: () => this._dataTableConfig.tableConfig.refetchEvent.next(),
-                error: (err) => console.error(err),
+                next: () => {
+                    this._dataTableConfig.tableConfig.refetchEvent.next();
+                    this._dataTableConfig.tableConfig.loading.set(false);
+                },
+                error: (err) => {
+                    this._dataTableConfig.tableConfig.loading.set(false);
+                    this._dataTableConfig.tableConfig.isError.set(true);
+                },
             });
     }
 
-    // ─── Added during pagination: search & filter handlers ────────────────────
-    onSearchChange(query: string) {
-        this.searchQuery = query;
+    private _onDeleteBulk(selectedItems: StaffAdaptModel[]) {
+        if (!selectedItems?.length) return;
+
+        const ids = selectedItems.filter((item) => item._id).map((item) => item._id as string);
+        this._dataTableConfig.tableConfig.loading.set(true);
+        this._staffService
+            .deleteManyStaff(ids)
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+                next: () => {
+                    this._dataTableConfig.tableConfig.refetchEvent.next();
+                    this._dataTableConfig.tableConfig.loading.set(false);
+                },
+                error: (err) => {
+                    this._dataTableConfig.tableConfig.loading.set(false);
+                    this._dataTableConfig.tableConfig.isError.set(true);
+                },
+            });
     }
 
-    onApplyFilter(output: FilterOutput) {
-        console.log('Filter output:', output);
-        this._activeFilters = output;
-        this._dataTableConfig.tableConfig.currentPage.set(1);
-        this.fetchData();
-    }
+    // ─── Data ─────────────────────────────────────────────────────────────────
 
-    // ─── Added during pagination: page/limit change ────────────────────────────
-    onPageChange(event: PageChangeEvent) {
-        this._dataTableConfig.tableConfig.currentPage.set(event.page);
-        this._dataTableConfig.tableConfig.limit.set(event.limit);
-        this.fetchData();
-    }
-
-    // ─── fetchData — now uses DataTableConfig.loadData() ──────────────────────
     fetchData() {
-        this._dataTableConfig.loadData(
-            this._staffService.getStaffs({
-                page:  this._dataTableConfig.tableConfig.currentPage(),
-                limit: this._dataTableConfig.tableConfig.limit(),
-                ...(this._activeFilters ?? {search: '', sort: 'asc'}),
-                sort:  this._activeFilters?.sort ?? 'asc',
-            }),
-            this._destroyRef
-        );
+        this._dataTableConfig.tableConfig.loading.set(true);
+
+        this._staffService
+            .getStaffs({page: 1, limit: 10, ...this.filterObj})
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+                next: (response) => {
+                    this._dataTableConfig.tableConfig.rows.set(response);
+                    this._dataTableConfig.tableConfig.loading.set(false);
+                },
+                error: (error) => {
+                    console.error("Failed to load staff list:", error);
+                    this._dataTableConfig.tableConfig.loading.set(false);
+                    this._dataTableConfig.tableConfig.isError.set(true);
+                },
+            });
     }
 
     private _subscribeToRefetch() {

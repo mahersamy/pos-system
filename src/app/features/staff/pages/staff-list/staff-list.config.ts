@@ -1,54 +1,61 @@
-import { ColumnConfig } from "../../../../shared/components/data-table/models/colmun-config.model";
-import { TableColumnType } from "../../../../shared/components/data-table/enums/colmun-type.enum";
-import { ActionConfig, BulkActionConfig } from "../../../../shared/components/data-table/models/actions.mode";
+import {ColumnConfig} from "../../../../shared/components/data-table/models/colmun-config.model";
+import {TableColumnType} from "../../../../shared/components/data-table/enums/colmun-type.enum";
+import {
+    ActionConfig,
+    BulkActionConfig,
+} from "../../../../shared/components/data-table/models/actions.mode";
+import {
+    FilterFieldType,
+    RangeFilterConfig,
+} from "../../../../shared/ui/filter-panel/interface/filter-panel.models";
 
 // ─── Columns ──────────────────────────────────────────────────────────────────
 
 export const STAFF_TABLE_COLUMNS: ColumnConfig[] = [
     {
         field: "_id",
-        header: "ID",
+        header: "STAFF.FIELDS.ID",
         type: TableColumnType.ID,
     },
     {
         field: "staffProfile.fullname",
-        header: "Name",
+        header: "STAFF.FIELDS.NAME",
         type: TableColumnType.USER,
         subtitleField: "staffProfile.position",
         imageField: "staffProfile.image",
     },
     {
         field: "age",
-        header: "Age",
+        header: "STAFF.FIELDS.AGE",
         type: TableColumnType.TEXT,
         suffix: " yr",
     },
     {
         field: "email",
-        header: "Email",
+        header: "STAFF.FIELDS.EMAIL",
         type: TableColumnType.TEXT,
     },
     {
         field: "phoneNumber",
-        header: "Phone",
+        header: "STAFF.FIELDS.PHONE",
         type: TableColumnType.TEXT,
     },
     {
         field: "salary",
-        header: "Salary",
+        header: "STAFF.FIELDS.SALARY",
         type: TableColumnType.CURRENCY,
         currencyCode: "USD",
         currencyDisplay: "symbol",
     },
     {
-        field: "DateOfBirth",
-        header: "Date of Birth",
+        field: "dateOfBirth",
+        header: "STAFF.FIELDS.DOB",
         type: TableColumnType.DATE,
         dateFormat: "d-MMM-y",
     },
     {
         field: "timing",
-        header: "Timing",
+        header: "STAFF.FIELDS.TIMING",
         type: TableColumnType.TEXT,
     },
 ];
@@ -58,16 +65,25 @@ export const STAFF_TABLE_COLUMNS: ColumnConfig[] = [
 // component — this file has zero logic and zero service dependencies.
 
 export const STAFF_TABLE_ACTION_META: Omit<ActionConfig, "func">[] = [
-    { icon: "fa-solid fa-eye", classes: "preview-button" },
-    { icon: "fa-solid fa-pencil", classes: "edit-button" },
-    { icon: "fa-solid fa-trash", classes: "delete-button" },
+    {icon: "fa-solid fa-eye", classes: "preview-button"},
+    {icon: "fa-solid fa-pencil", classes: "edit-button"},
+    {icon: "fa-solid fa-trash", classes: "delete-button"},
 ];
-
 
 // ─── Bulk Actions ──────────────────────────────────────────────────────────
 
 export const STAFF_TABLE_BULK_ACTIONS: Omit<BulkActionConfig, "func">[] = [
-    { label: "Delete Selected", icon: "fa-solid fa-trash", classes: "btn-danger" },
-    
+    {label: "STAFF.ACTIONS.DELETE_SELECTED", icon: "fa-solid fa-trash", classes: "btn-danger"},
+];
 
-]
+// ─── Filter Config ──────────────────────────────────────────────────────────
+
+export const STAFF_FILTER_CONFIG: RangeFilterConfig[] = [
+    {
+        type: FilterFieldType.RANGE,
+        controlName: "salary",
+        label: "Salary",
+        rangeMin: 0,
+        rangeMax: 100000,
+    },
+];

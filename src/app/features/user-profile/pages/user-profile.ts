@@ -1,10 +1,11 @@
 import {Component, signal, inject} from "@angular/core";
+import {TranslateModule} from "@ngx-translate/core";
 import {UserInfo} from "../components/user-info/user-info";
 import {AuthService} from "../../../core/services/auth/auth";
 
 @Component({
     selector: "app-user-profile",
-    imports: [UserInfo],
+    imports: [UserInfo, TranslateModule],
     templateUrl: "./user-profile.html",
     styleUrl: "./user-profile.scss",
 })

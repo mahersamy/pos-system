@@ -10,6 +10,7 @@ import {TableColumnType} from "./enums/colmun-type.enum";
 import {DatePipe, CurrencyPipe} from "@angular/common";
 import {UserCell} from "./components/user-cell/user-cell";
 import {ActionConfig, BulkActionConfig} from "./models/actions.mode";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-data-table",
@@ -22,6 +23,7 @@ import {ActionConfig, BulkActionConfig} from "./models/actions.mode";
         DatePipe,
         CurrencyPipe,
         UserCell,
+        TranslateModule,
     ],
     templateUrl: "./data-table.html",
     styleUrl: "./data-table.scss",

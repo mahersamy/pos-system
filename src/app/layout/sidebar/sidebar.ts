@@ -1,20 +1,28 @@
-import { Component, inject, OnInit, signal, ViewEncapsulation, DestroyRef } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { filter } from "rxjs/operators";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { RouterModule, Router, NavigationEnd } from "@angular/router";
-import { NavItems } from "./models/nav-items";
-import { LayoutService } from "../../core/services/layout/layout";
-import { AuthService } from "../../core/services/auth/auth";
-import { DrawerModule } from "primeng/drawer";
-import { ButtonModule } from "primeng/button";
+import {Component, inject, OnInit, signal, ViewEncapsulation, DestroyRef} from "@angular/core";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {filter} from "rxjs/operators";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {RouterModule, Router, NavigationEnd} from "@angular/router";
+import {NavItems} from "./models/nav-items";
+import {LayoutService} from "../../core/services/layout/layout";
+import {AuthService} from "../../core/services/auth/auth";
+import {DrawerModule} from "primeng/drawer";
+import {ButtonModule} from "primeng/button";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-sidebar",
-    imports: [CommonModule, RouterModule, NgOptimizedImage, DrawerModule, ButtonModule],
+    imports: [
+        CommonModule,
+        RouterModule,
+        NgOptimizedImage,
+        DrawerModule,
+        ButtonModule,
+        TranslateModule,
+    ],
     templateUrl: "./sidebar.html",
     styleUrl: "./sidebar.scss",
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
 })
 export class Sidebar implements OnInit {
     private readonly _layoutService = inject(LayoutService);
@@ -109,13 +117,13 @@ export class Sidebar implements OnInit {
      */
     initTitle() {
         // Strip out query params and fragments to ensure accurate matching
-        const currentPath = this._router.url.split('?')[0].split('#')[0];
-        
+        const currentPath = this._router.url.split("?")[0].split("#")[0];
+
         // Find the most specific match (longest route)
         // Sort routes by length descending so '/main/menu' matches before '/main'
         const sortedItems = [...this.navItems].sort((a, b) => b.route.length - a.route.length);
         const activeItem = sortedItems.find((item) => currentPath.includes(item.route));
-        
+
         if (activeItem) {
             this._layoutService.setTitle(activeItem.label);
         }

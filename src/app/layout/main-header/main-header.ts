@@ -5,11 +5,13 @@ import {Router, NavigationEnd} from "@angular/router";
 import {filter} from "rxjs/operators";
 import {Location} from "@angular/common";
 import {RouterLink} from "@angular/router";
-import { AuthService } from "../../core/services/auth/auth";
+import {AuthService} from "../../core/services/auth/auth";
+import {TranslationService} from "../../core/services/translation/translation";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
     selector: "app-main-header",
-    imports: [RouterLink],
+    imports: [RouterLink, TranslateModule],
     templateUrl: "./main-header.html",
     styleUrl: "./main-header.scss",
 })
@@ -17,6 +19,7 @@ export class MainHeader implements OnInit {
     private readonly _layoutService = inject(LayoutService);
     private readonly _router = inject(Router);
     readonly _authService = inject(AuthService);
+    readonly _translationService = inject(TranslationService);
 
     private readonly _location = inject(Location);
     private readonly _destroyRef = inject(DestroyRef);
@@ -57,5 +60,9 @@ export class MainHeader implements OnInit {
      */
     goBack() {
         this._location.back();
+    }
+
+    toggleLanguage() {
+        this._translationService.toggleLanguage();
     }
 }

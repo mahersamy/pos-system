@@ -1,19 +1,20 @@
-@if ( parentFormGroup && parentFormGroup.get(config.controlName)?.invalid &&
-(config?.showErrorsImmediately ? true :
-parentFormGroup.get(config.controlName)?.dirty ||
-parentFormGroup.get(config.controlName)?.touched) ) {
+@if ( parentFormGroup() && parentFormGroup().get(config().controlName)?.invalid
+&& (config()?.showErrorsImmediately ? true :
+parentFormGroup().get(config().controlName)?.dirty ||
+parentFormGroup().get(config().controlName)?.touched) ) {
 <div
     class="custom-text-danger"
-    [class]="config.validationStyleClass"
+    [class]="config().validationStyleClass"
 >
-    @if (parentFormGroup.get(config.controlName)?.errors) {
+    @if (parentFormGroup().get(config().controlName)?.errors) {
     <small>
-        @for (error of parentFormGroup.get(config.controlName)?.errors |
-        keyvalue; track error) { @if (!(config?.errorMessages &&
-        config?.errorMessages[error.key] === '')) {
+        @for (error of parentFormGroup().get(config().controlName)?.errors |
+        keyvalue; track error) { @if (!(config()?.errorMessages &&
+        config()?.errorMessages[error.key] === '')) {
         <small>
-            @if (config?.errorMessages && config?.errorMessages[error.key]) {
-            <span>{{ config?.errorMessages[error.key] | translate }}</span>
+            @if (config()?.errorMessages && config()?.errorMessages[error.key])
+            {
+            <span>{{ config()?.errorMessages[error.key] | translate }}</span>
             } @else {
             <span>{{ error.key | translate }}</span>
             }

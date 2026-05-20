@@ -1,14 +1,18 @@
 <div class="search-wrapper">
-  <i class="fa-solid fa-magnifying-glass search-icon"></i>
-  <input
-    [formControl]="searchControl"
-    type="text"
-    [placeholder]="placeholder"
-    class="search-input"
-  />
-  @if (searchControl.value) {
-    <button class="clear-btn" (click)="clear()">
-      <i class="fa-solid fa-xmark"></i>
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <input
+        [formControl]="searchControl"
+        type="text"
+        [placeholder]="placeholder()"
+        class="search-input"
+        (keyup.enter)="emitEnter()"
+    />
+    @if (searchControl.value) {
+    <button
+        class="clear-btn"
+        (click)="clear()"
+    >
+        <i class="fa-solid fa-xmark"></i>
     </button>
-  }
+    }
 </div>

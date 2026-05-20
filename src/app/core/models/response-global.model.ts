@@ -4,7 +4,6 @@ export interface GlobalResponse<T> {
     success: boolean;
 }
 
-
 export interface GlobalResponseWithCursor<T> extends GlobalResponse<T> {
     nextCursor: string;
     hasMore: boolean;

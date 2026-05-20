@@ -2,7 +2,7 @@
     <app-search-bar
         [placeholder]="'shared.SEARCH_PLACEHOLDER' | translate"
         class="w-100"
-        (searchEnter)="onSearch($event)"
+        (searchEnter)="onSearch($any($event))"
     ></app-search-bar>
 
     <app-filter-panel

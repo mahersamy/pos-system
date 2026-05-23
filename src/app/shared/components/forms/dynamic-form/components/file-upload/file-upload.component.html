@@ -3,8 +3,8 @@
         class="upload-container flex flex-column align-items-center justify-content-center cursor-pointer relative overflow-hidden" 
         (click)="fileInput.click()">
         
-        @if (previewUrl) {
-            <img [src]="previewUrl" alt="Preview" class="preview-img" />
+        @if (previewUrl()) {
+            <img [src]="previewUrl()" alt="Preview" class="preview-img" />
         } @else {
             <i class="pi pi-image mb-2 icon-placeholder"></i>
             <span class="upload-text">{{ config().placeholder ?? 'Select icon here' }}</span>
@@ -15,7 +15,7 @@
         #fileInput 
         type="file" 
         [id]="config().controlName" 
-        [accept]="$any(config()).acceptedFileTypes?.join(',') ?? '*'" 
+        accept="*" 
         class="hidden" 
         (change)="onFileSelected($event)" 
     />

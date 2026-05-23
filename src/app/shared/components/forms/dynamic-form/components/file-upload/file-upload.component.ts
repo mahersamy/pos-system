@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FormFieldConfig } from '../../interfaces/form-config.type';
 
@@ -11,7 +11,7 @@ import { FormFieldConfig } from '../../interfaces/form-config.type';
 export class FileUploadComponent {
   control = input.required<FormControl>();
   config = input.required<FormFieldConfig>();
-  previewUrl: string | ArrayBuffer | null = null;
+  previewUrl = signal<string | ArrayBuffer | null>(null);
 
   onFileSelected(event: Event) {
     const inputEl = event.target as HTMLInputElement;
@@ -22,10 +22,12 @@ export class FileUploadComponent {
 
       // Image preview
       const reader = new FileReader();
-      reader.onload = () => {
-        this.previewUrl = reader.result;
-      };
       reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.previewUrl.set(reader.result);
+      };
+
+      inputEl.value = '';
     }
   }
 }

@@ -168,10 +168,10 @@ export class StaffList implements OnInit, ModuleBase {
 
     // ─── Dialog ─────────────────────────────────────────────────────────────────
     
-    private _openDialog(data: StaffAdaptModel) {
+    private _openDialog(data?: StaffAdaptModel) {
         const dialogRef = this._dialogService.open(StaffCreate, {
             header: data ? "Edit Staff" : "Create New Staff",
-            data: data,
+            data: data ?? null,
             width: '450px',
             position: 'right',
             pt: {

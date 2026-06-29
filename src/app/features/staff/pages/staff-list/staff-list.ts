@@ -16,7 +16,7 @@ import { FilterOutput } from "../../../../shared/components/filter-panel/interfa
 import { FilterPanel } from "../../../../shared/components/filter-panel/filter-panel/filter-panel";
 import { SearchBar } from "../../../../shared/components/search-bar/search-bar";
 import { TranslateModule } from "@ngx-translate/core";
-import { DialogService } from "primeng/dynamicdialog";
+import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { StaffCreate } from "../staff-create/staff-create";
 
 @Component({
@@ -33,10 +33,13 @@ export class StaffList implements OnInit, ModuleBase {
     private readonly _destroyRef = inject(DestroyRef);
     private readonly _dialogService = inject(DialogService);
 
+    dialogRef: DynamicDialogRef | undefined | null;
+
+
     filterConfig = STAFF_FILTER_CONFIG;
     filterObj: FilterOutput = {
         search: "",
-        sort: "asc",
+        sort: "desc",
     };
 
     searchQuery = "";
@@ -98,7 +101,7 @@ export class StaffList implements OnInit, ModuleBase {
     }
 
     private _onEdit(data: StaffAdaptModel) {
-        this._openDialog(data);
+        this.openCreateForm(data);
     }
 
     private _onDelete(data: StaffAdaptModel) {
@@ -163,36 +166,35 @@ export class StaffList implements OnInit, ModuleBase {
         this._dataTableConfig.tableConfig.refetchEvent
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(() => this.fetchData());
+
+
+       
     }
 
 
     // ─── Dialog ─────────────────────────────────────────────────────────────────
     
-    private _openDialog(data?: StaffAdaptModel) {
-        const dialogRef = this._dialogService.open(StaffCreate, {
+    openCreateForm(data?: StaffAdaptModel) {
+        console.log(data);
+        this.dialogRef = this._dialogService.open(StaffCreate, {
             header: data ? "Edit Staff" : "Create New Staff",
             data: data ?? null,
             width: '450px',
             position: 'right',
             pt: {
-                mask: {
-                    class: 'premium-dialog-mask'
-                },
-                root: {
-                    class: 'premium-dialog-root'
-                },
-                header: {
-                    class: 'premium-dialog-header'
-                },
-                title: {
-                    class: 'premium-dialog-title'
-                },
-                content: {
-                    class: 'premium-dialog-content'
-                },
-                pcCloseButton: {
-                    root: { class: 'premium-dialog-close-btn' }
-                }
+                mask: { class: 'premium-dialog-mask' },
+                root: { class: 'premium-dialog-root' },
+                header: { class: 'premium-dialog-header' },
+                title: { class: 'premium-dialog-title' },
+                content: { class: 'premium-dialog-content' },
+                pcCloseButton: { root: { class: 'premium-dialog-close-btn' } }
+            }
+        });
+
+        this.dialogRef?.onClose.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+            next: () => {
+                console.log("Dialog closed - refetching data");
+                this.fetchData();
             }
         });
     }

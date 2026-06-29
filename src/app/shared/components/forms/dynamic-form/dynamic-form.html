@@ -1,67 +1,61 @@
 <form [formGroup]="genaricForm">
-  @for (item of configArr(); track item.controlName) {
+    @for (item of configArr(); track $index) {
     <div class="field flex flex-column gap-2 mb-3">
-      <label [for]="item.controlName" class="font-semibold">{{ item.label }}</label>
+        <label
+            [for]="item.controlName"
+            class="font-semibold"
+            >{{ item.label }}</label
+        >
 
-      @switch (item.type) {
-
-        @case ('text') {
-          <p-iconfield>
+        @switch (item.type) { @case ('text') {
+        <p-iconfield>
             <input
-              pInputText
-              [id]="item.controlName"
-              [formControlName]="item.controlName"
-              [placeholder]="item.placeholder ?? ''"
-              class="w-full"
+                pInputText
+                [id]="item.controlName"
+                [formControlName]="item.controlName"
+                [placeholder]="item.placeholder ?? ''"
+                class="w-full"
             />
-          </p-iconfield>
-        }
-
-
-        @case ('email') {
-          <p-iconfield>
-            <p-inputicon styleClass="pi pi-envelope" />
+        </p-iconfield>
+        } @case ('email') {
+        <p-iconfield>
+            <p-inputicon class="fa-solid fa-at" />
             <input
-              pInputText
-              type="email"
-              [id]="item.controlName"
-              [formControlName]="item.controlName"
-              [placeholder]="item.placeholder ?? ''"
-              class="w-full"
+                pInputText
+                type="email"
+                [id]="item.controlName"
+                [formControlName]="item.controlName"
+                [placeholder]="item.placeholder ?? ''"
+                class="w-full"
             />
-          </p-iconfield>
-        }
-
-        @case ('phone') {
-          <p-iconfield>
-            <p-inputicon styleClass="pi pi-phone" />
+        </p-iconfield>
+        } @case ('phone') {
+        <p-iconfield>
+            <p-inputicon class="fa-solid fa-phone" />
             <input
-              pInputText
-              type="tel"
-              [id]="item.controlName"
-              [formControlName]="item.controlName"
-              [placeholder]="item.placeholder ?? ''"
-              class="w-full"
+                pInputText
+                pKeyFilter="int"
+                type="tel"
+                maxlength="{{item.maxLength || 11}}"
+                minlength="{{item.minLength || 11}}"
+                [id]="item.controlName"
+                [formControlName]="item.controlName"
+                [placeholder]="item.placeholder ?? ''"
+                class="w-full"
             />
-          </p-iconfield>
-        }
-
-        @case ('password') {
-          <p-password
+        </p-iconfield>
+        } @case ('password') {
+        <p-password
             class="w-full"
             [id]="item.controlName"
             [formControlName]="item.controlName"
             [placeholder]="item.placeholder ?? ''"
             [feedback]="$any(item).feedback ?? false"
             [toggleMask]="$any(item).toggleMask ?? true"
-            styleClass="w-full"
-          />
-        }
-
-
-
-        @case ('number') {
-          <p-inputnumber
+            class="w-full"
+        />
+        } @case ('number') {
+        <p-inputnumber
             class="w-full"
             [id]="item.controlName"
             [formControlName]="item.controlName"
@@ -70,22 +64,18 @@
             [max]="$any(item).max"
             [step]="$any(item).step ?? 1"
             styleClass="w-full"
-          />
-        }
-
-        @case ('textarea') {
-          <textarea
+        />
+        } @case ('textarea') {
+        <textarea
             pTextarea
             [id]="item.controlName"
             [formControlName]="item.controlName"
             [placeholder]="item.placeholder ?? ''"
             [rows]="$any(item).rows ?? 4"
             class="w-full"
-          ></textarea>
-        }
-
-        @case ('select') {
-          <p-select
+        ></textarea>
+        } @case ('select') {
+        <p-select
             class="w-full"
             [id]="item.controlName"
             [formControlName]="item.controlName"
@@ -94,60 +84,40 @@
             optionValue="value"
             [placeholder]="item.placeholder ?? 'Select an option'"
             [filter]="$any(item).searchable ?? false"
-            styleClass="w-full"
-          />
-        }
-
-        @case ('date') {
-          <p-datepicker
+            class="w-full"
+        />
+        } @case ('date') {
+        <p-datepicker
             class="w-full"
             [id]="item.controlName"
             [formControlName]="item.controlName"
             [placeholder]="item.placeholder ?? ''"
             [dateFormat]="$any(item).dateFormat ?? 'dd/mm/yy'"
-            styleClass="w-full"
-          />
-        }
-
-        @case ('file') {
-          <app-file-upload 
-            [control]="$any(genaricForm.get(item.controlName))"
-            [config]="item">
-          </app-file-upload>
-        }
-
-        @default {
-          <input
-            pInputText
+            class="w-full"
+        />
+        } @case ('time') {
+        <p-datepicker
+            class="w-full"
             [id]="item.controlName"
             [formControlName]="item.controlName"
             [placeholder]="item.placeholder ?? ''"
+            [timeOnly]="true"
+            hourFormat="12"
             class="w-full"
-          />
-        }
+        />
+        } @case ('file') {
+        <app-file-upload
+            [control]="$any(genaricForm.get(item.controlName))"
+            [config]="item"
+        >
+        </app-file-upload>
+        } }
 
-      }
-
-      <!-- Validation messages -->
-      <!-- @if (genaricForm.get(item.controlName)?.invalid && genaricForm.get(item.controlName)?.touched) {
-        <small class="p-error">
-          @if (genaricForm.get(item.controlName)?.errors?.['required']) {
-            {{ item.errorMessages?.required ?? 'This field is required.' }}
-          }
-          @if (genaricForm.get(item.controlName)?.errors?.['email']) {
-            {{ item.errorMessages?.email ?? 'Please enter a valid email.' }}
-          }
-          @if (genaricForm.get(item.controlName)?.errors?.['minlength']) {
-            {{ item.errorMessages?.minlength ?? 'Value is too short.' }}
-          }
-          @if (genaricForm.get(item.controlName)?.errors?.['maxlength']) {
-            {{ item.errorMessages?.maxlength ?? 'Value is too long.' }}
-          }
-          @if (genaricForm.get(item.controlName)?.errors?.['pattern']) {
-            {{ item.errorMessages?.pattern ?? 'Invalid format.' }}
-          }
-        </small>
-      } -->
+        <!-- Validation messages -->
+        <app-validation-messages
+            [control]="genaricForm.get(item.controlName)"
+            [errorMessages]="item.errorMessages"
+        ></app-validation-messages>
     </div>
-  }
+    }
 </form>

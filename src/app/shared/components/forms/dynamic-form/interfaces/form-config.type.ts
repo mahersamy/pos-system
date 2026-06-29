@@ -7,6 +7,7 @@ import { FormTextOption } from "./form-text-option.interface";
 import { FormEmailOption } from "./form-email-option.interface";
 import { FormPhoneOption } from "./form-phone-option.interface";
 import { FormPasswordOption } from "./form-password-option.interface";
+import { FormTimeOption } from "./form-time-option.interface";
 
 export * from './base-form-config.interface';
 export * from './form-select-option.interface';
@@ -18,6 +19,7 @@ export * from './form-text-option.interface';
 export * from './form-email-option.interface';
 export * from './form-phone-option.interface';
 export * from './form-password-option.interface';
+export * from './form-time-option.interface';
 
 export type FormFieldConfig =
   | FormTextOption
@@ -28,4 +30,5 @@ export type FormFieldConfig =
   | FormTextAreaOption
   | FormDateOption
   | FileTypeOption
+  | FormTimeOption
   | FormNumberOption;

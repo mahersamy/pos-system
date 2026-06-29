@@ -57,7 +57,6 @@ export class StaffDetails implements OnInit {
                     this.loading.set(false);
                 },
                 error: (error) => {
-                    console.error("Failed to fetch staff details:", error);
                     this.loading.set(false);
                     this.isError.set(true);
                 },

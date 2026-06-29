@@ -10,6 +10,7 @@ export enum FormInputType {
     // checkbox = 'checkbox',
     file = 'file',
     date = 'date',
+    time = 'time',
     // dateTimeLocal = 'datetime-local',
     // month = 'month',
     // week = 'week',

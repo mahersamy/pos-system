@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {Adaptor} from "../../../core/models/adaptor.model";
-import {Staff} from "../models/staff";
-import {StaffAdaptModel} from "../models/staff-adapt.model";
+import { Injectable } from "@angular/core";
+import { Adaptor } from "../../../core/models/adaptor.model";
+import { Staff } from "../models/staff.model";
+import { StaffAdaptModel } from "../models/staff-adapt.model";
 
 @Injectable({
     providedIn: "root",

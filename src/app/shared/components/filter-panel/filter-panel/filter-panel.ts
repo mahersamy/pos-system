@@ -27,7 +27,7 @@ export class FilterPanel implements OnInit {
     readonly FilterFieldType = FilterFieldType;
 
     isOpen = signal(false);
-    sortDirection = signal<"asc" | "desc" | null>("asc");
+    sortDirection = signal<"asc" | "desc" | null>("desc");
     fieldValues = signal<Record<string, any>>({});
     activeCount = signal(0);
 

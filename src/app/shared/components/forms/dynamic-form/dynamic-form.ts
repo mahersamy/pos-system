@@ -12,10 +12,12 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { FileUploadModule } from 'primeng/fileupload';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 import { FormFieldConfig } from './interfaces/form-config.type';
 import { DynamicFormFactory } from './services/dynamic-form.factory';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
+import { ValidationMessagesComponent } from './components/validation-messages/validation-messages.component';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -31,6 +33,8 @@ import { FileUploadComponent } from './components/file-upload/file-upload.compon
     IconFieldModule,
     InputIconModule,
     FileUploadComponent,
+    KeyFilterModule,
+    ValidationMessagesComponent,
   ],
   templateUrl: './dynamic-form.html',
   styleUrl: './dynamic-form.scss',

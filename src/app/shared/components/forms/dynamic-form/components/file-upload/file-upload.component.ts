@@ -1,4 +1,4 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FormFieldConfig } from '../../interfaces/form-config.type';
 
@@ -8,10 +8,17 @@ import { FormFieldConfig } from '../../interfaces/form-config.type';
   templateUrl: './file-upload.component.html',
   styleUrl: './file-upload.component.scss',
 })
-export class FileUploadComponent {
+export class FileUploadComponent implements OnInit {
   control = input.required<FormControl>();
   config = input.required<FormFieldConfig>();
   previewUrl = signal<string | ArrayBuffer | null>(null);
+
+  ngOnInit() {
+    const initialValue = this.control().value;
+    if (typeof initialValue === 'string') {
+      this.previewUrl.set(initialValue);
+    }
+  }
 
   onFileSelected(event: Event) {
     const inputEl = event.target as HTMLInputElement;

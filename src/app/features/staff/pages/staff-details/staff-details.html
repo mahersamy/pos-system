@@ -1,4 +1,4 @@
-<div class="staff-details-container">
+<div class="staff-details-container">z
     <div
         class="details-content"
         [class.centered-error]="isError()"
@@ -65,7 +65,7 @@
                             <p-skeleton
                                 width="100px"
                                 height="0.8rem"
-                                styleClass="mb-2"
+                                class="mb-2"
                             />
                             <p-skeleton
                                 width="85%"
@@ -142,9 +142,6 @@
                     (click)="fileInput.click()"
                     >{{ 'STAFF.CHANGE_PIC' | translate }}</a
                 >
-                <button class="btn btn-primary">
-                    {{ 'STAFF.EDIT_PROFILE' | translate }}
-                </button>
                 <button
                     class="btn btn-secondary"
                     (click)="deleteProfile()"

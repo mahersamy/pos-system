@@ -1,0 +1,22 @@
+<div class="custom-file-upload">
+    <div 
+        class="upload-container flex flex-column align-items-center justify-content-center cursor-pointer relative overflow-hidden" 
+        (click)="fileInput.click()">
+        
+        @if (previewUrl()) {
+            <img [src]="previewUrl()" alt="Preview" class="preview-img" />
+        } @else {
+            <i class="pi pi-image mb-2 icon-placeholder"></i>
+            <span class="upload-text">{{ config().placeholder ?? 'Select icon here' }}</span>
+        }
+    </div>
+    <a class="change-icon-btn mt-3 cursor-pointer inline-block" (click)="fileInput.click()">Change Icon</a>
+    <input 
+        #fileInput 
+        type="file" 
+        [id]="config().controlName" 
+        accept="*" 
+        class="hidden" 
+        (change)="onFileSelected($event)" 
+    />
+</div>

@@ -107,12 +107,14 @@
         } }
     </div>
 
+    @if (notifications().length > 0 && hasMore()) {
     <button
-        [disabled]="!hasMore()"
+        [disabled]="isLoading()"
         class="btn btn-primary"
         (click)="loadNotifications()"
         [loading]="isLoading()"
     >
         {{ 'COMMON.ACTIONS.LOAD_MORE' | translate }}
     </button>
+    }
 </section>

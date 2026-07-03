@@ -1,10 +1,9 @@
-import {Routes} from "@angular/router";
-import {Login} from "./features/auth/login/login";
-import {ForgotPassword} from "./features/auth/forgot-password/forgot-password";
-import {authGuard, publicGuard} from "./core/guards/auth-guard/auth-guard";
-import {NotFound} from "./layout/not-found/not-found";
-import {staffRoutes} from "./features/staff/routes/staff.routes";
-import {notificationRoutes} from "./features/notification/notification.route";
+import { Routes } from "@angular/router";
+import { Login } from "./features/auth/login/login";
+import { ForgotPassword } from "./features/auth/forgot-password/forgot-password";
+import { authGuard, publicGuard } from "./core/guards/auth-guard/auth-guard";
+import { NotFound } from "./layout/not-found/not-found";
+import { staffRoutes } from "./features/staff/routes/staff.routes";
 
 export const routes: Routes = [
     {
@@ -20,19 +19,26 @@ export const routes: Routes = [
     {
         path: "main",
         canActivate: [authGuard],
-        loadComponent: () => import("./layout/main-layout/main-layout").then((m) => m.MainLayout),
+        loadComponent: () =>
+            import("./layout/main-layout/main-layout").then((m) => m.MainLayout),
         children: [
+            // ── Feature route spreads ────────────────────────────────────────
+            // Each feature file owns its own sidebar: true / icon / label metadata.
+            // The sidebar component reads these automatically via extractSidebarItems().
             ...staffRoutes,
-            ...notificationRoutes,
+
+            // ── Utility routes (no sidebar entry) ───────────────────────────
             {
                 path: "profile",
-                data: {title: "HEADER.USER_PROFILE"},
+                data: { title: "User Profile" },
                 loadComponent: () =>
-                    import("./features/user-profile/pages/user-profile").then((m) => m.UserProfile),
+                    import("./features/user-profile/pages/user-profile").then(
+                        (m) => m.UserProfile
+                    ),
             },
             {
                 path: "notifications",
-                data: {title: "HEADER.NOTIFICATIONS"},
+                data: { title: "Notifications" },
                 loadComponent: () =>
                     import("./features/notification/pages/notification-list/notification-list").then(
                         (m) => m.NotificationList
@@ -40,7 +46,7 @@ export const routes: Routes = [
             },
             {
                 path: "notifications/:id",
-                data: {title: "NOTIFICATION.DETAILS"},
+                data: { title: "Notification Details" },
                 loadComponent: () =>
                     import("./features/notification/pages/notification-detail/notification-detail").then(
                         (m) => m.NotificationDetail

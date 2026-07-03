@@ -1,0 +1,18 @@
+export enum FormInputType {
+    text = 'text',
+    number = 'number',
+    email = 'email',
+    phone = 'phone',
+    password = 'password',
+    textarea = 'textarea',
+    select = 'select',
+    // radio = 'radio',
+    // checkbox = 'checkbox',
+    file = 'file',
+    date = 'date',
+    time = 'time',
+    // dateTimeLocal = 'datetime-local',
+    // month = 'month',
+    // week = 'week',
+    // url = 'url',
+}

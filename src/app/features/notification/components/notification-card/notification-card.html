@@ -48,9 +48,14 @@
     </div>
 
     <div class="notification-actions d-flex align-items-center gap-4">
-        <span class="notification-date fs-7"
-            >{{ notification().sentAt | date:'MM/dd/yy' }}</span
-        >
+        <div class="d-flex flex-column align-items-end justify-content-center text-nowrap">
+            <span class="notification-date fs-7 fw-medium"
+                >{{ notification().sentAt | date:'MM/dd/yyyy' }}</span
+            >
+            <span class="notification-time" style="font-size: 0.75rem;"
+                >{{ notification().sentAt | date:'shortTime' }}</span
+            >
+        </div>
         <button
             class="btn btn-outline-delete d-flex align-items-center rounded-2 px-3 py-2 gap-2"
             (click)="delete.emit(notification()); $event.stopPropagation()"

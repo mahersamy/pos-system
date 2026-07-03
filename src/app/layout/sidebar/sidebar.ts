@@ -1,28 +1,24 @@
-import {Component, inject, OnInit, signal, ViewEncapsulation, DestroyRef} from "@angular/core";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {filter} from "rxjs/operators";
-import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {RouterModule, Router, NavigationEnd} from "@angular/router";
-import {NavItems} from "./models/nav-items";
-import {LayoutService} from "../../core/services/layout/layout";
-import {AuthService} from "../../core/services/auth/auth";
-import {DrawerModule} from "primeng/drawer";
-import {ButtonModule} from "primeng/button";
-import {TranslateModule} from "@ngx-translate/core";
+import { Component, inject, OnInit, signal, ViewEncapsulation, DestroyRef } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { filter } from "rxjs/operators";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { RouterModule, Router, NavigationEnd } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
+import { DrawerModule } from "primeng/drawer";
+import { ButtonModule } from "primeng/button";
+
+import { NavItem } from "./models/nav-item.interface";
+import { LayoutService } from "../../core/services/layout/layout";
+import { AuthService } from "../../core/services/auth/auth";
+import { routes } from "../../app.routes";
+import { extractSidebarItems } from "../../core/utils/extract-sidebar-items.util";
 
 @Component({
     selector: "app-sidebar",
-    imports: [
-        CommonModule,
-        RouterModule,
-        NgOptimizedImage,
-        DrawerModule,
-        ButtonModule,
-        TranslateModule,
-    ],
+    imports: [CommonModule, RouterModule, NgOptimizedImage, TranslateModule, DrawerModule, ButtonModule],
     templateUrl: "./sidebar.html",
     styleUrl: "./sidebar.scss",
-    encapsulation: ViewEncapsulation.None,
+    encapsulation: ViewEncapsulation.None
 })
 export class Sidebar implements OnInit {
     private readonly _layoutService = inject(LayoutService);
@@ -38,65 +34,12 @@ export class Sidebar implements OnInit {
         this.drawerVisible.set(true);
     }
 
-    /** Main navigation configuration for the sidebar menu */
-    navItems: NavItems[] = [
-        {
-            label: "Dashboard",
-            width: 13,
-            height: 13,
-            alt: "dashboard",
-            src: "/images/sidebar/dashboard.avif",
-            route: "/main",
-        },
-        {
-            label: "Menu",
-            width: 12,
-            height: 14,
-            alt: "menu",
-            src: "/images/sidebar/menu.avif",
-            route: "/main/menu",
-        },
-        {
-            label: "Staff",
-            width: 16,
-            height: 12,
-            alt: "staff",
-            src: "/images/sidebar/staff.avif",
-            route: "/main/staff",
-        },
-        {
-            label: "Inventory",
-            width: 16,
-            height: 16,
-            alt: "inventory",
-            src: "/images/sidebar/inventory.avif",
-            route: "/inventory",
-        },
-        {
-            label: "Reports",
-            width: 10,
-            height: 13,
-            alt: "reports",
-            src: "/images/sidebar/reports.avif",
-            route: "/reports",
-        },
-        {
-            label: "Orders",
-            width: 14,
-            height: 14,
-            alt: "orders",
-            src: "/images/sidebar/orders.avif",
-            route: "/orders",
-        },
-        {
-            label: "Reservation",
-            width: 14,
-            height: 14,
-            alt: "reservation",
-            src: "/images/sidebar/reservation.avif",
-            route: "/reservation",
-        },
-    ];
+    /**
+     * Sidebar navigation items derived automatically from the route tree.
+     * Any route with `data.sidebar === true` appears here — no manual editing needed.
+     * To add a new feature, set `sidebar: true` in its route `data` object.
+     */
+    navItems: NavItem[] = extractSidebarItems(routes);
 
     ngOnInit() {
         this.initTitle();
@@ -113,14 +56,15 @@ export class Sidebar implements OnInit {
     }
 
     /**
-     * Bootstraps the default title based on the active route matching the navigation list
+     * Bootstraps the default title based on the active route matching the navigation list.
+     * Falls back to route `data.title` when available via Angular Router (future enhancement).
      */
     initTitle() {
         // Strip out query params and fragments to ensure accurate matching
         const currentPath = this._router.url.split("?")[0].split("#")[0];
 
         // Find the most specific match (longest route)
-        // Sort routes by length descending so '/main/menu' matches before '/main'
+        // Sort routes by length descending so '/main/staff' matches before '/main'
         const sortedItems = [...this.navItems].sort((a, b) => b.route.length - a.route.length);
         const activeItem = sortedItems.find((item) => currentPath.includes(item.route));
 

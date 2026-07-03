@@ -1,0 +1,123 @@
+<form [formGroup]="genaricForm">
+    @for (item of configArr(); track $index) {
+    <div class="field flex flex-column gap-2 mb-3">
+        <label
+            [for]="item.controlName"
+            class="font-semibold"
+            >{{ item.label }}</label
+        >
+
+        @switch (item.type) { @case ('text') {
+        <p-iconfield>
+            <input
+                pInputText
+                [id]="item.controlName"
+                [formControlName]="item.controlName"
+                [placeholder]="item.placeholder ?? ''"
+                class="w-full"
+            />
+        </p-iconfield>
+        } @case ('email') {
+        <p-iconfield>
+            <p-inputicon class="fa-solid fa-at" />
+            <input
+                pInputText
+                type="email"
+                [id]="item.controlName"
+                [formControlName]="item.controlName"
+                [placeholder]="item.placeholder ?? ''"
+                class="w-full"
+            />
+        </p-iconfield>
+        } @case ('phone') {
+        <p-iconfield>
+            <p-inputicon class="fa-solid fa-phone" />
+            <input
+                pInputText
+                pKeyFilter="int"
+                type="tel"
+                maxlength="{{item.maxLength || 11}}"
+                minlength="{{item.minLength || 11}}"
+                [id]="item.controlName"
+                [formControlName]="item.controlName"
+                [placeholder]="item.placeholder ?? ''"
+                class="w-full"
+            />
+        </p-iconfield>
+        } @case ('password') {
+        <p-password
+            class="w-full"
+            [id]="item.controlName"
+            [formControlName]="item.controlName"
+            [placeholder]="item.placeholder ?? ''"
+            [feedback]="$any(item).feedback ?? false"
+            [toggleMask]="$any(item).toggleMask ?? true"
+            class="w-full"
+        />
+        } @case ('number') {
+        <p-inputnumber
+            class="w-full"
+            [id]="item.controlName"
+            [formControlName]="item.controlName"
+            [placeholder]="item.placeholder ?? ''"
+            [min]="$any(item).min"
+            [max]="$any(item).max"
+            [step]="$any(item).step ?? 1"
+            styleClass="w-full"
+        />
+        } @case ('textarea') {
+        <textarea
+            pTextarea
+            [id]="item.controlName"
+            [formControlName]="item.controlName"
+            [placeholder]="item.placeholder ?? ''"
+            [rows]="$any(item).rows ?? 4"
+            class="w-full"
+        ></textarea>
+        } @case ('select') {
+        <p-select
+            class="w-full"
+            [id]="item.controlName"
+            [formControlName]="item.controlName"
+            [options]="$any(item).selectOptions"
+            optionLabel="label"
+            optionValue="value"
+            [placeholder]="item.placeholder ?? 'Select an option'"
+            [filter]="$any(item).searchable ?? false"
+            class="w-full"
+        />
+        } @case ('date') {
+        <p-datepicker
+            class="w-full"
+            [id]="item.controlName"
+            [formControlName]="item.controlName"
+            [placeholder]="item.placeholder ?? ''"
+            [dateFormat]="$any(item).dateFormat ?? 'dd/mm/yy'"
+            class="w-full"
+        />
+        } @case ('time') {
+        <p-datepicker
+            class="w-full"
+            [id]="item.controlName"
+            [formControlName]="item.controlName"
+            [placeholder]="item.placeholder ?? ''"
+            [timeOnly]="true"
+            hourFormat="12"
+            class="w-full"
+        />
+        } @case ('file') {
+        <app-file-upload
+            [control]="$any(genaricForm.get(item.controlName))"
+            [config]="item"
+        >
+        </app-file-upload>
+        } }
+
+        <!-- Validation messages -->
+        <app-validation-messages
+            [control]="genaricForm.get(item.controlName)"
+            [errorMessages]="item.errorMessages"
+        ></app-validation-messages>
+    </div>
+    }
+</form>

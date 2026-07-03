@@ -1,21 +1,23 @@
-import {Component, inject, OnInit, DestroyRef} from "@angular/core";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {Router} from "@angular/router";
-import {DataTable} from "../../../../shared/components/data-table/data-table";
-import {DataTableConfig} from "../../../../shared/components/data-table/services/data-table-config";
-import {StaffService} from "../../services/staff.service";
-import {StaffAdaptModel} from "../../models/staff-adapt.model";
+import { Component, inject, OnInit, DestroyRef } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { Router } from "@angular/router";
+import { DataTable } from "../../../../shared/components/data-table/data-table";
+import { DataTableConfig } from "../../../../shared/components/data-table/services/data-table-config";
+import { StaffService } from "../../services/staff.service";
+import { StaffAdaptModel } from "../../models/staff-adapt.model";
 import {
     STAFF_TABLE_COLUMNS,
     STAFF_TABLE_ACTION_META,
     STAFF_TABLE_BULK_ACTIONS,
     STAFF_FILTER_CONFIG,
 } from "./staff-list.config";
-import {ModuleBase} from "../../../../core/base/module.base";
-import {FilterOutput} from "../../../../shared/ui/filter-panel/interface/filter-panel.models";
-import {FilterPanel} from "../../../../shared/ui/filter-panel/filter-panel/filter-panel";
-import {SearchBar} from "../../../../shared/ui/search-bar/search-bar/search-bar";
-import {TranslateModule} from "@ngx-translate/core";
+import { ModuleBase } from "../../../../core/base/module.base";
+import { FilterOutput } from "../../../../shared/components/filter-panel/interface/filter-panel.models";
+import { FilterPanel } from "../../../../shared/components/filter-panel/filter-panel/filter-panel";
+import { SearchBar } from "../../../../shared/components/search-bar/search-bar";
+import { TranslateModule } from "@ngx-translate/core";
+import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
+import { StaffCreate } from "../staff-create/staff-create";
 
 @Component({
     selector: "app-staff-list",
@@ -29,11 +31,15 @@ export class StaffList implements OnInit, ModuleBase {
     private readonly _dataTableConfig = inject(DataTableConfig<StaffAdaptModel>);
     private readonly _router = inject(Router);
     private readonly _destroyRef = inject(DestroyRef);
+    private readonly _dialogService = inject(DialogService);
+
+    dialogRef: DynamicDialogRef | undefined | null;
+
 
     filterConfig = STAFF_FILTER_CONFIG;
     filterObj: FilterOutput = {
         search: "",
-        sort: "asc",
+        sort: "desc",
     };
 
     searchQuery = "";
@@ -51,12 +57,12 @@ export class StaffList implements OnInit, ModuleBase {
 
         this._dataTableConfig.tableConfig.columns.set(STAFF_TABLE_COLUMNS);
         this._dataTableConfig.tableConfig.actions.set([
-            {...viewMeta, func: (d) => this._onView(d)},
-            {...editMeta, func: (d) => this._onEdit(d)},
-            {...deleteMeta, func: (d) => this._onDelete(d)},
+            { ...viewMeta, func: (d) => this._onView(d) },
+            { ...editMeta, func: (d) => this._onEdit(d) },
+            { ...deleteMeta, func: (d) => this._onDelete(d) },
         ]);
         this._dataTableConfig.tableConfig.bulkActions.set([
-            {...deleteBulkMeta, func: (selectedItems) => this._onDeleteBulk(selectedItems)},
+            { ...deleteBulkMeta, func: (selectedItems) => this._onDeleteBulk(selectedItems) },
         ]);
         this._dataTableConfig.tableConfig.isSelectable.set(true);
     }
@@ -95,7 +101,7 @@ export class StaffList implements OnInit, ModuleBase {
     }
 
     private _onEdit(data: StaffAdaptModel) {
-        console.log("Edit Staff Profile", data);
+        this.openCreateForm(data);
     }
 
     private _onDelete(data: StaffAdaptModel) {
@@ -141,7 +147,7 @@ export class StaffList implements OnInit, ModuleBase {
         this._dataTableConfig.tableConfig.loading.set(true);
 
         this._staffService
-            .getStaffs({page: 1, limit: 10, ...this.filterObj})
+            .getStaffs({ page: 1, limit: 10, ...this.filterObj })
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 next: (response) => {
@@ -160,5 +166,36 @@ export class StaffList implements OnInit, ModuleBase {
         this._dataTableConfig.tableConfig.refetchEvent
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(() => this.fetchData());
+
+
+       
+    }
+
+
+    // ─── Dialog ─────────────────────────────────────────────────────────────────
+    
+    openCreateForm(data?: StaffAdaptModel) {
+        console.log(data);
+        this.dialogRef = this._dialogService.open(StaffCreate, {
+            header: data ? "Edit Staff" : "Create New Staff",
+            data: data ?? null,
+            width: '450px',
+            position: 'right',
+            pt: {
+                mask: { class: 'premium-dialog-mask' },
+                root: { class: 'premium-dialog-root' },
+                header: { class: 'premium-dialog-header' },
+                title: { class: 'premium-dialog-title' },
+                content: { class: 'premium-dialog-content' },
+                pcCloseButton: { root: { class: 'premium-dialog-close-btn' } }
+            }
+        });
+
+        this.dialogRef?.onClose.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+            next: () => {
+                console.log("Dialog closed - refetching data");
+                this.fetchData();
+            }
+        });
     }
 }

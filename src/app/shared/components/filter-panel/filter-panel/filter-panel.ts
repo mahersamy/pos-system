@@ -1,16 +1,16 @@
-import {Component, OnInit, signal, input, output} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
+import { Component, OnInit, signal, input, output } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 import {
     FilterFieldType,
     FilterConfig,
     FilterFieldConfig,
     FilterOutput,
-} from "./../interface/filter-panel.models";
-import {TranslateModule} from "@ngx-translate/core";
+} from "../interface/filter-panel.models";
+import { TranslateModule } from "@ngx-translate/core";
 
-export {FilterFieldType};
-export type {FilterConfig, FilterFieldConfig, FilterOutput};
+export { FilterFieldType };
+export type { FilterConfig, FilterFieldConfig, FilterOutput };
 
 @Component({
     selector: "app-filter-panel",
@@ -27,7 +27,7 @@ export class FilterPanel implements OnInit {
     readonly FilterFieldType = FilterFieldType;
 
     isOpen = signal(false);
-    sortDirection = signal<"asc" | "desc" | null>("asc");
+    sortDirection = signal<"asc" | "desc" | null>("desc");
     fieldValues = signal<Record<string, any>>({});
     activeCount = signal(0);
 
@@ -39,7 +39,7 @@ export class FilterPanel implements OnInit {
         const initial: Record<string, any> = {};
         this.configs().forEach((c) => {
             if (c.type === FilterFieldType.RANGE) {
-                initial[c.controlName] = {min: null, max: null};
+                initial[c.controlName] = { min: null, max: null };
             } else {
                 initial[c.controlName] = null;
             }
@@ -48,7 +48,7 @@ export class FilterPanel implements OnInit {
     }
 
     updateFieldValue(key: string, value: any) {
-        this.fieldValues.update((prev) => ({...prev, [key]: value}));
+        this.fieldValues.update((prev) => ({ ...prev, [key]: value }));
     }
 
     updateRangeField(key: string, subKey: "min" | "max", value: any) {
@@ -102,6 +102,6 @@ export class FilterPanel implements OnInit {
         this.initValues();
         this.sortDirection.set("asc");
         this.activeCount.set(0);
-        this.applyFilter.emit({search: this.searchQuery(), sort: "asc"});
+        this.applyFilter.emit({ search: this.searchQuery(), sort: "asc" });
     }
 }

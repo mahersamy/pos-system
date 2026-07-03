@@ -1,13 +1,14 @@
-import {HttpClient, HttpParams} from "@angular/common/http";
-import {inject, Injectable} from "@angular/core";
-import {environment} from "../../../../environments/environment";
-import {Staff} from "../models/staff";
-import {GetAllModel} from "../../../core/models/get-all.model";
-import {map, Observable} from "rxjs";
-import {StaffAdaptModel} from "../models/staff-adapt.model";
-import {StaffAdaptor} from "./staff-adaptor";
-import {GlobalResponse} from "../../../core/models/response-global.model";
-import {BACKEND_ROUTE} from "../../../core/constants/backend.route";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { inject, Injectable } from "@angular/core";
+import { environment } from "../../../../environments/environment";
+import { Staff } from "../models/staff.model";
+import { map, Observable } from "rxjs";
+import { StaffAdaptModel } from "../models/staff-adapt.model";
+import { StaffAdaptor } from "./staff-adaptor";
+import { BACKEND_ROUTE } from "../../../core/constants/backend.route";
+import { StaffCreateDto } from "../models/staff-create.dto";
+import { GetAllModel } from "../../../core/models/get-all.model";
+import { GlobalResponse } from "../../../core/models/response-global.model";
 
 @Injectable({
     providedIn: "root",
@@ -34,7 +35,7 @@ export class StaffService {
         return this._http
             .get<
                 GlobalResponse<Staff[]>
-            >(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}`, {params})
+            >(`${environment.apiUrl}${BACKEND_ROUTE.staff.base}`, { params })
             .pipe(map((response) => response.data.map((item) => this._staffAdaptor.adapt(item))));
     }
 
@@ -67,12 +68,36 @@ export class StaffService {
      */
     deleteManyStaff(
         ids: string[]
-    ): Observable<GlobalResponse<{deletedCount: number; message: string}>> {
-        return this._http.delete<GlobalResponse<{deletedCount: number; message: string}>>(
+    ): Observable<GlobalResponse<{ deletedCount: number; message: string }>> {
+        return this._http.delete<GlobalResponse<{ deletedCount: number; message: string }>>(
             `${environment.apiUrl}${BACKEND_ROUTE.staff.deleteMany}`,
             {
-                body: {ids},
+                body: { ids },
             }
         );
+    }
+
+
+    createStaff(staff:StaffCreateDto):Observable<GlobalResponse<Staff>>{
+       return this._http.post<GlobalResponse<Staff>>(
+        `${environment.apiUrl}${BACKEND_ROUTE.staff.base}`,
+        staff
+       );
+    }
+
+    updateStaff(id: string, staff: Partial<StaffCreateDto>): Observable<GlobalResponse<Staff>> {
+        return this._http.patch<GlobalResponse<Staff>>(
+            `${environment.apiUrl}${BACKEND_ROUTE.staff.base}/${id}`,
+            staff
+        );
+    }
+
+    uploadImageToStaff(id:string,image:File):Observable<void>{
+        const form = new FormData();
+        form.append("image", image);
+        return this._http.patch(
+            `${environment.apiUrl}${BACKEND_ROUTE.staff.base}/${id}/image`,
+            form
+        ).pipe(map(() => {}));
     }
 }

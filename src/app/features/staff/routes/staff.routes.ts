@@ -1,14 +1,22 @@
-import {Routes} from "@angular/router";
+import { AppRoute } from "../../../core/models/app-route.interface";
 
-export const staffRoutes: Routes = [
+export const staffRoutes: AppRoute[] = [
     {
         path: "staff",
-        data: {title: "STAFF.LIST"},
-        loadComponent: () => import("../pages/staff-list/staff-list").then((m) => m.StaffList),
+        data: {
+            label: "Staff",
+            icon: "/images/sidebar/staff.avif",
+            iconWidth: 16,
+            iconHeight: 12,
+            sidebar: true,
+            title: "Staff",
+        },
+        loadComponent: () =>
+            import("../pages/staff-list/staff-list").then((m) => m.StaffList),
     },
     {
         path: "staff/staff-details/:id",
-        data: {title: "STAFF.DETAILS"},
+        data: { title: "Staff Details" },
         loadComponent: () =>
             import("../pages/staff-details/staff-details").then((m) => m.StaffDetails),
     },

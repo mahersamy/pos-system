@@ -1,4 +1,10 @@
-<div class="d-flex gap-2 my-2">
+<div class="d-flex justify-content-center align-items-center gap-2 my-2">
+    <button
+        class="btn-primary"
+        (click)="openCreateForm()"
+    >
+        Create
+    </button>
     <app-search-bar
         [placeholder]="'shared.SEARCH_PLACEHOLDER' | translate"
         class="w-100"

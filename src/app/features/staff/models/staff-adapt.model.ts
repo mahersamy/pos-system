@@ -1,4 +1,4 @@
-import {Staff} from "./staff";
+import { Staff } from "./staff.model";
 
 export interface StaffAdaptModel extends Partial<Staff> {
     _id: string;

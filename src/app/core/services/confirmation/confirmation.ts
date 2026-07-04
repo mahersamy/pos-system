@@ -67,6 +67,9 @@ export class ConfirmationService {
     /** @ignore */
     private ref: DynamicDialogRef | null = null;
 
+    isBtn1Loading = signal<boolean>(false);
+    isBtn2Loading = signal<boolean>(false);
+
     setRef(ref: DynamicDialogRef<any>) {
         this.ref = ref;
         if (ref) {
@@ -79,58 +82,6 @@ export class ConfirmationService {
         }
     }
 
-    /**
-     * @description Signal that tracks the loading state of the primary button (btn1)
-     * @type {Signal<boolean>}
-     * @example
-     * // Enable loading state
-     * this.confirmationService.isBtn1Loading.set(true);
-     *
-     * // Disable loading state
-     * this.confirmationService.isBtn1Loading.set(false);
-     */
-    isBtn1Loading = signal(false);
-
-    /**
-     * @description Signal that tracks the loading state of the secondary button (btn2)
-     * @type {Signal<boolean>}
-     * @example
-     * // Enable loading state
-     * this.confirmationService.isBtn2Loading.set(true);
-     *
-     * // Disable loading state
-     * this.confirmationService.isBtn2Loading.set(false);
-     */
-    isBtn2Loading = signal(false);
-
-    /**
-     * @method confirm
-     * @description Opens a confirmation dialog with the provided options
-     *
-     * This method is the primary way to display a confirmation dialog in the application.
-     * It accepts configuration options that define the dialog's appearance and behavior.
-     *
-     * @param {ConfirmationOptions} options - Configuration options for the confirmation dialog
-     * @returns {void}
-     *
-     * @example
-     * ```ts
-     * this.confirmationService.confirm({
-     *   header: 'Confirm Action',
-     *   message: 'Are you sure you want to proceed?',
-     *   type: 'toggle',
-     *   btn1Text: 'Yes',
-     *   btn2Text: 'Cancel',
-     *   btn1Action: () => {
-     *     this.performAction();
-     *     this.confirmationService.close();
-     *   },
-     *   btn2Action: () => {
-     *     this.confirmationService.close();
-     *   }
-     * });
-     * ```
-     */
     confirm(options: ConfirmationOptions): void {
         this.isBtn1Loading.set(false);
         this.isBtn2Loading.set(false);

@@ -1,0 +1,5 @@
+<div class="d-flex align-items-center gap-2 my-2">
+  <app-search-bar [placeholder]="'shared.SEARCH_PLACEHOLDER' | translate"
+                  class="w-100" (searchEnter)="onSearch($event)" />
+</div>
+<app-data-table />

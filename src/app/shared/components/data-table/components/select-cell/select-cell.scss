@@ -1,0 +1,14 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+::ng-deep .pink-select-panel {
+    .p-select-option.p-select-option-selected {
+        background-color: var(--pink-300) !important; /* Soft Pink background */
+    }
+
+    .p-select-option.p-select-option-selected.p-focus {
+        background-color: var(--pink-400) !important; /* Slightly darker soft pink on hover/focus */
+    }
+}

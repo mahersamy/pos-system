@@ -124,6 +124,12 @@
                     "
                         [classes]="column.classes || ''"
                     />
+                    } @case (_tableColumnType.SELECT) {
+                    <app-select-cell
+                        [value]="resolveFieldData(data, column.field)"
+                        [options]="$any(column).options || []"
+                        (valueChange)="$any(column).onChange ? $any(column).onChange(data, $event) : null"
+                    />
                     } }
                 </td>
                 } @if (_dataTableConfig.tableConfig.actions().length > 0) {

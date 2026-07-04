@@ -35,6 +35,7 @@
         "REPORTS": "Reports",
         "ORDERS": "Orders",
         "RESERVATION": "Reservation",
+        "USERS": "Users",
         "LOGOUT": "Logout"
     },
     "AUTH": {
@@ -160,6 +161,24 @@
         "TITLE": "Page Not Found",
         "SUBTITLE": "Oops! The page you're looking for doesn't exist. It might have been moved or deleted.",
         "BACK_HOME": "Back to Dashboard"
+    },
+    "USERS": {
+        "TITLE": "Users",
+        "FIELDS": {
+            "ID": "ID",
+            "NAME": "Name",
+            "EMAIL": "Email",
+            "PHONE": "Phone",
+            "AGE": "Age",
+            "STATUS": "Status",
+            "DATE": "Date",
+            "ROLE": "Role"
+        },
+        "ROLES": {
+            "ADMIN": "Admin",
+            "MANAGER": "Manager",
+            "CASHIER": "Cashier"
+        }
     },
     "shared": {
         "rejectionReason": "Rejection Reason",

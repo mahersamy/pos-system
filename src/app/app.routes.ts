@@ -4,6 +4,8 @@ import { ForgotPassword } from "./features/auth/forgot-password/forgot-password"
 import { authGuard, publicGuard } from "./core/guards/auth-guard/auth-guard";
 import { NotFound } from "./layout/not-found/not-found";
 import { staffRoutes } from "./features/staff/routes/staff.routes";
+import { notificationRoutes } from './features/notification/notification.route';
+import { usersRoutes } from './features/users/users.route';
 
 export const routes: Routes = [
     {
@@ -22,12 +24,9 @@ export const routes: Routes = [
         loadComponent: () =>
             import("./layout/main-layout/main-layout").then((m) => m.MainLayout),
         children: [
-            // ── Feature route spreads ────────────────────────────────────────
-            // Each feature file owns its own sidebar: true / icon / label metadata.
-            // The sidebar component reads these automatically via extractSidebarItems().
             ...staffRoutes,
-
-            // ── Utility routes (no sidebar entry) ───────────────────────────
+            ...notificationRoutes,
+            ...usersRoutes,
             {
                 path: "profile",
                 data: { title: "User Profile" },
@@ -35,23 +34,7 @@ export const routes: Routes = [
                     import("./features/user-profile/pages/user-profile").then(
                         (m) => m.UserProfile
                     ),
-            },
-            {
-                path: "notifications",
-                data: { title: "Notifications" },
-                loadComponent: () =>
-                    import("./features/notification/pages/notification-list/notification-list").then(
-                        (m) => m.NotificationList
-                    ),
-            },
-            {
-                path: "notifications/:id",
-                data: { title: "Notification Details" },
-                loadComponent: () =>
-                    import("./features/notification/pages/notification-detail/notification-detail").then(
-                        (m) => m.NotificationDetail
-                    ),
-            },
+            }
         ],
     },
     {

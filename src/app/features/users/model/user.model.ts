@@ -1,6 +1,9 @@
+import { UserRole } from "../enums/user-role.enum";
+
 export interface Permission {
     read: boolean;
     write: boolean;
+    delete: boolean;
 }
 
 export interface UserPermissions {
@@ -8,14 +11,18 @@ export interface UserPermissions {
 }
 
 export interface User {
-    _id?: string;
-    uid?: string;
+    _id: string;
+    id?: string;
     firstName: string;
     lastName: string;
-    address: string;
+    fullName?: string;
     email: string;
+    role: UserRole;
+    age?: number;
     phoneNumber: string;
-    role: string | null;
+    isActive?: boolean;
+    createdAt?: string;
     profilePicture?: string;
+    address?: string;
     permissions?: UserPermissions;
 }

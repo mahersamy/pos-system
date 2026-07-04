@@ -3,17 +3,19 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataTableConfig } from '../../../../shared/components/data-table/services/data-table-config';
 import { UsersApiService } from '../../services/users-api.service';
 import { User } from '../../model/user.model';
-import { USERS_TABLE_COLUMNS, USERS_TABLE_ACTION_META } from './users-list.config';
 import { ModuleBase } from '../../../../core/base/module.base';
 import { DataTable } from '../../../../shared/components/data-table/data-table';
 import { SearchBar } from '../../../../shared/components/search-bar/search-bar';
 import { TranslateModule } from '@ngx-translate/core';
 import { TableColumnType } from '../../../../shared/components/data-table/enums/colmun-type.enum';
 import { UserRole } from '../../enums/user-role.enum';
+import { FilterPanel } from '../../../../shared/components/filter-panel/filter-panel/filter-panel';
+import { FilterOutput } from '../../../../shared/components/filter-panel/interface/filter-panel.models';
+import { USERS_TABLE_COLUMNS, USERS_TABLE_ACTION_META, USERS_FILTER_CONFIG } from './users-list.config';
 
 @Component({
   selector: 'app-users-list',
-  imports: [DataTable, SearchBar, TranslateModule],
+  imports: [DataTable, SearchBar, TranslateModule, FilterPanel],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',
   providers: [DataTableConfig],
@@ -22,6 +24,12 @@ export class UsersListComponent implements OnInit, ModuleBase {
   private readonly _usersApiService = inject(UsersApiService);
   private readonly _dataTableConfig = inject(DataTableConfig<User>);
   private readonly _destroyRef = inject(DestroyRef);
+
+  filterConfig = USERS_FILTER_CONFIG;
+  filterObj: FilterOutput = {
+    search: '',
+    sort: 'desc',
+  };
 
   searchQuery = '';
 
@@ -54,6 +62,16 @@ export class UsersListComponent implements OnInit, ModuleBase {
 
   onSearch(query: string) {
     this.searchQuery = query;
+    this.filterObj.search = query;
+    this.fetchData();
+  }
+
+  applyFilter(filter: FilterOutput) {
+    if (filter['filter'] && Object.keys(filter['filter']).length === 0) {
+      delete filter['filter'];
+    }
+
+    this.filterObj = filter;
     this.fetchData();
   }
 
@@ -99,7 +117,7 @@ export class UsersListComponent implements OnInit, ModuleBase {
     this._dataTableConfig.tableConfig.loading.set(true);
 
     this._usersApiService
-      .getUsers({ page: 1, limit: 10, search: this.searchQuery })
+      .getUsers({ page: 1, limit: 10, ...this.filterObj })
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe({
         next: (response) => {

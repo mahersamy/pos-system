@@ -3,7 +3,6 @@
 .premium-dialog-mask {
     backdrop-filter: blur(8px);
     background: rgba(0, 0, 0, 0.4);
-    animation: fadeIn 0.3s ease-out forwards;
 }
 
 .premium-dialog-root {
@@ -17,7 +16,6 @@
     margin: 0 !important;
     display: flex;
     flex-direction: column;
-    animation: slideLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .premium-dialog-header {

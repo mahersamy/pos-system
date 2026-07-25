@@ -4,7 +4,6 @@ import { DynamicForm } from "../../../../shared/components/forms/dynamic-form/dy
 import { StaffFormConfig } from "./staff-create.config";
 import { StaffService } from "../../services/staff.service";
 import { Loading } from "../../../../shared/directives/loading/loading";
-import { finalize } from "rxjs";
 import { formatTime, parseTime } from "../../../../core/utils/time.util";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { StaffAdaptModel } from "../../models/staff-adapt.model";
@@ -14,7 +13,7 @@ import { StaffAdaptModel } from "../../models/staff-adapt.model";
     templateUrl: "./staff-create.html",
     styleUrl: "./staff-create.scss",
 })
-export class StaffCreate implements OnInit {
+export class StaffCreate {
 
     private readonly _dialogRef = inject(DynamicDialogRef);
     private readonly _dialogConfig = inject(DynamicDialogConfig);
@@ -27,9 +26,7 @@ export class StaffCreate implements OnInit {
     staffId = signal<string | null>(null);
 
 
-    ngOnInit(): void {
 
-    }
 
     onFormReady(form: FormGroup) {
         this.staffForm = form;

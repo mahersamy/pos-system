@@ -168,12 +168,12 @@ export class StaffList implements OnInit, ModuleBase {
             .subscribe(() => this.fetchData());
 
 
-       
+
     }
 
 
     // ─── Dialog ─────────────────────────────────────────────────────────────────
-    
+
     openCreateForm(data?: StaffAdaptModel) {
         console.log(data);
         this.dialogRef = this._dialogService.open(StaffCreate, {

@@ -12,18 +12,23 @@ import { UserRole } from '../../enums/user-role.enum';
 import { FilterPanel } from '../../../../shared/components/filter-panel/filter-panel/filter-panel';
 import { FilterOutput } from '../../../../shared/components/filter-panel/interface/filter-panel.models';
 import { USERS_TABLE_COLUMNS, USERS_TABLE_ACTION_META, USERS_FILTER_CONFIG } from './users-list.config';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { UserCreate } from '../user-create/user-create';
 
 @Component({
   selector: 'app-users-list',
   imports: [DataTable, SearchBar, TranslateModule, FilterPanel],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',
-  providers: [DataTableConfig],
+  providers: [DataTableConfig, DialogService],
 })
 export class UsersListComponent implements OnInit, ModuleBase {
   private readonly _usersApiService = inject(UsersApiService);
   private readonly _dataTableConfig = inject(DataTableConfig<User>);
   private readonly _destroyRef = inject(DestroyRef);
+  private readonly _dialogService = inject(DialogService);
+
+  dialogRef: DynamicDialogRef | undefined | null;
 
   filterConfig = USERS_FILTER_CONFIG;
   filterObj: FilterOutput = {
@@ -40,7 +45,7 @@ export class UsersListComponent implements OnInit, ModuleBase {
   }
 
   private _initConfig() {
-    const [viewMeta, deleteMeta] = USERS_TABLE_ACTION_META;
+    const [viewMeta, editMeta, deleteMeta] = USERS_TABLE_ACTION_META;
 
     const modifiedColumns = USERS_TABLE_COLUMNS.map((col) => {
       if (col.type === TableColumnType.SELECT && col.field === 'role') {
@@ -52,9 +57,10 @@ export class UsersListComponent implements OnInit, ModuleBase {
       return col;
     });
 
-    this._dataTableConfig.tableConfig.columns.set(modifiedColumns as any);
+    this._dataTableConfig.tableConfig.columns.set(modifiedColumns);
     this._dataTableConfig.tableConfig.actions.set([
       { ...viewMeta, func: (d) => this._onView(d) },
+      { ...editMeta, func: (d) => this._onEdit(d) },
       { ...deleteMeta, func: (d) => this._onDelete(d) },
     ]);
     this._dataTableConfig.tableConfig.isSelectable.set(false);
@@ -77,6 +83,10 @@ export class UsersListComponent implements OnInit, ModuleBase {
 
   private _onView(data: User) {
     console.log('View user:', data);
+  }
+
+  private _onEdit(data: User) {
+    this.openCreateForm(data);
   }
 
   private _onDelete(data: User) {
@@ -105,6 +115,7 @@ export class UsersListComponent implements OnInit, ModuleBase {
         next: () => {
           this._dataTableConfig.tableConfig.loading.set(false);
           data.role = newRole;
+          this.fetchData();
         },
         error: () => {
           this._dataTableConfig.tableConfig.loading.set(false);
@@ -136,5 +147,30 @@ export class UsersListComponent implements OnInit, ModuleBase {
     this._dataTableConfig.tableConfig.refetchEvent
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe(() => this.fetchData());
+  }
+
+  // ─── Dialog ──────────────────────────────────────────────────────────────────
+
+  openCreateForm(data?: User) {
+    this.dialogRef = this._dialogService.open(UserCreate, {
+      header: data ? 'Edit User' : 'Create New User',
+      data: data ?? null,
+      width: '450px',
+      position: 'right',
+      pt: {
+        mask: { class: 'premium-dialog-mask' },
+        root: { class: 'premium-dialog-root' },
+        header: { class: 'premium-dialog-header' },
+        title: { class: 'premium-dialog-title' },
+        content: { class: 'premium-dialog-content' },
+        pcCloseButton: { root: { class: 'premium-dialog-close-btn' } }
+      }
+    });
+
+    this.dialogRef?.onClose.pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+      next: () => {
+        this.fetchData();
+      }
+    });
   }
 }

@@ -60,4 +60,18 @@ export class UsersApiService {
       dto
     );
   }
+
+  updatePermissions(id: string, permissions: Record<string, { read: boolean; write: boolean; delete: boolean }>): Observable<GlobalResponse<User>> {
+    return this._http.patch<GlobalResponse<User>>(
+      `${environment.apiUrl}${BACKEND_ROUTE.users.permissions(id)}`,
+      { permissions }
+    );
+  }
+
+  updatePassword(id: string, dto: { password: string }): Observable<GlobalResponse<{ message: string }>> {
+    return this._http.patch<GlobalResponse<{ message: string }>>(
+      `${environment.apiUrl}${BACKEND_ROUTE.users.password(id)}`,
+      dto
+    );
+  }
 }

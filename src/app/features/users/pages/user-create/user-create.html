@@ -1,0 +1,44 @@
+<div class="flex flex-column gap-3 mt-5 position-relative">
+    <section class="mb-8">
+        <app-dynamic-form [configArr]="userFormConfig" (form)="onFormReady($event)">
+        </app-dynamic-form>
+
+        <!-- Permissions Section — shown only in edit mode -->
+        @if (isEditMode()) {
+            <div class="perm-section">
+
+                <!-- Toggle trigger -->
+                <button
+                    class="perm-trigger"
+                    (click)="togglePermPanel()"
+                    type="button"
+                >
+                    <span class="perm-trigger__left">
+                        <span class="perm-trigger__badge">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </span>
+                        <span class="perm-trigger__text">
+                            <span class="perm-trigger__label">Permissions</span>
+                            <span class="perm-trigger__hint">Manage module access rights</span>
+                        </span>
+                    </span>
+                    <span class="perm-trigger__arrow" [class.open]="permPanelOpen()">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </span>
+                </button>
+
+               @defer (when permPanelOpen()) {
+                 <app-permission-editor
+                        [initialPermissions]="initialPermissions()"
+                        (permissionsChange)="onPermissionsChange($event)"
+                    />
+               }
+            </div>
+        }
+    </section>
+
+    <div class="mt-4 d-flex justify-content-end align-items-center gap-2 footer">
+        <button class="btn btn-secondary" (click)="onCancel()" [disabled]="isLoading()">Cancel</button>
+        <button class="btn btn-primary" (click)="onSubmit()" [loading]="isLoading()">{{ isEditMode() ? 'Update' : 'Submit' }}</button>
+    </div>
+</div>

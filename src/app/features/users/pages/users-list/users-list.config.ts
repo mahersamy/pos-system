@@ -52,6 +52,7 @@ export const USERS_TABLE_COLUMNS: ColumnConfig[] = [
 
 export const USERS_TABLE_ACTION_META: Omit<ActionConfig, "func">[] = [
     { icon: "fa-solid fa-eye", classes: "preview-button" },
+    { icon: "fa-solid fa-pen-to-square", classes: "edit-button" },
     { icon: "fa-solid fa-trash", classes: "delete-button" },
 ];
 

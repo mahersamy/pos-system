@@ -22,7 +22,7 @@ export interface User {
     phoneNumber: string;
     isActive?: boolean;
     createdAt?: string;
-    profilePicture?: string;
+    profilePicture?: { secure_url: string; public_id?: string };
     address?: string;
     permissions?: UserPermissions;
 }

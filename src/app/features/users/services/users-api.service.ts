@@ -74,4 +74,13 @@ export class UsersApiService {
       dto
     );
   }
+
+  uploadImage(id: string, image: File): Observable<void> {
+    const form = new FormData();
+    form.append("image", image);
+    return this._http.patch(
+      `${environment.apiUrl}${BACKEND_ROUTE.users.base}/${id}/image`,
+      form
+    ).pipe(map(() => { }));
+  }
 }

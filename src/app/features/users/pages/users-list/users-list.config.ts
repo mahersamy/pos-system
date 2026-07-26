@@ -14,7 +14,7 @@ export const USERS_TABLE_COLUMNS: ColumnConfig[] = [
         field: "fullName",
         header: "USERS.FIELDS.NAME",
         type: TableColumnType.USER,
-        imageField: "profilePicture",
+        imageField: "profilePicture.secure_url",
     },
     {
         field: "email",

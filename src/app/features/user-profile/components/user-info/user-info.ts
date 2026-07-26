@@ -111,7 +111,7 @@ export class UserInfo implements OnInit {
 
             // Set the profile image URL prioritize the actual picture, then customized avatar
             if (currentUser.profilePicture) {
-                this.imageUrl.set(currentUser.profilePicture);
+                this.imageUrl.set(currentUser.profilePicture.secure_url);
             } else {
                 this.imageUrl.set(
                     `https://ui-avatars.com/api/?name=${currentUser.firstName}+${currentUser.lastName}&background=fac1d9&color=111`

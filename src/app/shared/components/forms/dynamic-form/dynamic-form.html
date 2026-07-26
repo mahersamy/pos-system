@@ -1,5 +1,6 @@
 <form [formGroup]="genaricForm">
     @for (item of configArr(); track $index) {
+    @if (!item.hidden) {
     <div class="field flex flex-column gap-2 mb-3">
         <label
             [for]="item.controlName"
@@ -52,6 +53,7 @@
             [placeholder]="item.placeholder ?? ''"
             [feedback]="$any(item).feedback ?? false"
             [toggleMask]="$any(item).toggleMask ?? true"
+            autocomplete="new-password"
             class="w-full"
         />
         } @case ('number') {
@@ -119,5 +121,6 @@
             [errorMessages]="item.errorMessages"
         ></app-validation-messages>
     </div>
+    }
     }
 </form>

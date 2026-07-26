@@ -2,6 +2,7 @@ import { Validators } from '@angular/forms';
 import { FormInputType } from '../../../../shared/components/forms/dynamic-form/enum/form.enum';
 import { FormFieldConfig } from '../../../../shared/components/forms/dynamic-form/interfaces/form-config.type';
 import { UserRole } from '../../enums/user-role.enum';
+import { passwordValidator } from '../../../../shared/validators/password.validator';
 
 export const UserFormConfig: FormFieldConfig[] = [
     {
@@ -34,6 +35,15 @@ export const UserFormConfig: FormFieldConfig[] = [
         placeholder: 'Enter email',
         validators: [Validators.required, Validators.email],
         errorMessages: { required: 'Email is required', email: 'Invalid email format' }
+    },
+    {
+        type: FormInputType.password,
+        controlName: 'password',
+        label: 'Password',
+        placeholder: 'Enter password',
+        validators: [Validators.required, passwordValidator()],
+        errorMessages: { required: 'Password is required', passwordStrength: 'Password is not strong enough' },
+        hidden: false
     },
     {
         type: FormInputType.select,

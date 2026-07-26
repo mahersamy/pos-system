@@ -1,4 +1,5 @@
-import { Component, inject, OnInit, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
+import { v4 as uuidv4 } from 'uuid';
 import { forkJoin, Observable } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { DynamicForm } from '../../../../shared/components/forms/dynamic-form/dynamic-form';
@@ -24,7 +25,7 @@ export class UserCreate {
 
     readonly permEditor = viewChild(PermissionEditor);
 
-    userFormConfig = UserFormConfig;
+    userFormConfig = UserFormConfig.map(field => ({ ...field }));
     userForm!: FormGroup;
     isLoading = signal(false);
     isEditMode = signal(false);
@@ -37,11 +38,23 @@ export class UserCreate {
     /** Whether the permissions panel is expanded */
     permPanelOpen = signal(false);
 
+    constructor() {
+        if (this._dialogConfig.data) {
+            this.isEditMode.set(true);
+        }
+
+        const passwordField = this.userFormConfig.find(f => f.controlName === 'password');
+        if (passwordField) {
+            passwordField.hidden = this.isEditMode();
+            // UUID lacks uppercase letters by default. Appending 'A!1' guarantees it passes the strong password validator.
+            passwordField.defaultValue = uuidv4() + 'A!1';
+        }
+    }
+
     onFormReady(form: FormGroup) {
         this.userForm = form;
 
         if (this._dialogConfig.data) {
-            this.isEditMode.set(true);
             const data = this._dialogConfig.data as User;
             this.userId.set(data._id);
 

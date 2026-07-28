@@ -1,14 +1,14 @@
-import {Component, inject, OnInit, signal, DestroyRef} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {StaffService} from "../../services/staff.service";
-import {StaffAdaptModel} from "../../models/staff-adapt.model";
-import {CommonModule} from "@angular/common";
-import {SkeletonModule} from "primeng/skeleton";
-import {UploadFileService} from "../../../../core/services/file-upload/upload-file";
-import {ConfirmationService} from "../../../../core/services/confirmation/confirmation";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {ErrorState} from "../../../../shared/components/error-state/error-state";
-import {TranslateModule} from "@ngx-translate/core";
+import { Component, inject, OnInit, signal, DestroyRef } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { StaffService } from "../../services/staff-api.service";
+import { StaffAdaptModel } from "../../models/staff-adapt.model";
+import { CommonModule } from "@angular/common";
+import { SkeletonModule } from "primeng/skeleton";
+import { UploadFileService } from "../../../../core/services/file-upload/upload-file";
+import { ConfirmationService } from "../../../../core/services/confirmation/confirmation";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { ErrorState } from "../../../../shared/components/error-state/error-state";
+import { TranslateModule } from "@ngx-translate/core";
 
 @Component({
     selector: "app-staff-details",
@@ -49,7 +49,7 @@ export class StaffDetails implements OnInit {
         this.isError.set(false);
 
         this._staffService
-            .getStaff(staffId)
+            .getOne(staffId)
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 next: (staffData) => {
@@ -78,7 +78,7 @@ export class StaffDetails implements OnInit {
      * @param {Event} event - The HTML file input change event
      */
     async onFileSelected(event: Event) {
-        const {previews} = await this._uploadFileService.onFileSelected(event, {
+        const { previews } = await this._uploadFileService.onFileSelected(event, {
             allowedTypes: ["image/jpeg", "image/png", "image/webp"],
             maxFiles: 1,
             maxSizeMB: 5,
@@ -115,7 +115,7 @@ export class StaffDetails implements OnInit {
             btn1Action: () => {
                 this._confirmationService.isBtn1Loading.set(true);
                 this._staffService
-                    .deleteStaff(currentStaff._id!)
+                    .delete(currentStaff._id!)
                     .pipe(takeUntilDestroyed(this._destroyRef))
                     .subscribe({
                         next: () => {

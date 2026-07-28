@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { DynamicForm } from "../../../../shared/components/forms/dynamic-form/dynamic-form";
 import { StaffFormConfig } from "./staff-create.config";
-import { StaffService } from "../../services/staff.service";
+import { StaffFacade } from "../../services/staff.facade";
 import { Loading } from "../../../../shared/directives/loading/loading";
 import { formatTime, parseTime } from "../../../../core/utils/time.util";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
@@ -17,7 +17,7 @@ export class StaffCreate {
 
     private readonly _dialogRef = inject(DynamicDialogRef);
     private readonly _dialogConfig = inject(DynamicDialogConfig);
-    private readonly _staffService = inject(StaffService);
+    private readonly _staffFacade = inject(StaffFacade);
 
     staffFormConfig = StaffFormConfig;
     staffForm!: FormGroup;
@@ -77,29 +77,17 @@ export class StaffCreate {
             const imageFile: File | null = formValue.image;
             delete formValue.image;
 
-            // Here you can send formValue to your backend service
-            const submitObservable = this.isEditMode() && this.staffId()
-                ? this._staffService.updateStaff(this.staffId()!, formValue)
-                : this._staffService.createStaff(formValue);
+            const submitObservable = this._staffFacade.saveStaff(
+                this.isEditMode() ? this.staffId() : null,
+                formValue,
+                imageFile
+            );
 
             this.isLoading.set(true);
             submitObservable.subscribe({
-                next: (res) => {
-                    const id = this.isEditMode() ? this.staffId()! : res.data._id;
-                    if (imageFile instanceof File) {
-                        this._staffService.uploadImageToStaff(id, imageFile).subscribe({
-                            next: () => {
-                                this.isLoading.set(false);
-                                this._dialogRef.close();
-                            },
-                            error: () => {
-                                this.isLoading.set(false);
-                            }
-                        });
-                    } else {
-                        this.isLoading.set(false);
-                        this._dialogRef.close();
-                    }
+                next: () => {
+                    this.isLoading.set(false);
+                    this._dialogRef.close();
                 },
                 error: () => {
                     this.isLoading.set(false);

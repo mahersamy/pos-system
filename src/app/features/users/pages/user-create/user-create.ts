@@ -95,7 +95,7 @@ export class UserCreate {
 
     onSubmit() {
         if (this.userForm?.valid) {
-            const formValue = { ...this.userForm.value };
+            const formValue: Partial<User> = { ...this.userForm.value };
 
             // Extract image file (not sent in JSON body)
             const imageFile: File | null = formValue.profilePicture instanceof File
@@ -116,14 +116,14 @@ export class UserCreate {
     // ─── CREATE ──────────────────────────────────────────────────────────────
 
     /** Single POST — include permissions in the body, then upload image if provided */
-    private _submitCreate(formValue: any, imageFile: File | null) {
+    private _submitCreate(formValue: Partial<User>, imageFile: File | null) {
         const perms = this.permEditor()?.getCurrentPermissions();
         if (perms && Object.keys(perms).length > 0) {
             formValue.permissions = perms;
         }
 
         this.isLoading.set(true);
-        this._usersApiService.createUser(formValue).pipe(
+        this._usersApiService.create(formValue).pipe(
             switchMap((response) => {
                 const newId = response.data?._id;
                 if (imageFile && newId) {
@@ -146,7 +146,7 @@ export class UserCreate {
      * Only fires API calls for sections that actually changed.
      * Independent execution ensures one failure doesn't block other updates.
      */
-    private _submitUpdate(formValue: any, imageFile: File | null) {
+    private _submitUpdate(formValue: Partial<User>, imageFile: File | null) {
         const id = this.userId()!;
         const orig = this._originalUser;
         const calls: Observable<{ operation: string, result: 'success' | 'error', error?: any }>[] = [];
@@ -167,11 +167,10 @@ export class UserCreate {
             basicInfo.lastName !== orig.lastName ||
             basicInfo.email !== orig.email ||
             basicInfo.age !== orig.age ||
-            basicInfo.address !== orig.address ||
-            basicInfo.phoneNumber !== orig.phoneNumber;
+            basicInfo.address !== orig.address
 
         if (basicInfoChanged) {
-            calls.push(mapToResult('Basic Info update', this._usersApiService.updateUser(id, basicInfo)));
+            calls.push(mapToResult('Basic Info update', this._usersApiService.update(id, basicInfo)));
         }
 
         // ── 2. Role — only if it changed

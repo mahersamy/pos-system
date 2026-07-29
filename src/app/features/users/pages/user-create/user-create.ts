@@ -1,16 +1,15 @@
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, viewChild, effect } from '@angular/core';
 import { v4 as uuidv4 } from 'uuid';
-import { forkJoin, Observable, switchMap, of, catchError, map } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { DynamicForm } from '../../../../shared/components/forms/dynamic-form/dynamic-form';
 import { UserFormConfig } from './user-create.config';
-import { UsersApiService } from '../../services/users-api.service';
 import { Loading } from '../../../../shared/directives/loading/loading';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { User, UserPermissions } from '../../model/user.model';
 import { PermissionEditor } from '../../components/permission-editor/permission-editor';
 import { CommonModule } from '@angular/common';
 import { MessageService } from 'primeng/api';
+import { UsersFacade } from '../../services/users.facade';
 
 
 @Component({
@@ -22,14 +21,14 @@ import { MessageService } from 'primeng/api';
 export class UserCreate {
     private readonly _dialogRef = inject(DynamicDialogRef);
     private readonly _dialogConfig = inject(DynamicDialogConfig);
-    private readonly _usersApiService = inject(UsersApiService);
     private readonly _messageService = inject(MessageService);
+    private readonly _facade = inject(UsersFacade);
 
     readonly permEditor = viewChild(PermissionEditor);
 
     userFormConfig = UserFormConfig.map(field => ({ ...field }));
     userForm!: FormGroup;
-    isLoading = signal(false);
+    isLoading = this._facade.loading;
     isEditMode = signal(false);
     userId = signal<string | null>(null);
 
@@ -54,6 +53,12 @@ export class UserCreate {
             // UUID lacks uppercase letters by default. Appending 'A!1' guarantees it passes the strong password validator.
             passwordField.defaultValue = uuidv4() + 'A!1';
         }
+
+        effect(() => {
+            if (this._facade.closeDialog()) {
+                this.onCancel();
+            }
+        });
     }
 
     onFormReady(form: FormGroup) {
@@ -68,12 +73,11 @@ export class UserCreate {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 email: data.email,
-                phoneNumber: data.phoneNumber,
                 role: data.role,
                 age: data.age,
                 address: data.address,
-                profilePicture: typeof data.profilePicture === 'object' && data.profilePicture?.secure_url 
-                    ? data.profilePicture.secure_url 
+                profilePicture: typeof data.profilePicture === 'object' && data.profilePicture?.secure_url
+                    ? data.profilePicture.secure_url
                     : data.profilePicture
             });
 
@@ -117,27 +121,7 @@ export class UserCreate {
 
     /** Single POST — include permissions in the body, then upload image if provided */
     private _submitCreate(formValue: Partial<User>, imageFile: File | null) {
-        const perms = this.permEditor()?.getCurrentPermissions();
-        if (perms && Object.keys(perms).length > 0) {
-            formValue.permissions = perms;
-        }
-
-        this.isLoading.set(true);
-        this._usersApiService.create(formValue).pipe(
-            switchMap((response) => {
-                const newId = response.data?._id;
-                if (imageFile && newId) {
-                    return this._usersApiService.uploadImage(newId, imageFile);
-                }
-                return of(void 0);
-            })
-        ).subscribe({
-            next: () => {
-                this.isLoading.set(false);
-                this._dialogRef.close(true);
-            },
-            error: () => this.isLoading.set(false),
-        });
+        this._facade.createUser(formValue, imageFile)
     }
 
     // ─── UPDATE ──────────────────────────────────────────────────────────────
@@ -149,17 +133,10 @@ export class UserCreate {
     private _submitUpdate(formValue: Partial<User>, imageFile: File | null) {
         const id = this.userId()!;
         const orig = this._originalUser;
-        const calls: Observable<{ operation: string, result: 'success' | 'error', error?: any }>[] = [];
-
-        // Helper to format independent observable results
-        const mapToResult = (operation: string, obs: Observable<any>) => 
-            obs.pipe(
-                map(() => ({ operation, result: 'success' as const })),
-                catchError((error) => of({ operation, result: 'error' as const, error }))
-            );
 
         // Destructure to separate concerns
         const { role, ...basicInfo } = formValue;
+
 
         // ── 1. Basic info — only if any field changed
         const basicInfoChanged = !orig ||
@@ -167,74 +144,37 @@ export class UserCreate {
             basicInfo.lastName !== orig.lastName ||
             basicInfo.email !== orig.email ||
             basicInfo.age !== orig.age ||
-            basicInfo.address !== orig.address
+            basicInfo.address !== orig.address;
 
         if (basicInfoChanged) {
-            calls.push(mapToResult('Basic Info update', this._usersApiService.update(id, basicInfo)));
+            this._facade.updateUser(id, basicInfo);
         }
 
         // ── 2. Role — only if it changed
         const roleChanged = !orig || role !== orig.role;
         if (role && roleChanged) {
-            calls.push(mapToResult('Role update', this._usersApiService.changeRole(id, { role })));
+            this._facade.updateRole(id, role);
         }
 
         // ── 3. Permissions — only if they changed
-        const perms = this.permEditor()?.getCurrentPermissions();
+        const perms = this.currentPermissions();
         const permsChanged = perms &&
             Object.keys(perms).length > 0 &&
             JSON.stringify(perms) !== JSON.stringify(orig?.permissions ?? {});
 
         if (permsChanged) {
-            calls.push(mapToResult('Permissions update', this._usersApiService.updatePermissions(id, perms!)));
+            this._facade.updatePermissions(id, perms!);
         }
 
         // ── 4. Image — only if a new file was selected
         if (imageFile) {
-            calls.push(mapToResult('Profile Image update', this._usersApiService.uploadImage(id, imageFile)));
+            this._facade.uploadUserImage(id, imageFile);
         }
 
-        // Nothing changed — close without any request
-        if (calls.length === 0) {
-            this._dialogRef.close(false);
-            return;
-        }
-
-        this.isLoading.set(true);
-        forkJoin(calls).subscribe({
-            next: (results) => {
-                this.isLoading.set(false);
-                
-                const failures = results.filter(r => r.result === 'error');
-                
-                if (failures.length === 0) {
-                    this._messageService.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'User information updated successfully.'
-                    });
-                    this._dialogRef.close(true);
-                } else {
-                    const failList = failures.map(f => `• ${f.operation}`).join('\n');
-                    this._messageService.add({
-                        severity: 'warn',
-                        summary: 'Partial Update',
-                        detail: `The following operations failed:\n${failList}`,
-                        life: 5000
-                    });
-                    // Still close the dialog since some things might have succeeded, 
-                    // or user can choose to leave it open. For now, close and refresh.
-                    this._dialogRef.close(true);
-                }
-            },
-            error: () => {
-                // Should not reach here due to catchError in mapToResult
-                this.isLoading.set(false);
-            },
-        });
     }
 
     onCancel() {
+        this._facade.closeDialog.set(false); 
         this._dialogRef.close();
     }
 }

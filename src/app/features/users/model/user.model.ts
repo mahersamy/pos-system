@@ -19,7 +19,6 @@ export interface User {
     email: string;
     role: UserRole;
     age?: number;
-    phoneNumber: string;
     isActive?: boolean;
     createdAt?: string;
     profilePicture?: { secure_url: string; public_id?: string };

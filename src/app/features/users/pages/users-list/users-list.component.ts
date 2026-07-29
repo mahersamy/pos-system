@@ -36,7 +36,7 @@ export class UsersListComponent extends BaseListComponent<User, UsersFacade> {
 
   // ── Table setup ─────────────────────────────────────────────────────────
   protected override _initTableConfig(): void {
-    const [viewMeta, editMeta, deleteMeta] = USERS_TABLE_ACTION_META;
+    const [editMeta, deleteMeta] = USERS_TABLE_ACTION_META;
 
     const columns = USERS_TABLE_COLUMNS.map((col) => {
       if (col.type === TableColumnType.SELECT && col.field === "role") {
@@ -51,14 +51,9 @@ export class UsersListComponent extends BaseListComponent<User, UsersFacade> {
 
     this._dataTableConfig.tableConfig.columns.set(columns);
     this._dataTableConfig.tableConfig.actions.set([
-      { ...viewMeta, func: (d) => this._onView(d) },
       { ...editMeta, func: (d) => this.openCreateForm(d) },
       { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
     ]);
     this._dataTableConfig.tableConfig.isSelectable.set(false);
-  }
-
-  private _onView(data: User): void {
-    console.log("View user:", data);
   }
 }

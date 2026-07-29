@@ -20,8 +20,9 @@ export function passwordValidator(): ValidatorFn {
         const hasLowerCase = /[a-z]+/.test(value);
         const hasNumber = /[0-9]+/.test(value);
         const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value);
+        const hasMinLength = value.length >= 8;
 
-        const passwordValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+        const passwordValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && hasMinLength;
 
         return !passwordValid
             ? {
@@ -30,6 +31,7 @@ export function passwordValidator(): ValidatorFn {
                       hasLowerCase,
                       hasNumber,
                       hasSpecialChar,
+                      hasMinLength,
                   },
               }
             : null;

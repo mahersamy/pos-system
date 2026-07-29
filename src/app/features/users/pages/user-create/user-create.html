@@ -27,7 +27,7 @@
                     </span>
                 </button>
 
-               @defer (when permPanelOpen()) {
+               @if (permPanelOpen()) {
                  <app-permission-editor
                         [initialPermissions]="initialPermissions()"
                         (permissionsChange)="onPermissionsChange($event)"

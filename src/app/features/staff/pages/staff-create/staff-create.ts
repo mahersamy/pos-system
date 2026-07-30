@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, effect, inject, OnInit, signal } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { DynamicForm } from "../../../../shared/components/forms/dynamic-form/dynamic-form";
 import { StaffFormConfig } from "./staff-create.config";
@@ -7,6 +7,7 @@ import { Loading } from "../../../../shared/directives/loading/loading";
 import { formatTime, parseTime } from "../../../../core/utils/time.util";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { StaffAdaptModel } from "../../models/staff-adapt.model";
+
 @Component({
     selector: "app-staff-create",
     imports: [DynamicForm, Loading],
@@ -21,12 +22,19 @@ export class StaffCreate {
 
     staffFormConfig = StaffFormConfig;
     staffForm!: FormGroup;
-    isLoading = signal(false);
+    isLoading = this._staffFacade.loading;
     isEditMode = signal(false);
     staffId = signal<string | null>(null);
 
-
-
+    constructor() {
+        // Close the dialog automatically when the facade signals success
+        effect(() => {
+            if (this._staffFacade.closeDialog()) {
+                this._staffFacade.resetCloseDialog();
+                this._dialogRef.close();
+            }
+        });
+    }
 
     onFormReady(form: FormGroup) {
         this.staffForm = form;
@@ -62,8 +70,6 @@ export class StaffCreate {
                 formValue.dateOfBirth = formValue.dateOfBirth.toISOString();
             }
 
-
-
             // Format timings
             if (formValue.startShiftTiming) {
                 formValue.startShiftTiming = formatTime(formValue.startShiftTiming);
@@ -72,26 +78,16 @@ export class StaffCreate {
                 formValue.endShiftTiming = formatTime(formValue.endShiftTiming);
             }
 
-
             // Extract image before sending to API (File objects can't be JSON-serialized)
             const imageFile: File | null = formValue.image;
             delete formValue.image;
 
-            const submitObservable = this._staffFacade.saveStaff(
+            this._staffFacade.saveStaff(
                 this.isEditMode() ? this.staffId() : null,
                 formValue,
                 imageFile
-            );
-
-            this.isLoading.set(true);
-            submitObservable.subscribe({
-                next: () => {
-                    this.isLoading.set(false);
-                    this._dialogRef.close();
-                },
-                error: () => {
-                    this.isLoading.set(false);
-                }
+            ).subscribe({
+                error: () => { /* error handled in facade */ }
             });
         } else {
             this.staffForm?.markAllAsTouched();

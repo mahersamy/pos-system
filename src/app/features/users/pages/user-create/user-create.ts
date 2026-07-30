@@ -8,7 +8,6 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { User, UserPermissions } from '../../model/user.model';
 import { PermissionEditor } from '../../components/permission-editor/permission-editor';
 import { CommonModule } from '@angular/common';
-import { MessageService } from 'primeng/api';
 import { UsersFacade } from '../../services/users.facade';
 
 
@@ -21,7 +20,6 @@ import { UsersFacade } from '../../services/users.facade';
 export class UserCreate {
     private readonly _dialogRef = inject(DynamicDialogRef);
     private readonly _dialogConfig = inject(DynamicDialogConfig);
-    private readonly _messageService = inject(MessageService);
     private readonly _facade = inject(UsersFacade);
 
     readonly permEditor = viewChild(PermissionEditor);
@@ -170,11 +168,13 @@ export class UserCreate {
         if (imageFile) {
             this._facade.uploadUserImage(id, imageFile);
         }
-
+        if (!basicInfoChanged && !roleChanged && !permsChanged && !imageFile) {
+            this.onCancel();
+        }
     }
 
     onCancel() {
-        this._facade.closeDialog.set(false); 
+        this._facade.resetCloseDialog();
         this._dialogRef.close();
     }
 }

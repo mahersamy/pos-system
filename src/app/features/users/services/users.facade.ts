@@ -1,127 +1,135 @@
-import { inject, Injectable, signal } from "@angular/core";
-import { forkJoin, Observable, of, throwError } from "rxjs";
-import { catchError, map, switchMap, tap } from "rxjs/operators";
+import { inject, Injectable } from "@angular/core";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { UsersApiService } from "./users-api.service";
 import { User, UserPermissions } from "../model/user.model";
 import { BaseFacade } from "../../../core/base/base-facade.base";
+import { Observable } from "rxjs";
 import { GetAllModel } from "../../../core/models/get-all.model";
+import { GlobalResponse } from "../../../core/models/response-global.model";
+import { UsersState } from "../state/users.state";
 
 @Injectable({ providedIn: "root" })
 export class UsersFacade extends BaseFacade<User> {
+    protected override readonly _state = inject(UsersState);
+    private readonly _api = inject(UsersApiService);
 
-    protected readonly _api = inject(UsersApiService);
-
-    // ── BaseFacade hooks ────────────────────────────────────────────────────
-    protected _loadApi = (params: GetAllModel) => this._api.getAll(params);
-    protected _deleteApi = (id: string) => this._api.delete(id);
-
-    closeDialog = signal<boolean>(false)
+    // ── BaseFacade hooks ─────────────────────────────────────────────────────
+    protected override _loadApi(params: GetAllModel): Observable<User[]> {
+        return this._api.getAll(params);
+    }
 
 
-    protected override _deleteManyApi(ids: string[]): Observable<any> {
-        throw new Error("Method not implemented.");
+
+    protected override _deleteApi(id: string): Observable<GlobalResponse> {
+        return this._api.delete(id);
     }
 
     // ── Users-unique: change role ─────────────────────────────────────────
     changeRole(id: string, role: string): void {
-        this._setLoading(true);
-
-        this._api.changeRole(id, { role }).subscribe({
-            next: () => {
-                this._setLoading(false);
-                this.load();
-                this.closeDialog.set(true);
-            },
-            error: () => {
-                this._setLoading(false);
-                this._setError(true);
-            },
-        });
+        this._state.setLoading(true);
+        this._state.setError(false);
+        this._api.changeRole(id, { role })
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+                next: () => {
+                    this._state.setLoading(false);
+                    this._state.setCloseDialog(true);
+                },
+                error: () => {
+                    this._state.setLoading(false);
+                    this._state.setError(true);
+                },
+            });
     }
 
-    // ── Users-unique: Writes (Exposed for UserCreate) ──────────────────────
+    // ── Users-unique: Writes ──────────────────────────────────────────────
     createUser(payload: Partial<User>, imageFile: File | null) {
-        this._setLoading(true);
+        this._state.setLoading(true);
+        this._state.setError(false);
 
-
-        this._api.create(payload).subscribe({
-            next: () => {
-                this._setLoading(false);
-                this.load();
-                this.closeDialog.set(true);
-            },
-            error: () => {
-                this._setLoading(false);
-                this._setError(true);
-            },
-        });
+        this._api.create(payload)
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+                next: () => {
+                    this._state.setLoading(false);
+                    this._state.setCloseDialog(true);
+                },
+                error: () => {
+                    this._state.setLoading(false);
+                    this._state.setError(true);
+                },
+            });
     }
 
     updateUser(id: string, payload: Partial<User>) {
-        this._setLoading(true);
+        this._state.setLoading(true);
+        this._state.setError(false);
 
-
-        return this._api.update(id, payload).subscribe({
-            next: () => {
-                this._setLoading(false);
-                this.load();
-                this.closeDialog.set(true);
-            },
-            error: () => {
-                this._setLoading(false);
-                this._setError(true);
-            },
-        });
+        return this._api.update(id, payload)
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+                next: () => {
+                    this._state.setLoading(false);
+                    this._state.setCloseDialog(true);
+                },
+                error: () => {
+                    this._state.setLoading(false);
+                    this._state.setError(true);
+                },
+            });
     }
 
     updateRole(id: string, role: string) {
-        this._setLoading(true);
+        this._state.setLoading(true);
+        this._state.setError(false);
 
-
-        return this._api.changeRole(id, { role }).subscribe({
-            next: () => {
-                this._setLoading(false);
-                this.load();
-                this.closeDialog.set(true);
-            },
-            error: () => {
-                this._setLoading(false);
-                this._setError(true);
-            },
-        })
+        return this._api.changeRole(id, { role })
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+                next: () => {
+                    this._state.setLoading(false);
+                    this._state.setCloseDialog(true);
+                },
+                error: () => {
+                    this._state.setLoading(false);
+                    this._state.setError(true);
+                },
+            });
     }
 
     updatePermissions(id: string, perms: UserPermissions) {
-        this._setLoading(true);
+        this._state.setLoading(true);
+        this._state.setError(false);
 
-
-        return this._api.updatePermissions(id, perms).subscribe({
-            next: () => {
-                this._setLoading(false);
-                this.load();
-                this.closeDialog.set(true);
-            },
-            error: () => {
-                this._setLoading(false);
-                this._setError(true);
-            },
-        })
+        return this._api.updatePermissions(id, perms)
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+                next: () => {
+                    this._state.setLoading(false);
+                    this._state.setCloseDialog(true);
+                },
+                error: () => {
+                    this._state.setLoading(false);
+                    this._state.setError(true);
+                },
+            });
     }
 
     uploadUserImage(id: string, image: File) {
-        this._setLoading(true);
+        this._state.setLoading(true);
+        this._state.setError(false);
 
-
-        return this._api.uploadImage(id, image).subscribe({
-            next: () => {
-                this._setLoading(false);
-                this.load();
-                this.closeDialog.set(true);
-            },
-            error: () => {
-                this._setLoading(false);
-                this._setError(true);
-            },
-        })
+        return this._api.uploadImage(id, image)
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe({
+                next: () => {
+                    this._state.setLoading(false);
+                    this._state.setCloseDialog(true);
+                },
+                error: () => {
+                    this._state.setLoading(false);
+                    this._state.setError(true);
+                },
+            });
     }
 }

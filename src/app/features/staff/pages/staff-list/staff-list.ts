@@ -27,6 +27,7 @@ import { BaseListComponent } from "../../../../core/base/base-list.base";
 export class StaffList extends BaseListComponent<StaffAdaptModel, StaffFacade> {
     // ── BaseListComponent hooks ─────────────────────────────────────────────
     protected override readonly _facade = inject(StaffFacade);
+    
     protected override readonly _createComponent = StaffCreate;
     protected override _createHeader = (isEdit: boolean) =>
         isEdit ? "Edit Staff" : "Create New Staff";

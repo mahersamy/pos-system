@@ -1,9 +1,15 @@
-import { Component, DestroyRef, effect, inject, OnInit, Type } from "@angular/core";
+import { Component, DestroyRef, effect, inject, OnInit, Type, Signal } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { FilterOutput } from "../../shared/components/filter-panel/interface/filter-panel.models";
 import { DataTableConfig } from "../../shared/components/data-table/services/data-table-config";
-import { BaseFacade } from "./base-facade.base";
+
+export interface BaseListFacade<TModel> {
+    items: Signal<TModel[]>;
+    loading: Signal<boolean>;
+    error: Signal<boolean>;
+    setFilter(filter: FilterOutput): void;
+}
 
 /**
  * @abstract BaseListComponent<TModel, TFacade>
@@ -23,7 +29,7 @@ import { BaseFacade } from "./base-facade.base";
  * ```
  */
 @Component({ template: "" })
-export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TModel>>
+export abstract class BaseListComponent<TModel, TFacade extends BaseListFacade<TModel>>
     implements OnInit {
 
     // ── Abstract hooks ──────────────────────────────────────────────────────

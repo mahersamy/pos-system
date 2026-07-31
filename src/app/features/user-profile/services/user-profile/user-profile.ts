@@ -1,10 +1,10 @@
-import {Injectable, inject} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {environment} from "../../../../../environments/environment";
-import {GlobalResponse} from "../../../../core/models/response-global.model";
-import {User} from "../../../../core/models/user.model";
-import {BACKEND_ROUTE} from "../../../../core/constants/backend.route";
+import { Injectable, inject } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { environment } from "../../../../../environments/environment";
+import { GlobalResponse } from "../../../../core/models/response-global.model";
+import { User } from "../../../users/model/user.model";
+import { BACKEND_ROUTE } from "../../../../core/constants/backend.route";
 
 @Injectable({
     providedIn: "root",

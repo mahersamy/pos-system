@@ -8,7 +8,14 @@ export class DynamicFormFactory {
     createForm(fields: FormFieldConfig[]) {
         const controls: Record<string, FormControl> = {}
         for (const field of fields) {
-            controls[field.controlName] = new FormControl(null,field.validators)
+            if (!field.hidden) {
+                const initialValue = field.defaultValue !== undefined ? field.defaultValue : null;
+                const isDisabled = field.disabled === true;
+                controls[field.controlName] = new FormControl(
+                    { value: initialValue, disabled: isDisabled },
+                    field.validators
+                );
+            }
         }
 
         return new FormGroup(controls)

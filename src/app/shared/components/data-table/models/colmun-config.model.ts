@@ -38,10 +38,17 @@ export interface CurrencyColumnConfig extends BaseColumnConfig {
     classes?: string;
 }
 
+export interface SelectColumnConfig extends BaseColumnConfig {
+    type: TableColumnType.SELECT;
+    options?: { label: string; value: any }[];
+    onChange?: (data: any, newValue: any) => void;
+}
+
 // ─── Union — use this everywhere ─────────────────────────────────────────────
 export type ColumnConfig =
     | IdColumnConfig
     | TextColumnConfig
     | DateColumnConfig
     | UserColumnConfig
-    | CurrencyColumnConfig;
+    | CurrencyColumnConfig
+    | SelectColumnConfig;

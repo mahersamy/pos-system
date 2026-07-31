@@ -1,6 +1,6 @@
-import {Routes} from "@angular/router";
+import {AppRoute} from "../../core/models/app-route.interface";
 
-export const notificationRoutes: Routes = [
+export const notificationRoutes: AppRoute[] = [
     {
         path: "notifications",
         data: {title: "Notifications"},

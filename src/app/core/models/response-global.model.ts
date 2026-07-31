@@ -1,4 +1,4 @@
-export interface GlobalResponse<T> {
+export interface GlobalResponse<T = any> {
     data: T;
     statusCode: number;
     success: boolean;

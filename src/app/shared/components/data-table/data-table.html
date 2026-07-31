@@ -6,6 +6,7 @@
         [pt]="_primeTableConfig"
         [tableStyle]="{ 'min-width': '50rem' }"
         [scrollable]="true"
+        scrollHeight="500px"
     >
         <ng-template #caption>
             @if (selectedItems && selectedItems.length > 0 &&
@@ -123,6 +124,12 @@
                           : column.digitsInfo) || ''
                     "
                         [classes]="column.classes || ''"
+                    />
+                    } @case (_tableColumnType.SELECT) {
+                    <app-select-cell
+                        [value]="resolveFieldData(data, column.field)"
+                        [options]="$any(column).options || []"
+                        (valueChange)="$any(column).onChange ? $any(column).onChange(data, $event) : null"
                     />
                     } }
                 </td>

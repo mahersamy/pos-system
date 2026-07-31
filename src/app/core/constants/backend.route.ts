@@ -6,6 +6,8 @@ export const BACKEND_ROUTE = {
     users: {
         profile: "/api/v1/users/profile",
         base: "/api/v1/users",
+        permissions: (id: string) => `/api/v1/users/${id}/permissions`,
+        password: (id: string) => `/api/v1/users/${id}/password`,
     },
     staff: {
         base: "/api/v1/staff",

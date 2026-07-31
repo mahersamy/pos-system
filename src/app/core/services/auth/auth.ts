@@ -1,14 +1,14 @@
-import {Injectable, inject, signal, PLATFORM_ID} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable, tap, switchMap, map} from "rxjs";
-import {Router} from "@angular/router";
-import {PermissionsService} from "../permissions/permissions";
-import {GlobalResponse} from "../../models/response-global.model";
-import {environment} from "../../../../environments/environment";
-import {isPlatformBrowser} from "@angular/common";
-import {User} from "../../models/user.model";
-import {StorageKeys} from "../../constants/storage.config";
-import {BACKEND_ROUTE} from "../../constants/backend.route";
+import { Injectable, inject, signal } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable, tap, switchMap, map } from "rxjs";
+import { Router } from "@angular/router";
+import { PermissionsService } from "../permissions/permissions";
+import { GlobalResponse } from "../../models/response-global.model";
+import { environment } from "../../../../environments/environment";
+import { User } from "../../../features/users/model/user.model";
+import { StorageKeys } from "../../constants/storage.config";
+import { BACKEND_ROUTE } from "../../constants/backend.route";
+import { StorageService } from "../storage/storage.service";
 
 export interface AuthResponse {
     credential: {
@@ -23,7 +23,7 @@ export interface AuthResponse {
 export class AuthService {
     private readonly _http = inject(HttpClient);
     private readonly _permissionsService = inject(PermissionsService);
-    private readonly _platformId = inject(PLATFORM_ID);
+    private readonly _storage = inject(StorageService);
 
     /** Signal tracking the overall global user state */
     currentUser = signal<User | null>(null);
@@ -34,9 +34,7 @@ export class AuthService {
      * Resets the entire user session, clears the persistent token, and redirects to login
      */
     logout(): void {
-        if (isPlatformBrowser(this._platformId)) {
-            localStorage.clear();
-        }
+        this._storage.clear();
         this.currentUser.set(null);
         this._router.navigate(["/login"]);
     }
@@ -49,11 +47,9 @@ export class AuthService {
      */
     login(email: string, password: string): Observable<User> {
         const loginUrl = `${environment.apiUrl}${BACKEND_ROUTE.auth.login}`;
-        return this._http.post<GlobalResponse<AuthResponse>>(loginUrl, {email, password}).pipe(
+        return this._http.post<GlobalResponse<AuthResponse>>(loginUrl, { email, password }).pipe(
             tap((response) => {
-                if (isPlatformBrowser(this._platformId)) {
-                    localStorage.setItem(StorageKeys.TOKEN, response.data.credential.accessToken);
-                }
+                this._storage.set(StorageKeys.TOKEN, response.data.credential.accessToken);
             }),
             switchMap(() => this.getLoggedUserProfile()),
             map((response) => response.data)
@@ -69,7 +65,7 @@ export class AuthService {
     register(email: string, password: string): Observable<GlobalResponse<AuthResponse>> {
         const registerUrl = `${environment.apiUrl}${BACKEND_ROUTE.auth.register}`;
         return this._http
-            .post<GlobalResponse<AuthResponse>>(registerUrl, {email, password})
+            .post<GlobalResponse<AuthResponse>>(registerUrl, { email, password })
             .pipe(tap((response) => this.handleAuthResponse(response)));
     }
 
@@ -86,10 +82,7 @@ export class AuthService {
      * @returns {string | null}
      */
     getToken(): string | null {
-        if (isPlatformBrowser(this._platformId)) {
-            return localStorage.getItem(StorageKeys.TOKEN);
-        }
-        return null;
+        return this._storage.get<string>(StorageKeys.TOKEN);
     }
 
     /**
@@ -107,8 +100,6 @@ export class AuthService {
     }
 
     private handleAuthResponse(response: GlobalResponse<AuthResponse>): void {
-        if (isPlatformBrowser(this._platformId)) {
-            localStorage.setItem(StorageKeys.TOKEN, response.data.credential.accessToken);
-        }
+        this._storage.set(StorageKeys.TOKEN, response.data.credential.accessToken);
     }
 }

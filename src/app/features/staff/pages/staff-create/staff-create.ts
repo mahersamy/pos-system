@@ -1,34 +1,39 @@
-import { Component, inject, OnInit, signal } from "@angular/core";
+import { Component, effect, inject, OnInit, signal } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { DynamicForm } from "../../../../shared/components/forms/dynamic-form/dynamic-form";
 import { StaffFormConfig } from "./staff-create.config";
-import { StaffService } from "../../services/staff.service";
+import { StaffFacade } from "../../services/staff.facade";
 import { Loading } from "../../../../shared/directives/loading/loading";
-import { finalize } from "rxjs";
 import { formatTime, parseTime } from "../../../../core/utils/time.util";
 import { DynamicDialogConfig, DynamicDialogRef } from "primeng/dynamicdialog";
 import { StaffAdaptModel } from "../../models/staff-adapt.model";
+
 @Component({
     selector: "app-staff-create",
     imports: [DynamicForm, Loading],
     templateUrl: "./staff-create.html",
     styleUrl: "./staff-create.scss",
 })
-export class StaffCreate implements OnInit {
+export class StaffCreate {
 
     private readonly _dialogRef = inject(DynamicDialogRef);
     private readonly _dialogConfig = inject(DynamicDialogConfig);
-    private readonly _staffService = inject(StaffService);
+    private readonly _staffFacade = inject(StaffFacade);
 
     staffFormConfig = StaffFormConfig;
     staffForm!: FormGroup;
-    isLoading = signal(false);
+    isLoading = this._staffFacade.loading;
     isEditMode = signal(false);
     staffId = signal<string | null>(null);
 
-
-    ngOnInit(): void {
-
+    constructor() {
+        // Close the dialog automatically when the facade signals success
+        effect(() => {
+            if (this._staffFacade.closeDialog()) {
+                this._staffFacade.resetCloseDialog();
+                this._dialogRef.close();
+            }
+        });
     }
 
     onFormReady(form: FormGroup) {
@@ -65,8 +70,6 @@ export class StaffCreate implements OnInit {
                 formValue.dateOfBirth = formValue.dateOfBirth.toISOString();
             }
 
-
-
             // Format timings
             if (formValue.startShiftTiming) {
                 formValue.startShiftTiming = formatTime(formValue.startShiftTiming);
@@ -75,38 +78,16 @@ export class StaffCreate implements OnInit {
                 formValue.endShiftTiming = formatTime(formValue.endShiftTiming);
             }
 
-
             // Extract image before sending to API (File objects can't be JSON-serialized)
             const imageFile: File | null = formValue.image;
             delete formValue.image;
 
-            // Here you can send formValue to your backend service
-            const submitObservable = this.isEditMode() && this.staffId()
-                ? this._staffService.updateStaff(this.staffId()!, formValue)
-                : this._staffService.createStaff(formValue);
-
-            this.isLoading.set(true);
-            submitObservable.subscribe({
-                next: (res) => {
-                    const id = this.isEditMode() ? this.staffId()! : res.data._id;
-                    if (imageFile instanceof File) {
-                        this._staffService.uploadImageToStaff(id, imageFile).subscribe({
-                            next: () => {
-                                this.isLoading.set(false);
-                                this._dialogRef.close();
-                            },
-                            error: () => {
-                                this.isLoading.set(false);
-                            }
-                        });
-                    } else {
-                        this.isLoading.set(false);
-                        this._dialogRef.close();
-                    }
-                },
-                error: () => {
-                    this.isLoading.set(false);
-                }
+            this._staffFacade.saveStaff(
+                this.isEditMode() ? this.staffId() : null,
+                formValue,
+                imageFile
+            ).subscribe({
+                error: () => { /* error handled in facade */ }
             });
         } else {
             this.staffForm?.markAllAsTouched();

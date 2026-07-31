@@ -93,15 +93,16 @@ export class FilterPanel implements OnInit {
                 .length
         );
 
-        console.log("Filter output:", result);
         this.applyFilter.emit(result);
         this.isOpen.set(false);
     }
 
     reset() {
         this.initValues();
-        this.sortDirection.set("asc");
+        this.sortDirection.set("desc");
         this.activeCount.set(0);
-        this.applyFilter.emit({ search: this.searchQuery(), sort: "asc" });
+        this.applyFilter.emit({ search: this.searchQuery(), sort: "desc" });
+        this.isOpen.set(false);
+
     }
 }

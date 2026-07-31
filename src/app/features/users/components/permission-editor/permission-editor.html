@@ -1,0 +1,133 @@
+<div class="perm-editor">
+
+    <!-- Header -->
+    <div class="perm-header">
+        <div class="perm-header__left">
+            <div class="perm-header__icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+                <h3 class="perm-header__title">
+                    Permissions
+                    @if (!isEmpty) {
+                        <span class="perm-badge">{{ modules().length }}</span>
+                    }
+                </h3>
+                <p class="perm-header__sub">
+                    @if (isEmpty) {
+                        No permissions defined by the server yet
+                    } @else {
+                        Modules are loaded directly from the server
+                    }
+                </p>
+            </div>
+        </div>
+
+        <!-- Global select-all (hidden when empty) -->
+        @if (!isEmpty) {
+            <button
+                class="toggle-all-btn"
+                [class.active]="globalAllOn"
+                [class.partial]="globalPartial"
+                (click)="toggleGlobalAll()"
+                [title]="globalAllOn ? 'Revoke all' : 'Grant all'"
+            >
+                <i class="fa-solid" [class.fa-unlock-keyhole]="!globalAllOn" [class.fa-lock]="globalAllOn"></i>
+                {{ globalAllOn ? 'Revoke All' : 'Grant All' }}
+            </button>
+        }
+    </div>
+
+    <!-- Empty state -->
+    @if (isEmpty) {
+        <div class="perm-empty">
+            <i class="fa-solid fa-shield-halved perm-empty__icon"></i>
+            <p class="perm-empty__msg">No permissions returned by the server.</p>
+            <p class="perm-empty__hint">Once the backend defines permission modules for this user, they will appear here automatically.</p>
+        </div>
+    } @else {
+
+        <!-- Column labels -->
+        <div class="perm-col-labels">
+            <span class="perm-col-label module-col">Module</span>
+            <span class="perm-col-label">Read</span>
+            <span class="perm-col-label">Write</span>
+            <span class="perm-col-label">Delete</span>
+            <span class="perm-col-label">All</span>
+        </div>
+
+        <!-- Module rows — driven entirely by backend keys -->
+        <div class="perm-list">
+            @for (mod of modules(); track mod.key) {
+                <div class="perm-row" [class.row--active]="isAllOn(mod)" [class.row--partial]="isPartial(mod)">
+
+                    <!-- Module identity -->
+                    <div class="perm-module">
+                        <span class="perm-module__icon">
+                            <i [class]="mod.icon"></i>
+                        </span>
+                        <span class="perm-module__label">{{ mod.label }}</span>
+                    </div>
+
+                    <!-- Read toggle -->
+                    <div class="perm-cell">
+                        <button
+                            class="perm-toggle read"
+                            [class.on]="mod.read"
+                            (click)="toggle(mod, 'read')"
+                            [title]="mod.read ? 'Revoke read' : 'Grant read'"
+                        >
+                            <span class="toggle-track">
+                                <span class="toggle-thumb"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Write toggle -->
+                    <div class="perm-cell">
+                        <button
+                            class="perm-toggle write"
+                            [class.on]="mod.write"
+                            (click)="toggle(mod, 'write')"
+                            [title]="mod.write ? 'Revoke write' : 'Grant write'"
+                        >
+                            <span class="toggle-track">
+                                <span class="toggle-thumb"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Delete toggle -->
+                    <div class="perm-cell">
+                        <button
+                            class="perm-toggle delete"
+                            [class.on]="mod.delete"
+                            (click)="toggle(mod, 'delete')"
+                            [title]="mod.delete ? 'Revoke delete' : 'Grant delete'"
+                        >
+                            <span class="toggle-track">
+                                <span class="toggle-thumb"></span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <!-- Select all for this row -->
+                    <div class="perm-cell">
+                        <button
+                            class="row-all-btn"
+                            [class.on]="isAllOn(mod)"
+                            [class.partial]="isPartial(mod)"
+                            (click)="toggleAll(mod)"
+                            [title]="isAllOn(mod) ? 'Revoke all for ' + mod.label : 'Grant all for ' + mod.label"
+                        >
+                            <i class="fa-solid" [class.fa-check-double]="isAllOn(mod)" [class.fa-minus]="isPartial(mod) && !isAllOn(mod)" [class.fa-plus]="!isPartial(mod) && !isAllOn(mod)"></i>
+                        </button>
+                    </div>
+
+                </div>
+            }
+        </div>
+
+    }
+
+</div>

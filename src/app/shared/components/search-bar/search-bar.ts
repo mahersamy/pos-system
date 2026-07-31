@@ -26,7 +26,7 @@ export class SearchBar implements OnInit {
         if (this.searchOnType()) {
             this.searchControl.valueChanges
                 .pipe(
-                    debounceTime(300),
+                    debounceTime(500),
                     distinctUntilChanged(),
                     takeUntilDestroyed(this._destroyRef)
                 )

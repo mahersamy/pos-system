@@ -7,4 +7,8 @@ export interface BaseFormConfig {
     validators?: ValidatorFn[];
     // Custom validation messages
     errorMessages?: Record<string, string>;
+    // Optional flag to hide the field dynamically
+    hidden?: boolean;
+    disabled?: boolean;
+    defaultValue?: any;
 }

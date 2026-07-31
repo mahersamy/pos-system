@@ -38,7 +38,7 @@
             <!-- SELECT -->
             @if (config.type === FilterFieldType.SELECT) {
             <div class="field-group">
-                <label>{{ config.label }}</label>
+                <label>{{ config.label | translate }}</label>
                 <select
                     [ngModel]="fieldValues()[config.controlName]"
                     (ngModelChange)="updateFieldValue(config.controlName, $event)"
@@ -48,7 +48,7 @@
                         : ('FILTER.SELECT_PLACEHOLDER' | translate) }}
                     </option>
                     @for (opt of config.select_list ?? []; track opt.value) {
-                    <option [ngValue]="opt.value">{{ opt.label }}</option>
+                    <option [ngValue]="opt.value">{{ opt.label | translate }}</option>
                     }
                 </select>
             </div>
@@ -57,7 +57,7 @@
             <!-- TEXT -->
             @if (config.type === FilterFieldType.TEXT) {
             <div class="field-group">
-                <label>{{ config.label }}</label>
+                <label>{{ config.label | translate }}</label>
                 <input
                     type="text"
                     [ngModel]="fieldValues()[config.controlName]"
@@ -70,7 +70,7 @@
             <!-- RANGE -->
             @if (config.type === FilterFieldType.RANGE) {
             <div class="field-group">
-                <label>{{ config.label }}</label>
+                <label>{{ config.label | translate }}</label>
                 <div class="range-row">
                     <input
                         type="number"
@@ -92,7 +92,7 @@
             <!-- DATE -->
             @if (config.type === FilterFieldType.DATE) {
             <div class="field-group">
-                <label>{{ config.label }}</label>
+                <label>{{ config.label | translate }}</label>
                 <input
                     type="date"
                     [ngModel]="fieldValues()[config.controlName]"

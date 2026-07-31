@@ -11,6 +11,7 @@ import {DatePipe, CurrencyPipe} from "@angular/common";
 import {UserCell} from "./components/user-cell/user-cell";
 import {ActionConfig, BulkActionConfig} from "./models/actions.mode";
 import {TranslateModule} from "@ngx-translate/core";
+import {SelectCell} from "./components/select-cell/select-cell";
 
 @Component({
     selector: "app-data-table",
@@ -19,6 +20,7 @@ import {TranslateModule} from "@ngx-translate/core";
         SkeletonModule,
         IdCell,
         TextCell,
+        SelectCell,
         EmptyState,
         DatePipe,
         CurrencyPipe,

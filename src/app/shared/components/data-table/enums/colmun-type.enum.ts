@@ -5,6 +5,7 @@ export enum TableColumnType {
     BOOLEAN = "boolean",
     ACTION = "action",
     // STATUS = "status",
+    STATUS = "status",
     SELECT = "select",
     ID = "id",
     USER = "user",

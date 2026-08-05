@@ -3,13 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { FilterOutput } from "../../shared/components/filter-panel/interface/filter-panel.models";
 import { DataTableConfig } from "../../shared/components/data-table/services/data-table-config";
-
-export interface BaseListFacade<TModel> {
-    items: Signal<TModel[]>;
-    loading: Signal<boolean>;
-    error: Signal<boolean>;
-    setFilter(filter: FilterOutput): void;
-}
+import { BaseFacade } from "./base-facade.base";
 
 /**
  * @abstract BaseListComponent<TModel, TFacade>
@@ -29,7 +23,7 @@ export interface BaseListFacade<TModel> {
  * ```
  */
 @Component({ template: "" })
-export abstract class BaseListComponent<TModel, TFacade extends BaseListFacade<TModel>>
+export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TModel>>
     implements OnInit {
 
     // ── Abstract hooks ──────────────────────────────────────────────────────
@@ -37,7 +31,7 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseListFacade<T
     protected abstract readonly _facade: TFacade;
 
     /** The create/edit dialog component class. */
-    protected abstract readonly _createComponent: Type<any>;
+    protected _createComponent: Type<any> | null = null;
 
     /** Dialog header factory. */
     protected _createHeader = (isEdit: boolean): string =>
@@ -81,7 +75,9 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseListFacade<T
     }
 
     applyFilter(filter: FilterOutput): void {
-        this.filterObj = { ...this.filterObj, ...this.transformFilter(filter) };
+        // Replace entirely to ensure cleared filters are removed, 
+        // since FilterPanel emits the complete current state including search/sort.
+        this.filterObj = this.transformFilter(filter);
         this.fetchData();
     }
 
@@ -99,6 +95,7 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseListFacade<T
 
     // ── Dialog ──────────────────────────────────────────────────────────────
     openCreateForm(data?: TModel): void {
+        if (!this._createComponent) return;
         this.dialogRef = this._dialogService.open(this._createComponent, {
             header: this._createHeader(!!data),
             data: data ?? null,

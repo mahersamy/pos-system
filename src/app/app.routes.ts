@@ -6,6 +6,7 @@ import { NotFound } from "./layout/not-found/not-found";
 import { staffRoutes } from "./features/staff/routes/staff.routes";
 import { notificationRoutes } from './features/notification/notification.route';
 import { usersRoutes } from './features/users/users.route';
+import { auditLogsRoutes } from "./features/audit-logs/routes/audit-logs.routes";
 
 export const routes: Routes = [
     {
@@ -27,6 +28,7 @@ export const routes: Routes = [
             ...staffRoutes,
             ...notificationRoutes,
             ...usersRoutes,
+            ...auditLogsRoutes,
             {
                 path: "profile",
                 data: { title: "User Profile" },

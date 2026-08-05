@@ -131,6 +131,11 @@
                         [options]="$any(column).options || []"
                         (valueChange)="$any(column).onChange ? $any(column).onChange(data, $event) : null"
                     />
+                    } @case (_tableColumnType.STATUS) {
+                    <app-status-cell
+                        [value]="resolveFieldData(data, column.field)"
+                        [options]="$any(column).statusOptions || []"
+                    />
                     } }
                 </td>
                 } @if (_dataTableConfig.tableConfig.actions().length > 0) {

@@ -12,6 +12,7 @@ import {UserCell} from "./components/user-cell/user-cell";
 import {ActionConfig, BulkActionConfig} from "./models/actions.mode";
 import {TranslateModule} from "@ngx-translate/core";
 import {SelectCell} from "./components/select-cell/select-cell";
+import {StatusCell} from "./components/status-cell/status-cell";
 
 @Component({
     selector: "app-data-table",
@@ -21,6 +22,7 @@ import {SelectCell} from "./components/select-cell/select-cell";
         IdCell,
         TextCell,
         SelectCell,
+        StatusCell,
         EmptyState,
         DatePipe,
         CurrencyPipe,

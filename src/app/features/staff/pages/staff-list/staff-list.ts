@@ -19,7 +19,13 @@ import { BaseListComponent } from "../../../../core/base/base-list.base";
 
 @Component({
     selector: "app-staff-list",
-    imports: [DataTable, FilterPanel, SearchBar, TranslateModule],
+    imports: [
+        DataTable,
+        FilterPanel,
+        SearchBar,
+        TranslateModule,
+        Pagination, // ─── Added during pagination
+    ],
     templateUrl: "./staff-list.html",
     styleUrl: "./staff-list.scss",
     providers: [DataTableConfig],
@@ -35,6 +41,7 @@ export class StaffList extends BaseListComponent<StaffAdaptModel, StaffFacade> {
     // ── Staff-unique ────────────────────────────────────────────────────────
     private readonly _router = inject(Router);
 
+    // ─── Teammate's filter setup (untouched) ──────────────────────────────────
     filterConfig = STAFF_FILTER_CONFIG;
 
     // ── Table setup ─────────────────────────────────────────────────────────

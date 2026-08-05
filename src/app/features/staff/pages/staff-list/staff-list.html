@@ -19,3 +19,11 @@
 </div>
 
 <app-data-table />
+
+<app-pagination
+  [currentPage]="currentPage()"
+  [totalPages]="totalPages()"
+  [total]="total()"
+  [limit]="limit()"
+  (pageChange)="onPageChange($event)"
+/>

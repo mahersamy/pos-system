@@ -1,0 +1,58 @@
+<div class="pagination-wrapper">
+
+  <!-- Left: Show entries + count -->
+  <div class="pagination-left">
+    <div class="show-entries">
+      <span>Show Entries</span>
+      <select [ngModel]="limit" (ngModelChange)="onLimitChange($event)">
+        @for (opt of limitOptions; track opt) {
+          <option [value]="opt">{{ opt }}</option>
+        }
+      </select>
+    </div>
+    <span class="entry-info">
+      show from {{ fromEntry }} to {{ toEntry }} of {{ total }}
+    </span>
+  </div>
+
+  <!-- Right: Prev / pages / Next -->
+  <div class="pagination-right">
+
+    <!-- Previous -->
+    <button
+      class="nav-btn"
+      [disabled]="currentPage === 1"
+      (click)="prev()"
+    >
+      <i class="fa-solid fa-arrow-left"></i>
+      Previous
+    </button>
+
+    <!-- Page numbers -->
+    @for (page of pages; track $index) {
+      @if (isEllipsis(page)) {
+        <span class="ellipsis">...</span>
+      } @else {
+        <button
+          class="page-btn"
+          [class.active]="page === currentPage"
+          (click)="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+      }
+    }
+
+    <!-- Next -->
+    <button
+      class="nav-btn"
+      [disabled]="currentPage === totalPages"
+      (click)="next()"
+    >
+      Next
+      <i class="fa-solid fa-arrow-right"></i>
+    </button>
+
+  </div>
+
+</div>

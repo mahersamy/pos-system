@@ -1,0 +1,119 @@
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--gray-800);
+  border: 1px solid var(--gray-800);
+  border-radius: 12px;
+  margin-top: 16px;
+
+  // ── Left side ────────────────────────────────────────────────────────────
+  .pagination-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .show-entries {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--gray-700);
+      border: 1px solid var(--gray-700);
+      border-radius: 8px;
+
+      span {
+        font-size: 13px;
+        color: #ccc;
+        white-space: nowrap;
+      }
+
+      select {
+        background: transparent;
+        border: none;
+        color: #fff;
+        font-size: 13px;
+        outline: none;
+        cursor: pointer;
+
+        option {
+          background: var(--gray-700);
+        }
+      }
+    }
+
+    .entry-info {
+      font-size: 13px;
+      color: var(--gray-400);
+      white-space: nowrap;
+    }
+  }
+
+  // ── Right side ───────────────────────────────────────────────────────────
+  .pagination-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background:var(--gray-700);
+      border: 1px solid var(--gray-700);
+      border-radius: 8px;
+      color: #ccc;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+
+      &:hover:not(:disabled) {
+        border-color: var(--primary-pink);
+        color: #fff;
+      }
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+    }
+
+    .page-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      border-radius: 50%;
+      color: #ccc;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+
+      &:hover:not(.active) {
+        background: var(--gray-700);
+        color: #fff;
+      }
+
+      &.active {
+        background: var(--primary-pink);
+        color: #fff;
+        font-weight: 700;
+      }
+    }
+
+    .ellipsis {
+      color: var(--gray-400);
+      font-size: 13px;
+      padding: 0 4px;
+      user-select: none;
+    }
+  }
+}

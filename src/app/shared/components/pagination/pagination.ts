@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, input, output, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -14,25 +14,19 @@ export interface PageChangeEvent {
   templateUrl: './pagination.html',
   styleUrl: './pagination.scss',
 })
-export class Pagination implements OnChanges {
-  @Input() currentPage: number = 1;
-  @Input() totalPages: number = 1;
-  @Input() total: number = 0;
-  @Input() limit: number = 10;
+export class Pagination {
+  currentPage = input(1);
+  totalPages = input(1);
+  total = input(0);
+  limit = input(10);
 
-  @Output() pageChange = new EventEmitter<PageChangeEvent>();
+  pageChange = output<PageChangeEvent>();
 
   readonly limitOptions = [10, 25, 50, 100];
-  pages: (number | '...')[] = [];
 
-  ngOnChanges() {
-    this.buildPages();
-  }
-
-  // ─── Build page number array with ellipsis ────────────────────────────────
-  buildPages() {
-    const total = this.totalPages;
-    const current = this.currentPage;
+  pages = computed(() => {
+    const total = this.totalPages();
+    const current = this.currentPage();
     const pages: (number | '...')[] = [];
 
     if (total <= 7) {
@@ -47,33 +41,29 @@ export class Pagination implements OnChanges {
       pages.push(total);
     }
 
-    this.pages = pages;
-  }
+    return pages;
+  });
 
   // ─── Getters for display ──────────────────────────────────────────────────
-  get fromEntry(): number {
-    return (this.currentPage - 1) * this.limit + 1;
-  }
-
-  get toEntry(): number {
-    return Math.min(this.currentPage * this.limit, this.total);
-  }
+  fromEntry = computed(() => (this.currentPage() - 1) * this.limit() + 1);
+  
+  toEntry = computed(() => Math.min(this.currentPage() * this.limit(), this.total()));
 
   // ─── Actions ──────────────────────────────────────────────────────────────
   goToPage(page: number | '...') {
-    if (page === '...' || page === this.currentPage) return;
-    this.pageChange.emit({ page: page as number, limit: this.limit });
+    if (page === '...' || page === this.currentPage()) return;
+    this.pageChange.emit({ page: page as number, limit: this.limit() });
   }
 
   prev() {
-    if (this.currentPage > 1) {
-      this.pageChange.emit({ page: this.currentPage - 1, limit: this.limit });
+    if (this.currentPage() > 1) {
+      this.pageChange.emit({ page: this.currentPage() - 1, limit: this.limit() });
     }
   }
 
   next() {
-    if (this.currentPage < this.totalPages) {
-      this.pageChange.emit({ page: this.currentPage + 1, limit: this.limit });
+    if (this.currentPage() < this.totalPages()) {
+      this.pageChange.emit({ page: this.currentPage() + 1, limit: this.limit() });
     }
   }
 

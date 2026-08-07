@@ -55,6 +55,10 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TMode
             this._dataTableConfig.tableConfig.rows.set(this._facade.items());
             this._dataTableConfig.tableConfig.loading.set(this._facade.loading());
             this._dataTableConfig.tableConfig.isError.set(this._facade.error());
+            this._dataTableConfig.tableConfig.currentPage.set(this._facade.page());
+            this._dataTableConfig.tableConfig.limit.set(this._facade.limit());
+            this._dataTableConfig.tableConfig.total.set(this._facade.total());
+            this._dataTableConfig.tableConfig.totalPages.set(this._facade.totalPages());
         });
     }
 
@@ -120,6 +124,11 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TMode
     private _subscribeToRefetch(): void {
         this._dataTableConfig.tableConfig.refetchEvent
             .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe(() => this.fetchData());
+            .subscribe(() => {
+                this._facade.setPagination(
+                    this._dataTableConfig.tableConfig.currentPage(),
+                    this._dataTableConfig.tableConfig.limit()
+                );
+            });
     }
 }

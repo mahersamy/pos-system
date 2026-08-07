@@ -6,7 +6,7 @@
         [pt]="_primeTableConfig"
         [tableStyle]="{ 'min-width': '50rem' }"
         [scrollable]="true"
-        scrollHeight="500px"
+        scrollHeight="calc(100vh - 300px)"
     >
         <ng-template #caption>
             @if (selectedItems && selectedItems.length > 0 &&
@@ -176,4 +176,17 @@
             </tr>
         </ng-template>
     </p-table>
+
+    @if (_dataTableConfig.tableConfig.totalPages() > 1 ||
+    _dataTableConfig.tableConfig.total() > 0) {
+    <div class="mt-3">
+        <app-pagination
+            [currentPage]="_dataTableConfig.tableConfig.currentPage()"
+            [limit]="_dataTableConfig.tableConfig.limit()"
+            [total]="_dataTableConfig.tableConfig.total()"
+            [totalPages]="_dataTableConfig.tableConfig.totalPages()"
+            (pageChange)="onPageChange($event)"
+        ></app-pagination>
+    </div>
+    }
 </div>

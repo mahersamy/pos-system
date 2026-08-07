@@ -4,14 +4,14 @@
   <div class="pagination-left">
     <div class="show-entries">
       <span>Show Entries</span>
-      <select [ngModel]="limit" (ngModelChange)="onLimitChange($event)">
+      <select [ngModel]="limit()" (ngModelChange)="onLimitChange($event)">
         @for (opt of limitOptions; track opt) {
           <option [value]="opt">{{ opt }}</option>
         }
       </select>
     </div>
     <span class="entry-info">
-      show from {{ fromEntry }} to {{ toEntry }} of {{ total }}
+      show from {{ fromEntry() }} to {{ toEntry() }} of {{ total() }}
     </span>
   </div>
 
@@ -21,7 +21,7 @@
     <!-- Previous -->
     <button
       class="nav-btn"
-      [disabled]="currentPage === 1"
+      [disabled]="currentPage() === 1"
       (click)="prev()"
     >
       <i class="fa-solid fa-arrow-left"></i>
@@ -29,13 +29,13 @@
     </button>
 
     <!-- Page numbers -->
-    @for (page of pages; track $index) {
+    @for (page of pages(); track $index) {
       @if (isEllipsis(page)) {
         <span class="ellipsis">...</span>
       } @else {
         <button
           class="page-btn"
-          [class.active]="page === currentPage"
+          [class.active]="page === currentPage()"
           (click)="goToPage(page)"
         >
           {{ page }}
@@ -46,7 +46,7 @@
     <!-- Next -->
     <button
       class="nav-btn"
-      [disabled]="currentPage === totalPages"
+      [disabled]="currentPage() === totalPages()"
       (click)="next()"
     >
       Next

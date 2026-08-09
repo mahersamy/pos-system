@@ -1,9 +1,10 @@
-import {Injectable, signal} from "@angular/core";
-
+import {inject, Injectable, signal} from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 @Injectable({
     providedIn: "root",
 })
 export class LayoutService {
+    private readonly _translateService = inject(TranslateService)
     /** Signal broadcasting the current layout title to the main application header */
     title = signal<string>("Dashboard");
 
@@ -12,6 +13,6 @@ export class LayoutService {
      * @param {string} newTitle - The human-readable string for the current active view
      */
     setTitle(newTitle: string) {
-        this.title.set(newTitle);
+        this.title.set(this._translateService.instant(newTitle));
     }
 }

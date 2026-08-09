@@ -36,7 +36,8 @@
         "ORDERS": "Orders",
         "RESERVATION": "Reservation",
         "USERS": "Users",
-        "LOGOUT": "Logout"
+        "LOGOUT": "Logout",
+        "AUDIT_LOGS": "Audit Logs"
     },
     "AUTH": {
         "TITLE": "Login!",

@@ -17,12 +17,12 @@
             color 0.2s;
 
         &:hover {
-            border-color: #e8547a;
+            border-color:var(--primary-pink);
             color: #fff;
         }
 
         .badge {
-            background: #e8547a;
+            background: var(--primary-pink);
             color: #fff;
             font-size: 10px;
             font-weight: 700;
@@ -79,7 +79,7 @@
             .reset-btn {
                 background: none;
                 border: none;
-                color: #e8547a;
+                color: var(--primary-pink);
                 font-size: 12px;
                 cursor: pointer;
                 padding: 0;
@@ -122,7 +122,7 @@
                 transition: border-color 0.15s;
 
                 &:focus {
-                    border-color: #e8547a;
+                    border-color: var(--primary-pink);
                 }
                 &::placeholder {
                     color: #555;
@@ -170,13 +170,13 @@
                     letter-spacing: 0.5px;
 
                     &:hover {
-                        border-color: #e8547a;
-                        color: #e8547a;
+                        border-color: var(--primary-pink);
+                        color:var(--primary-pink);
                     }
 
                     &.active {
-                        background: #e8547a;
-                        border-color: #e8547a;
+                        background: var(--primary-pink);
+                        border-color: var(--primary-pink);
                         color: #fff;
                     }
                 }
@@ -189,7 +189,7 @@
             .apply-btn {
                 width: 100%;
                 padding: 10px;
-                background: #e8547a;
+                background:var(--primary-pink);
                 border: none;
                 border-radius: 8px;
                 color: #fff;
@@ -200,7 +200,7 @@
                 transition: background 0.2s;
 
                 &:hover {
-                    background: #d4416a;
+                    background: var(--pink-200);
                 }
             }
         }

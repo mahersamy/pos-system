@@ -22,6 +22,12 @@ export abstract class BaseState<TModel> {
     private readonly _error        = signal(false);
     private readonly _closeDialog  = signal(false);
     private readonly _filter       = signal<FilterOutput>({ search: "", sort: "desc" });
+    
+    // Pagination signals
+    private readonly _page         = signal(1);
+    private readonly _limit        = signal(10);
+    private readonly _total        = signal(0);
+    private readonly _totalPages   = signal(0);
 
     // ── Public readonly views ────────────────────────────────────────────────
     readonly items       = this._items.asReadonly();
@@ -29,6 +35,11 @@ export abstract class BaseState<TModel> {
     readonly error       = this._error.asReadonly();
     readonly closeDialog = this._closeDialog.asReadonly();
     readonly filter      = this._filter.asReadonly();
+    
+    readonly page        = this._page.asReadonly();
+    readonly limit       = this._limit.asReadonly();
+    readonly total       = this._total.asReadonly();
+    readonly totalPages  = this._totalPages.asReadonly();
 
     // ── Setters (used only by the facade) ────────────────────────────────────
     setItems(items: TModel[])       { this._items.set(items); }
@@ -36,4 +47,9 @@ export abstract class BaseState<TModel> {
     setError(v: boolean)            { this._error.set(v); }
     setCloseDialog(v: boolean)      { this._closeDialog.set(v); }
     setFilter(filter: FilterOutput) { this._filter.set(filter); }
+    
+    setPage(v: number)              { this._page.set(v); }
+    setLimit(v: number)             { this._limit.set(v); }
+    setTotal(v: number)             { this._total.set(v); }
+    setTotalPages(v: number)        { this._totalPages.set(v); }
 }

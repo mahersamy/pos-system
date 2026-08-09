@@ -5,7 +5,7 @@ import { ConfirmationService } from "../services/confirmation/confirmation";
 import { FilterOutput } from "../../shared/components/filter-panel/interface/filter-panel.models";
 import { GetAllModel } from "../models/get-all.model";
 import { LayoutService } from "../services/layout/layout";
-import { GlobalResponse } from "../models/response-global.model";
+import { GlobalResponse, GlobalPaginatedResponse } from "../models/response-global.model";
 import { BaseState } from "./base-state.base";
 
 /**
@@ -35,7 +35,7 @@ export abstract class BaseFacade<TModel> {
     /** Inject the feature-specific BaseState subclass in the subclass. */
     protected abstract readonly _state: BaseState<TModel>;
 
-    protected abstract _loadApi(params: GetAllModel): Observable<TModel[]>;
+    protected abstract _loadApi(params: GetAllModel): Observable<GlobalPaginatedResponse<TModel[]>>;
     protected abstract _deleteApi(id: string): Observable<GlobalResponse>;
 
     // ── Expose state signals (delegated, no duplication) ────────────────────
@@ -43,6 +43,11 @@ export abstract class BaseFacade<TModel> {
     get loading()     { return this._state.loading; }
     get error()       { return this._state.error; }
     get closeDialog() { return this._state.closeDialog; }
+    
+    get page()        { return this._state.page; }
+    get limit()       { return this._state.limit; }
+    get total()       { return this._state.total; }
+    get totalPages()  { return this._state.totalPages; }
 
     resetCloseDialog(): void { this._state.setCloseDialog(false); }
 
@@ -50,12 +55,21 @@ export abstract class BaseFacade<TModel> {
     load(): void {
         this._state.setLoading(true);
         this._state.setError(false);
-        this._loadApi({ page: 1, limit: 10, ...this._state.filter() }).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
-            next: (data) => {
-                this._state.setItems(data);
+        this._loadApi({ page: this._state.page(), limit: this._state.limit(), ...this._state.filter() }).pipe(takeUntilDestroyed(this._destroyRef)).subscribe({
+            next: (res) => {
+                this._state.setItems(res.data);
+                this._state.setTotal(res.total);
+                this._state.setPage(res.page);
+                this._state.setLimit(res.limit);
+                this._state.setTotalPages(res.totalPages);
                 this._state.setLoading(false);
             },
             error: () => {
+                this._state.setItems([]);
+                this._state.setTotal(0);
+                this._state.setPage(1);
+                this._state.setLimit(10);
+                this._state.setTotalPages(0);
                 this._state.setLoading(false);
                 this._state.setError(true);
             },
@@ -64,6 +78,13 @@ export abstract class BaseFacade<TModel> {
 
     setFilter(filter: FilterOutput): void {
         this._state.setFilter(filter);
+        this._state.setPage(1); // Reset to page 1 on filter change
+        this.load();
+    }
+
+    setPagination(page: number, limit: number): void {
+        this._state.setPage(page);
+        this._state.setLimit(limit);
         this.load();
     }
 

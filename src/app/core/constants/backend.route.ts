@@ -18,4 +18,7 @@ export const BACKEND_ROUTE = {
         inbox: "/api/v1/notification/inbox",
         base: "/api/v1/notification",
     },
+    auditLogs: {
+        base: "/api/v1/audit-logs",
+    },
 };

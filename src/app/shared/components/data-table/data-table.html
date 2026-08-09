@@ -6,7 +6,7 @@
         [pt]="_primeTableConfig"
         [tableStyle]="{ 'min-width': '50rem' }"
         [scrollable]="true"
-        scrollHeight="500px"
+        scrollHeight="calc(100vh - 300px)"
     >
         <ng-template #caption>
             @if (selectedItems && selectedItems.length > 0 &&
@@ -131,6 +131,11 @@
                         [options]="$any(column).options || []"
                         (valueChange)="$any(column).onChange ? $any(column).onChange(data, $event) : null"
                     />
+                    } @case (_tableColumnType.STATUS) {
+                    <app-status-cell
+                        [value]="resolveFieldData(data, column.field)"
+                        [options]="$any(column).statusOptions || []"
+                    />
                     } }
                 </td>
                 } @if (_dataTableConfig.tableConfig.actions().length > 0) {
@@ -171,4 +176,17 @@
             </tr>
         </ng-template>
     </p-table>
+
+    @if (_dataTableConfig.tableConfig.totalPages() > 1 ||
+    _dataTableConfig.tableConfig.total() > 0) {
+    <div class="mt-3">
+        <app-pagination
+            [currentPage]="_dataTableConfig.tableConfig.currentPage()"
+            [limit]="_dataTableConfig.tableConfig.limit()"
+            [total]="_dataTableConfig.tableConfig.total()"
+            [totalPages]="_dataTableConfig.tableConfig.totalPages()"
+            (pageChange)="onPageChange($event)"
+        ></app-pagination>
+    </div>
+    }
 </div>

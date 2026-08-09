@@ -2,7 +2,7 @@
 
 .sidebar {
     height: 100vh;
-    padding: 1.875rem 1.6875rem;
+    padding: 1rem 1rem;
     background: var(--side-bg);
     display: flex;
     flex-direction: column;
@@ -65,7 +65,11 @@
                 .nav_item {
                     cursor: pointer;
                     padding-block: 0.8125rem;
-                    display: block; // Fix list items misbehaving
+                    display: flex;
+                    align-items: center;
+                    justify-content: start;
+                    gap: 14px;
+                    padding-inline: 0.875rem;
 
                     .nav_icon {
                         display: flex;
@@ -75,7 +79,6 @@
                         height: 1.8438rem;
                         border-radius: 50%;
                         background-color: var(--side-nav-icon-bg);
-                        margin: 0 auto 0.5rem;
                     }
                     .nav_label {
                         font-family: var(--font-1);
@@ -88,7 +91,6 @@
                     border-bottom: 0.74px solid var(--side-nav-item-border) !important;
                 }
                 .nav_item--active {
-                    padding-inline: 20px;
                     border-radius: 7.43px;
                     background: var(--side-nav-item-active-bg);
                     .nav_label {

@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { GlobalResponse } from '../models/response-global.model';
+import { GlobalPaginatedResponse, GlobalResponse } from '../models/response-global.model';
 import { GetAllModel } from '../models/get-all.model';
 import { Adaptor } from './adaptor.base';
 
@@ -23,11 +23,14 @@ export abstract class BaseApiService<TRaw, TAdapted = TRaw> {
         return this.adapter ? this.adapter.adapt(item) : (item as unknown as TAdapted);
     }
 
-    getAll(getAllModel: GetAllModel): Observable<TAdapted[]> {
-        const params = new HttpParams().appendAll(getAllModel);
+    getAll(getAllModel: GetAllModel): Observable<GlobalPaginatedResponse<TAdapted[]>> {
+        const params = new HttpParams().appendAll(getAllModel as any);
         return this._http
-            .get<GlobalResponse<TRaw[]>>(this._url, { params })
-            .pipe(map((res) => res.data.map((item) => this._adapt(item))));
+            .get<GlobalPaginatedResponse<TRaw[]>>(this._url, { params })
+            .pipe(map((res) => ({
+                ...res,
+                data: res.data.map((item) => this._adapt(item))
+            })));
     }
 
     getOne(id: string): Observable<TAdapted> {

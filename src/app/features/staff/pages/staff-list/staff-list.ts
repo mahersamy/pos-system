@@ -19,7 +19,12 @@ import { BaseListComponent } from "../../../../core/base/base-list.base";
 
 @Component({
     selector: "app-staff-list",
-    imports: [DataTable, FilterPanel, SearchBar, TranslateModule],
+    imports: [
+        DataTable,
+        FilterPanel,
+        SearchBar,
+        TranslateModule,
+    ],
     templateUrl: "./staff-list.html",
     styleUrl: "./staff-list.scss",
     providers: [DataTableConfig],
@@ -27,7 +32,7 @@ import { BaseListComponent } from "../../../../core/base/base-list.base";
 export class StaffList extends BaseListComponent<StaffAdaptModel, StaffFacade> {
     // ── BaseListComponent hooks ─────────────────────────────────────────────
     protected override readonly _facade = inject(StaffFacade);
-    
+
     protected override readonly _createComponent = StaffCreate;
     protected override _createHeader = (isEdit: boolean) =>
         isEdit ? "Edit Staff" : "Create New Staff";
@@ -35,6 +40,7 @@ export class StaffList extends BaseListComponent<StaffAdaptModel, StaffFacade> {
     // ── Staff-unique ────────────────────────────────────────────────────────
     private readonly _router = inject(Router);
 
+    // ─── Teammate's filter setup (untouched) ──────────────────────────────────
     filterConfig = STAFF_FILTER_CONFIG;
 
     // ── Table setup ─────────────────────────────────────────────────────────

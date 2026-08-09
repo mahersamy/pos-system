@@ -1,4 +1,5 @@
 import {TableColumnType} from "../enums/colmun-type.enum";
+import { StatusOption } from "../components/status-cell/status-cell";
 
 // ─── Base ─────────────────────────────────────────────────────────────────────
 interface BaseColumnConfig {
@@ -44,6 +45,11 @@ export interface SelectColumnConfig extends BaseColumnConfig {
     onChange?: (data: any, newValue: any) => void;
 }
 
+export interface StatusColumnConfig extends BaseColumnConfig {
+    type: TableColumnType.STATUS;
+    statusOptions: StatusOption[];
+}
+
 // ─── Union — use this everywhere ─────────────────────────────────────────────
 export type ColumnConfig =
     | IdColumnConfig
@@ -51,4 +57,5 @@ export type ColumnConfig =
     | DateColumnConfig
     | UserColumnConfig
     | CurrencyColumnConfig
-    | SelectColumnConfig;
+    | SelectColumnConfig
+    | StatusColumnConfig;

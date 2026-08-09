@@ -5,7 +5,7 @@ import { User, UserPermissions } from "../model/user.model";
 import { BaseFacade } from "../../../core/base/base-facade.base";
 import { Observable } from "rxjs";
 import { GetAllModel } from "../../../core/models/get-all.model";
-import { GlobalResponse } from "../../../core/models/response-global.model";
+import { GlobalPaginatedResponse, GlobalResponse } from "../../../core/models/response-global.model";
 import { UsersState } from "../state/users.state";
 
 @Injectable({ providedIn: "root" })
@@ -14,7 +14,7 @@ export class UsersFacade extends BaseFacade<User> {
     private readonly _api = inject(UsersApiService);
 
     // ── BaseFacade hooks ─────────────────────────────────────────────────────
-    protected override _loadApi(params: GetAllModel): Observable<User[]> {
+    protected override _loadApi(params: GetAllModel): Observable<GlobalPaginatedResponse<User[]>> {
         return this._api.getAll(params);
     }
 

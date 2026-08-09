@@ -1,0 +1,78 @@
+::ng-deep {
+    .p-inputtext {
+        background: #2b2e30 !important;
+        border: 1px solid rgba(255, 255, 255, 0.04) !important;
+        color: #fff !important;
+        border-radius: 0.75rem !important;
+        padding: 1rem 1.25rem !important;
+        width: 100%;
+        font-family: var(--font-family-base) !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        font-size: 0.95rem !important;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        &:enabled:focus {
+            border-color: var(--primary-pink) !important;
+            background: #333638 !important;
+            box-shadow: 0 0 0 4px rgba(250, 193, 217, 0.06) !important;
+        }
+
+        &:enabled:hover:not(:focus) {
+            background: #303336 !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        &.ng-invalid.ng-touched,
+        &.ng-invalid.ng-dirty {
+            border-color: var(--error-color) !important;
+
+            &:focus {
+                border-color: var(--error-color) !important;
+                box-shadow: 0 0 0 4px rgba(231, 0, 0, 0.1) !important;
+            }
+        }
+    }
+
+    .p-password {
+        width: 100%;
+        display: inline-flex;
+        position: relative;
+
+        .p-inputtext {
+            width: 100% !important;
+            padding-right: 3rem !important;
+        }
+
+        &.ng-invalid.ng-touched,
+        &.ng-invalid.ng-dirty {
+            .p-inputtext {
+                border-color: var(--error-color) !important;
+
+                &:focus {
+                    border-color: var(--error-color) !important;
+                    box-shadow: 0 0 0 4px rgba(231, 0, 0, 0.1) !important;
+                }
+            }
+        }
+    }
+
+    .p-icon-field {
+        width: 100%;
+    }
+
+    .p-password-input {
+        width: 100% !important;
+    }
+
+    /* Password Toggle Icon */
+    .p-password-toggle-mask-icon {
+        color: #777979 !important;
+        cursor: pointer;
+        &:hover {
+            color: var(--primary-pink) !important;
+        }
+    }
+}

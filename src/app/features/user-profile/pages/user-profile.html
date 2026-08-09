@@ -1,0 +1,32 @@
+<div class="profile-wrapper">
+    <div class="profile-container">
+        <!-- Sidebar Navigation -->
+        <aside class="profile-nav-card">
+            <nav class="profile-nav">
+                <button
+                    class="nav-item"
+                    [class.active]="activeView() === 'user-info'"
+                    (click)="switchView('user-info')"
+                >
+                    <i class="fa-solid fa-user"></i>
+                    <span>{{ 'USER_PROFILE.TITLE' | translate }}</span>
+                </button>
+
+                <button
+                    class="nav-item logout"
+                    (click)="logout()"
+                >
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>{{ 'USER_PROFILE.LOGOUT' | translate }}</span>
+                </button>
+            </nav>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="profile-content">
+            @switch (activeView()) { @case ('user-info') {
+            <app-user-info />
+            } }
+        </main>
+    </div>
+</div>

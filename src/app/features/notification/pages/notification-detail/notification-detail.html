@@ -1,0 +1,184 @@
+@if(notification(); as notif) {
+<div class="notification-detail-page p-4">
+    <div class="page-header mb-4">
+        <h2 class="page-title text-light m-0 mb-2">
+            {{ 'NOTIFICATION.DETAILS' | translate }}
+        </h2>
+        <p class="page-subtitle text-muted m-0">
+            {{ 'NOTIFICATION.VIEW_FULL_INFO' | translate }} {{ notif._id }}
+        </p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Left Column -->
+        <div class="col-12 col-xl-7 d-flex flex-column gap-4">
+            <!-- Content Info Card -->
+            <div class="detail-card rounded-3 p-4">
+                <div class="card-header d-flex align-items-center gap-3 mb-4">
+                    <i class="fa-regular fa-message fs-5 text-muted"></i>
+                    <h5 class="m-0 text-light fw-medium">
+                        {{ 'NOTIFICATION.CONTENT_INFO' | translate }}
+                    </h5>
+                </div>
+
+                <div class="content-block mb-4">
+                    <label class="info-label d-block text-muted mb-2"
+                        >{{ 'NOTIFICATION.TITLE_LABEL' | translate }}</label
+                    >
+                    <div class="info-value text-light fs-6 fw-medium">
+                        {{ notif.title }}
+                    </div>
+                </div>
+
+                <div class="content-block">
+                    <label class="info-label d-block text-muted mb-2"
+                        >{{ 'NOTIFICATION.MESSAGE_LABEL' | translate }}</label
+                    >
+                    <div
+                        class="code-box p-3 rounded-2 text-light font-monospace"
+                    >
+                        {{ notif.message }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metadata Card -->
+            <div class="detail-card rounded-3 p-4">
+                <div class="card-header d-flex align-items-center gap-3 mb-4">
+                    <i class="fa-solid fa-database fs-5 text-muted"></i>
+                    <h5 class="m-0 text-light fw-medium">
+                        {{ 'NOTIFICATION.METADATA' | translate }}
+                    </h5>
+                </div>
+
+                <div class="metadata-list d-flex flex-column gap-3">
+                    @if (notif.metadata) { @for (item of notif.metadata |
+                    keyvalue; track item.key) {
+                    <div
+                        class="metadata-row d-flex justify-content-between align-items-center p-3 rounded-2 code-box border-0"
+                    >
+                        <span class="meta-key text-muted">{{ item.key }}</span>
+                        <span
+                            class="meta-value text-white fw-bold font-monospace"
+                            >"{{ item.value }}"</span
+                        >
+                    </div>
+                    } } @else {
+                    <div class="text-muted text-center p-3">
+                        {{ 'NOTIFICATION.NO_METADATA' | translate }}
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-12 col-xl-5 d-flex flex-column gap-4">
+            <!-- Delivery Status Card -->
+            <div class="detail-card rounded-3 p-4">
+                <div class="card-header d-flex align-items-center gap-3 mb-4">
+                    <i class="fa-regular fa-paper-plane fs-5 text-muted"></i>
+                    <h5 class="m-0 text-light fw-medium">
+                        {{ 'NOTIFICATION.DELIVERY_STATUS' | translate }}
+                    </h5>
+                </div>
+
+                <div class="status-grid">
+                    <div class="status-item mb-4">
+                        <label class="info-label d-block text-muted mb-2"
+                            >{{ 'NOTIFICATION.STATUS_LABEL' | translate
+                            }}</label
+                        >
+                        <span
+                            class="status-badge badge-sent rounded-pill px-3 py-1 fw-bold text-dark d-inline-flex align-items-center gap-2"
+                            style="text-transform: capitalize"
+                        >
+                            <i class="fa-regular fa-circle-check"></i> {{
+                            notif.status }}
+                        </span>
+                    </div>
+
+                    <div class="status-item mb-4">
+                        <label class="info-label d-block text-muted mb-2"
+                            >{{ 'NOTIFICATION.SENT_AT' | translate }}</label
+                        >
+                        <div
+                            class="text-light d-flex align-items-center gap-2 fw-medium"
+                        >
+                            <i class="fa-regular fa-calendar text-muted"></i>
+                            <span
+                                >{{ notif.sentAt | date:'yyyy-MM-dd HH:mm:ss
+                                \'UTC\'' }}</span
+                            >
+                        </div>
+                    </div>
+
+                    <div class="status-item mb-4">
+                        <label class="info-label d-block text-muted mb-2"
+                            >{{ 'NOTIFICATION.CHANNEL' | translate }}</label
+                        >
+                        <span
+                            class="badge badge-channel rounded-pill px-3 py-1 fw-medium text-light d-inline-flex align-items-center gap-2"
+                        >
+                            <i class="fa-solid fa-mobile-screen"></i> Push
+                        </span>
+                    </div>
+
+                    <div class="status-item">
+                        <label class="info-label d-block text-muted mb-2"
+                            >{{ 'NOTIFICATION.TYPE' | translate }}</label
+                        >
+                        <span
+                            class="badge badge-type rounded-pill px-3 py-1 fw-medium text-light"
+                            style="text-transform: capitalize"
+                        >
+                            {{ notif.type }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Identifiers Card -->
+            <div class="detail-card rounded-3 p-4">
+                <div class="card-header d-flex align-items-center gap-3 mb-4">
+                    <i class="fa-regular fa-user fs-5 text-muted"></i>
+                    <h5 class="m-0 text-light fw-medium">
+                        {{ 'NOTIFICATION.IDENTIFIERS' | translate }}
+                    </h5>
+                </div>
+
+                <!-- @if(notification.metadata?.['userId']) {
+          <div class="content-block mb-4">
+            <label class="info-label d-block text-muted mb-2">Target User ID</label>
+            <div class="code-box p-3 rounded-2 d-flex justify-content-between align-items-center border-0">
+              <span class="meta-key font-monospace">{{ notification.metadata?.['userId'] }}</span>
+              <button class="btn btn-icon text-muted p-0 border-0 bg-transparent fs-5" (click)="copyToClipboard(notification.metadata?.['userId'])">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        } -->
+
+                <div class="content-block">
+                    <label class="info-label d-block text-muted mb-2"
+                        >{{ 'NOTIFICATION.NOTIFICATION_ID' | translate }}</label
+                    >
+                    <div
+                        class="code-box p-3 rounded-2 d-flex justify-content-between align-items-center border-0"
+                    >
+                        <span class="meta-key font-monospace"
+                            >{{ notif._id }}</span
+                        >
+                        <button
+                            class="btn btn-icon text-muted p-0 border-0 bg-transparent fs-5"
+                            (click)="copyToClipboard(notif._id)"
+                        >
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

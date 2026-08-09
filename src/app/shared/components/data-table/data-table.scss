@@ -1,0 +1,43 @@
+.custom-table {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+
+    // Checkbox Styling overrides
+    ::ng-deep {
+        --p-checkbox-background: transparent;
+        p-tableHeaderCheckbox,
+        p-tableCheckbox {
+            .p-checkbox {
+                width: 1.25rem !important;
+                height: 1.25rem !important;
+
+                .p-checkbox-box {
+                    width: 1.25rem !important;
+                    height: 1.25rem !important;
+                }
+            }
+        }
+    }
+}
+
+.custom-thead > tr > th {
+    background-color: var(--gray-100);
+}
+
+// Alternating row colors - zebra striping
+.row-even > td {
+    background-color: var(--secondary-color) !important;
+}
+
+.row-odd > td {
+    background-color: var(--secondary-color-2) !important;
+}
+
+// action button
+.action-btn {
+    background-color: transparent;
+    border: none;
+    position: relative;
+    z-index: 10;
+}

@@ -1,19 +1,20 @@
 .d-block {
-  display: block;
-}
-.d-flex {
-  display: flex;
+    display: block;
 }
 .d-none {
-  display: none;
+    display: none;
 }
 
 .flex-column {
-  flex-direction: column;
+    flex-direction: column;
 }
 .justify-center {
-  justify-content: center;
+    justify-content: center;
 }
 .align-center {
-  align-items: center;
+    align-items: center;
+}
+
+.mb-8 {
+    margin-bottom: 5rem;
 }

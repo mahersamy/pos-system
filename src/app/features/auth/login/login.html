@@ -1,0 +1,57 @@
+<div class="auth-container">
+    <div class="brand-title">COSYPOS</div>
+
+    <div class="auth-card">
+        <h2 class="card-title">{{ 'AUTH.TITLE' | translate }}</h2>
+        <p class="card-subtitle">{{ 'AUTH.SUBTITLE' | translate }}</p>
+
+        <form
+            [formGroup]="loginForm"
+            (ngSubmit)="onSubmit()"
+        >
+            <!-- EMAIL -->
+            <div class="form-group">
+                <label>{{ 'COMMON.EMAIL' | translate }}</label>
+                <div class="input-wrapper">
+                    <input
+                        type="email"
+                        pInputText
+                        [placeholder]="'COMMON.EMAIL' | translate"
+                        formControlName="email"
+                    />
+                </div>
+                <app-field-validation
+                    [config]="emailConfig"
+                    [parentFormGroup]="loginForm"
+                />
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="form-group">
+                <label>{{ 'COMMON.PASSWORD' | translate }}</label>
+                <div class="input-wrapper">
+                    <p-password
+                        formControlName="password"
+                        [placeholder]="'COMMON.PASSWORD' | translate"
+                        [feedback]="false"
+                        [toggleMask]="true"
+                    />
+                </div>
+                <app-field-validation
+                    [config]="passwordConfig"
+                    [parentFormGroup]="loginForm"
+                />
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button
+                type="submit"
+                class="btn btn-primary w-100"
+                [disabled]="loginForm.invalid"
+                [loading]="isLoading()"
+            >
+                {{ 'COMMON.LOGIN' | translate }}
+            </button>
+        </form>
+    </div>
+</div>

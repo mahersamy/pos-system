@@ -1,0 +1,39 @@
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+
+    label {
+        font-weight: 600;
+    }
+}
+
+:host ::ng-deep {
+    /* Force PrimeNG custom tags to act as full-width block elements */
+    p-datepicker,
+    p-fileupload,
+    p-password,
+    p-inputnumber,
+    p-iconfield {
+        display: block;
+        width: 100%;
+    }
+
+    /* Ensure the inner PrimeNG wrappers also take full width */
+    .p-select,
+    .p-datepicker,
+    .p-fileupload,
+    .p-password,
+    .p-inputnumber,
+    .p-iconfield {
+        width: 100%;
+    }
+
+    /* Make sure native inputs inside take 100% width */
+    .p-inputtext,
+    .p-password-input,
+    .p-inputnumber-input {
+        width: 100%;
+    }
+}

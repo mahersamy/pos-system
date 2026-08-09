@@ -1,0 +1,164 @@
+<app-profile-skeleton [loading]="loading()" />
+
+@if (!loading()) {
+<section class="personal-info">
+    <h2 class="section-title">
+        {{ 'USER_PROFILE.PERSONAL_INFO' | translate }}
+    </h2>
+
+    <!-- Avatar Section -->
+    <div class="user-profile-header">
+        <div
+            class="avatar-wrapper"
+            (click)="fileInput.click()"
+        >
+            @if (imageUrl()) {
+            <img
+                [src]="imageUrl()"
+                alt="User Avatar"
+                class="avatar-img"
+                decoding="async"
+            />
+            } @else {
+            <div class="avatar-placeholder">
+                {{ user()?.firstName | slice : 0 : 1 }}{{ user()?.lastName |
+                slice : 0 : 1 }}
+            </div>
+            }
+            <div class="edit-overlay">
+                <i class="fa-solid fa-pencil"></i>
+            </div>
+            <input
+                #fileInput
+                type="file"
+                (change)="onFileSelected($event)"
+                accept="image/*"
+                style="display: none"
+            />
+        </div>
+        <div class="user-details">
+            <h3 class="display-name">
+                {{ user()?.firstName }} {{ user()?.lastName }}
+            </h3>
+            <p class="user-role">{{ user()?.role | lowercase }}</p>
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <form
+        class="user-form"
+        [formGroup]="profileForm"
+        (ngSubmit)="onSubmit()"
+    >
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label"
+                    >{{ 'USER_PROFILE.FIRST_NAME' | translate }}</label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    formControlName="firstName"
+                    [placeholder]="'USER_PROFILE.FIRST_NAME' | translate"
+                />
+                <app-field-validation
+                    [config]="firstNameConfig"
+                    [parentFormGroup]="profileForm"
+                />
+            </div>
+            <div class="form-group">
+                <label class="form-label"
+                    >{{ 'USER_PROFILE.LAST_NAME' | translate }}</label
+                >
+                <input
+                    type="text"
+                    pInputText
+                    formControlName="lastName"
+                    [placeholder]="'USER_PROFILE.LAST_NAME' | translate"
+                />
+                <app-field-validation
+                    [config]="lastNameConfig"
+                    [parentFormGroup]="profileForm"
+                />
+            </div>
+        </div>
+
+        <div class="form-group full-width">
+            <label class="form-label">{{ 'COMMON.EMAIL' | translate }}</label>
+            <input
+                type="email"
+                pInputText
+                formControlName="email"
+                [readonly]="true"
+            />
+            <app-field-validation
+                [config]="emailConfig"
+                [parentFormGroup]="profileForm"
+            />
+        </div>
+
+        <div class="form-group full-width">
+            <label class="form-label"
+                >{{ 'USER_PROFILE.ADDRESS' | translate }}</label
+            >
+            <input
+                type="text"
+                pInputText
+                formControlName="address"
+                [placeholder]="'USER_PROFILE.ADDRESS' | translate"
+            />
+            <app-field-validation
+                [config]="addressConfig"
+                [parentFormGroup]="profileForm"
+            />
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+                <label class="form-label"
+                    >{{ 'USER_PROFILE.NEW_PASSWORD' | translate }}</label
+                >
+                <p-password
+                    formControlName="newPassword"
+                    placeholder="********"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                />
+                <app-field-validation
+                    [config]="passwordConfig"
+                    [parentFormGroup]="profileForm"
+                />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"
+                    >{{ 'USER_PROFILE.CONFIRM_PASSWORD' | translate }}</label
+                >
+                <p-password
+                    formControlName="confirmPassword"
+                    placeholder="********"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                />
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <button
+                type="button"
+                class="btn-link"
+                (click)="getProfile()"
+            >
+                {{ 'COMMON.ACTIONS.DISCARD_CHANGES' | translate }}
+            </button>
+            <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="changeProfileInfo()"
+            >
+                {{ 'COMMON.ACTIONS.SAVE_CHANGES' | translate }}
+            </button>
+        </div>
+    </form>
+</section>
+}

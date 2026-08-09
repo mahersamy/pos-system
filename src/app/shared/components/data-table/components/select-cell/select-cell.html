@@ -1,0 +1,17 @@
+<p-select
+    [options]="options()"
+    [ngModel]="value()"
+    (onChange)="onChange($event)"
+    optionLabel="label"
+    optionValue="value"
+    appendTo="body"
+    panelStyleClass="pink-select-panel"
+    class="w-full d-flex align-items-center justify-content-center"
+>
+    <ng-template pTemplate="selectedItem" let-selectedOption>
+        <div>{{ selectedOption?.label | translate }}</div>
+    </ng-template>
+    <ng-template pTemplate="item" let-option>
+        <div>{{ option?.label | translate }}</div>
+    </ng-template>
+</p-select>

@@ -1,55 +1,95 @@
 :root {
-  // Fonts
-  --font-1: 'Poppins', sans-serif;
-  --font-2: 'Rubik', sans-serif;
-  --font-3: 'Inter', sans-serif;
+    // Fonts
+    --font-1: 'Poppins', sans-serif;
+    --font-2: 'Rubik', sans-serif;
+    --font-3: 'Inter', sans-serif;
 
-  // Colors
-  --white-30: #ffffff4d;
-  --white-90: #ffffff99;
-  --white-95: #fffffff2;
-  --white: #ffffff;
-  --black: #000000;
+    // Primitive Design System Colors (22 Colors)
+    --white: #ffffff;
+    --black: #000000;
 
-  --gray-50: #f1f1f1;
-  --gray-100: #f3f3f4;
-  --gray-200: #d9d9d9;
-  --gray-300: #d3d3d3;
-  --gray-400: #c1c1c1;
-  --gray-700: #4a4a4a;
-  --gray-800: #2d2d2d;
-  --gray-900: #242424;
-  --gray-950: #232526;
-  --orange-500: #ff4100;
+    --pink-100: #fac1d9;
+    --pink-200: #ffaace;
+    --pink-300: #ff83b7;
+    --pink-400: #ff5099;
 
-  // Requested Theme Colors
-  --primary-color: #fac1d9;
-  --primary-pink: #fac1d9;
-  --bg-main: #111315;
-  --secondary-color: #292c2d;
-  --secondary-color-2: #3D4142;
-  --text-main: #777979;
-  --text-light: #ffffff;
-  --text-muted: var(--gray-400);
+    --red-100: #ff6a6a;
+    --red-400: #ff3a3a;
+    --red-500: #e70000;
+    --red-600: #f60000;
 
-  // UI Elements
-  --card-bg: #1f2223;
-  --input-bg: var(--secondary-color);
-  --border-radius: 0.5rem;
-  --error-color: #E70000;
+    --yellow-100: #ffedbe;
+    --yellow-300: #ffdf6b;
+    --yellow-500: #ffbd0f;
 
-  --font-family-base: var(--font-3);
+    --blue-100: #b2e8ff;
+    --blue-300: #6be4ff;
 
+    --green-100: #e3ffe4;
+    --green-500: #37d101;
 
-  // Checkbox
-  --p-checkbox-checked-background: var(--primary-color) !important;
-  --p-checkbox-checked-border-color: var(--primary-color) !important;
-  --p-form-field-hover-border-color: var(--primary-color) !important;
-  --p-form-field-focus-border-color: var(--primary-color) !important;
-  --p-checkbox-checked-hover-background: var(--primary-color) !important;
-  --p-checkbox-checked-hover-border-color: var(--primary-color) !important;
+    --gray-100: #d9d9d9;
+    --gray-400: #777979;
+    --gray-600: #333333;
+    --gray-700: #3d4142;
+    --gray-800: #292c2d;
+    --gray-900: #111315;
+
+    // Semantic Theme Mappings
+    --secondary-color: var(--gray-800);
+    --secondary-color-2: var(--gray-700);
+    --text-main: var(--gray-400);
+    --text-light: var(--white);
+    --text-muted: var(--gray-400);
+
+    --primary-pink: var(--pink-100);
+    --primary-pink-hover: var(--pink-200);
+
+    // UI Elements
+    --input-border: rgba(255, 255, 255, 0.04);
+    --input-focus-border: var(--primary-pink);
+    --input-placeholder: rgba(255, 255, 255, 0.2);
+    --error-color: var(--red-500);
+    --border-radius: 0.75rem;
+
+    --font-family-base: var(--font-3);
+
+    /* Sidebar */
+    --side-bg: var(--secondary-color);
+    --side-title: var(--primary-pink);
+    --side-nav-icon-bg: var(--white);
+    --side-nav-item-active-bg: var(--primary-pink);
+    --side-nav-item-active-text: var(--gray-600);
+    --side-nav-item-color: var(--white);
+    --side-nav-item-border: var(--gray-700);
+
+    // Buttons
+    --btn-primary-bg: var(--pink-100);
+    --btn-primary-text: var(--gray-600);
+    --btn-primary-hover: var(--pink-200);
+    --btn-disabled-bg: rgba(250, 193, 217, 0.05);
+    --btn-disabled-text: rgba(255, 255, 255, 0.3);
+
+    --btn-secondary-border: var(--pink-100);
+    --btn-secondary-text: var(--pink-100);
+    --btn-secondary-hover: var(--pink-200);
+    --btn-secondary-disabled-bg: rgba(250, 193, 217, 0.05);
+    --btn-secondary-disabled-text: rgba(255, 255, 255, 0.3);
+
+    --surface-gradient-bg: linear-gradient(180deg, rgba(26, 28, 30, 0.88) 0%, #121315 100%);
+    --surface-gradient-border: rgba(255, 255, 255, 0.176);
+    // Checkbox
+    --p-checkbox-checked-background: var(--primary-pink) !important;
+    --p-checkbox-checked-border-color: var(--primary-pink) !important;
+    --p-form-field-hover-border-color: var(--primary-pink) !important;
+    --p-form-field-focus-border-color: var(--primary-pink) !important;
+    --p-checkbox-checked-hover-background: var(--primary-pink) !important;
+    --p-checkbox-checked-hover-border-color: var(--primary-pink) !important;
+
+    // Dialog
+    --dialog-footer-bg: #18181B;
 }
 
 .light-mode {
-  // Keep placeholders for future light mode if needed
+    // Keep placeholders for future light mode if needed
 }

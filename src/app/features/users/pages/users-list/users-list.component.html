@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-center align-items-center gap-2 my-2">
+    <button
+        class="btn-primary"
+        (click)="openCreateForm()"
+    >
+        Create
+    </button>
+    <app-search-bar
+        [placeholder]="'shared.SEARCH_PLACEHOLDER' | translate"
+        class="w-100"
+        (searchChange)="onSearch($event)"
+    />
+
+    <app-filter-panel
+        [configs]="filterConfig"
+        [searchQuery]="searchQuery"
+        (applyFilter)="applyFilter($event)"
+    />
+</div>
+<app-data-table />

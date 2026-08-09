@@ -1,0 +1,93 @@
+.error-state-overlay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    min-height: 400px;
+    background: transparent;
+
+    .error-content-card {
+        max-width: 440px;
+        text-align: center;
+        animation: fadeIn 0.4s ease-out;
+
+        .error-icon-circle {
+            width: 100px;
+            height: 100px;
+            background: rgba(231, 0, 0, 0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2.5rem;
+            box-shadow: 0 0 30px rgba(231, 0, 0, 0.1);
+
+            i {
+                font-size: 3rem;
+                color: var(--red-500);
+            }
+        }
+
+        .error-heading {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--red-500);
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .error-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            padding: 0 1.5rem;
+            max-width: 400px;
+            margin-inline: auto;
+        }
+
+        .btn-error-retry {
+            background: rgba(231, 0, 0, 0.05);
+            border: 1px solid rgba(231, 0, 0, 0.15);
+            color: var(--red-500);
+            padding: 1rem 3rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            &:hover {
+                background: rgba(231, 0, 0, 0.1);
+                border-color: var(--red-500);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(231, 0, 0, 0.15);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+
+            i {
+                font-size: 1.25rem;
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

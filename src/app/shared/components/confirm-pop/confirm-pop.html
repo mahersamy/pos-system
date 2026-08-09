@@ -1,0 +1,70 @@
+<div class="confirmation-popup">
+    <div class="confirmation-content">
+        <div class="confirmation-header">
+            <div class="header-content">
+                <div [class]="'icon-container ' + getIconContainerClass()">
+                    <i [class]="getIcon()"></i>
+                </div>
+                <div class="header-text">
+                    <h2>{{ data.header | translate }}</h2>
+                    <p [innerHTML]="getSafeMessage()"></p>
+                </div>
+            </div>
+        </div>
+
+        @if (data.showRejectionDropdown) {
+        <div class="confirmation__rejection">
+            <div class="confirmation__rejection-field">
+                <label class="confirmation__rejection-label">
+                    {{ 'shared.rejectionReason' | translate }}
+                </label>
+                <p-select
+                    [options]="data.rejectionReasons || []"
+                    [ngModel]="selectedReason()"
+                    (ngModelChange)="selectedReason.set($event); onReasonChange($event)"
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'shared.selectReason' | translate"
+                    styleClass="confirmation__rejection-dropdown"
+                ></p-select>
+            </div>
+            <div class="confirmation__rejection-field">
+                <label class="confirmation__rejection-label">
+                    {{ 'shared.rejectionDescription' | translate }}
+                </label>
+                <textarea
+                    class="confirmation__rejection-textarea"
+                    [ngModel]="rejectionDescription()"
+                    (ngModelChange)="rejectionDescription.set($event); onDescriptionChange($event)"
+                    [placeholder]="'shared.enterDescription' | translate"
+                    rows="4"
+                ></textarea>
+            </div>
+        </div>
+        }
+
+        <div class="confirmation-actions">
+            <div class="actions-content">
+                @if (data.btn2Text) {
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    [loading]="isBtn2Loading()"
+                    (click)="onBtn2Click()"
+                >
+                    {{ data.btn2Text | translate }}
+                </button>
+                }
+                <button
+                    type="button"
+                    [class]="getButtonClass()"
+                    [loading]="isBtn1Loading()"
+                    (click)="onBtn1Click()"
+                    [disabled]="!isBtn1Enabled()"
+                >
+                    {{ (data.btn1Text || 'Confirm') | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

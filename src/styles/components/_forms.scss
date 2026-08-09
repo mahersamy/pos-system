@@ -1,17 +1,25 @@
 @use '../abstracts' as *;
 
 .form-group {
-  margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .form-label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--text-light);
+        line-height: 100%;
+        margin: 0;
+    }
 }
 
-.input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--text-muted);
-  border-radius: var(--border-radius);
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
 
-  &:focus {
-    outline: none;
-    border-color: var(--primary-color);
-  }
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 }

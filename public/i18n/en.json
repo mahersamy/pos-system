@@ -1,0 +1,192 @@
+{
+    "COMMON": {
+        "DASHBOARD": "Dashboard",
+        "LOGIN": "Login",
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "ARABIC": "العربية",
+        "ENGLISH": "English",
+        "ACTIONS": {
+            "VIEW": "View",
+            "EDIT": "Edit",
+            "DELETE": "Delete",
+            "SAVE": "Save",
+            "CANCEL": "Cancel",
+            "LOAD_MORE": "Load More",
+            "SAVE_CHANGES": "Save Changes",
+            "DISCARD_CHANGES": "Discard Changes",
+            "RETRY": "Retry",
+            "RETRY_CONNECTION": "Retry Connection",
+            "APPLY_FILTER": "Apply Filter",
+            "RESET_ALL": "Reset all"
+        }
+    },
+    "HEADER": {
+        "NOTIFICATIONS": "Notifications",
+        "PROFILE": "Profile",
+        "USER_PROFILE": "User Profile"
+    },
+    "SIDEBAR": {
+        "TITLE": "PosSystem",
+        "DASHBOARD": "Dashboard",
+        "MENU": "Menu",
+        "STAFF": "Staff",
+        "INVENTORY": "Inventory",
+        "REPORTS": "Reports",
+        "ORDERS": "Orders",
+        "RESERVATION": "Reservation",
+        "USERS": "Users",
+        "LOGOUT": "Logout",
+        "AUDIT_LOGS": "Audit Logs"
+    },
+    "AUTH": {
+        "TITLE": "Login!",
+        "SUBTITLE": "Please enter your credentials below to continue",
+        "FORGOT_PASSWORD": "Forgot Password?",
+        "FORGOT_PASS": {
+            "TITLE": "Forgot your password?",
+            "SUBTITLE": "Please enter your username or email to recover your password",
+            "USERNAME": "Username",
+            "USERNAME_PLACEHOLDER": "Enter your username",
+            "USERNAME_REQUIRED": "Username is required",
+            "SUBMIT": "Submit Now",
+            "BACK_TO_LOGIN": "Back to Login"
+        },
+        "VALIDATION": {
+            "EMAIL_REQUIRED": "Email is required",
+            "EMAIL_INVALID": "Invalid email format",
+            "PASSWORD_REQUIRED": "Password is required",
+            "PASSWORD_MIN_LENGTH": "Password must be at least 8 characters",
+            "PASSWORD_STRENGTH": "Password must include uppercase, lowercase, number and special character",
+            "FIRST_NAME_REQUIRED": "First name is required",
+            "LAST_NAME_REQUIRED": "Last name is required",
+            "ADDRESS_REQUIRED": "Address is required"
+        }
+    },
+    "STAFF": {
+        "TITLE": "Staff Members",
+        "LIST": "Staff List",
+        "DETAILS": "Staff Details",
+        "PERSONAL_DETAILS": "Employee Personal Details",
+        "JOB_DETAILS": "Employee Job Details",
+        "PROFILE_IMAGE": "Profile Image",
+        "CHANGE_PIC": "Change Profile Picture",
+        "EDIT_PROFILE": "Edit profile",
+        "DELETE_PROFILE": "Delete profile",
+        "FIELDS": {
+            "ID": "ID",
+            "NAME": "Name",
+            "AGE": "Age",
+            "EMAIL": "Email",
+            "PHONE": "Phone",
+            "PHONE_NUMBER": "Phone Number",
+            "SALARY": "Salary",
+            "DOB": "Date of Birth",
+            "TIMING": "Timing",
+            "FULL_NAME": "Full Name",
+            "ADDRESS": "Address",
+            "ROLE": "Role",
+            "SHIFT_START": "Shift Start Timing",
+            "SHIFT_END": "Shift End Timing"
+        },
+        "ACTIONS": {
+            "DELETE_SELECTED": "Delete Selected"
+        },
+        "CONFIRMATION": {
+            "DELETE_TITLE": "Delete Profile",
+            "DELETE_MESSAGE": "Are you sure you want to delete this staff profile?"
+        }
+    },
+    "USER_PROFILE": {
+        "TITLE": "My Profile",
+        "LOGOUT": "Logout",
+        "PERSONAL_INFO": "Personal Information",
+        "FIRST_NAME": "First Name",
+        "LAST_NAME": "Last Name",
+        "ADDRESS": "Address",
+        "NEW_PASSWORD": "New Password",
+        "CONFIRM_PASSWORD": "Confirm Password"
+    },
+    "NOTIFICATION": {
+        "TITLE": "Notifications",
+        "DETAILS": "Notification Details",
+        "ALL": "All",
+        "UNREAD": "Unread",
+        "STATUS_PENDING": "Unread",
+        "STATUS_NEW": "New",
+        "COUNT_LABEL": "notifications",
+        "MARK_ALL_READ": "Mark all as read",
+        "CONTENT_INFO": "Content Info",
+        "TITLE_LABEL": "Title",
+        "MESSAGE_LABEL": "Message",
+        "METADATA": "Metadata",
+        "NO_METADATA": "No metadata available",
+        "DELIVERY_STATUS": "Delivery Status",
+        "STATUS_LABEL": "Status",
+        "SENT_AT": "Sent At",
+        "CHANNEL": "Channel",
+        "TYPE": "Type",
+        "IDENTIFIERS": "Identifiers",
+        "NOTIFICATION_ID": "Notification ID",
+        "TARGET_USER_ID": "Target User ID",
+        "VIEW_FULL_INFO": "View full information for notification ID"
+    },
+    "BANNER": {
+        "TITLE": "Enable Notifications",
+        "SUBTITLE": "Stay updated with the latest alerts and messages in the app.",
+        "NOT_NOW": "Not Now",
+        "ALLOW": "Allow"
+    },
+    "ERROR": {
+        "LOAD_STAFF_FAILED": "Failed to load staff details",
+        "INTERNET_CHECK": "Please check your internet connection and try again.",
+        "SYSTEM_INTERRUPTION": "System Interruption",
+        "TECHNICAL_HITCH": "We experienced a technical hitch while gathering your records. Please try reconnecting or refresh the view."
+    },
+    "FILTER": {
+        "TITLE": "Filter",
+        "TITLES": "Filters",
+        "SELECT_PLACEHOLDER": "Select...",
+        "MIN": "Min",
+        "MAX": "Max",
+        "SORT": "Sort",
+        "ASC": "ASC",
+        "DESC": "DESC"
+    },
+    "EMPTY_STATE": {
+        "NO_DATA": "No Data",
+        "CLEAR_SKIES": "Clear Skies",
+        "DESCRIPTION": "It looks like there’s nothing on the list right now. Try adjusting your filters or add a new entry to get started."
+    },
+    "NOT_FOUND": {
+        "TITLE": "Page Not Found",
+        "SUBTITLE": "Oops! The page you're looking for doesn't exist. It might have been moved or deleted.",
+        "BACK_HOME": "Back to Dashboard"
+    },
+    "USERS": {
+        "TITLE": "Users",
+        "FIELDS": {
+            "ID": "ID",
+            "NAME": "Name",
+            "EMAIL": "Email",
+            "PHONE": "Phone",
+            "AGE": "Age",
+            "STATUS": "Status",
+            "DATE": "Date",
+            "ROLE": "Role"
+        },
+        "ROLES": {
+            "ADMIN": "Admin",
+            "MANAGER": "Manager",
+            "CASHIER": "Cashier"
+        }
+    },
+    "shared": {
+        "rejectionReason": "Rejection Reason",
+        "selectReason": "Select Reason",
+        "rejectionDescription": "Rejection Description",
+        "enterDescription": "Enter Description",
+        "SELECTED": "selected",
+        "SEARCH_PLACEHOLDER": "Search By Name, Email, Phone"
+    }
+}

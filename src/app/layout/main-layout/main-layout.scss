@@ -1,0 +1,37 @@
+.layout-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg-secondary);
+}
+
+.layout-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0; // Prevent content overflow from breaking flex layout
+}
+
+.layout-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+    .layout-wrapper {
+        flex-direction: column;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .layout-container {
+        height: calc(100vh - 85px); // Assuming bottom bar is around 85px
+        overflow: hidden;
+    }
+
+    .layout-content {
+        padding: 1.5rem 1rem !important;
+        padding-bottom: 100px !important; // Add extra padding to clear the fixed bottom nav
+        overflow-y: auto;
+    }
+}

@@ -1,0 +1,45 @@
+<div
+    class="empty-state-container animate-fade-in"
+    [class.is-error]="_dataTableConfig.tableConfig.isError()"
+>
+    <div class="glass-card">
+        <div class="icon-orb">
+            <div class="orb-inner">
+                @if (_dataTableConfig.tableConfig.isError()) {
+                <i class="fa-solid fa-triangle-exclamation pulse-icon"></i>
+                } @else {
+                <i class="fa-solid fa-box-open floating-icon"></i>
+                }
+            </div>
+        </div>
+
+        <div
+            class="content-text text-center d-flex justify-content-center align-items-center flex-column"
+        >
+            @if (_dataTableConfig.tableConfig.isError()) {
+            <h3 class="title error-gradient">
+                {{ 'ERROR.SYSTEM_INTERRUPTION' | translate }}
+            </h3>
+            <p class="description">{{ 'ERROR.TECHNICAL_HITCH' | translate }}</p>
+            <button
+                class="btn-action btn-error"
+                (click)="refetch()"
+            >
+                <i class="fa-solid fa-rotate-right mr-2"></i>
+                {{ 'COMMON.ACTIONS.RETRY_CONNECTION' | translate }}
+            </button>
+            } @else if (_dataTableConfig.tableConfig.rows().length === 0) {
+            <h3 class="title">{{ 'EMPTY_STATE.NO_DATA' | translate }}</h3>
+            <p class="description">
+                It looks like there’s nothing on the list right now. Try
+                adjusting your filters or add a new entry to get started.
+            </p>
+            } @else {
+            <h3 class="title">{{ 'EMPTY_STATE.CLEAR_SKIES' | translate }}</h3>
+            <p class="description">
+                {{ 'EMPTY_STATE.DESCRIPTION' | translate }}
+            </p>
+            }
+        </div>
+    </div>
+</div>

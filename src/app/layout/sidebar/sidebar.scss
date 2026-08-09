@@ -1,0 +1,177 @@
+/* Because ViewEncapsulation is None, .sidebar styles must be cleanly scoped */
+
+.sidebar {
+    height: 100vh;
+    padding: 1rem 1rem;
+    background: var(--side-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    box-sizing: border-box;
+
+    &.desktop-sidebar {
+        position: sticky;
+        top: 0;
+        border-start-end-radius: 1.875rem;
+        border-end-end-radius: 1.875rem;
+    }
+
+    &.mobile-sidebar {
+        padding: 0; // drawer handles surrounding if needed, but we'll pad the layout
+        padding-bottom: 2rem;
+    }
+
+    .sidebar_header {
+        flex: 1 1 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        width: 100%;
+
+        .sidebar__title {
+            margin-bottom: 1.5813rem;
+            color: var(--side-title);
+            font-family: var(--font-1);
+            font-weight: 600;
+            font-size: 1.2537rem;
+            line-height: 100%;
+            letter-spacing: 0%;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar__nav {
+            flex: 1 1 0;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+
+            .nav_list {
+                list-style: none;
+                text-align: center;
+                padding: 0;
+                margin: 0;
+                // Scrolls when items exceed available height
+                overflow-y: auto;
+                direction: inherit; // Moves scrollbar to left in RTL
+                scrollbar-width: none; // Firefox
+                &::-webkit-scrollbar {
+                    display: none;
+                } // Chrome/Safari
+
+                .nav_item {
+                    cursor: pointer;
+                    padding-block: 0.8125rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: start;
+                    gap: 14px;
+                    padding-inline: 0.875rem;
+
+                    .nav_icon {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 1.8438rem;
+                        height: 1.8438rem;
+                        border-radius: 50%;
+                        background-color: var(--side-nav-icon-bg);
+                    }
+                    .nav_label {
+                        font-family: var(--font-1);
+                        font-weight: 400;
+                        font-size: 1rem;
+                        color: var(--side-nav-item-color);
+                    }
+                }
+                .bottom-border {
+                    border-bottom: 0.74px solid var(--side-nav-item-border) !important;
+                }
+                .nav_item--active {
+                    border-radius: 7.43px;
+                    background: var(--side-nav-item-active-bg);
+                    .nav_label {
+                        color: var(--side-nav-item-active-text);
+                    }
+                }
+            }
+        }
+    }
+
+    .sidebar__footer {
+        flex-shrink: 0;
+        padding-top: 0.75rem;
+
+        .logout-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--side-nav-item-color);
+            font-family: var(--font-1);
+            font-weight: 400;
+            font-size: 1rem;
+            gap: 0.025rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            width: 100%; // Expand to center the content
+            text-align: center;
+            img {
+                margin: 0 auto;
+            }
+            .nav_label {
+                display: block; // Keep label below icon
+            }
+        }
+    }
+}
+
+// FAB hidden by default on desktop
+.mobile-menu-fab {
+    display: none;
+}
+
+// ─── Mobile Media Query ──────────────────────────────────────────────────
+
+@media (max-width: 1024px) {
+    // Hide the desktop sidebar completely on mobile screens
+    .desktop-sidebar {
+        display: none !important;
+    }
+
+    // Show the floating action button for the menu on mobile
+    .mobile-menu-fab {
+        display: flex;
+        position: fixed;
+        bottom: 2rem;
+        inset-inline-end: 1.5rem;
+        z-index: 1000;
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 50%;
+        background-color: var(--primary-pink);
+        color: var(--bg-main);
+        border: none;
+        box-shadow: 0 4px 12px rgba(250, 193, 217, 0.4);
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        cursor: pointer;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+
+        &:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(250, 193, 217, 0.6);
+        }
+
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+}

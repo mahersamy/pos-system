@@ -1,0 +1,192 @@
+{
+    "COMMON": {
+        "DASHBOARD": "لوحة التحكم",
+        "LOGIN": "تسجيل الدخول",
+        "EMAIL": "البريد الإلكتروني",
+        "PASSWORD": "كلمة المرور",
+        "ARABIC": "العربية",
+        "ENGLISH": "English",
+        "ACTIONS": {
+            "VIEW": "عرض",
+            "EDIT": "تعديل",
+            "DELETE": "حذف",
+            "SAVE": "حفظ",
+            "CANCEL": "إلغاء",
+            "LOAD_MORE": "تحميل المزيد",
+            "SAVE_CHANGES": "حفظ التغييرات",
+            "DISCARD_CHANGES": "تجاهل التغييرات",
+            "RETRY": "إعادة المحاولة",
+            "RETRY_CONNECTION": "إعادة الاتصال",
+            "APPLY_FILTER": "تطبيق الفلتر",
+            "RESET_ALL": "إعادة تعيين الكل"
+        }
+    },
+    "HEADER": {
+        "NOTIFICATIONS": "الإشعارات",
+        "PROFILE": "الملف الشخصي",
+        "USER_PROFILE": "ملف المستخدم"
+    },
+    "SIDEBAR": {
+        "TITLE": "نظام البيع",
+        "DASHBOARD": "لوحة التحكم",
+        "MENU": "القائمة",
+        "STAFF": "الموظفين",
+        "INVENTORY": "المخزون",
+        "REPORTS": "التقارير",
+        "ORDERS": "الطلبات",
+        "RESERVATION": "الحجوزات",
+        "USERS": "المستخدمين",
+        "LOGOUT": "تسجيل الخروج",
+        "AUDIT_LOGS": "سجلات التدقيق"
+    },
+    "AUTH": {
+        "TITLE": "تسجيل الدخول!",
+        "SUBTITLE": "يرجى إدخال بيانات الاعتماد الخاصة بك للمتابعة",
+        "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
+        "FORGOT_PASS": {
+            "TITLE": "هل نسيت كلمة المرور؟",
+            "SUBTITLE": "يرجى إدخال اسم المستخدم أو البريد الإلكتروني لاستعادة كلمة المرور الخاصة بك",
+            "USERNAME": "اسم المستخدم",
+            "USERNAME_PLACEHOLDER": "أدخل اسم المستخدم الخاص بك",
+            "USERNAME_REQUIRED": "اسم المستخدم مطلوب",
+            "SUBMIT": "إرسال الآن",
+            "BACK_TO_LOGIN": "العودة إلى تسجيل الدخول"
+        },
+        "VALIDATION": {
+            "EMAIL_REQUIRED": "البريد الإلكتروني مطلوب",
+            "EMAIL_INVALID": "صيغة البريد الإلكتروني غير صحيحة",
+            "PASSWORD_REQUIRED": "كلمة المرور مطلوبة",
+            "PASSWORD_MIN_LENGTH": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+            "PASSWORD_STRENGTH": "يجب أن تتضمن كلمة المرور أحرفًا كبيرة وصغيرة وأرقامًا ورموزًا خاصة",
+            "FIRST_NAME_REQUIRED": "الاسم الأول مطلوب",
+            "LAST_NAME_REQUIRED": "اسم العائلة مطلوب",
+            "ADDRESS_REQUIRED": "العنوان مطلوب"
+        }
+    },
+    "STAFF": {
+        "TITLE": "أعضاء الموظفين",
+        "LIST": "قائمة الموظفين",
+        "DETAILS": "تفاصيل الموظف",
+        "PERSONAL_DETAILS": "تفاصيل الموظف الشخصية",
+        "JOB_DETAILS": "تفاصيل الموظف الوظيفية",
+        "PROFILE_IMAGE": "صورة الملف الشخصي",
+        "CHANGE_PIC": "تغيير صورة الملف الشخصي",
+        "EDIT_PROFILE": "تعديل الملف الشخصي",
+        "DELETE_PROFILE": "حذف الملف الشخصي",
+        "FIELDS": {
+            "ID": "المعرف",
+            "NAME": "الاسم",
+            "AGE": "العمر",
+            "EMAIL": "البريد الإلكتروني",
+            "PHONE": "الهاتف",
+            "PHONE_NUMBER": "رقم الهاتف",
+            "SALARY": "الراتب",
+            "DOB": "تاريخ الميلاد",
+            "TIMING": "التوقيت",
+            "FULL_NAME": "الاسم الكامل",
+            "ADDRESS": "العنوان",
+            "ROLE": "الدور",
+            "SHIFT_START": "وقت بدء المناوبة",
+            "SHIFT_END": "وقت انتهاء المناوبة"
+        },
+        "ACTIONS": {
+            "DELETE_SELECTED": "حذف المحدد"
+        },
+        "CONFIRMATION": {
+            "DELETE_TITLE": "حذف الملف الشخصي",
+            "DELETE_MESSAGE": "هل أنت متأكد أنك تريد حذف ملف هذا الموظف؟"
+        }
+    },
+    "USER_PROFILE": {
+        "TITLE": "ملفي الشخصي",
+        "LOGOUT": "تسجيل الخروج",
+        "PERSONAL_INFO": "المعلومات الشخصية",
+        "FIRST_NAME": "الاسم الأول",
+        "LAST_NAME": "اسم العائلة",
+        "ADDRESS": "العنوان",
+        "NEW_PASSWORD": "كلمة المرور الجديدة",
+        "CONFIRM_PASSWORD": "تأكيد كلمة المرور"
+    },
+    "NOTIFICATION": {
+        "TITLE": "الإشعارات",
+        "DETAILS": "تفاصيل الإشعار",
+        "ALL": "الكل",
+        "UNREAD": "غير مقروء",
+        "STATUS_PENDING": "غير مقروء",
+        "STATUS_NEW": "جديد",
+        "COUNT_LABEL": "إشعارات",
+        "MARK_ALL_READ": "تحديد الكل كمقروء",
+        "CONTENT_INFO": "معلومات المحتوى",
+        "TITLE_LABEL": "العنوان",
+        "MESSAGE_LABEL": "الرسالة",
+        "METADATA": "البيانات الوصفية",
+        "NO_METADATA": "لا توجد بيانات وصفية متاحة",
+        "DELIVERY_STATUS": "حالة التسليم",
+        "STATUS_LABEL": "الحالة",
+        "SENT_AT": "أرسلت في",
+        "CHANNEL": "القناة",
+        "TYPE": "النوع",
+        "IDENTIFIERS": "المعرفات",
+        "NOTIFICATION_ID": "معرف الإشعار",
+        "TARGET_USER_ID": "معرف المستخدم المستهدف",
+        "VIEW_FULL_INFO": "عرض المعلومات الكاملة لمعرف الإشعار"
+    },
+    "BANNER": {
+        "TITLE": "تفعيل الإشعارات",
+        "SUBTITLE": "ابق على اطلاع بأحدث التنبيهات والرسائل في التطبيق.",
+        "NOT_NOW": "ليس الآن",
+        "ALLOW": "سماح"
+    },
+    "ERROR": {
+        "LOAD_STAFF_FAILED": "فشل في تحميل تفاصيل الموظف",
+        "INTERNET_CHECK": "يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.",
+        "SYSTEM_INTERRUPTION": "انقطاع النظام",
+        "TECHNICAL_HITCH": "واجهنا مشكلة فنية أثناء جمع سجلاتك. يرجى محاولة إعادة الاتصال أو تحديث العرض."
+    },
+    "FILTER": {
+        "TITLE": "تصفية",
+        "TITLES": "الفلاتر",
+        "SELECT_PLACEHOLDER": "اختر...",
+        "MIN": "الأدنى",
+        "MAX": "الأقصى",
+        "SORT": "ترتيب",
+        "ASC": "تصاعدي",
+        "DESC": "تنازلي"
+    },
+    "EMPTY_STATE": {
+        "NO_DATA": "لا توجد بيانات",
+        "CLEAR_SKIES": "سماء صافية",
+        "DESCRIPTION": "يبدو أنه لا يوجد شيء في القائمة الآن. حاول تعديل فلاتر البحث أو إضافة إدخال جديد للبدء."
+    },
+    "NOT_FOUND": {
+        "TITLE": "الصفحة غير موجودة",
+        "SUBTITLE": "عذراً! الصفحة التي تبحث عنها غير موجودة. قد تكون قد نقلت أو حذفت.",
+        "BACK_HOME": "العودة إلى لوحة التحكم"
+    },
+    "USERS": {
+        "TITLE": "المستخدمين",
+        "FIELDS": {
+            "ID": "المعرف",
+            "NAME": "الاسم",
+            "EMAIL": "البريد الإلكتروني",
+            "PHONE": "الهاتف",
+            "AGE": "العمر",
+            "STATUS": "الحالة",
+            "DATE": "التاريخ",
+            "ROLE": "الدور"
+        },
+        "ROLES": {
+            "ADMIN": "مدير",
+            "MANAGER": "مشرف",
+            "CASHIER": "كاشير"
+        }
+    },
+    "shared": {
+        "rejectionReason": "سبب الرفض",
+        "selectReason": "اختر السبب",
+        "rejectionDescription": "وصف الرفض",
+        "enterDescription": "أدخل الوصف",
+        "SELECTED": "محدد",
+        "SEARCH_PLACEHOLDER": "البحث بالاسم، البريد الإلكتروني، الهاتف"
+    }
+}

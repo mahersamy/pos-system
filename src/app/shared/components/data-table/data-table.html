@@ -1,0 +1,192 @@
+<div>
+    <p-table
+        [value]="_dataTableConfig.tableConfig.loading() ? skeletonRows : _dataTableConfig.tableConfig.rows()"
+        [(selection)]="selectedItems"
+        [dataKey]="_dataTableConfig.tableConfig.dataKey()"
+        [pt]="_primeTableConfig"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [scrollable]="true"
+        scrollHeight="calc(100vh - 300px)"
+    >
+        <ng-template #caption>
+            @if (selectedItems && selectedItems.length > 0 &&
+            _dataTableConfig.tableConfig.bulkActions().length > 0) {
+            <div
+                class="d-flex justify-content-between align-items-center bg-surface-100 p-3 border-round mb-3"
+            >
+                <span class="fw-bold">
+                    {{ selectedItems.length }} {{ 'NOTIFICATION.COUNT_LABEL' |
+                    translate }} {{ 'shared.SELECTED' | translate }}
+                </span>
+                <div class="d-flex gap-2">
+                    @for (action of _dataTableConfig.tableConfig.bulkActions();
+                    track action.label) {
+                    <button
+                        type="button"
+                        [class]="'btn btn-primary d-flex align-items-center gap-2 ' + (action.classes || '')"
+                        (click)="onBulkActionClick($event, action)"
+                    >
+                        @if (action.icon) { <i [class]="action.icon"></i> }
+                        <span>{{ action.label | translate }}</span>
+                    </button>
+                    }
+                </div>
+            </div>
+            }
+        </ng-template>
+        <ng-template #header>
+            <tr>
+                @if (_dataTableConfig.tableConfig.isSelectable()) {
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox />
+                </th>
+                } @for (column of _dataTableConfig.tableConfig.columns(); track
+                column.field) {
+                <th
+                    class="text-center"
+                    style="white-space: nowrap"
+                >
+                    {{ column.header | translate }}
+                </th>
+                } @if (_dataTableConfig.tableConfig.actions().length > 0) {
+                <th
+                    class="text-center"
+                    pFrozenColumn
+                    alignFrozen="right"
+                ></th>
+                }
+            </tr>
+        </ng-template>
+        <ng-template
+            #body
+            let-data
+            let-rowIndex="rowIndex"
+        >
+            @if (_dataTableConfig.tableConfig.loading()) {
+            <tr>
+                @if (_dataTableConfig.tableConfig.isSelectable()) {
+                <td><p-skeleton /></td>
+                } @for (column of _dataTableConfig.tableConfig.columns(); track
+                column.field) {
+                <td><p-skeleton /></td>
+                } @if (_dataTableConfig.tableConfig.actions().length > 0) {
+                <td
+                    pFrozenColumn
+                    alignFrozen="right"
+                >
+                    <p-skeleton />
+                </td>
+                }
+            </tr>
+            } @else {
+            <tr [class]="rowIndex % 2 === 0 ? 'row-even' : 'row-odd'">
+                @if (_dataTableConfig.tableConfig.isSelectable()) {
+                <td>
+                    <p-tableCheckbox [value]="data" />
+                </td>
+                } @for (column of _dataTableConfig.tableConfig.columns(); track
+                column.field) {
+                <td>
+                    @switch (column.type) { @case (_tableColumnType.ID) {
+                    <app-id-cell
+                        [field]="resolveFieldData(data, column.field)"
+                    />
+                    } @case (_tableColumnType.TEXT) {
+                    <app-text-cell
+                        [field]="resolveFieldData(data, column.field)"
+                        [classes]="column.classes || ''"
+                        [suffix]="column.suffix || ''"
+                    />
+                    } @case (_tableColumnType.DATE) {
+                    <app-text-cell
+                        [field]="
+                      (resolveFieldData(data, column.field)
+                        | date: column.dateFormat || 'MMM d y') || ''
+                    "
+                        [classes]="column.classes || ''"
+                    />
+                    } @case (_tableColumnType.USER) {
+                    <app-user-cell
+                        [name]="resolveFieldData(data, column.field)"
+                        [subtitle]="
+                      column.subtitleField ? resolveFieldData(data, column.subtitleField) : ''
+                    "
+                        [image]="column.imageField ? resolveFieldData(data, column.imageField) : ''"
+                        [subtitleColor]="column.subtitleColor || ''"
+                    />
+                    } @case (_tableColumnType.CURRENCY) {
+                    <app-text-cell
+                        [field]="
+                      (resolveFieldData(data, column.field)
+                        | currency
+                          : column.currencyCode
+                          : column.currencyDisplay
+                          : column.digitsInfo) || ''
+                    "
+                        [classes]="column.classes || ''"
+                    />
+                    } @case (_tableColumnType.SELECT) {
+                    <app-select-cell
+                        [value]="resolveFieldData(data, column.field)"
+                        [options]="$any(column).options || []"
+                        (valueChange)="$any(column).onChange ? $any(column).onChange(data, $event) : null"
+                    />
+                    } @case (_tableColumnType.STATUS) {
+                    <app-status-cell
+                        [value]="resolveFieldData(data, column.field)"
+                        [options]="$any(column).statusOptions || []"
+                    />
+                    } }
+                </td>
+                } @if (_dataTableConfig.tableConfig.actions().length > 0) {
+                <td
+                    class="text-center"
+                    pFrozenColumn
+                    alignFrozen="right"
+                >
+                    <div class="d-flex justify-content-center gap-2">
+                        @for (action of _dataTableConfig.tableConfig.actions();
+                        track action.icon) {
+                        <button
+                            type="button"
+                            [class]="'action-btn ' + (action.classes || '')"
+                            (click)="onActionClick($event, action, data)"
+                        >
+                            <i [class]="action.icon"></i>
+                        </button>
+                        }
+                    </div>
+                </td>
+                }
+            </tr>
+            }
+        </ng-template>
+        <ng-template #emptymessage>
+            <tr>
+                <td
+                    [attr.colspan]="
+            _dataTableConfig.tableConfig.columns().length +
+            (_dataTableConfig.tableConfig.isSelectable() ? 1 : 0) +
+            (_dataTableConfig.tableConfig.actions().length > 0 ? 1 : 0)
+          "
+                    class="text-center p-8"
+                >
+                    <app-empty-state />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    @if (_dataTableConfig.tableConfig.totalPages() > 1 ||
+    _dataTableConfig.tableConfig.total() > 0) {
+    <div class="mt-3">
+        <app-pagination
+            [currentPage]="_dataTableConfig.tableConfig.currentPage()"
+            [limit]="_dataTableConfig.tableConfig.limit()"
+            [total]="_dataTableConfig.tableConfig.total()"
+            [totalPages]="_dataTableConfig.tableConfig.totalPages()"
+            (pageChange)="onPageChange($event)"
+        ></app-pagination>
+    </div>
+    }
+</div>

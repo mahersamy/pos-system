@@ -1,0 +1,23 @@
+<div
+    class="notification-banner"
+    [class.show]="showBanner()"
+>
+    <div class="notification-content">
+        <h3>{{ "BANNER.TITLE" | translate }}</h3>
+        <p>{{ "BANNER.SUBTITLE" | translate }}</p>
+    </div>
+    <div class="notification-actions">
+        <button
+            (click)="onDismiss()"
+            class="btn-cancel"
+        >
+            {{ "BANNER.NOT_NOW" | translate }}
+        </button>
+        <button
+            (click)="onAllow()"
+            class="btn-allow"
+        >
+            {{ "BANNER.ALLOW" | translate }}
+        </button>
+    </div>
+</div>

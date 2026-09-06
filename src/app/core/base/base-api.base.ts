@@ -24,7 +24,7 @@ export abstract class BaseApiService<TRaw, TAdapted = TRaw> {
     }
 
     getAll(getAllModel: GetAllModel): Observable<GlobalPaginatedResponse<TAdapted[]>> {
-        const params = new HttpParams().appendAll(getAllModel as any);
+        const params = new HttpParams().appendAll(getAllModel);
         return this._http
             .get<GlobalPaginatedResponse<TRaw[]>>(this._url, { params })
             .pipe(map((res) => ({

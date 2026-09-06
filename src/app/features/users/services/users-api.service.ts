@@ -1,10 +1,8 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { User } from '../model/user.model';
 import { GlobalResponse } from '../../../core/models/response-global.model';
-import { GetAllModel } from '../../../core/models/get-all.model';
 import { BACKEND_ROUTE } from '../../../core/constants/backend.route';
 import { BaseApiService } from '../../../core/base/base-api.base';
 

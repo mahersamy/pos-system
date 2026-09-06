@@ -30,6 +30,7 @@
         "TITLE": "PosSystem",
         "DASHBOARD": "Dashboard",
         "MENU": "Menu",
+        "CATEGORY": "Category",
         "STAFF": "Staff",
         "INVENTORY": "Inventory",
         "REPORTS": "Reports",
@@ -181,6 +182,51 @@
             "CASHIER": "Cashier"
         }
     },
+    "MENU": {
+        "TITLE": "Menu",
+        "ACTIONS": {
+            "CREATE": "Create Menu",
+            "EDIT": "Edit Menu"
+        },
+        "FIELDS": {
+            "ID": "ID",
+            "NAME": "Name",
+            "DESCRIPTION": "Description",
+            "STATUS": "Status",
+            "DATE": "Date"
+        }
+    },
+    "CATEGORY": {
+        "TITLE": "Category",
+        "ACTIONS": {
+            "CREATE": "Create Category",
+            "EDIT": "Edit Category"
+        },
+        "FIELDS": {
+            "ID": "ID",
+            "NAME": "Name",
+            "DESCRIPTION": "Description",
+            "STATUS": "Status",
+            "DATE": "Date"
+        }
+    },
+    "INVENTORY": {
+        "TITLE": "Inventory",
+        "ACTIONS": {
+            "CREATE": "Create Inventory",
+            "EDIT": "Edit Inventory"
+        },
+        "FIELDS": {
+            "ID": "ID",
+            "NAME": "Name",
+            "QUANTITY": "Quantity",
+            "PRICE": "Price",
+            "STOCK": "Stock Status",
+            "STATUS": "Status",
+            "PERISHABLE": "Perishable",
+            "DATE": "Date"
+        }
+    },
     "shared": {
         "rejectionReason": "Rejection Reason",
         "selectReason": "Select Reason",
@@ -188,5 +234,14 @@
         "enterDescription": "Enter Description",
         "SELECTED": "selected",
         "SEARCH_PLACEHOLDER": "Search By Name, Email, Phone"
+    },
+    "PAGINATION": {
+        "SHOW_ENTRIES": "Show Entries",
+        "SHOWING": "show from",
+        "TO": "to",
+        "OF": "of",
+        "PREV": "Previous",
+        "NEXT": "Next"
     }
 }
+

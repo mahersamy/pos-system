@@ -1,0 +1,14 @@
+<div class="d-flex justify-content-center align-items-center gap-2 my-2">
+    <button
+        class="btn-primary"
+        (click)="openCreateForm()"
+    >
+        {{ 'CATEGORY.ACTIONS.CREATE' | translate }}
+    </button>
+    <app-search-bar
+        [placeholder]="'shared.SEARCH_PLACEHOLDER' | translate"
+        class="w-100"
+        (searchChange)="onSearch($event)"
+    />
+</div>
+<app-data-table />

@@ -21,4 +21,13 @@ export const BACKEND_ROUTE = {
     auditLogs: {
         base: "/api/v1/audit-logs",
     },
+    category: {
+        base: "/api/v1/categories",
+    },
+    inventory: {
+        base: "/api/v1/inventory",
+    },
+    menu: {
+        base: "/api/v1/menus",
+    },
 };

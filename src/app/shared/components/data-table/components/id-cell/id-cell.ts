@@ -1,4 +1,4 @@
-import {Component, input} from "@angular/core";
+import {Component, input, computed} from "@angular/core";
 import {TooltipModule} from "primeng/tooltip";
 
 @Component({
@@ -9,4 +9,5 @@ import {TooltipModule} from "primeng/tooltip";
 })
 export class IdCell {
     field = input<string>("");
+    shortId = computed(() => this.field()?.substring(0, 4) || "");
 }

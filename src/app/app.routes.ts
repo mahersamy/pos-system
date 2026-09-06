@@ -7,6 +7,9 @@ import { staffRoutes } from "./features/staff/routes/staff.routes";
 import { notificationRoutes } from './features/notification/notification.route';
 import { usersRoutes } from './features/users/users.route';
 import { auditLogsRoutes } from "./features/audit-logs/routes/audit-logs.routes";
+import { menuRoutes } from "./features/menu/menu.route";
+import { categoryRoutes } from "./features/category/category.route";
+import { inventoryRoutes } from "./features/inventory/inventory.route";
 
 export const routes: Routes = [
     {
@@ -28,6 +31,9 @@ export const routes: Routes = [
             ...staffRoutes,
             ...notificationRoutes,
             ...usersRoutes,
+            ...menuRoutes,
+            ...categoryRoutes,
+            ...inventoryRoutes,
             ...auditLogsRoutes,
             {
                 path: "profile",

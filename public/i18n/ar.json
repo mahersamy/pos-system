@@ -30,6 +30,7 @@
         "TITLE": "نظام البيع",
         "DASHBOARD": "لوحة التحكم",
         "MENU": "القائمة",
+        "CATEGORY": "التصنيفات",
         "STAFF": "الموظفين",
         "INVENTORY": "المخزون",
         "REPORTS": "التقارير",
@@ -181,6 +182,51 @@
             "CASHIER": "كاشير"
         }
     },
+    "MENU": {
+        "TITLE": "القائمة",
+        "ACTIONS": {
+            "CREATE": "إضافة قائمة",
+            "EDIT": "تعديل قائمة"
+        },
+        "FIELDS": {
+            "ID": "المعرف",
+            "NAME": "الاسم",
+            "DESCRIPTION": "الوصف",
+            "STATUS": "الحالة",
+            "DATE": "التاريخ"
+        }
+    },
+    "CATEGORY": {
+        "TITLE": "التصنيفات",
+        "ACTIONS": {
+            "CREATE": "إضافة تصنيف",
+            "EDIT": "تعديل تصنيف"
+        },
+        "FIELDS": {
+            "ID": "المعرف",
+            "NAME": "الاسم",
+            "DESCRIPTION": "الوصف",
+            "STATUS": "الحالة",
+            "DATE": "التاريخ"
+        }
+    },
+    "INVENTORY": {
+        "TITLE": "المخزون",
+        "ACTIONS": {
+            "CREATE": "إضافة للمخزون",
+            "EDIT": "تعديل المخزون"
+        },
+        "FIELDS": {
+            "ID": "المعرف",
+            "NAME": "الاسم",
+            "QUANTITY": "الكمية",
+            "PRICE": "السعر",
+            "STOCK": "حالة المخزون",
+            "STATUS": "الحالة",
+            "PERISHABLE": "قابل للتلف",
+            "DATE": "التاريخ"
+        }
+    },
     "shared": {
         "rejectionReason": "سبب الرفض",
         "selectReason": "اختر السبب",
@@ -188,5 +234,13 @@
         "enterDescription": "أدخل الوصف",
         "SELECTED": "محدد",
         "SEARCH_PLACEHOLDER": "البحث بالاسم، البريد الإلكتروني، الهاتف"
+    },
+    "PAGINATION": {
+        "SHOW_ENTRIES": "عرض المدخلات",
+        "SHOWING": "عرض من",
+        "TO": "إلى",
+        "OF": "من",
+        "PREV": "السابق",
+        "NEXT": "التالي"
     }
 }

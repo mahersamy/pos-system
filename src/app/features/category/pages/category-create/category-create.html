@@ -1,0 +1,20 @@
+<div class="flex flex-column gap-3 mt-5 position-relative">
+    <section class="mb-8">
+        @if (menuOptionsLoading()) {
+            <div class="d-flex justify-content-center align-items-center py-3">
+                <p-progressSpinner
+                    styleClass="w-2rem h-2rem"
+                    strokeWidth="4"
+                    animationDuration=".8s"
+                />
+            </div>
+        }
+        <app-dynamic-form [configArr]="formConfig()" (form)="onFormReady($event)">
+        </app-dynamic-form>
+    </section>
+
+    <div class="mt-4 d-flex justify-content-end align-items-center gap-2 footer">
+        <button class="btn btn-secondary" (click)="onCancel()" [disabled]="isLoading()">Cancel</button>
+        <button class="btn btn-primary" (click)="onSubmit()" [loading]="isLoading()">{{ isEditMode() ? 'Update' : 'Submit' }}</button>
+    </div>
+</div>

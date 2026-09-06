@@ -4,6 +4,7 @@ import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { FilterOutput } from "../../shared/components/filter-panel/interface/filter-panel.models";
 import { DataTableConfig } from "../../shared/components/data-table/services/data-table-config";
 import { BaseFacade } from "./base-facade.base";
+import { TranslateService } from "@ngx-translate/core";
 
 /**
  * @abstract BaseListComponent<TModel, TFacade>
@@ -42,6 +43,7 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TMode
     protected readonly _dataTableConfig = inject(DataTableConfig<TModel>);
     protected readonly _destroyRef = inject(DestroyRef);
     protected readonly _dialogService = inject(DialogService);
+    protected readonly _translateService = inject(TranslateService);
 
     dialogRef: DynamicDialogRef | undefined | null;
 
@@ -101,7 +103,7 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TMode
     openCreateForm(data?: TModel): void {
         if (!this._createComponent) return;
         this.dialogRef = this._dialogService.open(this._createComponent, {
-            header: this._createHeader(!!data),
+            header: this._translateService.instant(this._createHeader(!!data)),
             data: data ?? null,
             width: "450px",
             position: "right",

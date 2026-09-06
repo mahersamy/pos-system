@@ -3,7 +3,7 @@
   <!-- Left: Show entries + count -->
   <div class="pagination-left">
     <div class="show-entries">
-      <span>Show Entries</span>
+      <span>{{ 'PAGINATION.SHOW_ENTRIES' | translate }}</span>
       <select [ngModel]="limit()" (ngModelChange)="onLimitChange($event)">
         @for (opt of limitOptions; track opt) {
           <option [value]="opt">{{ opt }}</option>
@@ -11,7 +11,7 @@
       </select>
     </div>
     <span class="entry-info">
-      show from {{ fromEntry() }} to {{ toEntry() }} of {{ total() }}
+      {{ 'PAGINATION.SHOWING' | translate }} {{ fromEntry() }} {{ 'PAGINATION.TO' | translate }} {{ toEntry() }} {{ 'PAGINATION.OF' | translate }} {{ total() }}
     </span>
   </div>
 
@@ -24,8 +24,8 @@
       [disabled]="currentPage() === 1"
       (click)="prev()"
     >
-      <i class="fa-solid fa-arrow-left"></i>
-      Previous
+      <i class="fa-solid fa-arrow-left arrow-icon"></i>
+      {{ 'PAGINATION.PREV' | translate }}
     </button>
 
     <!-- Page numbers -->
@@ -49,8 +49,8 @@
       [disabled]="currentPage() === totalPages()"
       (click)="next()"
     >
-      Next
-      <i class="fa-solid fa-arrow-right"></i>
+      {{ 'PAGINATION.NEXT' | translate }}
+      <i class="fa-solid fa-arrow-right arrow-icon"></i>
     </button>
 
   </div>

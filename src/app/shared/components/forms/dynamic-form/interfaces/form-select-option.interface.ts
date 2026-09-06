@@ -3,6 +3,6 @@ import { BaseFormConfig } from "./base-form-config.interface";
 
 export interface FormSelectOption extends BaseFormConfig {
     type: FormInputType.select;
-    selectOptions: { label: string; value: string | number }[];
+    selectOptions: { label: string; value: string | number | boolean }[];
     searchable?: boolean;
 }

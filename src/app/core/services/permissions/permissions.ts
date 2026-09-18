@@ -46,7 +46,7 @@ export class PermissionsService {
      * Checks if the user has administrative privileges (example logic).
      * This might need adjustment based on your specific role implementation.
      */
-    hasRole(role: string, userRole: string | null): boolean {
+    hasRole(role: string, userRole: string | undefined): boolean {
         return userRole === role;
     }
 }

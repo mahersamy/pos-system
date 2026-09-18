@@ -43,6 +43,9 @@ export const InventoryFormConfig: FormFieldConfig[] = [
         controlName: 'price',
         label: 'Price',
         placeholder: 'Enter price',
+        minFractionDigits: 2,
+        maxFractionDigits: 2,
+        step: 0.01,
         validators: [Validators.required, Validators.min(0)],
         errorMessages: { required: 'Price is required', min: 'Price cannot be negative' }
     },

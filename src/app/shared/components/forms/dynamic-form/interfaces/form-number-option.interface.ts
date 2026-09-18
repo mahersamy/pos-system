@@ -6,4 +6,6 @@ export interface FormNumberOption extends BaseFormConfig {
     min?: number;
     max?: number;
     step?: number;
+    minFractionDigits?: number;
+    maxFractionDigits?: number;
 }

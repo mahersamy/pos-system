@@ -62,9 +62,11 @@
             [id]="item.controlName"
             [formControlName]="item.controlName"
             [placeholder]="item.placeholder ?? ''"
-            [min]="$any(item).min"
-            [max]="$any(item).max"
-            [step]="$any(item).step ?? 1"
+            [min]="item.min"
+            [max]="item.max"
+            [step]="item.step"
+            [minFractionDigits]="item.minFractionDigits"
+            [maxFractionDigits]="item.maxFractionDigits"
             styleClass="w-full"
         />
         } @case ('textarea') {

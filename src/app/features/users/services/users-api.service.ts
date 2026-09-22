@@ -10,7 +10,9 @@ import { BaseApiService } from '../../../core/base/base-api.base';
   providedIn: 'root',
 })
 export class UsersApiService extends BaseApiService<User> {
-  protected readonly basePath = BACKEND_ROUTE.users.base;
+  constructor() {
+    super(BACKEND_ROUTE.users.base);
+  }
 
   changeRole(id: string, dto: { role: string }): Observable<GlobalResponse<User>> {
     return this._http.patch<GlobalResponse<User>>(

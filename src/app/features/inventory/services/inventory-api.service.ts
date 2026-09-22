@@ -7,5 +7,7 @@ import { Inventory } from '../model/inventory.model';
   providedIn: 'root',
 })
 export class InventoryApiService extends BaseApiService<Inventory> {
-  protected readonly basePath = BACKEND_ROUTE.inventory.base;
+  constructor() {
+    super(BACKEND_ROUTE.inventory.base);
+  }
 }

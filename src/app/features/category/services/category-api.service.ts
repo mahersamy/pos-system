@@ -12,7 +12,9 @@ import { BaseApiService } from '../../../core/base/base-api.base';
   providedIn: 'root',
 })
 export class CategoryApiService extends BaseApiService<Category> {
-  protected readonly basePath = BACKEND_ROUTE.category.base;
+  constructor() {
+    super(BACKEND_ROUTE.category.base);
+  }
 
   // Add category-specific API calls here (e.g., uploadImage if needed)
   

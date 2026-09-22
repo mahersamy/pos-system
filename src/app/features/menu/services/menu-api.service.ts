@@ -12,7 +12,9 @@ import { BaseApiService } from '../../../core/base/base-api.base';
   providedIn: 'root',
 })
 export class MenuApiService extends BaseApiService<Menu> {
-  protected readonly basePath = BACKEND_ROUTE.menu.base;
+  constructor() {
+    super(BACKEND_ROUTE.menu.base);
+  }
 
   /** Fetch all menus (large limit) for dropdown/select use. */
   getAllForDropdown(): Observable<Menu[]> {

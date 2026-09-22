@@ -30,4 +30,7 @@ export const BACKEND_ROUTE = {
     menu: {
         base: "/api/v1/menus",
     },
+    order: {
+        base: "/api/v1/orders",
+    },
 };

@@ -11,7 +11,7 @@ import { auditLogsRoutes } from "./features/audit-logs/routes/audit-logs.routes"
 import { menuRoutes } from "./features/menu/menu.route";
 import { categoryRoutes } from "./features/category/category.route";
 import { inventoryRoutes } from "./features/inventory/inventory.route";
-
+import { ordersRoutes } from "./features/orders/orders.route";
 export const routes: Routes = [
     {
         path: "login",
@@ -36,6 +36,7 @@ export const routes: Routes = [
             ...categoryRoutes,
             ...inventoryRoutes,
             ...auditLogsRoutes,
+            ...ordersRoutes,
             {
                 path: "profile",
                 data: { title: "User Profile" },

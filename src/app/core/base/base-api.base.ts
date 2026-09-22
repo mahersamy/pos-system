@@ -10,13 +10,16 @@ import { Adaptor } from './adaptor.base';
 
 export abstract class BaseApiService<TRaw, TAdapted = TRaw> {
     protected readonly _http = inject(HttpClient);
-    protected abstract readonly basePath: string;
 
     /** Override in subclass to plug in an Adapter. Leave null for no transform. */
     protected readonly adapter: Adaptor | null = null;
 
+    constructor(
+        private readonly apiPath: string
+    ) {}
+
     private get _url() {
-        return `${environment.apiUrl}${this.basePath}`;
+        return `${environment.apiUrl}${this.apiPath}`;
     }
 
     private _adapt(item: TRaw): TAdapted {

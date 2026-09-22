@@ -16,10 +16,11 @@ import { DialogService } from "primeng/dynamicdialog";
 import { UserCreate } from "../user-create/user-create";
 import { UsersFacade } from "../../services/users.facade";
 import { BaseListComponent } from "../../../../core/base/base-list.base";
+import { HasPermissionDirective } from "../../../../shared/directives/has-permission/has-permission.directive";
 
 @Component({
   selector: "app-users-list",
-  imports: [DataTable, SearchBar, TranslateModule, FilterPanel],
+  imports: [DataTable, SearchBar, TranslateModule, FilterPanel, HasPermissionDirective],
   templateUrl: "./users-list.component.html",
   styleUrl: "./users-list.component.scss",
   providers: [DataTableConfig, DialogService],
@@ -50,10 +51,12 @@ export class UsersListComponent extends BaseListComponent<User, UsersFacade> {
     });
 
     this._dataTableConfig.tableConfig.columns.set(columns);
-    this._dataTableConfig.tableConfig.actions.set([
-      { ...editMeta, func: (d) => this.openCreateForm(d) },
-      { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
-    ]);
+    this._dataTableConfig.tableConfig.actions.set(
+      this.filterActionsByPermission([
+        { ...editMeta, func: (d) => this.openCreateForm(d) },
+        { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
+      ])
+    );
     this._dataTableConfig.tableConfig.isSelectable.set(false);
   }
 }

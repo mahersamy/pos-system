@@ -30,6 +30,7 @@ export function extractSidebarItems(routes: Routes): NavItem[] {
                     iconHeight: route.data["iconHeight"]  ?? 16,
                     alt:        route.data["label"]?.toLowerCase() ?? segment,
                     route:      fullPath,
+                    module:     route.data["module"],
                 });
             }
 

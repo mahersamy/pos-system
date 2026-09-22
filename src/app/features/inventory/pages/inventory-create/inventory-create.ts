@@ -51,7 +51,7 @@ export class InventoryCreate {
         effect(() => {
             if (this._facade.closeDialog()) {
                 this._facade.resetCloseDialog();
-                this._dialogRef.close();
+                this._dialogRef.close(true);
             }
         });
     }

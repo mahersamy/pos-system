@@ -1,52 +1,57 @@
 import { Injectable, signal } from "@angular/core";
 import { UserPermissions } from "../../../features/users/model/user.model";
+import { PermissionModule, PermissionAction } from "../../constants/permission-module.enum";
+
+/** Matches the role string from the backend */
+type UserRole = 'ADMIN' | 'MANAGER' | 'CASHIER' | string;
 
 @Injectable({
     providedIn: "root",
 })
 export class PermissionsService {
-    private readonly userPermissions = signal<UserPermissions>({});
+    private readonly _permissions = signal<UserPermissions>({});
+    private readonly _isAdmin = signal<boolean>(false);
 
-    /** Signal for accessing current permissions */
-    permissions = this.userPermissions.asReadonly();
+    /** Read-only signal — use in templates or computed() */
+    readonly permissions = this._permissions.asReadonly();
+    readonly isAdmin = this._isAdmin.asReadonly();
 
     /**
-     * Sets the user's permissions.
-     * @param permissions The object containing read/write permissions for each module.
+     * Called on login. Stores the user's role so we know whether to bypass checks.
+     * ADMIN role short-circuits all can() calls to true.
+     */
+    setRole(role: UserRole): void {
+        this._isAdmin.set(role === 'ADMIN');
+    }
+
+    /**
+     * Stores the permissions object returned by the backend.
+     * Pass `undefined` to clear (on logout).
      */
     setPermissions(permissions: UserPermissions | undefined): void {
-        if (permissions) {
-            this.userPermissions.set(permissions);
-        } else {
-            this.userPermissions.set({});
-        }
+        this._permissions.set(permissions ?? {});
+    }
+
+    /** Clears all permissions and role state. Call on logout. */
+    clear(): void {
+        this._permissions.set({});
+        this._isAdmin.set(false);
     }
 
     /**
-     * Checks if the user has read access to a specific module.
-     * @param module The name of the module (e.g., 'orders', 'users').
-     * @returns boolean
+     * Unified permission check.
+     * - Admins always return true.
+     * - Non-admins are checked against the permissions signal.
      */
-    canRead(module: string): boolean {
-        const perm = this.userPermissions()[module];
-        return perm?.read || false;
+    can(module: PermissionModule | string, action: PermissionAction): boolean {
+        if (this._isAdmin()) return true;
+        const perm = this._permissions()[module as string];
+        if (!perm) return false;
+        return perm[action] === true;
     }
 
-    /**
-     * Checks if the user has write access to a specific module.
-     * @param module The name of the module.
-     * @returns boolean
-     */
-    canWrite(module: string): boolean {
-        const perm = this.userPermissions()[module];
-        return perm?.write || false;
-    }
-
-    /**
-     * Checks if the user has administrative privileges (example logic).
-     * This might need adjustment based on your specific role implementation.
-     */
-    hasRole(role: string, userRole: string | undefined): boolean {
-        return userRole === role;
-    }
+    // ── Legacy helpers (keep for backwards compatibility) ──────────────────
+    canRead(module: string): boolean  { return this.can(module as PermissionModule, 'read'); }
+    canWrite(module: string): boolean { return this.can(module as PermissionModule, 'write'); }
+    hasRole(role: string, userRole: string | undefined): boolean { return userRole === role; }
 }

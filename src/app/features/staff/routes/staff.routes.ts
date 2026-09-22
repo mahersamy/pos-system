@@ -1,8 +1,11 @@
 import { AppRoute } from "../../../core/models/app-route.interface";
+import { permissionGuard } from "../../../core/guards/role-guard/role-guard";
+import { PermissionModule } from "../../../core/constants/permission-module.enum";
 
 export const staffRoutes: AppRoute[] = [
     {
         path: "staff",
+        canActivate: [permissionGuard],
         data: {
             label: "Staff",
             icon: "/images/sidebar/staff.avif",
@@ -10,6 +13,7 @@ export const staffRoutes: AppRoute[] = [
             iconHeight: 12,
             sidebar: true,
             title: "Staff",
+            module: PermissionModule.STAFF,
         },
         loadComponent: () =>
             import("../pages/staff-list/staff-list").then((m) => m.StaffList),

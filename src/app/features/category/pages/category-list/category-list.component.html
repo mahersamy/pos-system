@@ -1,9 +1,10 @@
 <div class="d-flex justify-content-center align-items-center gap-2 my-2">
     <button
+        *hasPermission="{ module: PermissionModule.CATEGORY, action: 'write' }"
         class="btn-primary"
         (click)="openCreateForm()"
     >
-        {{ 'CATEGORY.ACTIONS.CREATE' | translate }}
+        {{ "CATEGORY.ACTIONS.CREATE" | translate }}
     </button>
     <app-search-bar
         [placeholder]="'shared.SEARCH_PLACEHOLDER' | translate"

@@ -36,6 +36,7 @@ export class AuthService {
     logout(): void {
         this._storage.clear();
         this.currentUser.set(null);
+        this._permissionsService.clear();
         this._router.navigate(["login"]);
     }
 
@@ -94,6 +95,7 @@ export class AuthService {
         return this._http.get<GlobalResponse<User>>(url).pipe(
             tap((response) => {
                 this.currentUser.set(response.data);
+                this._permissionsService.setRole(response.data.role ?? '');
                 this._permissionsService.setPermissions(response.data.permissions || {});
             })
         );

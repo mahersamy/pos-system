@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { UsersApiService } from "./users-api.service";
 import { User, UserPermissions } from "../model/user.model";
 import { BaseFacade } from "../../../core/base/base-facade.base";
-import { Observable } from "rxjs";
+import { Observable, switchMap, of } from "rxjs";
 import { GetAllModel } from "../../../core/models/get-all.model";
 import { GlobalPaginatedResponse, GlobalResponse } from "../../../core/models/response-global.model";
 import { UsersState } from "../state/users.state";
@@ -48,7 +48,15 @@ export class UsersFacade extends BaseFacade<User> {
         this._state.setError(false);
 
         this._api.create(payload)
-            .pipe(takeUntilDestroyed(this._destroyRef))
+            .pipe(
+                switchMap((res) => {
+                    if (imageFile && res.data?._id) {
+                        return this._api.uploadImage(res.data._id, imageFile);
+                    }
+                    return of(void 0);
+                }),
+                takeUntilDestroyed(this._destroyRef)
+            )
             .subscribe({
                 next: () => {
                     this._state.setLoading(false);

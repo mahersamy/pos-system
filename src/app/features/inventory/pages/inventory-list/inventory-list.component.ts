@@ -9,10 +9,11 @@ import { DialogService } from "primeng/dynamicdialog";
 import { InventoryFacade } from "../../services/inventory.facade";
 import { BaseListComponent } from "../../../../core/base/base-list.base";
 import { InventoryCreate } from "../inventory-create/inventory-create";
+import { HasPermissionDirective } from "../../../../shared/directives/has-permission/has-permission.directive";
 
 @Component({
     selector: "app-inventory-list",
-    imports: [DataTable, SearchBar, TranslateModule],
+    imports: [DataTable, SearchBar, TranslateModule, HasPermissionDirective],
     templateUrl: "./inventory-list.component.html",
     styleUrl: "./inventory-list.component.scss",
     providers: [DataTableConfig, DialogService],
@@ -29,10 +30,12 @@ export class InventoryListComponent extends BaseListComponent<Inventory, Invento
         const [editMeta, deleteMeta] = INVENTORY_TABLE_ACTION_META;
 
         this._dataTableConfig.tableConfig.columns.set(INVENTORY_TABLE_COLUMNS);
-        this._dataTableConfig.tableConfig.actions.set([
-            { ...editMeta, func: (d) => this.openCreateForm(d) },
-            { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
-        ]);
+        this._dataTableConfig.tableConfig.actions.set(
+            this.filterActionsByPermission([
+                { ...editMeta, func: (d) => this.openCreateForm(d) },
+                { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
+            ])
+        );
         this._dataTableConfig.tableConfig.isSelectable.set(false);
     }
 }

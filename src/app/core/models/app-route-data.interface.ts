@@ -1,3 +1,5 @@
+import { PermissionModule, PermissionAction } from "../constants/permission-module.enum";
+
 export interface AppRouteData {
     /** Display label shown in the sidebar and page title */
     label?: string;
@@ -16,4 +18,10 @@ export interface AppRouteData {
 
     /** Browser tab / page header title */
     title?: string;
+
+    /** Permission module this route belongs to — used by permissionGuard */
+    module?: PermissionModule;
+
+    /** Minimum permission action required to access this route (default: 'read') */
+    action?: PermissionAction;
 }

@@ -3,6 +3,7 @@ import { Login } from "./features/auth/login/login";
 import { ForgotPassword } from "./features/auth/forgot-password/forgot-password";
 import { authGuard, publicGuard } from "./core/guards/auth-guard/auth-guard";
 import { NotFound } from "./layout/not-found/not-found";
+import { Unauthorized } from "./layout/unauthorized/unauthorized";
 import { staffRoutes } from "./features/staff/routes/staff.routes";
 import { notificationRoutes } from './features/notification/notification.route';
 import { usersRoutes } from './features/users/users.route';
@@ -44,6 +45,10 @@ export const routes: Routes = [
                     ),
             }
         ],
+    },
+    {
+        path: "unauthorized",
+        component: Unauthorized,
     },
     {
         path: "",

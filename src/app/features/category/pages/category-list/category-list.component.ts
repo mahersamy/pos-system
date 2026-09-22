@@ -10,10 +10,11 @@ import { DialogService } from "primeng/dynamicdialog";
 import { CategoryFacade } from "../../services/category.facade";
 import { BaseListComponent } from "../../../../core/base/base-list.base";
 import { CategoryCreate } from "../category-create/category-create";
+import { HasPermissionDirective } from "../../../../shared/directives/has-permission/has-permission.directive";
 
 @Component({
     selector: "app-category-list",
-    imports: [DataTable, SearchBar, TranslateModule],
+    imports: [DataTable, SearchBar, TranslateModule, HasPermissionDirective],
     templateUrl: "./category-list.component.html",
     styleUrl: "./category-list.component.scss",
     providers: [DataTableConfig, DialogService],
@@ -30,10 +31,12 @@ export class CategoryListComponent extends BaseListComponent<Category, CategoryF
         const [editMeta, deleteMeta] = CATEGORY_TABLE_ACTION_META;
 
         this._dataTableConfig.tableConfig.columns.set(CATEGORY_TABLE_COLUMNS);
-        this._dataTableConfig.tableConfig.actions.set([
-            { ...editMeta, func: (d) => this.openCreateForm(d) },
-            { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
-        ]);
+        this._dataTableConfig.tableConfig.actions.set(
+            this.filterActionsByPermission([
+                { ...editMeta, func: (d) => this.openCreateForm(d) },
+                { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
+            ])
+        );
         this._dataTableConfig.tableConfig.isSelectable.set(false);
     }
 }

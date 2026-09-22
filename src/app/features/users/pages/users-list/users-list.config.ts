@@ -50,9 +50,11 @@ export const USERS_TABLE_COLUMNS: ColumnConfig[] = [
     },
 ];
 
+import { PermissionModule } from "../../../../core/constants/permission-module.enum";
+
 export const USERS_TABLE_ACTION_META: Omit<ActionConfig, "func">[] = [
-    { icon: "fa-solid fa-pen-to-square", classes: "edit-button" },
-    { icon: "fa-solid fa-trash", classes: "delete-button" },
+    { icon: "fa-solid fa-pen-to-square", classes: "edit-button", permission: { module: PermissionModule.USERS, action: 'write' } },
+    { icon: "fa-solid fa-trash", classes: "delete-button", permission: { module: PermissionModule.USERS, action: 'delete' } },
 ];
 
 export const USERS_FILTER_CONFIG: SelectFilterConfig[] = [

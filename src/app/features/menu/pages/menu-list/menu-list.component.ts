@@ -10,10 +10,11 @@ import { DialogService } from "primeng/dynamicdialog";
 import { MenuFacade } from "../../services/menu.facade";
 import { BaseListComponent } from "../../../../core/base/base-list.base";
 import { MenuCreate } from "../menu-create/menu-create";
+import { HasPermissionDirective } from "../../../../shared/directives/has-permission/has-permission.directive";
 
 @Component({
     selector: "app-menu-list",
-    imports: [DataTable, SearchBar, TranslateModule],
+    imports: [DataTable, SearchBar, TranslateModule, HasPermissionDirective],
     templateUrl: "./menu-list.component.html",
     styleUrl: "./menu-list.component.scss",
     providers: [DataTableConfig, DialogService],
@@ -30,10 +31,12 @@ export class MenuListComponent extends BaseListComponent<Menu, MenuFacade> {
         const [editMeta, deleteMeta] = MENU_TABLE_ACTION_META;
 
         this._dataTableConfig.tableConfig.columns.set(MENU_TABLE_COLUMNS);
-        this._dataTableConfig.tableConfig.actions.set([
-            { ...editMeta, func: (d) => this.openCreateForm(d) },
-            { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
-        ]);
+        this._dataTableConfig.tableConfig.actions.set(
+            this.filterActionsByPermission([
+                { ...editMeta, func: (d) => this.openCreateForm(d) },
+                { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id) },
+            ])
+        );
         this._dataTableConfig.tableConfig.isSelectable.set(false);
     }
 }

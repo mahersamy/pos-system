@@ -52,7 +52,8 @@ export class CategoryCreate {
         // Close dialog when facade signals it
         effect(() => {
             if (this._facade.closeDialog()) {
-                this.onCancel()
+                this._facade.resetCloseDialog();
+                this._dialogRef.close(true);
             }
         });
     }

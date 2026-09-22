@@ -8,7 +8,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { User, UserPermissions } from '../../model/user.model';
 import { PermissionEditor } from '../../components/permission-editor/permission-editor';
 import { CommonModule } from '@angular/common';
-import { UsersFacade } from '../../services/users.facade';
+import { UsersFacade } from '../../services/users.facade.service';
 
 
 @Component({

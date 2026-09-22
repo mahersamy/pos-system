@@ -14,7 +14,7 @@ import {
 } from "./users-list.config";
 import { DialogService } from "primeng/dynamicdialog";
 import { UserCreate } from "../user-create/user-create";
-import { UsersFacade } from "../../services/users.facade";
+import { UsersFacade } from "../../services/users.facade.service";
 import { BaseListComponent } from "../../../../core/base/base-list.base";
 import { HasPermissionDirective } from "../../../../shared/directives/has-permission/has-permission.directive";
 

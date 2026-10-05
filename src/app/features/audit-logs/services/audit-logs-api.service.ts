@@ -9,6 +9,9 @@ import { AuditLogsAdaptor } from "./audit-logs-adaptor";
     providedIn: "root",
 })
 export class AuditLogsApiService extends BaseApiService<AuditLogModel, AuditLogAdaptModel> {
-    protected readonly basePath = BACKEND_ROUTE.auditLogs.base;
     protected override readonly adapter = inject(AuditLogsAdaptor);
+
+    constructor() {
+        super(BACKEND_ROUTE.auditLogs.base);
+    }
 }

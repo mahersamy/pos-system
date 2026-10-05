@@ -106,6 +106,7 @@ export class ConfirmationService {
                     options.btn2Action?.();
                 },
                 showRejectionDropdown: options.showRejectionDropdown,
+                showDescriptionInput: options.showDescriptionInput,
                 rejectionReasons: options.rejectionReasons,
                 onRejectionChange: options.onRejectionChange,
                 onDescriptionChange: options.onDescriptionChange,

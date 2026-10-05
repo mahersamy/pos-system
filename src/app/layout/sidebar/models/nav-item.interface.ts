@@ -23,4 +23,7 @@ export interface NavItem {
 
     /** Absolute router path this item navigates to (e.g. /main/staff) */
     route: string;
+
+    /** The permission module required to show this item (matches route data.module) */
+    module?: import("../../../core/constants/permission-module.enum").PermissionModule;
 }

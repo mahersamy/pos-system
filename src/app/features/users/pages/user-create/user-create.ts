@@ -8,7 +8,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { User, UserPermissions } from '../../model/user.model';
 import { PermissionEditor } from '../../components/permission-editor/permission-editor';
 import { CommonModule } from '@angular/common';
-import { UsersFacade } from '../../services/users.facade';
+import { UsersFacade } from '../../services/users.facade.service';
 
 
 @Component({
@@ -54,7 +54,8 @@ export class UserCreate {
 
         effect(() => {
             if (this._facade.closeDialog()) {
-                this.onCancel();
+                this._facade.resetCloseDialog();
+                this._dialogRef.close(true);
             }
         });
     }

@@ -16,6 +16,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { StaffCreate } from "../staff-create/staff-create";
 import { StaffFacade } from "../../services/staff.facade";
 import { BaseListComponent } from "../../../../core/base/base-list.base";
+import { HasPermissionDirective } from "../../../../shared/directives/has-permission/has-permission.directive";
 
 @Component({
     selector: "app-staff-list",
@@ -24,6 +25,7 @@ import { BaseListComponent } from "../../../../core/base/base-list.base";
         FilterPanel,
         SearchBar,
         TranslateModule,
+        HasPermissionDirective,
     ],
     templateUrl: "./staff-list.html",
     styleUrl: "./staff-list.scss",
@@ -49,20 +51,24 @@ export class StaffList extends BaseListComponent<StaffAdaptModel, StaffFacade> {
         const [deleteBulkMeta] = STAFF_TABLE_BULK_ACTIONS;
 
         this._dataTableConfig.tableConfig.columns.set(STAFF_TABLE_COLUMNS);
-        this._dataTableConfig.tableConfig.actions.set([
-            { ...viewMeta, func: (d) => this._onView(d) },
-            { ...editMeta, func: (d) => this.openCreateForm(d) },
-            { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id as string) },
-        ]);
-        this._dataTableConfig.tableConfig.bulkActions.set([
-            {
-                ...deleteBulkMeta,
-                func: (items) => {
-                    const ids = items.filter((i) => i._id).map((i) => i._id as string);
-                    this._facade.deleteMany(ids);
+        this._dataTableConfig.tableConfig.actions.set(
+            this.filterActionsByPermission([
+                { ...viewMeta, func: (d) => this._onView(d) },
+                { ...editMeta, func: (d) => this.openCreateForm(d) },
+                { ...deleteMeta, func: (d) => this._facade.deleteOne(d._id as string) },
+            ])
+        );
+        this._dataTableConfig.tableConfig.bulkActions.set(
+            this.filterActionsByPermission([
+                {
+                    ...deleteBulkMeta,
+                    func: (items) => {
+                        const ids = items.filter((i) => i._id).map((i) => i._id as string);
+                        this._facade.deleteMany(ids);
+                    },
                 },
-            },
-        ]);
+            ])
+        );
         this._dataTableConfig.tableConfig.isSelectable.set(true);
     }
 

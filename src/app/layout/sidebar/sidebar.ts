@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, ViewEncapsulation, DestroyRef } from "@angular/core";
+import { Component, inject, OnInit, signal, computed, ViewEncapsulation, DestroyRef } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { filter } from "rxjs/operators";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
@@ -10,6 +10,7 @@ import { ButtonModule } from "primeng/button";
 import { NavItem } from "./models/nav-item.interface";
 import { LayoutService } from "../../core/services/layout/layout";
 import { AuthService } from "../../core/services/auth/auth";
+import { PermissionsService } from "../../core/services/permissions/permissions";
 import { routes } from "../../app.routes";
 import { extractSidebarItems } from "../../core/utils/extract-sidebar-items.util";
 
@@ -24,6 +25,7 @@ export class Sidebar implements OnInit {
     private readonly _layoutService = inject(LayoutService);
     private readonly _router = inject(Router);
     private readonly _authService = inject(AuthService);
+    private readonly _permissionsService = inject(PermissionsService);
     private readonly _destroyRef = inject(DestroyRef);
 
     /** Controls the mobile drawer visibility */
@@ -37,9 +39,16 @@ export class Sidebar implements OnInit {
     /**
      * Sidebar navigation items derived automatically from the route tree.
      * Any route with `data.sidebar === true` appears here — no manual editing needed.
-     * To add a new feature, set `sidebar: true` in its route `data` object.
+     * Items are hidden if the user lacks `read` permission for that module.
+     * Admins always see all items.
      */
-    navItems: NavItem[] = extractSidebarItems(routes);
+    readonly navItems = computed(() => {
+        const allItems = extractSidebarItems(routes);
+        return allItems.filter(item => {
+            if (!item.module) return true;
+            return this._permissionsService.can(item.module, 'read');
+        });
+    });
 
     ngOnInit() {
         this.initTitle();
@@ -65,7 +74,7 @@ export class Sidebar implements OnInit {
 
         // Find the most specific match (longest route)
         // Sort routes by length descending so '/main/staff' matches before '/main'
-        const sortedItems = [...this.navItems].sort((a, b) => b.route.length - a.route.length);
+        const sortedItems = [...this.navItems()].sort((a, b) => b.route.length - a.route.length);
         const activeItem = sortedItems.find((item) => currentPath.includes(item.route));
 
         if (activeItem) {

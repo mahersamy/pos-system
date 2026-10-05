@@ -1,0 +1,234 @@
+// ── Variables ────────────────────────────────────────────────────────────────
+$pink:         var(--pink-100);
+$pink-hover:   var(--pink-200);
+$bg-deep:      var(--gray-900);
+$bg-card:      var(--gray-800);
+$bg-card-2:    var(--gray-700);
+$text-main:    var(--white);
+$text-muted:   var(--gray-400);
+$border:       rgba(255, 255, 255, 0.08);
+$radius:       var(--border-radius);
+$green:        var(--green-500);
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+.oc-toast {
+    position: fixed;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    background: linear-gradient(135deg, #37d101cc, #1a9000cc);
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    animation: toast-in 0.35s cubic-bezier(.34,1.56,.64,1) both;
+
+    &--error {
+        background: linear-gradient(135deg, #ff3a3acc, #c00000cc);
+    }
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(-12px) scale(0.94); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0)      scale(1); }
+}
+
+// ── Page layout ───────────────────────────────────────────────────────────────
+.oc-page {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 1.25rem;
+    height: 100%;
+    min-height: 0;
+    padding: 1.25rem;
+    box-sizing: border-box;
+    background: $bg-deep;
+    font-family: var(--font-family-base);
+}
+
+// ── LEFT PANEL ────────────────────────────────────────────────────────────────
+.oc-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-height: 0;
+    overflow: hidden;
+}
+
+// Header row
+.oc-left__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.oc-left__title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $text-main;
+    letter-spacing: -0.02em;
+}
+
+// Back button
+.oc-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: $bg-card;
+    border: 1px solid $border;
+    color: $text-muted;
+    padding: 0.45rem 0.9rem;
+    border-radius: 2rem;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover {
+        color: $text-main;
+        border-color: $pink;
+    }
+}
+
+// Search
+.oc-search-wrap {
+    position: relative;
+}
+
+.oc-search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $text-muted;
+    pointer-events: none;
+}
+
+.oc-search {
+    width: 100%;
+    box-sizing: border-box;
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: 0.75rem;
+    color: $text-main;
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &::placeholder { color: $text-muted; }
+    &:focus { border-color: $pink; }
+}
+
+// Category pills
+.oc-pills {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.oc-pill {
+    background: $bg-card;
+    border: 1px solid $border;
+    color: $text-muted;
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+
+    &:hover {
+        border-color: $pink;
+        color: $text-main;
+    }
+
+    &--active {
+        background: $pink;
+        border-color: $pink;
+        color: #333;
+        font-weight: 600;
+    }
+}
+
+// Loading
+.oc-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin: auto;
+    color: $text-muted;
+    font-size: 0.9rem;
+}
+
+.oc-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid $border;
+    border-top-color: $pink;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+// Item grid
+.oc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+    flex: 1;
+    min-height: 0;
+
+    // custom scrollbar
+    &::-webkit-scrollbar { width: 5px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: $bg-card-2; border-radius: 99px; }
+}
+
+// ── RIGHT PANEL ────────────────────────────────────────────────────────────────
+.oc-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    min-height: 0;
+}
+
+// Cart header
+.oc-cart__header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.1rem 1.25rem;
+    border-bottom: 1px solid $border;
+    color: $text-main;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.oc-cart__count {
+    margin-left: auto;
+    background: $pink;
+    color: #333;
+    font-size: 0.72rem;
+    font-weight: 700;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+}
+
+

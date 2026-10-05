@@ -1,0 +1,57 @@
+
+
+.oc-form {
+    padding: 1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.oc-form__title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-400);
+}
+
+// Type toggle
+.oc-type-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.oc-type-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.6rem;
+    border-radius: 0.65rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--gray-400);
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: var(--pink-100);
+        color: var(--white);
+    }
+
+    &--active {
+        background: rgba(250, 193, 217, 0.15);
+        border-color: var(--pink-100);
+        color: var(--pink-100);
+        font-weight: 600;
+    }
+}
+
+
+
+
+

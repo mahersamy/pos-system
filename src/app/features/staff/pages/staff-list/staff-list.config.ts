@@ -60,20 +60,18 @@ export const STAFF_TABLE_COLUMNS: ColumnConfig[] = [
     },
 ];
 
-// ─── Action display metadata ───────────────────────────────────────────────────
-// Only visual shape (icon, classes). The `func` handler is always set by the
-// component — this file has zero logic and zero service dependencies.
+import { PermissionModule } from "../../../../core/constants/permission-module.enum";
 
 export const STAFF_TABLE_ACTION_META: Omit<ActionConfig, "func">[] = [
-    { icon: "fa-solid fa-eye", classes: "preview-button" },
-    { icon: "fa-solid fa-pencil", classes: "edit-button" },
-    { icon: "fa-solid fa-trash", classes: "delete-button" },
+    { icon: "fa-solid fa-eye", classes: "preview-button", permission: { module: PermissionModule.STAFF, action: 'read' } },
+    { icon: "fa-solid fa-pencil", classes: "edit-button", permission: { module: PermissionModule.STAFF, action: 'write' } },
+    { icon: "fa-solid fa-trash", classes: "delete-button", permission: { module: PermissionModule.STAFF, action: 'delete' } },
 ];
 
 // ─── Bulk Actions ──────────────────────────────────────────────────────────
 
 export const STAFF_TABLE_BULK_ACTIONS: Omit<BulkActionConfig, "func">[] = [
-    { label: "STAFF.ACTIONS.DELETE_SELECTED", icon: "fa-solid fa-trash", classes: "btn-danger" },
+    { label: "STAFF.ACTIONS.DELETE_SELECTED", icon: "fa-solid fa-trash", classes: "btn-danger", permission: { module: PermissionModule.STAFF, action: 'delete' } },
 ];
 
 // ─── Filter Config ──────────────────────────────────────────────────────────

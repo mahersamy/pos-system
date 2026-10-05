@@ -13,10 +13,12 @@ import { StaffAdaptor } from "./staff-adaptor";
     providedIn: "root",
 })
 export class StaffService extends BaseApiService<Staff, StaffAdaptModel> {
-    protected readonly basePath = BACKEND_ROUTE.staff.base;
-
     // ← plug the adapter in here; BaseApiService._adapt() will call it automatically
     protected override readonly adapter = inject(StaffAdaptor);
+
+    constructor() {
+        super(BACKEND_ROUTE.staff.base);
+    }
 
     deleteManyStaff(
         ids: string[]

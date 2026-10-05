@@ -31,7 +31,7 @@ export class StaffCreate {
         effect(() => {
             if (this._staffFacade.closeDialog()) {
                 this._staffFacade.resetCloseDialog();
-                this._dialogRef.close();
+                this._dialogRef.close(true);
             }
         });
     }

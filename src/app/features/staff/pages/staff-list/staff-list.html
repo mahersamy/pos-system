@@ -1,5 +1,6 @@
 <div class="d-flex justify-content-center align-items-center gap-2 my-2">
     <button
+        *hasPermission="{ module: PermissionModule.STAFF, action: 'write' }"
         class="btn-primary"
         (click)="openCreateForm()"
     >

@@ -1,0 +1,37 @@
+<!-- Cart body (scrollable) -->
+<div class="oc-cart__body">
+  @if (cartItems().length === 0) {
+    <app-empty-state title="Cart is empty" message="Tap an item card to add it">
+      <i icon class="fa-solid fa-cart-shopping fa-2xl"></i>
+    </app-empty-state>
+  } @else {
+    <ul class="oc-cart__list">
+      @for (ci of cartItems(); track ci.inventory._id) {
+        <li class="oc-cart__item">
+          <div class="oc-cart__item-info">
+            <span class="oc-cart__item-name">{{ ci.inventory.name }}</span>
+            <span class="oc-cart__item-price">${{ (ci.inventory.price * ci.quantity) | number:'1.2-2' }}</span>
+          </div>
+          <div class="oc-cart__qty">
+            <button class="oc-qty-btn" (click)="onChangeQty(ci.inventory._id, -1)">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <span class="oc-qty-val">{{ ci.quantity }}</span>
+            <button class="oc-qty-btn" (click)="onChangeQty(ci.inventory._id, 1)">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button class="oc-qty-btn oc-qty-btn--remove" (click)="onRemove(ci.inventory._id)">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+
+    <!-- Total -->
+    <div class="oc-cart__total">
+      <span>Total</span>
+      <span class="oc-cart__total-val">${{ cartTotal() | number:'1.2-2' }}</span>
+    </div>
+  }
+</div>

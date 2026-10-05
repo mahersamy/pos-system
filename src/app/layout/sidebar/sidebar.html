@@ -6,7 +6,7 @@
 
         <nav class="sidebar__nav">
             <ul class="nav_list">
-                @for (item of navItems; track $index) {
+                @for (item of navItems(); track $index) {
                 <li
                     [routerLink]="item.route"
                     routerLinkActive="nav_item--active"

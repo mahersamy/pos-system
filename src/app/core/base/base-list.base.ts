@@ -4,6 +4,9 @@ import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
 import { FilterOutput } from "../../shared/components/filter-panel/interface/filter-panel.models";
 import { DataTableConfig } from "../../shared/components/data-table/services/data-table-config";
 import { BaseFacade } from "./base-facade.base";
+import { TranslateService } from "@ngx-translate/core";
+import { PermissionsService } from "../../core/services/permissions/permissions";
+import { PermissionModule, PermissionAction } from "../../core/constants/permission-module.enum";
 
 /**
  * @abstract BaseListComponent<TModel, TFacade>
@@ -42,6 +45,11 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TMode
     protected readonly _dataTableConfig = inject(DataTableConfig<TModel>);
     protected readonly _destroyRef = inject(DestroyRef);
     protected readonly _dialogService = inject(DialogService);
+    protected readonly _translateService = inject(TranslateService);
+    protected readonly _permissionsService = inject(PermissionsService);
+
+    /** Expose PermissionModule enum to all list templates without re-declaring it */
+    readonly PermissionModule = PermissionModule;
 
     dialogRef: DynamicDialogRef | undefined | null;
 
@@ -59,6 +67,18 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TMode
             this._dataTableConfig.tableConfig.limit.set(this._facade.limit());
             this._dataTableConfig.tableConfig.total.set(this._facade.total());
             this._dataTableConfig.tableConfig.totalPages.set(this._facade.totalPages());
+        });
+    }
+
+    /**
+     * Filters an array of action/bulk-action configs based on the user's permissions.
+     * Actions without a `permission` field are always shown.
+     * Admins bypass all checks automatically.
+     */
+    protected filterActionsByPermission<T extends { permission?: { module: PermissionModule; action: PermissionAction } }>(actions: T[]): T[] {
+        return actions.filter(action => {
+            if (!action.permission) return true;
+            return this._permissionsService.can(action.permission.module, action.permission.action);
         });
     }
 
@@ -101,7 +121,7 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TMode
     openCreateForm(data?: TModel): void {
         if (!this._createComponent) return;
         this.dialogRef = this._dialogService.open(this._createComponent, {
-            header: this._createHeader(!!data),
+            header: this._translateService.instant(this._createHeader(!!data)),
             data: data ?? null,
             width: "450px",
             position: "right",
@@ -117,7 +137,7 @@ export abstract class BaseListComponent<TModel, TFacade extends BaseFacade<TMode
 
         this.dialogRef?.onClose
             .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe(() => this.fetchData());
+            .subscribe((result) => { if (result === true) this.fetchData(); });
     }
 
     // ── Internal ─────────────────────────────────────────────────────────────

@@ -1,0 +1,50 @@
+<div class="oc-form">
+  <div class="oc-form__title">Order Details</div>
+
+  <!-- Order type selector -->
+  <div class="oc-type-toggle">
+    <button
+      class="oc-type-btn"
+      [class.oc-type-btn--active]="orderType() === OrderType.DINE_IN"
+      (click)="onOrderTypeChange(OrderType.DINE_IN)"
+    >
+      <i class="fa-solid fa-utensils"></i>
+      Dine In
+    </button>
+    <button
+      class="oc-type-btn"
+      [class.oc-type-btn--active]="orderType() === OrderType.DELIVERY"
+      (click)="onOrderTypeChange(OrderType.DELIVERY)"
+    >
+      <i class="fa-solid fa-truck"></i>
+      Delivery
+    </button>
+  </div>
+
+  <!-- Forms: two separate instances, switched via @if -->
+  <div>
+    @if (orderType() === OrderType.DINE_IN) {
+      <app-dynamic-form
+        [configArr]="dineInConfig"
+        (form)="onDineInFormCreated($event)"
+      ></app-dynamic-form>
+    } @else {
+      <app-dynamic-form
+        [configArr]="deliveryConfig"
+        (form)="onDeliveryFormCreated($event)"
+      ></app-dynamic-form>
+    }
+  </div>
+
+  <!-- Submit -->
+  <button
+    id="place-order-btn"
+    class="btn-primary"
+    [loading]="isCreating()"
+    [disabled]="cartIsEmpty()"
+    (click)="onPlaceOrder()"
+  >
+    <i class="fa-solid fa-check"></i>
+    Place Order
+  </button>
+</div>

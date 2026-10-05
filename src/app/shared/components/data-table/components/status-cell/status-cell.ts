@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 export type StatusVariant = "success" | "danger" | "warning" | "info" | "default";
 
 export interface StatusOption {
-    value: string;
+    value: any;
     label: string;
     variant: StatusVariant;
 }

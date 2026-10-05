@@ -12,8 +12,9 @@
             </div>
         </div>
 
-        @if (data.showRejectionDropdown) {
+        @if (data.showRejectionDropdown || data.showDescriptionInput) {
         <div class="confirmation__rejection">
+            @if (data.showRejectionDropdown) {
             <div class="confirmation__rejection-field">
                 <label class="confirmation__rejection-label">
                     {{ 'shared.rejectionReason' | translate }}
@@ -28,6 +29,7 @@
                     styleClass="confirmation__rejection-dropdown"
                 ></p-select>
             </div>
+            }
             <div class="confirmation__rejection-field">
                 <label class="confirmation__rejection-label">
                     {{ 'shared.rejectionDescription' | translate }}

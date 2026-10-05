@@ -2,8 +2,7 @@ import { OrderStatus } from "../enums/order-status.enum";
 import { OrderType } from "../enums/order-type.enum";
 
 export interface Order {
-
-    id: string;
+    _id: string;
     orderNumber: string;
     status: OrderStatus;
     orderType: OrderType;
@@ -21,4 +20,6 @@ export interface Order {
     cancellationReason: string,
     createdBy: string,
     updatedBy: string,
+    createdAt: string,
+    updatedAt: string,
 }

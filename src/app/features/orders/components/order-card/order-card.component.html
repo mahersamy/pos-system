@@ -1,0 +1,33 @@
+<button
+  class="oc-card"
+  [class.oc-card--in-cart]="cartQty() > 0"
+  (click)="onClick()"
+>
+  <!-- Image / Icon -->
+  <div class="oc-card__img-wrap">
+    @if (item().image?.secure_url) {
+      <img [src]="item().image!.secure_url" [alt]="item().name" class="oc-card__img" loading="lazy" />
+    } @else {
+      <div class="oc-card__img-placeholder">
+        <i class="fa-solid fa-utensils"></i>
+      </div>
+    }
+    @if (cartQty() > 0) {
+      <span class="oc-card__badge">{{ cartQty() }}</span>
+    }
+  </div>
+
+  <!-- Info -->
+  <div class="oc-card__info">
+    <span class="oc-card__name">{{ item().name }}</span>
+    @if (categoryName()) {
+      <span class="oc-card__cat">{{ categoryName() }}</span>
+    }
+    <span class="oc-card__price">${{ item().price | number:'1.2-2' }}</span>
+  </div>
+
+  <!-- Add indicator -->
+  <div class="oc-card__add">
+    <i class="fa-solid fa-plus"></i>
+  </div>
+</button>

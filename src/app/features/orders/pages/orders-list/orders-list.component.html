@@ -1,1 +1,60 @@
-<p>orders-list works!</p>
+<div class="orders-header">
+  <div class="orders-header__left">
+    <h1 class="orders-header__title">{{ 'ORDERS.TITLE' | translate }}</h1>
+    <span class="orders-header__subtitle">{{ 'ORDERS.SUBTITLE' | translate }}</span>
+  </div>
+
+  <div class="d-flex align-items-center gap-2">
+    <app-search-bar
+      [placeholder]="'shared.SEARCH_PLACEHOLDER' | translate"
+      (searchChange)="onSearch($event)"
+    ></app-search-bar>
+
+    <app-filter-panel
+      [configs]="filterConfigs"
+      [searchQuery]="searchQuery()"
+      (applyFilter)="onFilter($event)"
+    />
+
+    <button class="btn-primary orders-header__new-btn" [routerLink]="['/main/orders/new']">
+      <i class="fa-solid fa-plus"></i>
+      {{ 'ORDERS.NEW_ORDER' | translate }}
+    </button>
+  </div>
+</div>
+
+@if (facade.loading()) {
+  <div class="d-flex justify-content-center align-items-center py-5">
+    <div class="spinner-border" role="status" style="color: var(--primary-pink);">
+      <span class="visually-hidden">{{ 'ORDERS.LOADING' | translate }}</span>
+    </div>
+  </div>
+} @else {
+  @if (facade.items().length > 0) {
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
+      @for (order of facade.items(); track order._id) {
+        <div class="col">
+          <app-orders-list-card [order]="order"></app-orders-list-card>
+        </div>
+      }
+    </div>
+
+    <app-pagination
+      [currentPage]="facade.page()"
+      [totalPages]="facade.totalPages()"
+      [total]="facade.total()"
+      [limit]="facade.limit()"
+      (pageChange)="onPageChange($event)"
+    />
+  } @else {
+    <div class="orders-empty-state">
+      <i class="fa-solid fa-cart-shopping orders-empty-state__icon"></i>
+      <p>{{ 'ORDERS.NO_ORDERS' | translate }}</p>
+      <span>{{ 'ORDERS.NO_ORDERS_DESC' | translate }}</span>
+      <button class="btn-primary" [routerLink]="['/main/orders/new']">
+        <i class="fa-solid fa-plus"></i>
+        {{ 'ORDERS.FIRST_ORDER' | translate }}
+      </button>
+    </div>
+  }
+}

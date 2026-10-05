@@ -90,6 +90,51 @@
             }
         }
 
+        .confirmation__rejection {
+            width: 100%;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+
+            &-field {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            &-label {
+                font-family: var(--font-3);
+                font-size: 0.85rem;
+                font-weight: 500;
+                color: var(--text-main);
+            }
+
+            &-textarea {
+                width: 100%;
+                background: rgba(255, 255, 255, 0.04);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 0.5rem;
+                padding: 0.75rem 1rem;
+                color: var(--white);
+                font-family: var(--font-3);
+                font-size: 0.95rem;
+                resize: none;
+                transition: all 0.2s ease;
+
+                &:focus {
+                    outline: none;
+                    border-color: var(--primary-pink, #fac1d9);
+                    background: rgba(255, 255, 255, 0.06);
+                }
+
+                &::placeholder {
+                    color: rgba(255, 255, 255, 0.25);
+                }
+            }
+        }
+
         .confirmation-actions {
             display: flex;
             flex-direction: column;

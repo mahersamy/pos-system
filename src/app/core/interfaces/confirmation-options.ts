@@ -48,6 +48,7 @@ export interface ConfirmationOptions {
     width?: string;
     type?: "discard" | "delete";
     showRejectionDropdown?: boolean;
+    showDescriptionInput?: boolean;
     rejectionReasons?: Array<{label: string; value: string}>;
     onRejectionChange?: (reasonId: string) => void;
     onDescriptionChange?: (description: string) => void;

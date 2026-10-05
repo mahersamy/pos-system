@@ -1,0 +1,108 @@
+
+
+<!-- ── Page ───────────────────────────────────────────────────────────────── -->
+<div class="oc-page">
+
+  <!-- ══ LEFT PANEL ══ -->
+  <div class="oc-left">
+
+    <!-- Header -->
+    <div class="oc-left__header">
+      <button class="oc-back-btn" (click)="goBack()">
+        <i class="fa-solid fa-arrow-left"></i>
+        Orders
+      </button>
+      <h1 class="oc-left__title">New Order</h1>
+    </div>
+
+    <!-- Search bar -->
+    <div class="oc-search-wrap">
+      <i class="fa-solid fa-magnifying-glass oc-search-icon"></i>
+      <input
+        id="order-item-search"
+        class="oc-search"
+        type="text"
+        placeholder="Search items..."
+        [value]="searchQuery()"
+        (input)="onSearch($any($event.target).value)"
+      />
+    </div>
+
+    <!-- Category pills -->
+    <div class="oc-pills">
+      <button
+        class="oc-pill"
+        [class.oc-pill--active]="selectedCategoryId() === null"
+        (click)="selectCategory(null)"
+      >All</button>
+      @for (cat of categories(); track cat._id) {
+        <button
+          class="oc-pill"
+          [class.oc-pill--active]="selectedCategoryId() === cat._id"
+          (click)="selectCategory(cat._id)"
+        >{{ cat.name }}</button>
+      }
+    </div>
+
+    <!-- Item grid -->
+    @if (isLoadingItems()) {
+      <div class="oc-loading">
+        <div class="oc-spinner"></div>
+        <span>Loading items…</span>
+      </div>
+    } @else if (filteredItems().length === 0) {
+      <app-empty-state title="No items found">
+        <i icon class="fa-solid fa-magnifying-glass fa-2xl"></i>
+      </app-empty-state>
+    } @else {
+      <div class="oc-grid">
+        @for (item of filteredItems(); track item._id) {
+          <app-order-card
+            [item]="item"
+            [cartQty]="getCartQty(item._id)"
+            [categoryName]="getCategoryName(item)"
+            (cardClick)="addToCart($event)"
+          ></app-order-card>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- ══ RIGHT PANEL ══ -->
+  <div class="oc-right">
+
+    <!-- Cart header -->
+    <div class="oc-cart__header">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart</span>
+      @if (cartCount() > 0) {
+        <span class="oc-cart__count">{{ cartCount() }}</span>
+      }
+    </div>
+
+    <!-- Cart component -->
+    <app-order-cart
+      [cartItems]="cartItems()"
+      [cartTotal]="cartTotal()"
+      (changeQty)="changeQty($event.itemId, $event.delta)"
+      (removeFromCart)="removeFromCart($event)"
+    ></app-order-cart>
+
+    <!-- Order form component -->
+    <app-order-form
+      [orderType]="orderType()"
+      (orderTypeChange)="orderType.set($event)"
+      [table]="table()"
+      (tableChange)="table.set($event)"
+      [guestName]="guestName()"
+      (guestNameChange)="guestName.set($event)"
+      [phoneNumber]="phoneNumber()"
+      (phoneNumberChange)="phoneNumber.set($event)"
+      [deliveryInfo]="deliveryInfo()"
+      (deliveryInfoChange)="deliveryInfo.set($event)"
+      [isCreating]="isCreating()"
+      [cartIsEmpty]="cartItems().length === 0"
+      (placeOrder)="placeOrder()"
+    ></app-order-form>
+  </div>
+</div>

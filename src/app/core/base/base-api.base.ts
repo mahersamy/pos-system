@@ -1,6 +1,6 @@
 // core/base/base-api.service.ts
 import { inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { GlobalPaginatedResponse, GlobalResponse } from '../models/response-global.model';
@@ -42,8 +42,9 @@ export abstract class BaseApiService<TRaw, TAdapted = TRaw> {
             .pipe(map((res) => this._adapt(res.data)));
     }
 
-    create(payload: Partial<TRaw>): Observable<GlobalResponse<TRaw>> {
-        return this._http.post<GlobalResponse<TRaw>>(this._url, payload);
+    create(payload: Partial<TRaw>, headers?: HttpHeaders): Observable<GlobalResponse<TRaw>> {
+        const options = headers ? { headers } : {};
+        return this._http.post<GlobalResponse<TRaw>>(this._url, payload, options);
     }
 
     update(id: string, payload: Partial<TRaw>): Observable<GlobalResponse<TRaw>> {

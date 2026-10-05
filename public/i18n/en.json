@@ -242,6 +242,54 @@
         "OF": "of",
         "PREV": "Previous",
         "NEXT": "Next"
+    },
+    "ORDERS": {
+        "TITLE": "Orders",
+        "SUBTITLE": "Manage and track all orders",
+        "NEW_ORDER": "New Order",
+        "FIRST_ORDER": "Take First Order",
+        "NO_ORDERS": "No orders found",
+        "NO_ORDERS_DESC": "Click New Order to start taking orders or adjust your filters.",
+        "LOADING": "Loading orders...",
+        "FIELDS": {
+            "ORDER_NUMBER": "Order #",
+            "STATUS": "Status",
+            "TYPE": "Type",
+            "GUEST": "Guest",
+            "TABLE": "Table",
+            "ITEMS": "Items",
+            "TOTAL": "Total",
+            "DATE": "Date",
+            "PHONE": "Phone"
+        },
+        "STATUS": {
+            "IN_PROCESS": "In Process",
+            "READY": "Ready",
+            "COMPLETED": "Completed",
+            "CANCELLED": "Cancelled"
+        },
+        "TYPE": {
+            "DINE_IN": "Dine In",
+            "DELIVERY": "Delivery"
+        },
+        "FILTER": {
+            "ORDER_TYPE": "Order Type",
+            "ALL_TYPES": "All Types",
+            "STATUS_LABEL": "Status",
+            "ALL_STATUSES": "All Statuses"
+        },
+        "ACTIONS": {
+            "CHANGE_STATUS": "Change Status",
+            "MARK_READY": "Mark as Ready",
+            "MARK_COMPLETED": "Mark as Completed",
+            "MARK_CANCELLED": "Cancel Order",
+            "CANCEL_CONFIRM_TITLE": "Cancel Order",
+            "CANCEL_CONFIRM_MSG": "Please provide a reason for cancelling this order.",
+            "CANCEL_REASON_PLACEHOLDER": "Enter cancellation reason...",
+            "STATUS_CONFIRM_TITLE": "Update Order Status",
+            "STATUS_CONFIRM_MSG": "Are you sure you want to change this order status?",
+            "CONFIRM": "Confirm"
+        }
     }
 }
 

@@ -1,0 +1,76 @@
+<div class="order-card">
+  <!-- Header: order number + status badge -->
+  <div class="order-card__header">
+    <span class="order-card__number">{{ 'ORDERS.FIELDS.ORDER_NUMBER' | translate }} {{ order().orderNumber }}</span>
+    
+    <div class="d-flex align-items-center gap-2">
+      <span [class]="statusClass">{{ statusKey | translate }}</span>
+
+      <!-- Actions Dropdown -->
+      <div class="position-relative">
+        <button class="btn btn-sm btn-link text-muted p-0 border-0" (click)="toggleActions($event)">
+          <i class="fa-solid fa-ellipsis-vertical fs-5"></i>
+        </button>
+
+        @if (actionsOpen()) {
+          <div class="dropdown-menu show position-absolute end-0 mt-2 shadow-sm border-0" style="min-width: 200px; z-index: 1050;" (click)="$event.stopPropagation()">
+            <div class="dropdown-header px-3 py-2 text-muted fw-bold" style="font-size: 0.75rem;">
+              {{ 'ORDERS.ACTIONS.CHANGE_STATUS' | translate }}
+            </div>
+            
+            @for (action of availableActions; track action.status) {
+              <button class="dropdown-item py-2 px-3 d-flex align-items-center gap-2" (click)="requestStatusChange(action, $event)">
+                <span class="status-indicator rounded-circle d-inline-block" style="width: 8px; height: 8px;" [ngClass]="action.cls"></span>
+                {{ action.label | translate }}
+              </button>
+            }
+          </div>
+          <!-- Backdrop to close dropdown -->
+          <div class="position-fixed top-0 start-0 w-100 h-100" style="z-index: 1040;" (click)="closeActions()"></div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Type chip + guest -->
+  <div class="order-card__meta">
+    <span class="order-card__type-chip">{{ typeKey | translate }}</span>
+    <span class="order-card__guest">
+      <i class="fa-solid fa-user"></i>
+      {{ order().guestName || 'Guest' }}
+    </span>
+    @if (order().table) {
+      <span class="order-card__table">
+        <i class="fa-solid fa-chair"></i>
+        {{ 'ORDERS.FIELDS.TABLE' | translate }} {{ order().table }}
+      </span>
+    }
+  </div>
+
+  <!-- Stats row -->
+  <div class="order-card__stats">
+    <div class="order-card__stat">
+      <span class="order-card__stat-label">{{ 'ORDERS.FIELDS.ITEMS' | translate }}</span>
+      <span class="order-card__stat-value">{{ order().orderItems.length }}</span>
+    </div>
+    <div class="order-card__stat-divider"></div>
+    <div class="order-card__stat">
+      <span class="order-card__stat-label">{{ 'ORDERS.FIELDS.TOTAL' | translate }}</span>
+      <span class="order-card__stat-value order-card__stat-value--price">${{ order().totalAmount | number:'1.2-2' }}</span>
+    </div>
+  </div>
+
+  <!-- Footer: date + phone -->
+  <div class="order-card__footer">
+    <span class="order-card__date">
+      <i class="fa-solid fa-calendar-days"></i>
+      {{ order().createdAt | date:'mediumDate' }}
+    </span>
+    @if (order().phoneNumber) {
+      <span class="order-card__phone">
+        <i class="fa-solid fa-phone"></i>
+        {{ order().phoneNumber }}
+      </span>
+    }
+  </div>
+</div>

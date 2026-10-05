@@ -242,5 +242,53 @@
         "OF": "من",
         "PREV": "السابق",
         "NEXT": "التالي"
+    },
+    "ORDERS": {
+        "TITLE": "الطلبات",
+        "SUBTITLE": "إدارة وتتبع جميع الطلبات",
+        "NEW_ORDER": "طلب جديد",
+        "FIRST_ORDER": "تلقي أول طلب",
+        "NO_ORDERS": "لم يتم العثور على طلبات",
+        "NO_ORDERS_DESC": "انقر على 'طلب جديد' لبدء تلقي الطلبات أو قم بتعديل الفلاتر.",
+        "LOADING": "جاري تحميل الطلبات...",
+        "FIELDS": {
+            "ORDER_NUMBER": "طلب #",
+            "STATUS": "الحالة",
+            "TYPE": "النوع",
+            "GUEST": "الضيف",
+            "TABLE": "الطاولة",
+            "ITEMS": "العناصر",
+            "TOTAL": "الإجمالي",
+            "DATE": "التاريخ",
+            "PHONE": "الهاتف"
+        },
+        "STATUS": {
+            "IN_PROCESS": "قيد التنفيذ",
+            "READY": "جاهز",
+            "COMPLETED": "مكتمل",
+            "CANCELLED": "ملغي"
+        },
+        "TYPE": {
+            "DINE_IN": "محلي",
+            "DELIVERY": "توصيل"
+        },
+        "FILTER": {
+            "ORDER_TYPE": "نوع الطلب",
+            "ALL_TYPES": "جميع الأنواع",
+            "STATUS_LABEL": "الحالة",
+            "ALL_STATUSES": "جميع الحالات"
+        },
+        "ACTIONS": {
+            "CHANGE_STATUS": "تغيير الحالة",
+            "MARK_READY": "تعيين كجاهز",
+            "MARK_COMPLETED": "تعيين كمكتمل",
+            "MARK_CANCELLED": "إلغاء الطلب",
+            "CANCEL_CONFIRM_TITLE": "إلغاء الطلب",
+            "CANCEL_CONFIRM_MSG": "يرجى تقديم سبب لإلغاء هذا الطلب.",
+            "CANCEL_REASON_PLACEHOLDER": "أدخل سبب الإلغاء...",
+            "STATUS_CONFIRM_TITLE": "تحديث حالة الطلب",
+            "STATUS_CONFIRM_MSG": "هل أنت متأكد من تغيير حالة هذا الطلب؟",
+            "CONFIRM": "تأكيد"
+        }
     }
 }

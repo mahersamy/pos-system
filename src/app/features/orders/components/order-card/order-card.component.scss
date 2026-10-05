@@ -1,0 +1,173 @@
+// Variables from main theme
+$pink:         var(--pink-100);
+$bg-card:      var(--gray-800);
+$bg-card-2:    var(--gray-700);
+$text-main:    var(--white);
+$text-muted:   var(--gray-400);
+$border:       rgba(255, 255, 255, 0.08);
+
+.oc-card {
+    background: linear-gradient(145deg, $bg-card 0%, rgba(20, 20, 20, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    text-align: left;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        border-color: rgba(250, 193, 217, 0.5); // $pink equivalent
+        transform: translateY(-5px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4), 0 0 15px rgba(250, 193, 217, 0.15);
+
+        .oc-card__img-wrap::after {
+            opacity: 1;
+        }
+
+        .oc-card__add { 
+            opacity: 1; 
+            transform: scale(1) translateY(0); 
+        }
+    }
+
+    &--in-cart {
+        border-color: $pink;
+        background: linear-gradient(160deg, rgba(250,193,217,0.12) 0%, $bg-card 100%);
+        box-shadow: 0 0 0 1px $pink inset, 0 8px 24px rgba(250,193,217, 0.1);
+    }
+}
+
+.oc-card__img-wrap {
+    position: relative;
+    width: 100%;
+    height: 125px;
+    background: $bg-card-2;
+    overflow: hidden;
+    
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        pointer-events: none;
+    }
+}
+
+.oc-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease-out;
+
+    .oc-card:hover & { transform: scale(1.1); }
+}
+
+.oc-card__img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-muted;
+    opacity: 0.45;
+    font-size: 2rem;
+}
+
+.oc-card__badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: $pink;
+    color: #111;
+    font-weight: 800;
+    font-size: 0.75rem;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    line-height: 1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    z-index: 2;
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.oc-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.85rem;
+    flex: 1;
+}
+
+.oc-card__name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $text-main;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.2s;
+    
+    .oc-card:hover & {
+        color: $pink;
+    }
+}
+
+.oc-card__cat {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.oc-card__price {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $pink;
+    margin-top: 0.25rem;
+}
+
+.oc-card__add {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    background: $pink;
+    color: #111;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    opacity: 0;
+    transform: scale(0.7) translateY(10px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 12px rgba(250, 193, 217, 0.4);
+    
+    &:hover {
+        background: #fff;
+        color: $pink;
+        transform: scale(1.1) translateY(0);
+    }
+}

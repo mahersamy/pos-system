@@ -1,0 +1,12 @@
+<div class="empty-state">
+  <div class="empty-state__icon">
+    <ng-content select="[icon]"></ng-content>
+  </div>
+  <p class="empty-state__title">{{ title() }}</p>
+  @if (message()) {
+    <span class="empty-state__message">{{ message() }}</span>
+  }
+  <div class="empty-state__actions">
+    <ng-content></ng-content>
+  </div>
+</div>

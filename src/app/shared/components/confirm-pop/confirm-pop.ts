@@ -70,8 +70,13 @@ export class ConfirmPop {
      * @returns {boolean} True if enabled, false otherwise.
      */
     isBtn1Enabled(): boolean {
-        if (!this.data.showRejectionDropdown) return true;
-        return !!this.selectedReason() && this.rejectionDescription().trim().length > 0;
+        if (this.data.showRejectionDropdown) {
+            return !!this.selectedReason() && this.rejectionDescription().trim().length > 0;
+        }
+        if (this.data.showDescriptionInput) {
+            return this.rejectionDescription().trim().length > 0;
+        }
+        return true;
     }
 
     /**

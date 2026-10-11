@@ -28,6 +28,7 @@
     "@ngx-translate/http-loader": "^17.0.0",
     "@primeuix/themes": "^2.0.3",
     "bootstrap": "^5.3.8",
+    "chart.js": "^4.5.1",
     "express": "^5.1.0",
     "firebase": "^12.9.0",
     "git-cz": "^4.9.0",

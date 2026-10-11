@@ -1,6 +1,7 @@
-import { Component, DestroyRef, inject, input, signal } from '@angular/core';
+import { Component, DestroyRef, inject, input, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Order } from '../../models/order.model';
@@ -16,7 +17,7 @@ interface StatusAction {
 
 @Component({
   selector: 'app-orders-list-card',
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, RouterLink, TranslateModule],
   templateUrl: './orders-list-card.html',
   styleUrl: './orders-list-card.scss'
 })
@@ -27,11 +28,36 @@ export class OrdersListCard {
   private readonly confirmSvc        = inject(ConfirmationService);
   private readonly translate         = inject(TranslateService);
   private readonly destroyRef        = inject(DestroyRef);
+  private readonly router            = inject(Router);
 
   /** Controls visibility of the quick-action dropdown */
   actionsOpen = signal(false);
   /** Cancellation reason — collected inline when cancelling */
   cancelReason = signal('');
+  /** Controls expandable items list */
+  isExpanded = signal(false);
+
+  /** Visible items in the card preview */
+  visibleItems = computed(() => {
+    const items = this.order().orderItems || [];
+    return this.isExpanded() ? items : items.slice(0, 2);
+  });
+
+  /** Sum of all ordered item quantities */
+  totalUnits = computed(() => {
+    return (this.order().orderItems || []).reduce((sum, item) => sum + (item.quantity || 0), 0);
+  });
+
+  toggleExpanded(e: MouseEvent): void {
+    e.stopPropagation();
+    this.isExpanded.update(v => !v);
+  }
+
+  navigateToDetail(): void {
+    this.router.navigate(['/main/orders', this.order()._id], {
+      state: { order: this.order() }
+    });
+  }
 
   // ── Status display helpers ──────────────────────────────────────────────────
   get statusKey(): string {

@@ -19,4 +19,4 @@ export interface CreateCategoryPayload {
     isActive?: boolean;
 }
 
-export interface UpdateCategoryPayload extends Partial<CreateCategoryPayload> {}
+export interface UpdateCategoryPayload extends Partial<CreateCategoryPayload> { }

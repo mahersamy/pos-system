@@ -1,0 +1,95 @@
+<div class="dashboard">
+
+  <!-- ── Loading skeleton ─────────────────────────────────────────────────── -->
+  @if (facade.loading()) {
+    <div class="dashboard__loading">
+      <div class="skeleton-row">
+        <div class="skeleton skeleton--card"></div>
+        <div class="skeleton skeleton--card"></div>
+        <div class="skeleton skeleton--card"></div>
+      </div>
+      <div class="skeleton-row skeleton-row--tables">
+        <div class="skeleton skeleton--table"></div>
+        <div class="skeleton skeleton--table"></div>
+      </div>
+      <div class="skeleton skeleton--chart"></div>
+    </div>
+  }
+
+  <!-- ── Error state ──────────────────────────────────────────────────────── -->
+  @if (facade.error() && !facade.loading()) {
+    <div class="dashboard__error">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <p>{{ 'DASHBOARD.ERROR' | translate }}</p>
+      <button class="btn btn-primary" (click)="facade.loadAll()">
+        {{ 'COMMON.ACTIONS.RETRY' | translate }}
+      </button>
+    </div>
+  }
+
+  <!-- ── Content ──────────────────────────────────────────────────────────── -->
+  @if (!facade.loading() && !facade.error()) {
+
+    <!-- Stat cards row -->
+    <div class="dashboard__stats">
+      <app-dashboard-stat-card
+        [label]="'DASHBOARD.DAILY_SALES' | translate"
+        [value]="formatCurrency(facade.dailySales())"
+        icon="fa-solid fa-dollar-sign"
+        iconColor="pink"
+        [sparkData]="[2,3,2.5,4,3.8,5,4.2]"
+      />
+      <app-dashboard-stat-card
+        [label]="'DASHBOARD.MONTHLY_REVENUE' | translate"
+        [value]="formatCurrency(facade.monthlyRevenue())"
+        icon="fa-solid fa-chart-column"
+        iconColor="blue"
+        [sparkData]="[3,4,5,4.5,6,5.5,7]"
+      />
+      <app-dashboard-stat-card
+        [label]="'DASHBOARD.POPULAR_ITEMS' | translate"
+        [value]="facade.popularDishes().length.toString()"
+        icon="fa-solid fa-star"
+        iconColor="green"
+        [sparkData]="[1,2,1.5,3,2,4,3.5]"
+      />
+    </div>
+
+    <!-- Tables row -->
+    <div class="dashboard__tables">
+      <app-popular-dishes-table [dishes]="facade.popularDishes()" />
+      <app-low-stock-table [items]="facade.lowStock()" />
+    </div>
+
+    <!-- Overview chart -->
+    <div class="dashboard__chart-card">
+      <div class="dashboard__chart-header">
+        <div>
+          <h2 class="dashboard__chart-title">{{ 'DASHBOARD.OVERVIEW' | translate }}</h2>
+        </div>
+        <div class="dashboard__chart-legend">
+          <span class="legend-dot legend-dot--pink"></span>
+          <span class="legend-label">{{ 'DASHBOARD.LEGEND_SALES' | translate }}</span>
+          <span class="legend-dot legend-dot--gray"></span>
+          <span class="legend-label">{{ 'DASHBOARD.LEGEND_REVENUE' | translate }}</span>
+        </div>
+      </div>
+      @if (isBrowser && facade.overview().length > 0) {
+        <div class="dashboard__chart-wrap">
+          <p-chart
+            type="line"
+            [data]="chartData()"
+            [options]="chartOptions"
+            height="300px"
+          />
+        </div>
+      } @else if (!facade.loading()) {
+        <div class="dashboard__chart-empty">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>{{ 'DASHBOARD.NO_OVERVIEW' | translate }}</span>
+        </div>
+      }
+    </div>
+
+  }
+</div>

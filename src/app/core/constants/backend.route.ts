@@ -33,4 +33,12 @@ export const BACKEND_ROUTE = {
     order: {
         base: "/api/v1/orders",
     },
+    dashboard: {
+        base: "/api/v1/dashboard",
+        dailySales: "/api/v1/dashboard/daily-sales",
+        monthlyRevenue: "/api/v1/dashboard/monthly-revenue",
+        overview: "/api/v1/dashboard/overview",
+        popularDishes: "/api/v1/dashboard/popular-dishes",
+        lowStock: "/api/v1/dashboard/low-stock",
+    },
 };

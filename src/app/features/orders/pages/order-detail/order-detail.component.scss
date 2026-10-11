@@ -1,0 +1,100 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+// ── Loading & Error States ────────────────────────────────────────────────────
+.od-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 450px;
+  text-align: center;
+  padding: 2rem;
+}
+
+.od-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 450px;
+  text-align: center;
+  padding: 2rem;
+
+  &__icon {
+    font-size: 3.5rem;
+    color: var(--yellow-500);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    color: var(--text-light);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+  }
+}
+
+// ── Page Container ────────────────────────────────────────────────────────────
+.od-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+// ── Cancellation Banner ───────────────────────────────────────────────────────
+.od-cancel-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 58, 58, 0.1);
+  border: 1px solid rgba(255, 58, 58, 0.25);
+  border-radius: var(--border-radius);
+
+  &__icon {
+    font-size: 1.5rem;
+    color: var(--red-400);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  &__content {
+    h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--red-400);
+      margin: 0 0 0.25rem 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--text-light);
+      font-size: 0.88rem;
+    }
+  }
+}
+
+// ── Main content grid ─────────────────────────────────────────────────────────
+.od-main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+
+  @media (min-width: 992px) {
+    grid-template-columns: 1fr 360px;
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: 1fr 400px;
+  }
+}

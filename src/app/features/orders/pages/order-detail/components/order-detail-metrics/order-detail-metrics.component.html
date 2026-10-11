@@ -1,0 +1,52 @@
+<div class="od-metrics-grid">
+  <!-- Metric 1: Order Status -->
+  <div class="od-metric-card">
+    <div class="od-metric-card__icon od-metric-card__icon--status">
+      <i class="fa-solid fa-bell-concierge"></i>
+    </div>
+    <div class="od-metric-card__info">
+      <span class="od-metric-card__label">{{ 'ORDERS.FIELDS.STATUS' | translate }}</span>
+      <span class="od-metric-card__value">{{ statusKey | translate }}</span>
+    </div>
+  </div>
+
+  <!-- Metric 2: Total Amount -->
+  <div class="od-metric-card">
+    <div class="od-metric-card__icon od-metric-card__icon--amount">
+      <i class="fa-solid fa-dollar-sign"></i>
+    </div>
+    <div class="od-metric-card__info">
+      <span class="od-metric-card__label">{{ 'ORDERS.DETAILS.TOTAL_AMOUNT' | translate }}</span>
+      <span class="od-metric-card__value od-metric-card__value--amount">
+        ${{ order().totalAmount | number:'1.2-2' }}
+      </span>
+    </div>
+  </div>
+
+  <!-- Metric 3: Total Items & Units -->
+  <div class="od-metric-card">
+    <div class="od-metric-card__icon od-metric-card__icon--items">
+      <i class="fa-solid fa-utensils"></i>
+    </div>
+    <div class="od-metric-card__info">
+      <span class="od-metric-card__label">{{ 'ORDERS.DETAILS.TOTAL_ITEMS' | translate }}</span>
+      <span class="od-metric-card__value">
+        {{ order().orderItems.length }}
+        <small class="od-metric-card__subval">({{ totalUnits() }} {{ 'ORDERS.DETAILS.TOTAL_UNITS' | translate }})</small>
+      </span>
+    </div>
+  </div>
+
+  <!-- Metric 4: Created Date & Time -->
+  <div class="od-metric-card">
+    <div class="od-metric-card__icon od-metric-card__icon--date">
+      <i class="fa-solid fa-clock"></i>
+    </div>
+    <div class="od-metric-card__info">
+      <span class="od-metric-card__label">{{ 'ORDERS.FIELDS.DATE' | translate }}</span>
+      <span class="od-metric-card__value od-metric-card__value--date">
+        {{ order().createdAt | date:'short' }}
+      </span>
+    </div>
+  </div>
+</div>

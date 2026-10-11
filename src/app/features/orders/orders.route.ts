@@ -17,5 +17,12 @@ export const ordersRoutes: AppRoute[] = [
     loadComponent: () =>
       import('./pages/order-create/order-create.component').then((m) => m.OrderCreateComponent),
   },
+  {
+    path: 'orders/:id',
+    canActivate: [permissionGuard],
+    data: { title: 'ORDERS.DETAILS.TITLE', module: PermissionModule.ORDERS },
+    loadComponent: () =>
+      import('./pages/order-detail/order-detail.component').then((m) => m.OrderDetailComponent),
+  },
 ];
 

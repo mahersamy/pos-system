@@ -1,0 +1,54 @@
+<div class="stock-table">
+  <div class="stock-table__header">
+    <h3 class="stock-table__title">{{ 'DASHBOARD.LOW_STOCK' | translate }}</h3>
+    <span class="stock-table__badge">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      {{ items().length }} {{ 'DASHBOARD.ITEMS' | translate }}
+    </span>
+  </div>
+
+  @if (items().length === 0) {
+    <div class="stock-table__empty">
+      <i class="fa-solid fa-circle-check"></i>
+      <span>{{ 'DASHBOARD.STOCK_OK' | translate }}</span>
+    </div>
+  } @else {
+    <div class="stock-table__list">
+      @for (item of items(); track item._id) {
+        <div class="stock-row">
+          <div class="stock-row__img-wrap">
+            @if (item.image?.secure_url) {
+              <img
+                [src]="item.image!.secure_url"
+                [alt]="item.name"
+                class="stock-row__img"
+                loading="lazy"
+              />
+            } @else {
+              <div class="stock-row__img stock-row__img--placeholder">
+                <i class="fa-solid fa-box"></i>
+              </div>
+            }
+          </div>
+
+          <div class="stock-row__info">
+            <span class="stock-row__name">{{ item.name }}</span>
+            <div class="stock-row__qty">
+              <span
+                class="stock-row__stock-badge"
+                [class.stock-row__stock-badge--low]="item.stock === 'low_stock'"
+                [class.stock-row__stock-badge--out]="item.stock === 'out_of_stock'"
+              >
+                @if (item.stock === 'low_stock') { Low Stock }
+                @else { Out of Stock }
+              </span>
+              <span class="stock-row__qty-num">Qty: {{ item.quantity }}</span>
+            </div>
+          </div>
+
+          <div class="stock-row__price">${{ item.price | number:'1.2-2' }}</div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,53 @@
+<div class="dishes-table">
+  <div class="dishes-table__header">
+    <h3 class="dishes-table__title">{{ 'DASHBOARD.POPULAR_DISHES' | translate }}</h3>
+    <span class="dishes-table__see-all">{{ 'DASHBOARD.SEE_ALL' | translate }}</span>
+  </div>
+
+  @if (dishes().length === 0) {
+    <div class="dishes-table__empty">
+      <i class="fa-solid fa-inbox"></i>
+      <span>{{ 'DASHBOARD.NO_DISHES' | translate }}</span>
+    </div>
+  } @else {
+    <div class="dishes-table__list">
+      @for (dish of dishes(); track dish._id) {
+        <div class="dish-row">
+          <div class="dish-row__img-wrap">
+            @if (dish.image?.secure_url) {
+              <img
+                [src]="dish.image!.secure_url"
+                [alt]="dish.name"
+                class="dish-row__img"
+                loading="lazy"
+              />
+            } @else {
+              <div class="dish-row__img dish-row__img--placeholder">
+                <i class="fa-regular fa-image"></i>
+              </div>
+            }
+          </div>
+
+          <div class="dish-row__info">
+            <span class="dish-row__name">{{ dish.name }}</span>
+            <span class="dish-row__orders">Order x{{ dish.totalOrdered }}</span>
+          </div>
+
+          <div class="dish-row__meta">
+            <span
+              class="dish-row__stock"
+              [class.dish-row__stock--in]="dish.stock === 'in_stock'"
+              [class.dish-row__stock--low]="dish.stock === 'low_stock'"
+              [class.dish-row__stock--out]="dish.stock === 'out_of_stock'"
+            >
+              @if (dish.stock === 'in_stock') { In Stock }
+              @else if (dish.stock === 'low_stock') { Low Stock }
+              @else { Out }
+            </span>
+            <span class="dish-row__price">${{ dish.price | number:'1.2-2' }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,190 @@
+.text-pink {
+  color: var(--primary-pink) !important;
+}
+
+.od-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+// ── Generic Card ─────────────────────────────────────────────────────────────
+.od-card {
+  background: var(--secondary-color-2);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__body {
+    padding: 1.25rem;
+  }
+}
+
+// ── Type chip ─────────────────────────────────────────────────────────────────
+.od-type-chip {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(250, 193, 217, 0.12);
+  color: var(--primary-pink);
+  border: 1px solid rgba(250, 193, 217, 0.25);
+}
+
+// ── Info Lists ────────────────────────────────────────────────────────────────
+.od-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  &--dense {
+    gap: 0.75rem;
+  }
+}
+
+.od-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    color: var(--gray-400);
+    flex-shrink: 0;
+
+    i {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+  }
+
+  &__value {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    text-align: right;
+    word-break: break-word;
+
+    [dir='rtl'] & {
+      text-align: left;
+    }
+  }
+
+  &__box {
+    width: 100%;
+    margin-top: 0.35rem;
+    padding: 0.65rem 0.85rem;
+    background: var(--secondary-color);
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.4;
+  }
+}
+
+.od-link {
+  color: var(--blue-300) !important;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.od-creator-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.od-copy-btn {
+  background: transparent;
+  border: none;
+  color: var(--gray-400);
+  cursor: pointer;
+  padding: 0.2rem;
+  font-size: 0.8rem;
+  transition: color 0.15s;
+  flex-shrink: 0;
+
+  &:hover {
+    color: var(--primary-pink);
+  }
+}
+
+// ── Financial Summary ─────────────────────────────────────────────────────────
+.od-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.od-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+
+  &__label {
+    color: var(--gray-400);
+  }
+
+  &__value {
+    color: var(--text-light);
+    font-weight: 600;
+
+    &--total {
+      color: var(--green-500);
+      font-size: 1.4rem;
+      font-weight: 800;
+    }
+  }
+
+  &--total &__label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-light);
+  }
+}
+
+.od-summary-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 0.25rem 0;
+}
+
+.min-width-0 {
+  min-width: 0;
+}

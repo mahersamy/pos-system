@@ -11,6 +11,7 @@ import { auditLogsRoutes } from "./features/audit-logs/routes/audit-logs.routes"
 import { menuRoutes } from "./features/menu/menu.route";
 import { categoryRoutes } from "./features/category/category.route";
 import { inventoryRoutes } from "./features/inventory/inventory.route";
+import { dashboardRoutes } from "./features/dashboard/routes/dashboard.routes";
 import { ordersRoutes } from "./features/orders/orders.route";
 export const routes: Routes = [
     {
@@ -29,6 +30,7 @@ export const routes: Routes = [
         loadComponent: () =>
             import("./layout/main-layout/main-layout").then((m) => m.MainLayout),
         children: [
+            ...dashboardRoutes,
             ...staffRoutes,
             ...notificationRoutes,
             ...usersRoutes,

@@ -1,0 +1,341 @@
+.text-pink {
+  color: var(--primary-pink) !important;
+}
+
+// ── Generic Card ─────────────────────────────────────────────────────────────
+.od-card {
+  background: var(--secondary-color-2);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    height: 1.4rem;
+    padding: 0 0.4rem;
+    border-radius: 999px;
+    background: rgba(250, 193, 217, 0.15);
+    color: var(--primary-pink);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  &__body {
+    padding: 1.25rem;
+
+    &.p-0 {
+      padding: 0;
+    }
+  }
+}
+
+// ── In-Order Items Search ────────────────────────────────────────────────────
+.od-items-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 220px;
+
+  &__icon {
+    position: absolute;
+    left: 0.75rem;
+    color: var(--gray-400);
+    font-size: 0.8rem;
+    pointer-events: none;
+
+    [dir='rtl'] & {
+      left: auto;
+      right: 0.75rem;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    background: var(--secondary-color);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.4rem 2rem 0.4rem 2.2rem;
+    color: var(--text-light);
+    font-size: 0.82rem;
+    outline: none;
+    transition: border-color 0.2s;
+
+    [dir='rtl'] & {
+      padding: 0.4rem 2.2rem 0.4rem 2rem;
+    }
+
+    &:focus {
+      border-color: var(--primary-pink);
+    }
+
+    &::placeholder {
+      color: var(--gray-400);
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    right: 0.6rem;
+    background: transparent;
+    border: none;
+    color: var(--gray-400);
+    cursor: pointer;
+    padding: 0;
+    font-size: 0.75rem;
+
+    [dir='rtl'] & {
+      right: auto;
+      left: 0.6rem;
+    }
+
+    &:hover {
+      color: var(--text-light);
+    }
+  }
+}
+
+// ── Items Table (Desktop) ────────────────────────────────────────────────────
+.od-table-wrapper {
+  max-height: 480px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+  }
+}
+
+.od-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+
+  [dir='rtl'] & {
+    text-align: right;
+  }
+
+  thead th {
+    background: rgba(0, 0, 0, 0.15);
+    color: var(--gray-400);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  td {
+    padding: 0.9rem 1.25rem;
+    font-size: 0.88rem;
+    color: var(--text-light);
+    vertical-align: middle;
+  }
+
+  &__index {
+    color: var(--gray-400);
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+
+  &__name-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  &__item-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-pink);
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+
+  &__unit-price {
+    color: var(--gray-400);
+  }
+
+  &__total {
+    color: var(--green-500);
+  }
+}
+
+.od-qty-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+  border-radius: 6px;
+  background: rgba(250, 193, 217, 0.15);
+  color: var(--primary-pink);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+// ── Mobile Items Cards ───────────────────────────────────────────────────────
+.od-mobile-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.od-mobile-item {
+  background: var(--secondary-color);
+  border-radius: 8px;
+  padding: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  &__index {
+    color: var(--gray-400);
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  &__name {
+    flex: 1;
+    font-weight: 600;
+    color: var(--text-light);
+    font-size: 0.88rem;
+  }
+
+  &__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.4rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: 0.8rem;
+  }
+
+  &__unit {
+    color: var(--gray-400);
+  }
+
+  &__total {
+    color: var(--green-500);
+    font-weight: 700;
+  }
+}
+
+.od-items-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--gray-400);
+
+  &__icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+// ── Items Footer ─────────────────────────────────────────────────────────────
+.od-items-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 0, 0, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  &__counts {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: var(--gray-400);
+
+    strong {
+      color: var(--text-light);
+    }
+  }
+
+  &__divider {
+    opacity: 0.5;
+  }
+
+  &__subtotal {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--gray-400);
+  }
+
+  &__amount {
+    color: var(--green-500);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+}

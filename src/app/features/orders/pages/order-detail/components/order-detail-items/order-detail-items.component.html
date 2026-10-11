@@ -1,0 +1,120 @@
+<section class="od-card od-items-card">
+  <div class="od-card__header">
+    <div class="od-card__header-left">
+      <h2 class="od-card__title">
+        <i class="fa-solid fa-clipboard-list text-pink"></i>
+        {{ 'ORDERS.DETAILS.ITEMS_TITLE' | translate }}
+        <span class="od-card__badge">{{ order().orderItems.length }}</span>
+      </h2>
+    </div>
+
+    <!-- Instant Filter for orders with many items -->
+    @if (order().orderItems.length > 3) {
+      <div class="od-items-search">
+        <i class="fa-solid fa-magnifying-glass od-items-search__icon"></i>
+        <input
+          type="text"
+          class="od-items-search__input"
+          [placeholder]="'ORDERS.DETAILS.SEARCH_ITEMS' | translate"
+          [ngModel]="searchItemTerm()"
+          (ngModelChange)="searchItemTerm.set($event)"
+        />
+        @if (searchItemTerm()) {
+          <button
+            type="button"
+            class="od-items-search__clear"
+            (click)="searchItemTerm.set('')"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="od-card__body p-0">
+    @if (filteredItems().length === 0) {
+      <div class="od-items-empty">
+        <i class="fa-solid fa-box-open od-items-empty__icon"></i>
+        <p>
+          @if (searchItemTerm()) {
+            {{ 'ORDERS.DETAILS.NO_ITEMS_MATCH' | translate }}
+          } @else {
+            {{ 'ORDERS.DETAILS.NO_ITEMS' | translate }}
+          }
+        </p>
+      </div>
+    } @else {
+      <!-- Desktop / Tablet Table (visible >= 768px) -->
+      <div class="od-table-wrapper d-none d-md-block">
+        <table class="od-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th>{{ 'ORDERS.DETAILS.ITEM_NAME' | translate }}</th>
+              <th class="text-end" style="width: 140px;">{{ 'ORDERS.DETAILS.UNIT_PRICE' | translate }}</th>
+              <th class="text-center" style="width: 120px;">{{ 'ORDERS.DETAILS.QUANTITY' | translate }}</th>
+              <th class="text-end" style="width: 140px;">{{ 'ORDERS.DETAILS.LINE_TOTAL' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of filteredItems(); track $index) {
+              <tr class="od-table__row">
+                <td class="od-table__index">{{ $index + 1 }}</td>
+                <td class="od-table__name">
+                  <div class="od-table__name-wrap">
+                    <span class="od-table__item-dot"></span>
+                    <span class="fw-semibold text-light">{{ item.name || 'Unnamed Item' }}</span>
+                  </div>
+                </td>
+                <td class="od-table__unit-price text-end">
+                  ${{ item.unitPrice | number:'1.2-2' }}
+                </td>
+                <td class="od-table__qty text-center">
+                  <span class="od-qty-badge">x{{ item.quantity }}</span>
+                </td>
+                <td class="od-table__total text-end fw-bold">
+                  ${{ (item.lineTotal ?? (item.unitPrice * item.quantity)) | number:'1.2-2' }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile Cards List (visible < 768px) -->
+      <div class="od-mobile-items d-md-none">
+        @for (item of filteredItems(); track $index) {
+          <div class="od-mobile-item">
+            <div class="od-mobile-item__top">
+              <span class="od-mobile-item__index">#{{ $index + 1 }}</span>
+              <span class="od-mobile-item__name">{{ item.name || 'Unnamed Item' }}</span>
+              <span class="od-qty-badge">x{{ item.quantity }}</span>
+            </div>
+            <div class="od-mobile-item__bottom">
+              <span class="od-mobile-item__unit">
+                {{ 'ORDERS.DETAILS.UNIT_PRICE' | translate }}: ${{ item.unitPrice | number:'1.2-2' }}
+              </span>
+              <span class="od-mobile-item__total">
+                ${{ (item.lineTotal ?? (item.unitPrice * item.quantity)) | number:'1.2-2' }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Items Summary Footer -->
+  <div class="od-items-footer">
+    <div class="od-items-footer__counts">
+      <span>{{ 'ORDERS.DETAILS.TOTAL_ITEMS' | translate }}: <strong>{{ order().orderItems.length }}</strong></span>
+      <span class="od-items-footer__divider">•</span>
+      <span>{{ 'ORDERS.DETAILS.TOTAL_UNITS' | translate }}: <strong>{{ totalUnits() }}</strong></span>
+    </div>
+    <div class="od-items-footer__subtotal">
+      <span>{{ 'ORDERS.DETAILS.SUBTOTAL' | translate }}:</span>
+      <span class="od-items-footer__amount">${{ order().totalAmount | number:'1.2-2' }}</span>
+    </div>
+  </div>
+</section>

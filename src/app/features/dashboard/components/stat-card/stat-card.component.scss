@@ -1,0 +1,69 @@
+.stat-card {
+  background: var(--secondary-color);
+  border-radius: var(--border-radius);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  // ── Top section ────────────────────────────────────────────────────────────
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  &__label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  &__value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  // ── Icon ───────────────────────────────────────────────────────────────────
+  &__icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+
+    &--pink  { background: rgba(250,193,217,0.18); color: #fac1d9; }
+    &--blue  { background: rgba(107,228,255,0.18); color: #6be4ff; }
+    &--green { background: rgba(55,209,1,0.18);    color: #37d101; }
+  }
+
+  // ── Sparkline ──────────────────────────────────────────────────────────────
+  &__spark {
+    canvas {
+      width: 100%;
+      height: 40px;
+      display: block;
+    }
+  }
+}

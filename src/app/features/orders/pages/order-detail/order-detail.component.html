@@ -1,0 +1,87 @@
+<!-- Loading State -->
+@if (loading()) {
+  <div class="od-loading">
+    <div class="spinner-border" role="status" style="color: var(--primary-pink);">
+      <span class="visually-hidden">{{ 'ORDERS.LOADING' | translate }}</span>
+    </div>
+    <p class="mt-3" style="color: var(--gray-400);">{{ 'ORDERS.LOADING' | translate }}</p>
+  </div>
+}
+
+<!-- Error State -->
+@else if (isError() || !order()) {
+  <div class="od-error">
+    <i class="fa-solid fa-triangle-exclamation od-error__icon"></i>
+    <h2>{{ 'ORDERS.NO_ORDERS' | translate }}</h2>
+    <p>{{ 'ORDERS.NO_ORDERS_DESC' | translate }}</p>
+    <button class="btn-primary" (click)="goBack()">
+      <i class="fa-solid fa-arrow-left me-2"></i>
+      {{ 'ORDERS.DETAILS.BACK_TO_ORDERS' | translate }}
+    </button>
+  </div>
+}
+
+<!-- Main Content -->
+@else {
+  <div class="od-container">
+
+    <!-- Header sub-component -->
+    <app-order-detail-header
+      [order]="order()!"
+      [availableActions]="availableActions"
+      [actionsOpen]="actionsOpen()"
+      (back)="goBack()"
+      (print)="onOpenReceipt()"
+      (toggleActions)="onToggleActions($event)"
+      (closeActions)="onCloseActions()"
+      (statusChange)="onStatusChange($event)"
+    />
+
+    <!-- Cancellation Banner -->
+    @if (order()!.status === 'cancelled') {
+      <div class="od-cancel-banner">
+        <div class="od-cancel-banner__icon">
+          <i class="fa-solid fa-ban"></i>
+        </div>
+        <div class="od-cancel-banner__content">
+          <h4>{{ 'ORDERS.DETAILS.CANCELLATION_REASON' | translate }}</h4>
+          <p>{{ order()!.cancellationReason || 'No reason specified' }}</p>
+        </div>
+      </div>
+    }
+
+    <!-- Metrics sub-component -->
+    <app-order-detail-metrics
+      [order]="order()!"
+      [totalUnits]="totalUnits()"
+    />
+
+    <!-- Main content grid -->
+    <div class="od-main-grid">
+
+      <!-- Items table sub-component -->
+      <app-order-detail-items
+        [order]="order()!"
+        [totalUnits]="totalUnits()"
+      />
+
+      <!-- Sidebar sub-component (Customer + Financial + Audit) -->
+      <app-order-detail-sidebar
+        [order]="order()!"
+        [copiedField]="copiedField()"
+        (copyField)="onCopyField($event)"
+      />
+
+    </div>
+  </div>
+}
+
+<!-- Receipt Modal sub-component -->
+@if (showReceiptModal() && order()) {
+  <app-order-receipt-modal
+    [order]="order()!"
+    [totalUnits]="totalUnits()"
+    (close)="onCloseReceipt()"
+    (print)="onPrintReceipt()"
+  />
+}

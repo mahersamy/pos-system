@@ -1,0 +1,90 @@
+.od-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.od-metric-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--secondary-color-2);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+
+    &--status {
+      background: rgba(107, 228, 255, 0.12);
+      color: var(--blue-300);
+    }
+
+    &--amount {
+      background: rgba(55, 209, 1, 0.12);
+      color: var(--green-500);
+    }
+
+    &--items {
+      background: rgba(250, 193, 217, 0.12);
+      color: var(--primary-pink);
+    }
+
+    &--date {
+      background: rgba(255, 189, 15, 0.12);
+      color: var(--yellow-500);
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  &__label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-400);
+    font-weight: 600;
+  }
+
+  &__value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-light);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &--amount {
+      color: var(--green-500);
+      font-size: 1.35rem;
+    }
+
+    &--date {
+      font-size: 0.95rem;
+    }
+  }
+
+  &__subval {
+    font-size: 0.78rem;
+    font-weight: normal;
+    color: var(--gray-400);
+    margin-left: 0.35rem;
+
+    [dir='rtl'] & {
+      margin-left: 0;
+      margin-right: 0.35rem;
+    }
+  }
+}

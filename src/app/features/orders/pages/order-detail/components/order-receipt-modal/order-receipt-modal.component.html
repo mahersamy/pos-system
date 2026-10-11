@@ -1,0 +1,97 @@
+<div class="od-modal-backdrop" (click)="close.emit()">
+  <div class="od-modal-container" (click)="$event.stopPropagation()">
+
+    <div class="od-modal-header">
+      <h3 class="od-modal-title">
+        <i class="fa-solid fa-receipt me-2"></i>
+        {{ 'ORDERS.DETAILS.RECEIPT_TITLE' | translate }}
+      </h3>
+      <button type="button" class="od-modal-close" (click)="close.emit()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="od-modal-body">
+      <!-- Thermal Receipt Slip -->
+      <div id="od-thermal-receipt" class="od-receipt-slip">
+        <div class="od-receipt-slip__header">
+          <h2 class="od-receipt-slip__brand">POS RESTAURANT</h2>
+          <p class="od-receipt-slip__sub">RECEIPT / KITCHEN TICKET</p>
+          <div class="od-receipt-slip__dash"></div>
+        </div>
+
+        <div class="od-receipt-slip__meta">
+          <div><span>Order #:</span> <strong>{{ order().orderNumber }}</strong></div>
+          <div><span>Date:</span> {{ order().createdAt | date:'short' }}</div>
+          <div><span>Type:</span> {{ typeKey | translate }}</div>
+          @if (order().table) {
+            <div><span>Table:</span> {{ order().table }}</div>
+          }
+          <div><span>Guest:</span> {{ order().guestName || 'Guest' }}</div>
+          @if (order().phoneNumber) {
+            <div><span>Phone:</span> {{ order().phoneNumber }}</div>
+          }
+        </div>
+
+        <div class="od-receipt-slip__dash"></div>
+
+        <table class="od-receipt-slip__items">
+          <thead>
+            <tr>
+              <th style="width: 28px;">QTY</th>
+              <th>ITEM</th>
+              <th style="text-align: right;">PRICE</th>
+              <th style="text-align: right;">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of order().orderItems; track $index) {
+              <tr>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.name || 'Item' }}</td>
+                <td style="text-align: right;">${{ item.unitPrice | number:'1.2-2' }}</td>
+                <td style="text-align: right;">${{ (item.lineTotal ?? (item.unitPrice * item.quantity)) | number:'1.2-2' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <div class="od-receipt-slip__dash"></div>
+
+        <div class="od-receipt-slip__totals">
+          <div class="od-receipt-slip__total-row">
+            <span>ITEMS:</span>
+            <strong>{{ order().orderItems.length }}</strong>
+          </div>
+          <div class="od-receipt-slip__total-row">
+            <span>UNITS:</span>
+            <strong>{{ totalUnits() }}</strong>
+          </div>
+          <div class="od-receipt-slip__total-row od-receipt-slip__total-row--grand">
+            <span>TOTAL:</span>
+            <strong>${{ order().totalAmount | number:'1.2-2' }}</strong>
+          </div>
+        </div>
+
+        <div class="od-receipt-slip__dash"></div>
+
+        <div class="od-receipt-slip__footer">
+          <p>THANK YOU FOR DINING WITH US!</p>
+          <div class="od-receipt-slip__barcode">||| | ||||| || |||| |||||| | |||</div>
+          <small>{{ order()._id }}</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="od-modal-footer">
+      <button type="button" class="od-btn od-btn--secondary px-4" (click)="close.emit()">
+        {{ 'ORDERS.DETAILS.CLOSE_RECEIPT' | translate }}
+      </button>
+      <button type="button" class="od-btn od-btn--primary px-4" (click)="print.emit()">
+        <i class="fa-solid fa-print me-2"></i>
+        {{ 'ORDERS.DETAILS.PRINT_RECEIPT' | translate }}
+      </button>
+    </div>
+
+  </div>
+</div>

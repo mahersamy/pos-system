@@ -1,0 +1,14 @@
+<div class="stat-card" [class]="'stat-card--' + iconColor()">
+  <div class="stat-card__top">
+    <div class="stat-card__info">
+      <span class="stat-card__label">{{ label() }}</span>
+      <span class="stat-card__value">{{ value() }}</span>
+    </div>
+    <div class="stat-card__icon-wrap" [class]="'stat-card__icon-wrap--' + iconColor()">
+      <i [class]="icon()"></i>
+    </div>
+  </div>
+  <div class="stat-card__spark">
+    <canvas #sparkCanvas></canvas>
+  </div>
+</div>

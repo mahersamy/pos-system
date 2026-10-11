@@ -1,0 +1,203 @@
+<aside class="od-sidebar">
+
+  <!-- ── Customer & Service Card ────────────────────────────── -->
+  <div class="od-card">
+    <div class="od-card__header">
+      <h3 class="od-card__title">
+        <i class="fa-solid fa-user-circle text-pink"></i>
+        {{ 'ORDERS.DETAILS.CUSTOMER_DETAILS' | translate }}
+      </h3>
+    </div>
+    <div class="od-card__body">
+      <div class="od-info-list">
+
+        <!-- Guest Name -->
+        <div class="od-info-row">
+          <span class="od-info-row__label">
+            <i class="fa-solid fa-user"></i>
+            {{ 'ORDERS.FIELDS.GUEST' | translate }}
+          </span>
+          <span class="od-info-row__value fw-semibold text-light">
+            {{ order().guestName || 'Guest' }}
+          </span>
+        </div>
+
+        <!-- Phone -->
+        @if (order().phoneNumber) {
+          <div class="od-info-row">
+            <span class="od-info-row__label">
+              <i class="fa-solid fa-phone"></i>
+              {{ 'ORDERS.FIELDS.PHONE' | translate }}
+            </span>
+            <div class="d-flex align-items-center gap-2">
+              <a [href]="'tel:' + order().phoneNumber" class="od-info-row__value od-link text-decoration-none">
+                {{ order().phoneNumber }}
+              </a>
+              <button
+                type="button"
+                class="od-copy-btn"
+                (click)="onCopy(order().phoneNumber, 'phone')"
+                title="Copy phone"
+              >
+                <i
+                  class="fa-solid"
+                  [class.fa-copy]="copiedField() !== 'phone'"
+                  [class.fa-check]="copiedField() === 'phone'"
+                ></i>
+              </button>
+            </div>
+          </div>
+        }
+
+        <!-- Order Type -->
+        <div class="od-info-row">
+          <span class="od-info-row__label">
+            <i class="fa-solid fa-tag"></i>
+            {{ 'ORDERS.FIELDS.TYPE' | translate }}
+          </span>
+          <span class="od-type-chip">{{ typeKey | translate }}</span>
+        </div>
+
+        <!-- Table Number (Dine In only) -->
+        @if (order().table) {
+          <div class="od-info-row">
+            <span class="od-info-row__label">
+              <i class="fa-solid fa-chair"></i>
+              {{ 'ORDERS.FIELDS.TABLE' | translate }}
+            </span>
+            <span class="od-info-row__value fw-bold text-light">
+              {{ order().table }}
+            </span>
+          </div>
+        }
+
+        <!-- Delivery Info -->
+        @if (order().deliveryInfo) {
+          <div class="od-info-row od-info-row--vertical">
+            <span class="od-info-row__label">
+              <i class="fa-solid fa-truck"></i>
+              {{ 'ORDERS.DETAILS.DELIVERY_INFO' | translate }}
+            </span>
+            <div class="od-info-row__box">
+              {{ order().deliveryInfo }}
+            </div>
+          </div>
+        }
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Financial Summary Card ──────────────────────────────── -->
+  <div class="od-card">
+    <div class="od-card__header">
+      <h3 class="od-card__title">
+        <i class="fa-solid fa-receipt text-pink"></i>
+        {{ 'ORDERS.DETAILS.SUMMARY' | translate }}
+      </h3>
+    </div>
+    <div class="od-card__body">
+      <div class="od-summary-list">
+        <div class="od-summary-row">
+          <span class="od-summary-row__label">{{ 'ORDERS.DETAILS.SUBTOTAL' | translate }}</span>
+          <span class="od-summary-row__value">${{ order().totalAmount | number:'1.2-2' }}</span>
+        </div>
+        <div class="od-summary-divider"></div>
+        <div class="od-summary-row od-summary-row--total">
+          <span class="od-summary-row__label">{{ 'ORDERS.DETAILS.TOTAL_AMOUNT' | translate }}</span>
+          <span class="od-summary-row__value od-summary-row__value--total">
+            ${{ order().totalAmount | number:'1.2-2' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Order Information / Audit Card ─────────────────────── -->
+  <div class="od-card">
+    <div class="od-card__header">
+      <h3 class="od-card__title">
+        <i class="fa-solid fa-circle-info text-pink"></i>
+        {{ 'ORDERS.DETAILS.ORDER_INFO' | translate }}
+      </h3>
+    </div>
+    <div class="od-card__body">
+      <div class="od-info-list od-info-list--dense">
+
+        <!-- Order Number -->
+        <div class="od-info-row">
+          <span class="od-info-row__label">{{ 'ORDERS.FIELDS.ORDER_NUMBER' | translate }}</span>
+          <span class="od-info-row__value font-monospace fw-bold">{{ order().orderNumber }}</span>
+        </div>
+
+        <!-- Order ID -->
+        <div class="od-info-row">
+          <span class="od-info-row__label">ID</span>
+          <div class="d-flex align-items-center gap-1 min-width-0">
+            <span
+              class="od-info-row__value font-monospace small text-truncate"
+              style="max-width: 120px;"
+              [title]="order()._id"
+            >
+              {{ order()._id }}
+            </span>
+            <button
+              type="button"
+              class="od-copy-btn"
+              (click)="onCopy(order()._id, 'id')"
+              title="Copy ID"
+            >
+              <i
+                class="fa-solid"
+                [class.fa-copy]="copiedField() !== 'id'"
+                [class.fa-check]="copiedField() === 'id'"
+              ></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Created By — resolved to a name, never shows [object Object] -->
+        @if (createdByName) {
+          <div class="od-info-row">
+            <span class="od-info-row__label">{{ 'ORDERS.DETAILS.CREATED_BY' | translate }}</span>
+            <span class="od-info-row__value small text-light od-creator-badge">
+              <i class="fa-solid fa-user-pen" style="font-size: 0.75rem; opacity: 0.7;"></i>
+              {{ createdByName }}
+            </span>
+          </div>
+        }
+
+        <!-- Updated By -->
+        @if (updatedByName) {
+          <div class="od-info-row">
+            <span class="od-info-row__label">{{ 'ORDERS.DETAILS.UPDATED_AT' | translate }}</span>
+            <span class="od-info-row__value small text-light od-creator-badge">
+              <i class="fa-solid fa-user-check" style="font-size: 0.75rem; opacity: 0.7;"></i>
+              {{ updatedByName }}
+            </span>
+          </div>
+        }
+
+        <!-- Created At -->
+        <div class="od-info-row">
+          <span class="od-info-row__label">{{ 'ORDERS.DETAILS.CREATED_AT' | translate }}</span>
+          <span class="od-info-row__value small text-light">
+            {{ order().createdAt | date:'medium' }}
+          </span>
+        </div>
+
+        <!-- Updated At -->
+        @if (order().updatedAt) {
+          <div class="od-info-row">
+            <span class="od-info-row__label">{{ 'ORDERS.DETAILS.UPDATED_AT' | translate }}</span>
+            <span class="od-info-row__value small text-light">
+              {{ order().updatedAt | date:'medium' }}
+            </span>
+          </div>
+        }
+
+      </div>
+    </div>
+  </div>
+
+</aside>

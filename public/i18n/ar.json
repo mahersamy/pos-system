@@ -241,7 +241,7 @@
         "rejectionDescription": "وصف الرفض",
         "enterDescription": "أدخل الوصف",
         "SELECTED": "محدد",
-        "SEARCH_PLACEHOLDER": "البحث بالاسم، البريد الإلكتروني، الهاتف"
+        "SEARCH_PLACEHOLDER": "البحث"
     },
     "PAGINATION": {
         "SHOW_ENTRIES": "عرض المدخلات",

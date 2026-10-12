@@ -241,7 +241,7 @@
         "rejectionDescription": "Rejection Description",
         "enterDescription": "Enter Description",
         "SELECTED": "selected",
-        "SEARCH_PLACEHOLDER": "Search By Name, Email, Phone"
+        "SEARCH_PLACEHOLDER": "Search"
     },
     "PAGINATION": {
         "SHOW_ENTRIES": "Show Entries",

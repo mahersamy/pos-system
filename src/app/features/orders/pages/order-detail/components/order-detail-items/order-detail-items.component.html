@@ -74,7 +74,7 @@
                   <span class="od-qty-badge">x{{ item.quantity }}</span>
                 </td>
                 <td class="od-table__total text-end fw-bold">
-                  ${{ (item.lineTotal ?? (item.unitPrice * item.quantity)) | number:'1.2-2' }}
+                  ${{ item.lineTotal | number:'1.2-2' }}
                 </td>
               </tr>
             }
@@ -96,7 +96,7 @@
                 {{ 'ORDERS.DETAILS.UNIT_PRICE' | translate }}: ${{ item.unitPrice | number:'1.2-2' }}
               </span>
               <span class="od-mobile-item__total">
-                ${{ (item.lineTotal ?? (item.unitPrice * item.quantity)) | number:'1.2-2' }}
+                ${{ item.lineTotal | number:'1.2-2' }}
               </span>
             </div>
           </div>

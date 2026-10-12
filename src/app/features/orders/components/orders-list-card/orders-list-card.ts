@@ -54,7 +54,7 @@ export class OrdersListCard {
   }
 
   navigateToDetail(): void {
-    this.router.navigate(['/main/orders', this.order()._id], {
+    this.router.navigate(['/orders', this.order()._id], {
       state: { order: this.order() }
     });
   }

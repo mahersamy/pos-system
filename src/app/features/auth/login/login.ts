@@ -77,7 +77,7 @@ export class Login {
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
                 next: (user) => {
-                    this._router.navigate(["main"]);
+                    this._router.navigate([""]);
                 },
                 error: (error) => {
                     console.error("Login processing error:", error);

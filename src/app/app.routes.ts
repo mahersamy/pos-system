@@ -25,11 +25,16 @@ export const routes: Routes = [
         canActivate: [publicGuard],
     },
     {
-        path: "main",
+        path: "",
         canActivate: [authGuard],
         loadComponent: () =>
             import("./layout/main-layout/main-layout").then((m) => m.MainLayout),
         children: [
+            {
+                path: "",
+                redirectTo: "dashboard",
+                pathMatch: "full",
+            },
             ...dashboardRoutes,
             ...staffRoutes,
             ...notificationRoutes,
@@ -52,11 +57,6 @@ export const routes: Routes = [
     {
         path: "unauthorized",
         component: Unauthorized,
-    },
-    {
-        path: "",
-        redirectTo: "login",
-        pathMatch: "full",
     },
     {
         path: "**",

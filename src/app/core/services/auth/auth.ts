@@ -37,7 +37,7 @@ export class AuthService {
         this._storage.clear();
         this.currentUser.set(null);
         this._permissionsService.clear();
-        this._router.navigate(["login"]);
+        this._router.navigate(["/login"]);
     }
 
     /**

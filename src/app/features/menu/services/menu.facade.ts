@@ -1,11 +1,11 @@
 import { inject, Injectable, signal } from "@angular/core";
-import { Observable, throwError } from "rxjs";
-import { tap, catchError, map } from "rxjs/operators";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { MenuApiService } from "./menu-api.service";
 import { Menu } from "../model/menu.model";
 import { BaseFacade } from "../../../core/base/base-facade.base";
 import { GetAllModel } from "../../../core/models/get-all.model";
-import { GlobalPaginatedResponse, GlobalResponse } from "../../../core/models/response-global.model";
+import { GlobalPaginatedResponse } from "../../../core/models/response-global.model";
 import { MenuState } from "../state/menu.state";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 

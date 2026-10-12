@@ -22,7 +22,7 @@ export class NotificationDetail implements OnInit {
         if (routeState && routeState.data) {
             this.notification.set(routeState.data);
         } else {
-            this.router.navigate(["/main/notifications"]);
+            this.router.navigate(["/notifications"]);
         }
     }
 

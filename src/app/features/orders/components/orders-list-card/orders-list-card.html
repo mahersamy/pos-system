@@ -93,7 +93,7 @@
                         <span class="order-card__item-name" [title]="item.name">{{ item.name || 'Item' }}</span>
                     </div>
                     <span class="order-card__item-price">
-                        ${{ (item.lineTotal ?? (item.unitPrice * item.quantity)) | number:'1.2-2' }}
+                        ${{ item.lineTotal | number:'1.2-2' }}
                     </span>
                 </li>
                 }
@@ -158,7 +158,7 @@
         </div>
 
         <a
-            [routerLink]="['/main/orders', order()._id]"
+            [routerLink]="['/orders', order()._id]"
             [state]="{ order: order() }"
             class="order-card__view-btn"
             (click)="$event.stopPropagation()"

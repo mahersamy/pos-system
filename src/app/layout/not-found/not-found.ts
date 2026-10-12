@@ -16,6 +16,6 @@ export class NotFound {
      * Directs the lost user back to the primary authenticated entry point.
      */
     goHome() {
-        this._router.navigate(["/main"]);
+        this._router.navigate(["/dashboard"]);
     }
 }

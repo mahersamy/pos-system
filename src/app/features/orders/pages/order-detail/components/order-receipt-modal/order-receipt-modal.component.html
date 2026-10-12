@@ -50,7 +50,7 @@
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.name || 'Item' }}</td>
                 <td style="text-align: right;">${{ item.unitPrice | number:'1.2-2' }}</td>
-                <td style="text-align: right;">${{ (item.lineTotal ?? (item.unitPrice * item.quantity)) | number:'1.2-2' }}</td>
+                <td style="text-align: right;">${{ item.lineTotal | number:'1.2-2' }}</td>
               </tr>
             }
           </tbody>

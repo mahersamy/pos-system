@@ -15,6 +15,6 @@ export class Unauthorized {
      * Directs the unauthorized user back to the primary authenticated entry point.
      */
     goHome() {
-        this._router.navigate(["/main"]);
+        this._router.navigate(["/dashboard"]);
     }
 }

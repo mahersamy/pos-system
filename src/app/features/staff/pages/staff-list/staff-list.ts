@@ -84,6 +84,6 @@ export class StaffList extends BaseListComponent<StaffAdaptModel, StaffFacade> {
 
     // ── Action handlers ──────────────────────────────────────────────────────
     private _onView(data: StaffAdaptModel): void {
-        this._router.navigate(["/main/staff/staff-details", data._id]);
+        this._router.navigate(["/staff/staff-details", data._id]);
     }
 }

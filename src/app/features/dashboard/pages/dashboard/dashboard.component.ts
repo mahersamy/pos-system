@@ -6,18 +6,19 @@ import { DashboardFacade } from '../../services/dashboard.facade';
 import { DashboardStatCardComponent } from '../../components/stat-card/stat-card.component';
 import { PopularDishesTableComponent } from '../../components/popular-dishes-table/popular-dishes-table.component';
 import { LowStockTableComponent } from '../../components/low-stock-table/low-stock-table.component';
-
+import { CompactCurrencyPipe, formatCompactCurrency } from '../../../../shared/pipes/compact-currency.pipe';
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     imports: [
-        CommonModule,
-        TranslateModule,
-        ChartModule,
-        DashboardStatCardComponent,
-        PopularDishesTableComponent,
-        LowStockTableComponent,
-    ],
+    CommonModule,
+    TranslateModule,
+    ChartModule,
+    DashboardStatCardComponent,
+    PopularDishesTableComponent,
+    LowStockTableComponent,
+    CompactCurrencyPipe
+],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
 })
@@ -98,8 +99,4 @@ export class DashboardComponent implements OnInit {
         this.facade.loadAll();
     }
 
-    formatCurrency(value: number): string {
-        if (value >= 1000) return `$${(value / 1000).toFixed(1)}k`;
-        return `$${value.toFixed(0)}`;
-    }
 }

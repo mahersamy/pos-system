@@ -34,8 +34,13 @@ export class UserProfileService {
         return this._http.patch<GlobalResponse<User>>(url, formData);
     }
 
-    updateProfile(userId: string, data: User): Observable<GlobalResponse<User>> {
+    updateProfile(userId: string, data: Partial<User>): Observable<GlobalResponse<User>> {
         const url = `${environment.apiUrl}${BACKEND_ROUTE.users.base}/${userId}`;
         return this._http.patch<GlobalResponse<User>>(url, data);
+    }
+
+    updatePassword(userId: string, password: string): Observable<GlobalResponse<any>> {
+        const url = `${environment.apiUrl}${BACKEND_ROUTE.users.password(userId)}`;
+        return this._http.patch<GlobalResponse<any>>(url, { password });
     }
 }

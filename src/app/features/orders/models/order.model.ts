@@ -7,7 +7,7 @@ export interface OrderItem {
     name: string;        // Item name at time of order
     unitPrice: number;   // Unit price at time of order
     quantity: number;    // Quantity ordered
-    lineTotal: number;   // unitPrice × quantity
+    lineTotal: number;  // unitPrice × quantity
 }
 
 /** Matches CreateOrderDto — sent when placing a new order */

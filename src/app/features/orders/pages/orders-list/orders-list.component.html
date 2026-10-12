@@ -16,7 +16,7 @@
       (applyFilter)="onFilter($event)"
     />
 
-    <button class="btn-primary orders-header__new-btn" [routerLink]="['/main/orders/new']">
+    <button class="btn-primary orders-header__new-btn" [routerLink]="['/orders/new']">
       <i class="fa-solid fa-plus"></i>
       {{ 'ORDERS.NEW_ORDER' | translate }}
     </button>
@@ -51,7 +51,7 @@
       <i class="fa-solid fa-cart-shopping orders-empty-state__icon"></i>
       <p>{{ 'ORDERS.NO_ORDERS' | translate }}</p>
       <span>{{ 'ORDERS.NO_ORDERS_DESC' | translate }}</span>
-      <button class="btn-primary" [routerLink]="['/main/orders/new']">
+      <button class="btn-primary" [routerLink]="['/orders/new']">
         <i class="fa-solid fa-plus"></i>
         {{ 'ORDERS.FIRST_ORDER' | translate }}
       </button>

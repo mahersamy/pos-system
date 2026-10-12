@@ -40,6 +40,6 @@ export const publicGuard: CanActivateFn = (route, state) => {
         return true;
     }
 
-    router.navigate(["/main"]);
+    router.navigate(["/dashboard"]);
     return false;
 };

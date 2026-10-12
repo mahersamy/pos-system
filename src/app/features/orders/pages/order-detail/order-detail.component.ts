@@ -109,7 +109,7 @@ export class OrderDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/main/orders']);
+    this.router.navigate(['/orders']);
   }
 
   // ── Actions Dropdown ─────────────────────────────────────────────────────────

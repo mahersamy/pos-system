@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, DestroyRef, output } from "@angular/core";
+import { Component, inject, OnInit, DestroyRef, output, computed } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { LayoutService } from "../../core/services/layout/layout";
 import { Router, NavigationEnd } from "@angular/router";
@@ -26,6 +26,26 @@ export class MainHeader implements OnInit {
 
     /** Active title value managed by the layout state */
     title = this._layoutService.title;
+
+    /** Safely resolved avatar URL that handles objects, strings, and fallback */
+    avatarUrl = computed(() => {
+        const u = this._authService.currentUser();
+        if (!u) return "https://ui-avatars.com/api/?name=User&background=fac1d9&color=111&bold=true";
+        const pic: any = u.profilePicture;
+        if (typeof pic === "string" && pic.trim()) return pic;
+        if (typeof pic === "object" && pic?.secure_url) return pic.secure_url;
+        const name = `${u.firstName || ""} ${u.lastName || ""}`.trim() || "User";
+        return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=fac1d9&color=111&bold=true`;
+    });
+
+    onAvatarError(event: Event) {
+        const target = event.target as HTMLImageElement;
+        if (target) {
+            const u = this._authService.currentUser();
+            const name = u ? `${u.firstName || ""} ${u.lastName || ""}`.trim() : "User";
+            target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || "User")}&background=fac1d9&color=111&bold=true`;
+        }
+    }
 
     ngOnInit() {
         this.updateTitle();

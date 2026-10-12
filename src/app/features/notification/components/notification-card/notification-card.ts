@@ -24,7 +24,7 @@ export class NotificationCard {
      * Navigates to the detailed view of the notification, passing its data via router state.
      */
     goToDetail() {
-        this.router.navigate(["/main/notifications", this.notification()._id], {
+        this.router.navigate(["/notifications", this.notification()._id], {
             state: {data: this.notification()},
         });
     }

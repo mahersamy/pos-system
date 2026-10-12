@@ -106,7 +106,15 @@
         "LAST_NAME": "Last Name",
         "ADDRESS": "Address",
         "NEW_PASSWORD": "New Password",
-        "CONFIRM_PASSWORD": "Confirm Password"
+        "CONFIRM_PASSWORD": "Confirm Password",
+        "CHANGE_PHOTO": "Change Photo",
+        "SECURITY": "Security & Credentials",
+        "PASSWORD_HINT": "Leave blank if you do not want to change your password",
+        "PASSWORD_MISMATCH": "Passwords do not match",
+        "EMAIL_READONLY_HINT": "Email address cannot be changed",
+        "SUCCESS_TITLE": "Success",
+        "SUCCESS_UPDATE": "Profile updated successfully",
+        "SUCCESS_PHOTO": "Profile photo updated successfully"
     },
     "NOTIFICATION": {
         "TITLE": "Notifications",
@@ -233,7 +241,7 @@
         "rejectionDescription": "Rejection Description",
         "enterDescription": "Enter Description",
         "SELECTED": "selected",
-        "SEARCH_PLACEHOLDER": "Search By Name, Email, Phone"
+        "SEARCH_PLACEHOLDER": "Search"
     },
     "PAGINATION": {
         "SHOW_ENTRIES": "Show Entries",

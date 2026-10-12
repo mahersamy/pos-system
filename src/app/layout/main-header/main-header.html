@@ -17,7 +17,7 @@
         <div class="notification-box">
             <button
                 class="icon-btn"
-                routerLink="/main/notifications"
+                routerLink="/notifications"
             >
                 <i class="fa-solid fa-bell"></i>
                 <span class="notification-badge"></span>
@@ -37,10 +37,11 @@
 
         <div
             class="user-profile-summary"
-            routerLink="/main/profile"
+            routerLink="/profile"
         >
             <img
-                [src]="_authService.currentUser()?.profilePicture || 'https://ui-avatars.com/api/?name=' + _authService.currentUser()?.firstName + '+' + _authService.currentUser()?.lastName + '&background=fac1d9&color=111'"
+                [src]="avatarUrl()"
+                (error)="onAvatarError($event)"
                 alt="Avatar"
                 class="avatar-mini"
             />

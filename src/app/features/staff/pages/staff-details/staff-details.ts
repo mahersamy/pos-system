@@ -121,7 +121,7 @@ export class StaffDetails implements OnInit {
                         next: () => {
                             this._confirmationService.isBtn1Loading.set(false);
                             this._confirmationService.close();
-                            this._router.navigate(["/main/staff"]);
+                            this._router.navigate(["/staff"]);
                         },
                         error: (error) => {
                             this._confirmationService.isBtn1Loading.set(false);
@@ -136,6 +136,6 @@ export class StaffDetails implements OnInit {
      * Navigates back to the main staff list
      */
     goBack() {
-        this._router.navigate(["/main/staff"]);
+        this._router.navigate(["/staff"]);
     }
 }

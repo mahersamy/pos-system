@@ -106,7 +106,15 @@
         "LAST_NAME": "اسم العائلة",
         "ADDRESS": "العنوان",
         "NEW_PASSWORD": "كلمة المرور الجديدة",
-        "CONFIRM_PASSWORD": "تأكيد كلمة المرور"
+        "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+        "CHANGE_PHOTO": "تغيير الصورة",
+        "SECURITY": "الأمان وكلمة المرور",
+        "PASSWORD_HINT": "اتركها فارغة إذا كنت لا ترغب في تغيير كلمة المرور",
+        "PASSWORD_MISMATCH": "كلمتا المرور غير متطابقتين",
+        "EMAIL_READONLY_HINT": "لا يمكن تعديل البريد الإلكتروني",
+        "SUCCESS_TITLE": "نجاح",
+        "SUCCESS_UPDATE": "تم تحديث الملف الشخصي بنجاح",
+        "SUCCESS_PHOTO": "تم تحديث صورة الملف الشخصي بنجاح"
     },
     "NOTIFICATION": {
         "TITLE": "الإشعارات",
@@ -233,7 +241,7 @@
         "rejectionDescription": "وصف الرفض",
         "enterDescription": "أدخل الوصف",
         "SELECTED": "محدد",
-        "SEARCH_PLACEHOLDER": "البحث بالاسم، البريد الإلكتروني، الهاتف"
+        "SEARCH_PLACEHOLDER": "البحث"
     },
     "PAGINATION": {
         "SHOW_ENTRIES": "عرض المدخلات",

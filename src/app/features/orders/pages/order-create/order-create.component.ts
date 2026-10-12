@@ -208,7 +208,7 @@ export class OrderCreateComponent implements OnInit {
     }
 
     goBack(): void {
-        this._router.navigate(['/main/orders']);
+        this._router.navigate(['/orders']);
     }
 
     // ── Filter helpers ────────────────────────────────────────────────────────

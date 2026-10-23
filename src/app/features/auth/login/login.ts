@@ -1,8 +1,9 @@
 import {Component, inject, signal, DestroyRef, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {AuthService} from "../../../core/services/auth/auth";
+import {PermissionsService} from "../../../core/services/permissions/permissions";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -17,6 +18,7 @@ import {Loading} from "../../../shared/directives/loading/loading";
     imports: [
         ReactiveFormsModule,
         CommonModule,
+        RouterLink,
         InputTextModule,
         PasswordModule,
         FieldValidation,
@@ -28,6 +30,7 @@ import {Loading} from "../../../shared/directives/loading/loading";
 })
 export class Login {
     private readonly _authService = inject(AuthService);
+    private readonly _permissionsService = inject(PermissionsService);
     private readonly _formBuilder = inject(FormBuilder);
     private readonly _router = inject(Router);
     private readonly _destroyRef = inject(DestroyRef);
@@ -76,8 +79,9 @@ export class Login {
             .login(email, password)
             .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe({
-                next: (user) => {
-                    this._router.navigate([""]);
+                next: () => {
+                    const destination = this._permissionsService.getFirstAccessibleRoute();
+                    this._router.navigate([destination]);
                 },
                 error: (error) => {
                     console.error("Login processing error:", error);

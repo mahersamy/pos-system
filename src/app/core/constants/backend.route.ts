@@ -2,6 +2,12 @@ export const BACKEND_ROUTE = {
     auth: {
         login: "/api/v1/auth/login",
         register: "/api/v1/auth/register",
+        refreshToken: "/api/v1/auth/refresh-token",
+        logout: "/api/v1/auth/logout",
+        logoutAll: "/api/v1/auth/logout-all",
+        forgotPassword: "/api/v1/auth/forgot-password",
+        verifyOtp: "/api/v1/auth/verify-otp",
+        resetPassword: "/api/v1/auth/reset-password",
     },
     users: {
         profile: "/api/v1/users/profile",

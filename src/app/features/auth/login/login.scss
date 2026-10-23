@@ -78,10 +78,20 @@
 
 .form-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
     font-size: 13px;
+
+    .forgot-password-link {
+        color: var(--text-muted);
+        text-decoration: underline;
+        transition: color 0.2s;
+
+        &:hover {
+            color: var(--primary-pink);
+        }
+    }
 }
 
 .submit-btn {

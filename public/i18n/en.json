@@ -365,6 +365,72 @@
         "LOW_STOCK": "Low Stock",
         "ITEMS": "Items",
         "STOCK_OK": "All stock levels are good"
+    },
+    "REPORTS": {
+        "TITLE": "Reports & Analytics",
+        "SUBTITLE": "Comprehensive sales performance and inventory valuation metrics",
+        "ERROR": "Failed to load reports data. Please try again.",
+        "NO_DATA": "No data available for the selected period",
+        "FILTERS": {
+            "START_DATE": "Start Date",
+            "END_DATE": "End Date",
+            "GROUP_BY": "Group By",
+            "DAY": "Day",
+            "WEEK": "Week",
+            "MONTH": "Month",
+            "ORDER_TYPE": "Order Type",
+            "ALL": "All",
+            "DINE_IN": "Dine-In",
+            "DELIVERY": "Delivery"
+        },
+        "TABS": {
+            "SALES": "Sales Performance",
+            "INVENTORY": "Inventory & Stock"
+        },
+        "SALES": {
+            "NET_SALES": "Net Sales",
+            "TOTAL_ORDERS": "Total Orders",
+            "COMPLETED": "Completed Orders",
+            "AOV": "Avg. Order Value",
+            "CANCELLED": "Cancelled",
+            "GROSS": "Gross Sales",
+            "CURRENCY": "Currency",
+            "TRENDS_TITLE": "Sales & Orders Trends",
+            "BY_TYPE_TITLE": "Sales by Order Type",
+            "BY_TYPE_BREAKDOWN": "Order Type Breakdown"
+        },
+        "INVENTORY": {
+            "TOTAL_SKUS": "Total SKUs",
+            "IN_STOCK": "In Stock",
+            "LOW_STOCK": "Low Stock Items",
+            "OUT_OF_STOCK": "Out of Stock",
+            "TOTAL_VALUE": "Total Stock Value",
+            "METHOD": "Valuation Method",
+            "STATUS_CHART": "Stock Distribution",
+            "LOW_STOCK_TABLE": "Low Stock Alerts",
+            "NO_LOW_STOCK": "No items are currently below reorder level",
+            "MOVEMENTS_TITLE": "Stock Movement Audit Log",
+            "NO_MOVEMENTS": "No stock movements recorded"
+        },
+        "TABLE": {
+            "TYPE": "Type",
+            "ORDERS": "Orders",
+            "SALES": "Sales",
+            "AOV": "AOV",
+            "SHARE": "Revenue Share",
+            "ITEM": "Item Name",
+            "CATEGORY": "Category",
+            "QTY": "Quantity",
+            "REORDER": "Reorder Level",
+            "PRICE": "Price",
+            "DELTA": "Change",
+            "BEFORE": "Before",
+            "AFTER": "After",
+            "ACTOR": "Changed By",
+            "REASON": "Reason",
+            "DATE": "Date"
+        }
     }
 }
+
 

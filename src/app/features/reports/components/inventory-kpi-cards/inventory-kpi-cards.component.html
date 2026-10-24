@@ -1,0 +1,41 @@
+@if (summary(); as inv) {
+    <div class="kpi-row">
+        <div class="kpi-card kpi-card--blue">
+            <div class="kpi-card__icon"><i class="fa-solid fa-layer-group"></i></div>
+            <div class="kpi-card__body">
+                <span class="kpi-card__label">{{ 'REPORTS.INVENTORY.TOTAL_SKUS' | translate }}</span>
+                <span class="kpi-card__value">{{ inv.totalSkus | number }}</span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-card--green">
+            <div class="kpi-card__icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="kpi-card__body">
+                <span class="kpi-card__label">{{ 'REPORTS.INVENTORY.IN_STOCK' | translate }}</span>
+                <span class="kpi-card__value">{{ inv.inStockCount | number }}</span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-card--yellow">
+            <div class="kpi-card__icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="kpi-card__body">
+                <span class="kpi-card__label">{{ 'REPORTS.INVENTORY.LOW_STOCK' | translate }}</span>
+                <span class="kpi-card__value">{{ inv.lowStockCount | number }}</span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-card--red">
+            <div class="kpi-card__icon"><i class="fa-solid fa-xmark-circle"></i></div>
+            <div class="kpi-card__body">
+                <span class="kpi-card__label">{{ 'REPORTS.INVENTORY.OUT_OF_STOCK' | translate }}</span>
+                <span class="kpi-card__value">{{ inv.outOfStockCount | number }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory valuation summary badge -->
+    <div class="summary-badge">
+        <i class="fa-solid fa-coins"></i>
+        <span>{{ 'REPORTS.INVENTORY.TOTAL_VALUE' | translate }}:</span>
+        <strong>{{ inv.totalStockValue | compactCurrency }}</strong>
+        <span class="divider">•</span>
+        <span>{{ 'REPORTS.INVENTORY.METHOD' | translate }}: {{ inv.valuationMethod }}</span>
+    </div>
+}

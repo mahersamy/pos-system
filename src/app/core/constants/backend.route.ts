@@ -47,4 +47,13 @@ export const BACKEND_ROUTE = {
         popularDishes: "/api/v1/dashboard/popular-dishes",
         lowStock: "/api/v1/dashboard/low-stock",
     },
+    reports: {
+        sales: "/api/v1/reports/sales",
+        salesSummary: "/api/v1/reports/sales/summary",
+        salesTrends: "/api/v1/reports/sales/trends",
+        salesByOrderType: "/api/v1/reports/sales/by-order-type",
+        inventorySummary: "/api/v1/reports/inventory/summary",
+        inventoryLowStock: "/api/v1/reports/inventory/low-stock",
+        inventoryMovements: "/api/v1/reports/inventory/movements",
+    },
 };

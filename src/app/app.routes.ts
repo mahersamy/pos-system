@@ -13,6 +13,7 @@ import { categoryRoutes } from "./features/category/category.route";
 import { inventoryRoutes } from "./features/inventory/inventory.route";
 import { dashboardRoutes } from "./features/dashboard/routes/dashboard.routes";
 import { ordersRoutes } from "./features/orders/orders.route";
+import { reportsRoutes } from "./features/reports/routes/reports.routes";
 import { homeRedirectGuard } from "./core/guards/home-redirect/home-redirect.guard";
 export const routes: Routes = [
     {
@@ -45,6 +46,7 @@ export const routes: Routes = [
             ...inventoryRoutes,
             ...auditLogsRoutes,
             ...ordersRoutes,
+            ...reportsRoutes,
             {
                 path: "profile",
                 data: { title: "User Profile" },

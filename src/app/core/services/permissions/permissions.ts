@@ -67,6 +67,7 @@ export class PermissionsService {
             { module: PermissionModule.MENU,         path: '/menu' },
             { module: PermissionModule.CATEGORY,     path: '/category' },
             { module: PermissionModule.INVENTORY,    path: '/inventory' },
+            { module: PermissionModule.REPORTS,      path: '/reports' },
             { module: PermissionModule.STAFF,        path: '/staff' },
             { module: PermissionModule.USERS,        path: '/users' },
             { module: PermissionModule.AUDIT_LOGS,   path: '/audit-logs' },

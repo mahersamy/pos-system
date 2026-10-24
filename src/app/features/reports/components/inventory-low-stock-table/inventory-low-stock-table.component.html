@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card__header">
+        <h2 class="card__title">{{ 'REPORTS.INVENTORY.LOW_STOCK_TABLE' | translate }}</h2>
+    </div>
+    @if (report()?.items?.length) {
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>{{ 'REPORTS.TABLE.ITEM' | translate }}</th>
+                    <th>{{ 'REPORTS.TABLE.CATEGORY' | translate }}</th>
+                    <th>{{ 'REPORTS.TABLE.QTY' | translate }}</th>
+                    <th>{{ 'REPORTS.TABLE.REORDER' | translate }}</th>
+                    <th>{{ 'REPORTS.TABLE.PRICE' | translate }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of report()!.items; track item.inventoryId) {
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.category?.name ?? '—' }}</td>
+                        <td>
+                            <span class="qty-badge" [class.qty-badge--danger]="item.quantity === 0"
+                                  [class.qty-badge--warn]="item.quantity > 0">
+                                {{ item.quantity }}
+                            </span>
+                        </td>
+                        <td>{{ item.reorderLevel }}</td>
+                        <td>{{ item.price | compactCurrency }}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    } @else {
+        <div class="empty-chart">
+            <i class="fa-solid fa-check"></i>
+            <span>{{ 'REPORTS.INVENTORY.NO_LOW_STOCK' | translate }}</span>
+        </div>
+    }
+</div>

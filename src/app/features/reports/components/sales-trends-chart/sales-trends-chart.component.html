@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="card__header">
+        <h2 class="card__title">{{ 'REPORTS.SALES.TRENDS_TITLE' | translate }}</h2>
+        <div class="card__legend">
+            <span class="legend-dot legend-dot--pink"></span><span class="legend-label">Sales</span>
+            <span class="legend-dot legend-dot--blue"></span><span class="legend-label">Orders</span>
+        </div>
+    </div>
+    @if (isBrowser() && trends()?.items?.length) {
+        <div class="card__chart">
+            <p-chart type="line" [data]="chartData()" [options]="chartOptions" height="300px" />
+        </div>
+    } @else {
+        <div class="empty-chart">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>{{ 'REPORTS.NO_DATA' | translate }}</span>
+        </div>
+    }
+</div>

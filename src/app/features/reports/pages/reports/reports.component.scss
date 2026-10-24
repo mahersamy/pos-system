@@ -1,0 +1,162 @@
+.reports {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+
+  // ── Page Header ─────────────────────────────────────────────
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: 0.88rem;
+    color: #777979;
+  }
+
+  // ── Error State ─────────────────────────────────────────────
+  &__error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem 2rem;
+    background: #1f2122;
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    border-radius: 12px;
+    color: #f87171;
+    font-size: 1rem;
+
+    i {
+      font-size: 2.5rem;
+    }
+  }
+
+  // ── Skeleton Loader ─────────────────────────────────────────
+  &__loading {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+}
+
+// ── Tab Switcher ─────────────────────────────────────────────────────────────
+.tab-switcher {
+  display: inline-flex;
+  background: #1f2122;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0.3rem;
+  gap: 0.3rem;
+  align-self: flex-start;
+}
+
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: #777979;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+
+  &:hover {
+    color: #d9d9d9;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  &--active {
+    background: #fac1d9;
+    color: #1a1a1a;
+
+    &:hover {
+      background: #fac1d9;
+      color: #1a1a1a;
+    }
+  }
+}
+
+// ── Layout Split ─────────────────────────────────────────────────────────────
+.split-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Skeleton Animation ───────────────────────────────────────────────────────
+.skeleton-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+
+  &--half {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #1f2122 25%, #292c2d 50%, #1f2122 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 12px;
+
+  &--kpi { height: 90px; }
+  &--chart { height: 340px; }
+  &--chart-sm { height: 260px; }
+  &--table { height: 260px; }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.52rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: #fac1d9;
+  color: #1a1a1a;
+  transition: opacity 0.18s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}

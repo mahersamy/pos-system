@@ -1,0 +1,121 @@
+.split-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: #1f2122;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  &__chart {
+    position: relative;
+    width: 100%;
+
+    &--sm {
+      max-height: 230px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+
+  th {
+    text-align: left;
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #777979;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  td {
+    padding: 0.85rem 0.75rem;
+    color: #d9d9d9;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.22rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.76rem;
+  font-weight: 600;
+
+  &--pink { background: rgba(250, 193, 217, 0.15); color: #fac1d9; }
+  &--blue { background: rgba(127, 156, 245, 0.15); color: #7f9cf5; }
+}
+
+.share-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  &__fill {
+    height: 6px;
+    border-radius: 3px;
+    min-width: 4px;
+    max-width: 100px;
+    flex-shrink: 0;
+
+    &--pink { background: #fac1d9; }
+    &--blue { background: #7f9cf5; }
+  }
+
+  span {
+    font-size: 0.8rem;
+    color: #a0a2a4;
+  }
+}
+
+.empty-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 3.5rem 1rem;
+  color: #777979;
+  font-size: 0.9rem;
+
+  i { font-size: 2rem; opacity: 0.4; }
+}

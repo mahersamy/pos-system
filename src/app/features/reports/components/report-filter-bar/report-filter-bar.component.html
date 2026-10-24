@@ -1,0 +1,44 @@
+<div class="filter-bar">
+    <div class="filter-bar__group">
+        <label class="filter-label" for="report-start-date">{{ 'REPORTS.FILTERS.START_DATE' | translate }}</label>
+        <input id="report-start-date" type="date" class="filter-input"
+               [ngModel]="startDate()" (ngModelChange)="startDate.set($event)" />
+    </div>
+
+    <div class="filter-bar__group">
+        <label class="filter-label" for="report-end-date">{{ 'REPORTS.FILTERS.END_DATE' | translate }}</label>
+        <input id="report-end-date" type="date" class="filter-input"
+               [ngModel]="endDate()" (ngModelChange)="endDate.set($event)" />
+    </div>
+
+    <div class="filter-bar__group">
+        <label class="filter-label" for="report-group-by">{{ 'REPORTS.FILTERS.GROUP_BY' | translate }}</label>
+        <select id="report-group-by" class="filter-select"
+                [ngModel]="groupBy()" (ngModelChange)="groupBy.set($event)">
+            <option value="day">{{ 'REPORTS.FILTERS.DAY' | translate }}</option>
+            <option value="week">{{ 'REPORTS.FILTERS.WEEK' | translate }}</option>
+            <option value="month">{{ 'REPORTS.FILTERS.MONTH' | translate }}</option>
+        </select>
+    </div>
+
+    <div class="filter-bar__group">
+        <label class="filter-label" for="report-order-type">{{ 'REPORTS.FILTERS.ORDER_TYPE' | translate }}</label>
+        <select id="report-order-type" class="filter-select"
+                [ngModel]="orderType()" (ngModelChange)="orderType.set($event)">
+            <option value="">{{ 'REPORTS.FILTERS.ALL' | translate }}</option>
+            <option value="dine_in">{{ 'REPORTS.FILTERS.DINE_IN' | translate }}</option>
+            <option value="delivery">{{ 'REPORTS.FILTERS.DELIVERY' | translate }}</option>
+        </select>
+    </div>
+
+    <div class="filter-bar__actions">
+        <button id="report-apply-btn" class="btn btn-primary btn-sm" (click)="onApply()">
+            <i class="fa-solid fa-filter"></i>
+            {{ 'COMMON.ACTIONS.APPLY_FILTER' | translate }}
+        </button>
+        <button id="report-reset-btn" class="btn btn-ghost btn-sm" (click)="onReset()">
+            <i class="fa-solid fa-rotate-left"></i>
+            {{ 'COMMON.ACTIONS.RESET_ALL' | translate }}
+        </button>
+    </div>
+</div>

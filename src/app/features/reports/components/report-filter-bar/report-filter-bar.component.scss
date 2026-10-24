@@ -1,0 +1,104 @@
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  background: #1f2122;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1.1rem 1.4rem;
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 140px;
+    flex: 1;
+
+    @media (max-width: 768px) {
+      min-width: 100%;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+    margin-left: auto;
+
+    @media (max-width: 768px) {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+}
+
+.filter-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #a0a2a4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.filter-input,
+.filter-select {
+  background: #292c2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem 0.85rem;
+  color: #ffffff;
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.18s;
+
+  &:focus {
+    border-color: #fac1d9;
+  }
+}
+
+.filter-select option {
+  background: #292c2d;
+  color: #ffffff;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.52rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.18s, transform 0.12s;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &--primary {
+    background: #fac1d9;
+    color: #1a1a1a;
+  }
+
+  &--ghost {
+    background: rgba(255, 255, 255, 0.07);
+    color: #d9d9d9;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  &--sm {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.82rem;
+  }
+}

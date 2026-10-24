@@ -44,14 +44,32 @@
         "TITLE": "Login!",
         "SUBTITLE": "Please enter your credentials below to continue",
         "FORGOT_PASSWORD": "Forgot Password?",
+        "SESSION_EXPIRED": "Session expired. Please log in again.",
         "FORGOT_PASS": {
             "TITLE": "Forgot your password?",
-            "SUBTITLE": "Please enter your username or email to recover your password",
-            "USERNAME": "Username",
-            "USERNAME_PLACEHOLDER": "Enter your username",
-            "USERNAME_REQUIRED": "Username is required",
-            "SUBMIT": "Submit Now",
-            "BACK_TO_LOGIN": "Back to Login"
+            "SUBTITLE": "Enter your email address and we'll send you a 6-digit verification code to reset your password.",
+            "EMAIL_PLACEHOLDER": "Enter your email address",
+            "SEND_OTP": "Send Verification Code",
+            "BACK_TO_LOGIN": "Back to Login",
+            "OTP_TITLE": "Verify Code",
+            "OTP_SUBTITLE": "Please enter the 6-digit verification code sent to your email.",
+            "OTP_LABEL": "Verification Code",
+            "OTP_PLACEHOLDER": "123456",
+            "OTP_REQUIRED": "Verification code is required",
+            "OTP_LENGTH": "Verification code must be 6 digits",
+            "OTP_NUMERIC": "Verification code must contain digits only",
+            "VERIFY_OTP": "Verify Code",
+            "RESEND_OTP": "Resend Code",
+            "GO_BACK": "Go Back",
+            "RESET_TITLE": "Reset Password",
+            "RESET_SUBTITLE": "Please enter your new secure password below.",
+            "NEW_PASSWORD": "New Password",
+            "NEW_PASSWORD_PLACEHOLDER": "Enter new password",
+            "CONFIRM_PASSWORD": "Confirm New Password",
+            "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm your new password",
+            "CONFIRM_PASSWORD_REQUIRED": "Please confirm your password",
+            "PASSWORD_MISMATCH": "Passwords do not match",
+            "RESET_PASSWORD": "Reset Password"
         },
         "VALIDATION": {
             "EMAIL_REQUIRED": "Email is required",
@@ -347,6 +365,72 @@
         "LOW_STOCK": "Low Stock",
         "ITEMS": "Items",
         "STOCK_OK": "All stock levels are good"
+    },
+    "REPORTS": {
+        "TITLE": "Reports & Analytics",
+        "SUBTITLE": "Comprehensive sales performance and inventory valuation metrics",
+        "ERROR": "Failed to load reports data. Please try again.",
+        "NO_DATA": "No data available for the selected period",
+        "FILTERS": {
+            "START_DATE": "Start Date",
+            "END_DATE": "End Date",
+            "GROUP_BY": "Group By",
+            "DAY": "Day",
+            "WEEK": "Week",
+            "MONTH": "Month",
+            "ORDER_TYPE": "Order Type",
+            "ALL": "All",
+            "DINE_IN": "Dine-In",
+            "DELIVERY": "Delivery"
+        },
+        "TABS": {
+            "SALES": "Sales Performance",
+            "INVENTORY": "Inventory & Stock"
+        },
+        "SALES": {
+            "NET_SALES": "Net Sales",
+            "TOTAL_ORDERS": "Total Orders",
+            "COMPLETED": "Completed Orders",
+            "AOV": "Avg. Order Value",
+            "CANCELLED": "Cancelled",
+            "GROSS": "Gross Sales",
+            "CURRENCY": "Currency",
+            "TRENDS_TITLE": "Sales & Orders Trends",
+            "BY_TYPE_TITLE": "Sales by Order Type",
+            "BY_TYPE_BREAKDOWN": "Order Type Breakdown"
+        },
+        "INVENTORY": {
+            "TOTAL_SKUS": "Total SKUs",
+            "IN_STOCK": "In Stock",
+            "LOW_STOCK": "Low Stock Items",
+            "OUT_OF_STOCK": "Out of Stock",
+            "TOTAL_VALUE": "Total Stock Value",
+            "METHOD": "Valuation Method",
+            "STATUS_CHART": "Stock Distribution",
+            "LOW_STOCK_TABLE": "Low Stock Alerts",
+            "NO_LOW_STOCK": "No items are currently below reorder level",
+            "MOVEMENTS_TITLE": "Stock Movement Audit Log",
+            "NO_MOVEMENTS": "No stock movements recorded"
+        },
+        "TABLE": {
+            "TYPE": "Type",
+            "ORDERS": "Orders",
+            "SALES": "Sales",
+            "AOV": "AOV",
+            "SHARE": "Revenue Share",
+            "ITEM": "Item Name",
+            "CATEGORY": "Category",
+            "QTY": "Quantity",
+            "REORDER": "Reorder Level",
+            "PRICE": "Price",
+            "DELTA": "Change",
+            "BEFORE": "Before",
+            "AFTER": "After",
+            "ACTOR": "Changed By",
+            "REASON": "Reason",
+            "DATE": "Date"
+        }
     }
 }
+
 

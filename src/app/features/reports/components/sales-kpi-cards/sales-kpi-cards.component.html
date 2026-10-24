@@ -1,0 +1,44 @@
+@if (summary(); as s) {
+    <div class="kpi-row">
+        <div class="kpi-card kpi-card--pink">
+            <div class="kpi-card__icon"><i class="fa-solid fa-sack-dollar"></i></div>
+            <div class="kpi-card__body">
+                <span class="kpi-card__label">{{ 'REPORTS.SALES.NET_SALES' | translate }}</span>
+                <span class="kpi-card__value">{{ s.netSales | compactCurrency }}</span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-card--blue">
+            <div class="kpi-card__icon"><i class="fa-solid fa-cart-shopping"></i></div>
+            <div class="kpi-card__body">
+                <span class="kpi-card__label">{{ 'REPORTS.SALES.TOTAL_ORDERS' | translate }}</span>
+                <span class="kpi-card__value">{{ s.totalOrders | number }}</span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-card--green">
+            <div class="kpi-card__icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="kpi-card__body">
+                <span class="kpi-card__label">{{ 'REPORTS.SALES.COMPLETED' | translate }}</span>
+                <span class="kpi-card__value">{{ s.completedOrders | number }}</span>
+            </div>
+        </div>
+        <div class="kpi-card kpi-card--yellow">
+            <div class="kpi-card__icon"><i class="fa-solid fa-receipt"></i></div>
+            <div class="kpi-card__body">
+                <span class="kpi-card__label">{{ 'REPORTS.SALES.AOV' | translate }}</span>
+                <span class="kpi-card__value">{{ s.averageOrderValue | compactCurrency }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supplementary summary badge -->
+    <div class="summary-badge">
+        <i class="fa-solid fa-ban"></i>
+        <span>{{ 'REPORTS.SALES.CANCELLED' | translate }}:</span>
+        <strong>{{ s.cancelledOrders }}</strong>
+        <span class="divider">•</span>
+        <span>{{ 'REPORTS.SALES.GROSS' | translate }}:</span>
+        <strong>{{ s.grossSales | compactCurrency }}</strong>
+        <span class="divider">•</span>
+        <span>{{ 'REPORTS.SALES.CURRENCY' | translate }}: {{ s.currency }}</span>
+    </div>
+}

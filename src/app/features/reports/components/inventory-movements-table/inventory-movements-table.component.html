@@ -1,0 +1,48 @@
+<div class="card">
+    <div class="card__header">
+        <h2 class="card__title">{{ 'REPORTS.INVENTORY.MOVEMENTS_TITLE' | translate }}</h2>
+    </div>
+    @if (report()?.items?.length) {
+        <div class="table-scroll">
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>{{ 'REPORTS.TABLE.ITEM' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.TYPE' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.DELTA' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.BEFORE' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.AFTER' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.ACTOR' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.REASON' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.DATE' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (m of report()!.items; track m._id) {
+                        <tr>
+                            <td>{{ m.inventoryName ?? m.inventoryId }}</td>
+                            <td>
+                                <span class="badge badge--neutral">{{ movementTypeLabel(m.type) }}</span>
+                            </td>
+                            <td>
+                                <span [class]="movementDeltaClass(m.quantityDelta)">
+                                    {{ m.quantityDelta > 0 ? '+' : '' }}{{ m.quantityDelta }}
+                                </span>
+                            </td>
+                            <td>{{ m.quantityBefore }}</td>
+                            <td>{{ m.quantityAfter }}</td>
+                            <td>{{ m.actorName ?? '—' }}</td>
+                            <td class="reason-cell">{{ m.reason ?? '—' }}</td>
+                            <td>{{ m.createdAt | date:'dd MMM, HH:mm' }}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    } @else {
+        <div class="empty-chart">
+            <i class="fa-solid fa-arrows-left-right-to-line"></i>
+            <span>{{ 'REPORTS.INVENTORY.NO_MOVEMENTS' | translate }}</span>
+        </div>
+    }
+</div>

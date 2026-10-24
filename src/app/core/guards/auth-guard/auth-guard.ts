@@ -1,6 +1,7 @@
 import {inject} from "@angular/core";
 import {CanActivateFn, Router} from "@angular/router";
 import {AuthService} from "../../services/auth/auth";
+import {PermissionsService} from "../../services/permissions/permissions";
 import {catchError, map, of} from "rxjs";
 
 /**
@@ -30,16 +31,18 @@ export const authGuard: CanActivateFn = (route, state) => {
 
 /**
  * Prevents authenticated users from accessing login or registration pages.
- * Redirection to /main occurs if a valid session token is already active.
+ * Redirects to the first route the user actually has access to.
  */
 export const publicGuard: CanActivateFn = (route, state) => {
     const authService = inject(AuthService);
+    const permissionsService = inject(PermissionsService);
     const router = inject(Router);
 
     if (!authService.isLoggedIn()) {
         return true;
     }
 
-    router.navigate(["/dashboard"]);
+    const destination = permissionsService.getFirstAccessibleRoute();
+    router.navigate([destination]);
     return false;
 };

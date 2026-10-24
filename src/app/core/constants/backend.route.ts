@@ -2,6 +2,12 @@ export const BACKEND_ROUTE = {
     auth: {
         login: "/api/v1/auth/login",
         register: "/api/v1/auth/register",
+        refreshToken: "/api/v1/auth/refresh-token",
+        logout: "/api/v1/auth/logout",
+        logoutAll: "/api/v1/auth/logout-all",
+        forgotPassword: "/api/v1/auth/forgot-password",
+        verifyOtp: "/api/v1/auth/verify-otp",
+        resetPassword: "/api/v1/auth/reset-password",
     },
     users: {
         profile: "/api/v1/users/profile",
@@ -40,5 +46,14 @@ export const BACKEND_ROUTE = {
         overview: "/api/v1/dashboard/overview",
         popularDishes: "/api/v1/dashboard/popular-dishes",
         lowStock: "/api/v1/dashboard/low-stock",
+    },
+    reports: {
+        sales: "/api/v1/reports/sales",
+        salesSummary: "/api/v1/reports/sales/summary",
+        salesTrends: "/api/v1/reports/sales/trends",
+        salesByOrderType: "/api/v1/reports/sales/by-order-type",
+        inventorySummary: "/api/v1/reports/inventory/summary",
+        inventoryLowStock: "/api/v1/reports/inventory/low-stock",
+        inventoryMovements: "/api/v1/reports/inventory/movements",
     },
 };

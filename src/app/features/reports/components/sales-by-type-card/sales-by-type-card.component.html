@@ -1,0 +1,62 @@
+<div class="split-row">
+    <!-- Doughnut chart -->
+    <div class="card card--half">
+        <div class="card__header">
+            <h2 class="card__title">{{ 'REPORTS.SALES.BY_TYPE_TITLE' | translate }}</h2>
+        </div>
+        @if (isBrowser() && data()?.items?.length) {
+            <div class="card__chart card__chart--sm">
+                <p-chart type="doughnut" [data]="chartData()" [options]="chartOptions" />
+            </div>
+        } @else {
+            <div class="empty-chart">
+                <i class="fa-solid fa-circle-half-stroke"></i>
+                <span>{{ 'REPORTS.NO_DATA' | translate }}</span>
+            </div>
+        }
+    </div>
+
+    <!-- By-Type Table -->
+    <div class="card card--half">
+        <div class="card__header">
+            <h2 class="card__title">{{ 'REPORTS.SALES.BY_TYPE_BREAKDOWN' | translate }}</h2>
+        </div>
+        @if (data(); as bt) {
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>{{ 'REPORTS.TABLE.TYPE' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.ORDERS' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.SALES' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.AOV' | translate }}</th>
+                        <th>{{ 'REPORTS.TABLE.SHARE' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (item of bt.items; track item.orderType) {
+                        <tr>
+                            <td>
+                                <span class="badge" [class.badge--pink]="item.orderType === 'dine_in'"
+                                      [class.badge--blue]="item.orderType === 'delivery'">
+                                    {{ item.orderType === 'dine_in' ? 'Dine-In' : 'Delivery' }}
+                                </span>
+                            </td>
+                            <td>{{ item.orderCount | number }}</td>
+                            <td>{{ item.sales | compactCurrency }}</td>
+                            <td>{{ item.averageOrderValue | compactCurrency }}</td>
+                            <td>
+                                <div class="share-bar">
+                                    <div class="share-bar__fill" [style.width.%]="item.percentageOfSales"
+                                         [class.share-bar__fill--pink]="item.orderType === 'dine_in'"
+                                         [class.share-bar__fill--blue]="item.orderType === 'delivery'">
+                                    </div>
+                                    <span>{{ item.percentageOfSales | number:'1.1-1' }}%</span>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

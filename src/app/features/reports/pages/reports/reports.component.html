@@ -1,0 +1,83 @@
+<div class="reports">
+
+    <!-- ── Page Header ──────────────────────────────────────────────────────── -->
+    <div class="reports__header">
+        <div class="reports__title-block">
+            <h1 class="reports__title">{{ 'REPORTS.TITLE' | translate }}</h1>
+            <span class="reports__subtitle">{{ 'REPORTS.SUBTITLE' | translate }}</span>
+        </div>
+    </div>
+
+    <!-- ── Filter Bar Component ─────────────────────────────────────────────── -->
+    <app-report-filter-bar
+        [startDate]="startDate()"
+        (startDateChange)="startDate.set($event)"
+        [endDate]="endDate()"
+        (endDateChange)="endDate.set($event)"
+        [groupBy]="groupBy()"
+        (groupByChange)="groupBy.set($event)"
+        [orderType]="orderType()"
+        (orderTypeChange)="orderType.set($event)"
+        (apply)="applyFilters()"
+        (reset)="resetFilters()"
+    />
+
+    <!-- ── Tab Switcher ─────────────────────────────────────────────────────── -->
+    <div class="tab-switcher">
+        <button id="tab-sales" class="tab-btn" [class.tab-btn--active]="activeTab() === 'sales'"
+                (click)="switchTab('sales')">
+            <i class="fa-solid fa-chart-line"></i>
+            {{ 'REPORTS.TABS.SALES' | translate }}
+        </button>
+        <button id="tab-inventory" class="tab-btn" [class.tab-btn--active]="activeTab() === 'inventory'"
+                (click)="switchTab('inventory')">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            {{ 'REPORTS.TABS.INVENTORY' | translate }}
+        </button>
+    </div>
+
+    <!-- ── Error State ──────────────────────────────────────────────────────── -->
+    @if (facade.error() && !facade.loading()) {
+        <div class="reports__error">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>{{ 'REPORTS.ERROR' | translate }}</p>
+            <button class="btn btn-primary" (click)="applyFilters()">
+                {{ 'COMMON.ACTIONS.RETRY' | translate }}
+            </button>
+        </div>
+    }
+
+    <!-- ── Loading Skeleton ─────────────────────────────────────────────────── -->
+    @if (facade.loading()) {
+        <div class="reports__loading">
+            <div class="skeleton-row">
+                <div class="skeleton skeleton--kpi"></div>
+                <div class="skeleton skeleton--kpi"></div>
+                <div class="skeleton skeleton--kpi"></div>
+                <div class="skeleton skeleton--kpi"></div>
+            </div>
+            <div class="skeleton skeleton--chart"></div>
+            <div class="skeleton-row skeleton-row--half">
+                <div class="skeleton skeleton--chart-sm"></div>
+                <div class="skeleton skeleton--table"></div>
+            </div>
+        </div>
+    }
+
+    <!-- ── Tab Contents ─────────────────────────────────────────────────────── -->
+    @if (!facade.loading() && !facade.error()) {
+        @if (activeTab() === 'sales') {
+            <app-sales-kpi-cards [summary]="facade.salesSummary()" />
+            <app-sales-trends-chart [trends]="facade.salesTrends()" [isBrowser]="isBrowser" />
+            <app-sales-by-type-card [data]="facade.salesByOrderType()" [isBrowser]="isBrowser" />
+        } @else {
+            <app-inventory-kpi-cards [summary]="facade.inventorySummary()" />
+            <div class="split-row">
+                <app-inventory-status-chart [summary]="facade.inventorySummary()" [isBrowser]="isBrowser" />
+                <app-inventory-low-stock-table [report]="facade.lowStockReport()" />
+            </div>
+            <app-inventory-movements-table [report]="facade.movementsReport()" />
+        }
+    }
+
+</div>

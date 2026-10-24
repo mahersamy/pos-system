@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card__header">
+        <h2 class="card__title">{{ 'REPORTS.INVENTORY.STATUS_CHART' | translate }}</h2>
+    </div>
+    @if (isBrowser() && summary()) {
+        <div class="card__chart card__chart--sm">
+            <p-chart type="bar" [data]="chartData()" [options]="chartOptions" height="220px" />
+        </div>
+    } @else {
+        <div class="empty-chart">
+            <i class="fa-solid fa-chart-column"></i>
+            <span>{{ 'REPORTS.NO_DATA' | translate }}</span>
+        </div>
+    }
+</div>

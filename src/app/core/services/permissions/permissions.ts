@@ -50,6 +50,40 @@ export class PermissionsService {
         return perm[action] === true;
     }
 
+    // ── Route Resolution ────────────────────────────────────────────────────
+
+    /**
+     * Returns the first application route the current user has read access to.
+     * Used after login and on the Unauthorized page so users are never sent
+     * to a page they cannot view.
+     *
+     * Priority: dashboard → orders → menu → category → inventory →
+     *           staff → users → auditLogs → notification → profile
+     */
+    getFirstAccessibleRoute(): string {
+        const ROUTE_PRIORITY: { module: PermissionModule; path: string }[] = [
+            { module: PermissionModule.DASHBOARD,    path: '/dashboard' },
+            { module: PermissionModule.ORDERS,       path: '/orders' },
+            { module: PermissionModule.MENU,         path: '/menu' },
+            { module: PermissionModule.CATEGORY,     path: '/category' },
+            { module: PermissionModule.INVENTORY,    path: '/inventory' },
+            { module: PermissionModule.REPORTS,      path: '/reports' },
+            { module: PermissionModule.STAFF,        path: '/staff' },
+            { module: PermissionModule.USERS,        path: '/users' },
+            { module: PermissionModule.AUDIT_LOGS,   path: '/audit-logs' },
+            { module: PermissionModule.NOTIFICATION, path: '/notification' },
+        ];
+
+        for (const entry of ROUTE_PRIORITY) {
+            if (this.can(entry.module, 'read')) {
+                return entry.path;
+            }
+        }
+
+        // Fallback — profile page requires no specific module permission
+        return '/profile';
+    }
+
     // ── Legacy helpers (keep for backwards compatibility) ──────────────────
     canRead(module: string): boolean  { return this.can(module as PermissionModule, 'read'); }
     canWrite(module: string): boolean { return this.can(module as PermissionModule, 'write'); }

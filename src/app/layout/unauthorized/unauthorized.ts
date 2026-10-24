@@ -1,6 +1,7 @@
 import {Component, inject} from "@angular/core";
 import {Router} from "@angular/router";
 import {TranslateModule} from "@ngx-translate/core";
+import {PermissionsService} from "../../core/services/permissions/permissions";
 
 @Component({
     selector: "app-unauthorized",
@@ -10,11 +11,14 @@ import {TranslateModule} from "@ngx-translate/core";
 })
 export class Unauthorized {
     private readonly _router = inject(Router);
+    private readonly _permissionsService = inject(PermissionsService);
 
     /**
-     * Directs the unauthorized user back to the primary authenticated entry point.
+     * Directs the user to the first page they actually have permission to access.
+     * Prevents cashiers from being stuck in an unauthorized ↔ dashboard loop.
      */
     goHome() {
-        this._router.navigate(["/dashboard"]);
+        const destination = this._permissionsService.getFirstAccessibleRoute();
+        this._router.navigate([destination]);
     }
 }

@@ -9,7 +9,7 @@ import { ButtonModule } from "primeng/button";
 
 import { NavItem } from "./models/nav-item.interface";
 import { LayoutService } from "../../core/services/layout/layout";
-import { AuthService } from "../../core/services/auth/auth";
+import { AuthFacade } from "../../core/services/auth/auth.facade";
 import { PermissionsService } from "../../core/services/permissions/permissions";
 import { routes } from "../../app.routes";
 import { extractSidebarItems } from "../../core/utils/extract-sidebar-items.util";
@@ -24,7 +24,7 @@ import { extractSidebarItems } from "../../core/utils/extract-sidebar-items.util
 export class Sidebar implements OnInit {
     private readonly _layoutService = inject(LayoutService);
     private readonly _router = inject(Router);
-    private readonly _authService = inject(AuthService);
+    private readonly _authFacade = inject(AuthFacade);
     private readonly _permissionsService = inject(PermissionsService);
     private readonly _destroyRef = inject(DestroyRef);
 
@@ -86,6 +86,6 @@ export class Sidebar implements OnInit {
      * Executes the secure logout protocol via the authentication service
      */
     logout() {
-        this._authService.logout();
+        this._authFacade.logout();
     }
 }

@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { User } from "../../../users/model/user.model";
 import { passwordValidator } from "../../../../shared/validators/password.validator";
 import { ProfileSkeleton } from "../profile-skeleton/profile-skeleton";
-import { AuthService } from "../../../../core/services/auth/auth";
+import { AuthFacade } from "../../../../core/services/auth/auth.facade";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { MessageService } from "primeng/api";
 
@@ -30,7 +30,7 @@ import { MessageService } from "primeng/api";
 })
 export class UserInfo implements OnInit {
     private readonly _fb = inject(FormBuilder);
-    private readonly _authService = inject(AuthService);
+    private readonly _authFacade = inject(AuthFacade);
     private readonly _uploadFileService = inject(UploadFileService);
     private readonly _userProfileService = inject(UserProfileService);
     private readonly _destroyRef = inject(DestroyRef);
@@ -172,7 +172,7 @@ export class UserInfo implements OnInit {
         this.loading.set(true);
 
         // Instant population from cached session if available
-        const cached = this._authService.currentUser();
+        const cached = this._authFacade.currentUser();
         if (cached) {
             this.applyUserData(cached);
         }
@@ -184,7 +184,7 @@ export class UserInfo implements OnInit {
                 next: (res) => {
                     if (res?.data) {
                         this.applyUserData(res.data);
-                        this._authService.currentUser.set(res.data);
+                        this._authFacade.setCurrentUser(res.data);
                     }
                     this.loading.set(false);
                 },
@@ -235,7 +235,7 @@ export class UserInfo implements OnInit {
                         const updatedUser = res?.data || this.user();
                         if (updatedUser) {
                             this.applyUserData(updatedUser);
-                            this._authService.currentUser.set(updatedUser);
+                            this._authFacade.setCurrentUser(updatedUser);
                         }
                         this._messageService.add({
                             severity: "success",
@@ -329,7 +329,7 @@ export class UserInfo implements OnInit {
 
         if (updatedUser) {
             this.applyUserData(updatedUser);
-            this._authService.currentUser.set(updatedUser);
+            this._authFacade.setCurrentUser(updatedUser);
         } else {
             this.getProfile();
         }

@@ -1,17 +1,16 @@
-import {Component, inject, signal, DestroyRef} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormBuilder, FormGroup, Validators, ReactiveFormsModule} from "@angular/forms";
-import {RouterModule, Router} from "@angular/router";
-import {TranslateModule} from "@ngx-translate/core";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {MessageService} from "primeng/api";
+import { Component, inject, signal } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule, Router } from "@angular/router";
+import { TranslateModule } from "@ngx-translate/core";
+import { MessageService } from "primeng/api";
 
-import {InputTextModule} from "primeng/inputtext";
-import {PasswordModule} from "primeng/password";
-import {FieldValidation} from "../../../shared/components/forms/field-validation/field-validation";
-import {Loading} from "../../../shared/directives/loading/loading";
-import {passwordValidator} from "../../../shared/validators/password.validator";
-import {AuthService} from "../../../core/services/auth/auth";
+import { InputTextModule } from "primeng/inputtext";
+import { PasswordModule } from "primeng/password";
+import { FieldValidation } from "../../../shared/components/forms/field-validation/field-validation";
+import { Loading } from "../../../shared/directives/loading/loading";
+import { passwordValidator } from "../../../shared/validators/password.validator";
+import { AuthFacade } from "../../../core/services/auth/auth.facade";
 
 /** Represents the three steps of the forgot-password flow */
 type ForgotPasswordStep = "email" | "otp" | "reset";
@@ -33,16 +32,15 @@ type ForgotPasswordStep = "email" | "otp" | "reset";
 })
 export class ForgotPassword {
     private readonly _fb = inject(FormBuilder);
-    private readonly _authService = inject(AuthService);
+    private readonly _authFacade = inject(AuthFacade);
     private readonly _router = inject(Router);
-    private readonly _destroyRef = inject(DestroyRef);
     private readonly _messageService = inject(MessageService);
 
     /** Tracks the current step of the multi-step flow */
-    currentStep = signal<ForgotPasswordStep>("email");
+    readonly currentStep = signal<ForgotPasswordStep>("email");
 
-    /** Whether an API call is currently in progress */
-    isLoading = signal(false);
+    /** Reactive loading state directly from AuthFacade */
+    readonly isLoading = this._authFacade.loading;
 
     /** The email captured from step 1, passed through to subsequent steps */
     private _capturedEmail = "";
@@ -126,27 +124,18 @@ export class ForgotPassword {
             return;
         }
 
-        this.isLoading.set(true);
         this._capturedEmail = this.emailForm.value.email;
-
-        this._authService
-            .forgotPassword(this._capturedEmail)
-            .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe({
-                next: () => {
-                    this.isLoading.set(false);
-                    this.currentStep.set("otp");
-                    this._messageService.add({
-                        severity: "success",
-                        summary: "OTP Sent",
-                        detail: "A verification code has been sent to your email",
-                        life: 5000,
-                    });
-                },
-                error: () => {
-                    this.isLoading.set(false);
-                },
-            });
+        this._authFacade.forgotPassword(this._capturedEmail, {
+            onSuccess: () => {
+                this.currentStep.set("otp");
+                this._messageService.add({
+                    severity: "success",
+                    summary: "OTP Sent",
+                    detail: "A verification code has been sent to your email",
+                    life: 5000,
+                });
+            },
+        });
     }
 
     /**
@@ -158,27 +147,18 @@ export class ForgotPassword {
             return;
         }
 
-        this.isLoading.set(true);
         this._capturedOtp = this.otpForm.value.otp;
-
-        this._authService
-            .verifyOtp(this._capturedEmail, this._capturedOtp)
-            .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe({
-                next: () => {
-                    this.isLoading.set(false);
-                    this.currentStep.set("reset");
-                    this._messageService.add({
-                        severity: "success",
-                        summary: "OTP Verified",
-                        detail: "OTP has been verified successfully",
-                        life: 5000,
-                    });
-                },
-                error: () => {
-                    this.isLoading.set(false);
-                },
-            });
+        this._authFacade.verifyOtp(this._capturedEmail, this._capturedOtp, {
+            onSuccess: () => {
+                this.currentStep.set("reset");
+                this._messageService.add({
+                    severity: "success",
+                    summary: "OTP Verified",
+                    detail: "OTP has been verified successfully",
+                    life: 5000,
+                });
+            },
+        });
     }
 
     /**
@@ -190,15 +170,14 @@ export class ForgotPassword {
             return;
         }
 
-        this.isLoading.set(true);
         const { password, confirmPassword } = this.resetForm.value;
-
-        this._authService
-            .resetPassword(this._capturedEmail, this._capturedOtp, password, confirmPassword)
-            .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe({
-                next: () => {
-                    this.isLoading.set(false);
+        this._authFacade.resetPassword(
+            this._capturedEmail,
+            this._capturedOtp,
+            password,
+            confirmPassword,
+            {
+                onSuccess: () => {
                     this._messageService.add({
                         severity: "success",
                         summary: "Password Reset",
@@ -207,34 +186,24 @@ export class ForgotPassword {
                     });
                     this._router.navigate(["/login"]);
                 },
-                error: () => {
-                    this.isLoading.set(false);
-                },
-            });
+            }
+        );
     }
 
     /**
      * Re-sends the OTP to the captured email (for step 2)
      */
     resendOtp(): void {
-        this.isLoading.set(true);
-        this._authService
-            .forgotPassword(this._capturedEmail)
-            .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe({
-                next: () => {
-                    this.isLoading.set(false);
-                    this._messageService.add({
-                        severity: "success",
-                        summary: "OTP Resent",
-                        detail: "A new verification code has been sent to your email",
-                        life: 5000,
-                    });
-                },
-                error: () => {
-                    this.isLoading.set(false);
-                },
-            });
+        this._authFacade.forgotPassword(this._capturedEmail, {
+            onSuccess: () => {
+                this._messageService.add({
+                    severity: "success",
+                    summary: "OTP Resent",
+                    detail: "A new verification code has been sent to your email",
+                    life: 5000,
+                });
+            },
+        });
     }
 
     /**

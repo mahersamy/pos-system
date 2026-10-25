@@ -1,17 +1,15 @@
-import {Component, inject, signal, DestroyRef, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Router, RouterLink} from "@angular/router";
-import {CommonModule} from "@angular/common";
-import {AuthService} from "../../../core/services/auth/auth";
-import {PermissionsService} from "../../../core/services/permissions/permissions";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {TranslateModule} from "@ngx-translate/core";
+import { Component, inject } from "@angular/core";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { RouterLink } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { AuthFacade } from "../../../core/services/auth/auth.facade";
+import { TranslateModule } from "@ngx-translate/core";
 
-import {InputTextModule} from "primeng/inputtext";
-import {PasswordModule} from "primeng/password";
-import {FieldValidation} from "../../../shared/components/forms/field-validation/field-validation";
-import {passwordValidator} from "../../../shared/validators/password.validator";
-import {Loading} from "../../../shared/directives/loading/loading";
+import { InputTextModule } from "primeng/inputtext";
+import { PasswordModule } from "primeng/password";
+import { FieldValidation } from "../../../shared/components/forms/field-validation/field-validation";
+import { passwordValidator } from "../../../shared/validators/password.validator";
+import { Loading } from "../../../shared/directives/loading/loading";
 
 @Component({
     selector: "app-login",
@@ -29,13 +27,11 @@ import {Loading} from "../../../shared/directives/loading/loading";
     styleUrl: "./login.scss",
 })
 export class Login {
-    private readonly _authService = inject(AuthService);
-    private readonly _permissionsService = inject(PermissionsService);
+    private readonly _authFacade = inject(AuthFacade);
     private readonly _formBuilder = inject(FormBuilder);
-    private readonly _router = inject(Router);
-    private readonly _destroyRef = inject(DestroyRef);
 
-    isLoading = signal(false);
+    /** Loading signal delegated directly from AuthFacade */
+    readonly isLoading = this._authFacade.loading;
 
     /** Login form configuration with basic validations */
     loginForm: FormGroup = this._formBuilder.group({
@@ -63,8 +59,8 @@ export class Login {
     };
 
     /**
-     * Submits the login form logic. If invalid, touches all fields to show errors.
-     * Starts loaders and authenticates the user otherwise.
+     * Submits the login form.
+     * AuthFacade manages state (loading, error), subscriptions via DestroyRef, and post-login routing.
      */
     onSubmit(): void {
         if (this.loginForm.invalid) {
@@ -72,21 +68,7 @@ export class Login {
             return;
         }
 
-        this.isLoading.set(true);
-        const {email, password} = this.loginForm.value;
-
-        this._authService
-            .login(email, password)
-            .pipe(takeUntilDestroyed(this._destroyRef))
-            .subscribe({
-                next: () => {
-                    const destination = this._permissionsService.getFirstAccessibleRoute();
-                    this._router.navigate([destination]);
-                },
-                error: (error) => {
-                    console.error("Login processing error:", error);
-                    this.isLoading.set(false);
-                },
-            });
+        const { email, password } = this.loginForm.value;
+        this._authFacade.login(email, password);
     }
 }

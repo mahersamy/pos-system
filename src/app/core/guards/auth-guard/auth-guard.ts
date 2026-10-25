@@ -1,6 +1,6 @@
 import {inject} from "@angular/core";
 import {CanActivateFn, Router} from "@angular/router";
-import {AuthService} from "../../services/auth/auth";
+import {AuthFacade} from "../../services/auth/auth.facade";
 import {PermissionsService} from "../../services/permissions/permissions";
 import {catchError, map, of} from "rxjs";
 
@@ -9,7 +9,7 @@ import {catchError, map, of} from "rxjs";
  * Redirection to /login occurs if no valid session token is found.
  */
 export const authGuard: CanActivateFn = (route, state) => {
-    const authService = inject(AuthService);
+    const authService = inject(AuthFacade);
     const router = inject(Router);
 
     if (authService.isLoggedIn()) {
@@ -34,7 +34,7 @@ export const authGuard: CanActivateFn = (route, state) => {
  * Redirects to the first route the user actually has access to.
  */
 export const publicGuard: CanActivateFn = (route, state) => {
-    const authService = inject(AuthService);
+    const authService = inject(AuthFacade);
     const permissionsService = inject(PermissionsService);
     const router = inject(Router);
 

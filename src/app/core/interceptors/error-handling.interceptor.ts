@@ -1,78 +1,107 @@
-import {HttpInterceptorFn, HttpErrorResponse} from "@angular/common/http";
-import {inject} from "@angular/core";
-import {MessageService} from "primeng/api";
-import {catchError, throwError} from "rxjs";
-import {BACKEND_ROUTE} from "../constants/backend.route";
+import { HttpInterceptorFn, HttpErrorResponse } from "@angular/common/http";
+import { inject } from "@angular/core";
+import { MessageService } from "primeng/api";
+import { catchError, throwError } from "rxjs";
+import { BACKEND_ROUTE } from "../constants/backend.route";
+import { PUBLIC_AUTH_URLS } from "../constants/auth.interceptor.constants";
 
+let lastSessionExpiredToastTime = 0;
+const SESSION_EXPIRED_TOAST_THROTTLE_MS = 3000;
+
+/**
+ * Resets the session expired toast throttle timestamp.
+ * Exported primarily for isolated unit testing.
+ */
+export function _resetSessionExpiredToastThrottleForTest(): void {
+    lastSessionExpiredToastTime = 0;
+}
+
+/**
+ * Resolves user-facing error messages based on HTTP status code,
+ * backend payload message structure, or specialized authentication context.
+ *
+ * @param error - The HttpErrorResponse returned by Angular HttpClient
+ * @param isRefreshTokenCall - Whether this request targeted the token refresh endpoint
+ * @returns A user-friendly error message string
+ */
+export function getErrorMessage(error: HttpErrorResponse, isRefreshTokenCall = false): string {
+    // 1. Client-side, network, or CORS error
+    if (error.status === 0) {
+        return "Network error. Unable to connect to server. Please check your network connection or CORS configuration.";
+    }
+
+    // 2. Session expired on token refresh
+    if (isRefreshTokenCall && (error.status === 401 || error.status === 403)) {
+        return "Session expired. Please log in again.";
+    }
+
+    // 3. Extracted specific error message from the backend structure (handles string & string[])
+    if (error.error && typeof error.error === "object" && error.error.message) {
+        if (Array.isArray(error.error.message)) {
+            return error.error.message.join(", ");
+        }
+        return String(error.error.message);
+    }
+
+    // 4. Status-based fallback messages
+    switch (error.status) {
+        case 400:
+            return "Bad Request. Please verify the data you submitted.";
+        case 401:
+            return "Unauthorized. Please log in.";
+        case 403:
+            return "Forbidden. You do not have permission to view or do this.";
+        case 404:
+            return "The requested resource was not found.";
+        case 409:
+            return "Conflict. This record might already exist.";
+        case 422:
+            return "Validation Error. Please check your input fields.";
+        case 429:
+            return "Too many requests. Please try again later.";
+        case 500:
+            return "Internal Server Error. Please try again later.";
+        case 502:
+            return "Bad Gateway. The server is temporarily unavailable.";
+        case 503:
+            return "Service Unavailable. Please try again later.";
+        default:
+            return "An unknown error occurred!";
+    }
+}
+
+/**
+ * Functional HTTP interceptor that:
+ * 1. Formats and displays user-facing error notifications via PrimeNG Toast.
+ * 2. Leaves normal protected 401s for authInterceptor to refresh/retry.
+ * 3. Prevents duplicate session-expired toasts from concurrent refresh failures.
+ * 4. Treats status 0 as a network/CORS connectivity issue.
+ * 5. Treats 403 as a permission error without triggering session clearing or refresh.
+ */
 export const errorHandlingInterceptor: HttpInterceptorFn = (req, next) => {
     const messageService = inject(MessageService);
 
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
-            let errorMessage = "An unknown error occurred!";
-
             const isRefreshTokenCall = req.url.includes(BACKEND_ROUTE.auth.refreshToken);
-            const isPublicAuthCall = [
-                BACKEND_ROUTE.auth.login,
-                BACKEND_ROUTE.auth.register,
-                BACKEND_ROUTE.auth.forgotPassword,
-                BACKEND_ROUTE.auth.verifyOtp,
-                BACKEND_ROUTE.auth.resetPassword,
-            ].some((url) => req.url.includes(url));
+            const isPublicAuthCall = PUBLIC_AUTH_URLS.some((url) => req.url.includes(url));
 
             // Skip 401 errors on normal protected requests – authInterceptor handles refresh/retry for those.
             if (error.status === 401 && !isRefreshTokenCall && !isPublicAuthCall) {
                 return throwError(() => error);
             }
 
-            // 1. Client-side or network error
-            if (error.status === 0) {
-                errorMessage = "Network error. Please check your internet connection.";
-            }
-            // 2. Session expired on token refresh
-            else if (isRefreshTokenCall && (error.status === 401 || error.status === 403)) {
-                errorMessage = "Session expired. Please log in again.";
-            }
-            // 3. Extracted specific error message from the backend structure (handles string & string[])
-            else if (error.error && typeof error.error === "object" && error.error.message) {
-                if (Array.isArray(error.error.message)) {
-                    errorMessage = error.error.message.join(", ");
-                } else {
-                    errorMessage = String(error.error.message);
+            // Suppress duplicate session-expired toasts from concurrent or burst refresh failures
+            const isSessionExpired = isRefreshTokenCall && (error.status === 401 || error.status === 403);
+            if (isSessionExpired) {
+                const now = Date.now();
+                if (now - lastSessionExpiredToastTime < SESSION_EXPIRED_TOAST_THROTTLE_MS) {
+                    return throwError(() => error);
                 }
+                lastSessionExpiredToastTime = now;
             }
-            // 4. Status-based fallback messages
-            else {
-                switch (error.status) {
-                    case 400:
-                        errorMessage = "Bad Request. Please verify the data you submitted.";
-                        break;
-                    case 403:
-                        errorMessage = "Forbidden. You do not have permission to view or do this.";
-                        break;
-                    case 404:
-                        errorMessage = "The requested resource was not found.";
-                        break;
-                    case 409:
-                        errorMessage = "Conflict. This record might already exist.";
-                        break;
-                    case 422:
-                        errorMessage = "Validation Error. Please check your input fields.";
-                        break;
-                    case 429:
-                        errorMessage = "Too many requests. Please try again later.";
-                        break;
-                    case 500:
-                        errorMessage = "Internal Server Error. Please try again later.";
-                        break;
-                    case 502:
-                        errorMessage = "Bad Gateway. The server is temporarily unavailable.";
-                        break;
-                    case 503:
-                        errorMessage = "Service Unavailable. Please try again later.";
-                        break;
-                }
-            }
+
+            const errorMessage = getErrorMessage(error, isRefreshTokenCall);
 
             // Display via PrimeNG Toast
             messageService.add({

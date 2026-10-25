@@ -5,7 +5,7 @@ import { Router, NavigationEnd } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { Location } from "@angular/common";
 import { RouterLink } from "@angular/router";
-import { AuthService } from "../../core/services/auth/auth";
+import { AuthFacade } from "../../core/services/auth/auth.facade";
 import { TranslationService } from "../../core/services/translation/translation";
 import { TranslateModule } from "@ngx-translate/core";
 
@@ -18,7 +18,7 @@ import { TranslateModule } from "@ngx-translate/core";
 export class MainHeader implements OnInit {
     private readonly _layoutService = inject(LayoutService);
     private readonly _router = inject(Router);
-    readonly _authService = inject(AuthService);
+    readonly _authFacade = inject(AuthFacade);
     readonly _translationService = inject(TranslationService);
 
     private readonly _location = inject(Location);
@@ -29,7 +29,7 @@ export class MainHeader implements OnInit {
 
     /** Safely resolved avatar URL that handles objects, strings, and fallback */
     avatarUrl = computed(() => {
-        const u = this._authService.currentUser();
+        const u = this._authFacade.currentUser();
         if (!u) return "https://ui-avatars.com/api/?name=User&background=fac1d9&color=111&bold=true";
         const pic: any = u.profilePicture;
         if (typeof pic === "string" && pic.trim()) return pic;
@@ -41,7 +41,7 @@ export class MainHeader implements OnInit {
     onAvatarError(event: Event) {
         const target = event.target as HTMLImageElement;
         if (target) {
-            const u = this._authService.currentUser();
+            const u = this._authFacade.currentUser();
             const name = u ? `${u.firstName || ""} ${u.lastName || ""}`.trim() : "User";
             target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name || "User")}&background=fac1d9&color=111&bold=true`;
         }

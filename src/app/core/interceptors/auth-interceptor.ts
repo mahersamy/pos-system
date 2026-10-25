@@ -1,97 +1,124 @@
-import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
+import {
+    HttpErrorResponse,
+    HttpInterceptorFn,
+} from "@angular/common/http";
 import { inject } from "@angular/core";
-import { BehaviorSubject, catchError, filter, switchMap, take, throwError } from "rxjs";
-import { AuthService } from "../services/auth/auth";
+import {
+    catchError,
+    finalize,
+    map,
+    Observable,
+    shareReplay,
+    switchMap,
+    throwError,
+} from "rxjs";
+
+import { AuthFacade } from "../services/auth/auth.facade";
 import { BACKEND_ROUTE } from "../constants/backend.route";
+import { PUBLIC_AUTH_URLS } from "../constants/auth.interceptor.constants";
+
+let refreshInFlight$: Observable<string> | null = null;
 
 /**
- * Subject that holds the latest access token while a refresh is in flight.
- * Queued requests wait until this emits a non-null value.
+ * Resets the shared in-flight refresh observable.
+ * Exported primarily for isolated unit testing.
  */
-const refreshTokenSubject = new BehaviorSubject<string | null>(null);
-
-/** URLs that should never have an Authorization header attached */
-const PUBLIC_URLS: string[] = [
-    BACKEND_ROUTE.auth.login,
-    BACKEND_ROUTE.auth.register,
-    BACKEND_ROUTE.auth.forgotPassword,
-    BACKEND_ROUTE.auth.verifyOtp,
-    BACKEND_ROUTE.auth.resetPassword,
-];
+export function _resetRefreshInFlightForTest(): void {
+    refreshInFlight$ = null;
+}
 
 /**
- * Functional interceptor that:
- * 1. Attaches the Bearer token to every outgoing request (unless public)
- * 2. On 401, attempts a single token refresh and retries the original request
- * 3. Queues concurrent requests while a refresh is in-flight
+ * Coordinates a single in-flight token refresh across all concurrent callers.
+ * Upon refresh failure, clears the local session via logoutLocally() without
+ * firing an additional HTTP logout request.
+ */
+function refreshAccessToken(authService: AuthFacade): Observable<string> {
+    if (!refreshInFlight$) {
+        refreshInFlight$ = authService.refreshToken().pipe(
+            map((response) => response.data.credential.accessToken),
+
+            catchError((error) => {
+                authService.logoutLocally();
+                return throwError(() => error);
+            }),
+
+            finalize(() => {
+                refreshInFlight$ = null;
+            }),
+
+            shareReplay({
+                bufferSize: 1,
+                refCount: false,
+            })
+        );
+    }
+
+    return refreshInFlight$;
+}
+
+/**
+ * Functional HTTP interceptor that:
+ * 1. Attaches the Bearer token to protected outgoing requests.
+ * 2. On 401 error, attempts a single refresh-token operation shared by concurrent requests.
+ * 3. Retries failed requests with the new access token.
+ * 4. Skips refresh if another request has already updated the token.
+ * 5. Calls logoutLocally() on refresh failure without looping or secondary logout requests.
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    const authService = inject(AuthService);
+    const authService = inject(AuthFacade);
 
-    // Skip auth header for public endpoints and refresh-token requests
-    const isPublicUrl = PUBLIC_URLS.some((url) => req.url.includes(url));
-    const isRefreshCall = req.url.includes(BACKEND_ROUTE.auth.refreshToken);
-    if (isPublicUrl || isRefreshCall) {
+    const isPublic = PUBLIC_AUTH_URLS.some((url) => req.url.includes(url));
+    const isRefresh = req.url.includes(BACKEND_ROUTE.auth.refreshToken);
+    const isLogout = req.url.includes(BACKEND_ROUTE.auth.logout);
+
+    if (isPublic || isRefresh || isLogout) {
         return next(req);
     }
 
-    // Attach the current token
-    const token = authService.getToken();
-    const authedReq = token
-        ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
+    const tokenUsed = authService.getToken();
+
+    const request = tokenUsed
+        ? req.clone({
+              setHeaders: {
+                  Authorization: `Bearer ${tokenUsed}`,
+              },
+          })
         : req;
 
-    return next(authedReq).pipe(
+    return next(request).pipe(
         catchError((error: HttpErrorResponse) => {
-            // Only handle 401 and only for non-refresh requests
-            if (error.status !== 401 || req.url.includes(BACKEND_ROUTE.auth.refreshToken)) {
+            if (error.status !== 401) {
                 return throwError(() => error);
             }
 
-            // If we don't have a refresh token, bail out immediately
             if (!authService.getRefreshToken()) {
-                authService.logout();
+                authService.logoutLocally();
                 return throwError(() => error);
             }
 
-            // If a refresh is already in progress, queue this request
-            if (authService.isRefreshing) {
-                return refreshTokenSubject.pipe(
-                    filter((newToken) => newToken !== null),
-                    take(1),
-                    switchMap((newToken) =>
-                        next(
-                            req.clone({
-                                setHeaders: { Authorization: `Bearer ${newToken}` },
-                            })
-                        )
-                    )
+            // A different request may already have refreshed the token.
+            const currentToken = authService.getToken();
+
+            if (currentToken && currentToken !== tokenUsed) {
+                return next(
+                    req.clone({
+                        setHeaders: {
+                            Authorization: `Bearer ${currentToken}`,
+                        },
+                    })
                 );
             }
 
-            // Start the refresh
-            authService.isRefreshing = true;
-            refreshTokenSubject.next(null);
-
-            return authService.refreshToken().pipe(
-                switchMap((response) => {
-                    authService.isRefreshing = false;
-                    const newToken = response.data.credential.accessToken;
-                    refreshTokenSubject.next(newToken);
-
-                    // Retry the original request with the new token
-                    return next(
+            return refreshAccessToken(authService).pipe(
+                switchMap((newToken) =>
+                    next(
                         req.clone({
-                            setHeaders: { Authorization: `Bearer ${newToken}` },
+                            setHeaders: {
+                                Authorization: `Bearer ${newToken}`,
+                            },
                         })
-                    );
-                }),
-                catchError((refreshError) => {
-                    authService.isRefreshing = false;
-                    refreshTokenSubject.next(null);
-                    authService.logout();
-                    return throwError(() => refreshError);
-                })
+                    )
+                )
             );
         })
     );

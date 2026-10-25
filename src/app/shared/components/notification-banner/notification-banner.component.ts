@@ -1,7 +1,7 @@
 import {Component, inject, signal, effect} from "@angular/core";
 import {TranslateModule} from "@ngx-translate/core";
 import {NotificationService} from "../../../features/notification/services/notification.service";
-import {AuthService} from "../../../core/services/auth/auth";
+import {AuthFacade} from "../../../core/services/auth/auth.facade";
 
 @Component({
     selector: "app-notification-banner",
@@ -11,7 +11,7 @@ import {AuthService} from "../../../core/services/auth/auth";
 })
 export class NotificationBannerComponent {
     private readonly _notificationService = inject(NotificationService);
-    private readonly _authService = inject(AuthService);
+    private readonly _authFacade = inject(AuthFacade);
     public showBanner = signal(false);
     private _hasPrompted = false;
     private _showTimeout: any;
@@ -19,7 +19,7 @@ export class NotificationBannerComponent {
 
     constructor() {
         effect(() => {
-            const user = this._authService.currentUser();
+            const user = this._authFacade.currentUser();
             if (user && !this._hasPrompted) {
                 this._hasPrompted = true;
                 if (typeof Notification !== "undefined" && Notification.permission === "default") {
